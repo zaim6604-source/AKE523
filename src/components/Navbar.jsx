@@ -1,148 +1,120 @@
-import { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
+import { useState } from 'react';
 
 const links = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Services", href: "#services" },
-  { label: "Countries", href: "#countries" },
-  { label: "Visa & Immigration", href: "#visa" },
-  { label: "Process", href: "#process" },
-  { label: "FAQs", href: "#faqs" },
-  { label: "Contact", href: "#contact" },
+  { label: 'Home', href: '#hero' },
+  { label: 'About', href: '#about' },
+  { label: 'Services', href: '#services' },
+  { label: 'Why Us', href: '#why-us' },
+  { label: 'Process', href: '#process' },
+  { label: 'FAQs', href: '#faqs' },
+  { label: 'Contact', href: '#contact' },
 ];
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const nav = (href) => {
-    setOpen(false);
-    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+  const handleNav = (href) => {
+    setMenuOpen(false);
+    const el = document.querySelector(href);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <header
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
-      style={{
-        backgroundColor: scrolled || open ? "rgba(237, 246, 249, 0.95)" : "transparent",
-        backdropFilter: scrolled || open ? "blur(12px)" : "none",
-        borderBottom: scrolled || open ? "1px solid rgba(0, 109, 119, 0.12)" : "1px solid transparent",
-      }}
-    >
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#F2F6F9]/80 backdrop-blur-md border-b border-[#C9CCD5]/40 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo / Wordmark */}
-          <button onClick={() => nav("#home")} className="flex items-center gap-2.5 cursor-pointer">
-            <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center shadow-sm"
-              style={{ backgroundColor: "#006D77" }}
-            >
-              <span className="text-white font-extrabold text-sm" style={{ fontFamily: "Plus Jakarta Sans" }}>E</span>
+        <div className="flex items-center justify-between h-16 sm:h-18">
+          {/* Logo */}
+          <a href="#hero" onClick={(e) => { e.preventDefault(); handleNav('#hero'); }} className="flex items-center gap-3 shrink-0">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-[#1B4965] flex items-center justify-center text-white font-bold text-sm sm:text-base shadow-md">
+              M&L
             </div>
-            <div className="leading-tight">
-              <p className="font-extrabold text-sm tracking-tight" style={{ fontFamily: "Plus Jakarta Sans", color: "#003844" }}>
-                Etcom Manpower
-              </p>
-              <span
-                className="text-[10px] font-bold tracking-widest uppercase px-1.5 py-0.5 rounded"
-                style={{ backgroundColor: "#006D77", color: "#FFDD00" }}
-              >
-                Islamabad
+            <div className="flex flex-col">
+              <span className="font-semibold text-[15px] sm:text-[17px] leading-tight" style={{ color: '#0B2436' }}>
+                M &amp; L
+              </span>
+              <span className="text-[10px] sm:text-[11px] font-medium tracking-wide" style={{ color: '#1B4965' }}>
+                Consultants
               </span>
             </div>
-          </button>
+          </a>
 
-          {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-5">
-            {links.map((l) => (
-              <button
-                key={l.label}
-                onClick={() => nav(l.href)}
-                className="text-sm font-medium transition-colors duration-200 relative group"
-                style={{ color: "#003844" }}
-              >
-                {l.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-200 group-hover:w-full" style={{ backgroundColor: "#006D77" }} />
-              </button>
-            ))}
-            <a
-              href="https://www.linkedin.com/company/etcommp/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200"
-              style={{ backgroundColor: "rgba(0, 109, 119, 0.1)", color: "#006D77" }}
-            >
-              <FontAwesomeIcon icon={faLinkedin} size="sm" />
-            </a>
-            <a
-              href="https://wa.me/923219115599"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-5 py-2.5 text-white text-sm font-bold rounded-full transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5"
-              style={{ backgroundColor: "#E29578" }}
-            >
-              Get Started
-            </a>
-          </nav>
-
-          {/* Mobile toggle */}
-          <div className="flex lg:hidden items-center gap-2">
-            <a
-              href="https://www.linkedin.com/company/etcommp/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-8 h-8 rounded-full flex items-center justify-center"
-              style={{ backgroundColor: "rgba(0, 109, 119, 0.1)", color: "#006D77" }}
-            >
-              <FontAwesomeIcon icon={faLinkedin} size="sm" />
-            </a>
-            <button onClick={() => setOpen(!open)} className="p-1" style={{ color: "#003844" }}>
-              {open ? <FontAwesomeIcon icon={faXmark} size="lg" /> : <FontAwesomeIcon icon={faBars} size="lg" />}
-            </button>
+          {/* Pill */}
+          <div className="hidden md:flex items-center">
+            <span className="text-[11px] font-semibold px-3 py-1 rounded-full bg-[#1B4965]/10 text-[#1B4965] border border-[#1B4965]/30 tracking-wide">
+              HR Consulting &bull; Islamabad
+            </span>
           </div>
+
+          {/* Desktop Links */}
+          <div className="hidden lg:flex items-center gap-1">
+            {links.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={(e) => { e.preventDefault(); handleNav(link.href); }}
+                className="px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200"
+                style={{ color: '#1B4965' }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#FF6B35'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#1B4965'}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+
+          {/* Desktop CTA */}
+          <a
+            href="https://wa.me/923353465095"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden lg:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+            style={{ backgroundColor: '#FF6B35' }}
+          >
+            <i className="fa-brands fa-whatsapp text-xs" />
+            Get Started
+          </a>
+
+          {/* Hamburger */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="lg:hidden p-2 rounded-lg transition-colors"
+            style={{ color: '#0B2436' }}
+            aria-label="Toggle menu"
+          >
+            <i className={`fa-solid ${menuOpen ? 'fa-xmark' : 'fa-bars'} text-xl`} />
+          </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile Menu */}
       <div
-        className="lg:hidden transition-all duration-300 overflow-hidden"
-        style={{
-          maxHeight: open ? "500px" : "0",
-          opacity: open ? 1 : 0,
-          backgroundColor: "rgba(237, 246, 249, 0.98)",
-        }}
+        className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}
+        style={{ backgroundColor: '#F2F6F9' }}
       >
-        <div className="px-4 pt-2 pb-6 flex flex-col gap-3">
-          {links.map((l) => (
-            <button
-              key={l.label}
-              onClick={() => nav(l.href)}
-              className="text-sm font-medium text-left py-1"
-              style={{ color: "#003844" }}
+        <div className="px-4 py-3 space-y-1 border-t border-[#C9CCD5]/30">
+          {links.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              onClick={(e) => { e.preventDefault(); handleNav(link.href); }}
+              className="block px-4 py-2.5 text-sm font-medium rounded-lg transition-colors"
+              style={{ color: '#1B4965' }}
             >
-              {l.label}
-            </button>
+              {link.label}
+            </a>
           ))}
           <a
-            href="https://wa.me/923219115599"
+            href="https://wa.me/923353465095"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 px-5 py-2.5 text-white text-sm font-bold rounded-full w-fit transition-all duration-200"
-            style={{ backgroundColor: "#E29578" }}
+            className="block w-full text-center px-4 py-2.5 rounded-full text-sm font-semibold text-white shadow-md mt-2"
+            style={{ backgroundColor: '#FF6B35' }}
           >
+            <i className="fa-brands fa-whatsapp mr-2" />
             Get Started
           </a>
         </div>
       </div>
-    </header>
+    </nav>
   );
 }

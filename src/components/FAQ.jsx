@@ -1,64 +1,99 @@
-import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import useInView from "../hooks/useInView";
+import { useState } from 'react';
+import useInView from '../hooks/useInView';
 
 const faqs = [
-  { q: "What services does Etcom Manpower offer?", a: "We provide overseas manpower promotion, visa processing, immigration services, HR support, document attestation, medical coordination, and travel assistance." },
-  { q: "What types of visas do you handle?", a: "We process work visas, visit and tourist visas, family/dependent visas, and study visas for multiple countries across the Middle East, Europe, and Asia." },
-  { q: "Which countries do you recruit for?", a: "We recruit for Saudi Arabia, UAE, Qatar, Oman, Germany, Poland, Italy, Greece, Malaysia, Singapore, South Korea, and many more." },
-  { q: "What documents do I need to apply?", a: "Typically: valid passport, educational certificates, experience letters, CNIC, passport-size photos, and any relevant professional licenses. Our team guides you on exact requirements." },
-  { q: "How long does the visa process take?", a: "Timelines vary by country and visa type. Work visas typically take 2–8 weeks. Our team keeps you updated at every stage." },
-  { q: "Do you charge a consultation fee?", a: "No, initial consultations are completely free. We believe in transparency — all fees are disclosed upfront with no hidden charges." },
+  {
+    q: 'What HR services does M & L Consultants offer?',
+    a: 'We offer a comprehensive range of HR services including strategic HR consulting, recruitment & staffing, payroll & benefits management, HR policy & compliance, training & development, performance management, organization development, and outsourced HR (HR-as-a-Service).',
+  },
+  {
+    q: 'How does an HR engagement typically work?',
+    a: 'We start with a free consultation to understand your needs, followed by an HR audit and planning phase. We then design tailored solutions, implement them alongside your team, and provide ongoing support and periodic reviews to ensure lasting results.',
+  },
+  {
+    q: 'Which industries do you serve?',
+    a: 'We serve a wide range of industries including technology, healthcare, logistics, manufacturing, construction, services, and non-profits. Our solutions are tailored to the specific needs of each sector.',
+  },
+  {
+    q: 'What is the typical timeline for an HR project?',
+    a: 'Timelines vary based on the scope and complexity of the engagement. A focused policy development project may take 2-4 weeks, while a full HR transformation could span 3-6 months. We provide clear timelines during our initial consultation.',
+  },
+  {
+    q: 'Do you work with job seekers or only businesses?',
+    a: 'We primarily partner with organizations to build stronger HR practices. However, professionals seeking career guidance, skills development, or job placement support can also reach out to us for consultation.',
+  },
+  {
+    q: 'Is there a fee for the initial consultation?',
+    a: 'No, the initial consultation is completely free. We discuss your needs, explain our approach, and provide a clear proposal with transparent pricing before any work begins.',
+  },
 ];
 
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(null);
-  const [ref, inView] = useInView();
+  const [ref, visible] = useInView(0.1);
+
+  const toggle = (i) => setOpenIndex(openIndex === i ? null : i);
+
+  const borderColors = ['#FF6B35', '#5FA8D3', '#1B4965', '#FF6B35', '#5FA8D3', '#0B3954'];
 
   return (
-    <section id="faqs" className="py-20" style={{ backgroundColor: "#FFFFFF" }}>
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <span className="inline-block mb-3 px-4 py-1.5 text-xs font-bold rounded-full tracking-widest uppercase border" style={{ color: "#006D77", backgroundColor: "rgba(0, 109, 119, 0.08)", borderColor: "rgba(0, 109, 119, 0.2)" }}>
-            FAQS
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold" style={{ fontFamily: "Plus Jakarta Sans", color: "#003844" }}>Frequently Asked Questions</h2>
-        </div>
+    <section id="faqs" className="relative">
+      {/* Wavy divider */}
+      <div className="wavy-divider">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+          <path d="M0,40 C240,0 480,60 720,40 C960,20 1200,60 1440,40 L1440,60 L0,60 Z" fill="#C9CCD5" />
+        </svg>
+      </div>
 
-        <div ref={ref} className="flex flex-col gap-3">
-          {faqs.map((faq, i) => (
-            <div
-              key={i}
-              className={`rounded-2xl overflow-hidden transition-all duration-500`}
-              style={{
-                backgroundColor: "#EDF6F9",
-                border: "1px solid rgba(0, 109, 119, 0.08)",
-                opacity: inView ? 1 : 0,
-                transform: inView ? "translateY(0)" : "translateY(12px)",
-                transitionDelay: `${i * 0.06}s`,
-              }}
-            >
-              <button
-                onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                className="flex items-center justify-between w-full p-5 text-left transition-colors"
-              >
-                <span className="text-sm font-bold pr-4" style={{ fontFamily: "Plus Jakarta Sans", color: "#003844" }}>{faq.q}</span>
-                <FontAwesomeIcon
-                  icon={faChevronDown}
-                  size="sm"
-                  className="transition-transform duration-300 flex-shrink-0"
-                  style={{ color: "#006D77", transform: openIndex === i ? "rotate(180deg)" : "rotate(0)" }}
-                />
-              </button>
+      <div style={{ backgroundColor: '#C9CCD5' }}>
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
+          {/* Pill Badge */}
+          <div className="flex justify-center mb-4">
+            <span className="inline-flex items-center gap-2 px-5 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider"
+              style={{ backgroundColor: '#1B4965', color: 'white' }}>
+              FAQS
+            </span>
+          </div>
+
+          <p className="text-center text-base sm:text-lg mb-10 max-w-2xl mx-auto" style={{ color: '#4A5C6B' }}>
+            Quick answers to common questions about our HR consulting services.
+          </p>
+
+          <div ref={ref} className="space-y-3 sm:space-y-4">
+            {faqs.map((faq, i) => (
               <div
-                className="transition-all duration-300 overflow-hidden"
-                style={{ maxHeight: openIndex === i ? "200px" : "0", opacity: openIndex === i ? 1 : 0 }}
+                key={i}
+                className={`fade-up ${visible ? 'visible' : ''} fade-up-delay-${(i % 3) + 1} rounded-xl overflow-hidden shadow-sm transition-all duration-300`}
+                style={{
+                  backgroundColor: 'white',
+                  borderLeft: `4px solid ${borderColors[i]}`,
+                }}
               >
-                <p className="px-5 pb-5 text-sm leading-relaxed" style={{ color: "#4a5568" }}>{faq.a}</p>
+                <button
+                  onClick={() => toggle(i)}
+                  className="w-full flex items-center justify-between p-4 sm:p-5 text-left cursor-pointer"
+                  style={{ backgroundColor: 'transparent', border: 'none' }}
+                >
+                  <span className="text-sm sm:text-base font-semibold pr-4" style={{ color: '#0B2436' }}>
+                    {faq.q}
+                  </span>
+                  <i
+                    className={`fa-solid fa-chevron-down text-sm transition-transform duration-300 shrink-0 ${openIndex === i ? 'rotate-180' : ''}`}
+                    style={{ color: '#FF6B35' }}
+                  />
+                </button>
+                <div className={`accordion-content ${openIndex === i ? 'open' : ''}`}>
+                  <div>
+                    <div className="px-4 sm:px-5 pb-4 sm:pb-5 pt-0">
+                      <p className="text-sm sm:text-base leading-relaxed m-0" style={{ color: '#4A5C6B' }}>
+                        {faq.a}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>

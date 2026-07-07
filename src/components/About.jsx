@@ -1,56 +1,77 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBuilding, faStar, faShieldHeart } from "@fortawesome/free-solid-svg-icons";
-import useInView from "../hooks/useInView";
+import useInView from '../hooks/useInView';
 
-const trust = [
-  { icon: faBuilding, text: "All-in-One Service" },
-  { icon: faStar, text: "Experienced Team" },
-  { icon: faShieldHeart, text: "Trusted Process" },
+const FALLBACK = '/images/office.jpg';
+const handleImgError = (e) => {
+  if (e.target.src !== FALLBACK) e.target.src = FALLBACK;
+};
+
+const trustChips = [
+  { icon: 'fa-solid fa-medal', label: 'Experienced', color: '#1B4965' },
+  { icon: 'fa-solid fa-wand-magic-sparkles', label: 'Tailored', color: '#5FA8D3' },
+  { icon: 'fa-solid fa-lock', label: 'Confidential', color: '#FF6B35' },
 ];
 
 export default function About() {
-  const [ref, inView] = useInView();
+  const [ref, visible] = useInView(0.1);
 
   return (
-    <section id="about" className="py-20" style={{ backgroundColor: "#FFFFFF" }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <span className="inline-block mb-3 px-4 py-1.5 text-xs font-bold rounded-full tracking-widest uppercase border" style={{ color: "#006D77", backgroundColor: "rgba(0, 109, 119, 0.08)", borderColor: "rgba(0, 109, 119, 0.2)" }}>
+    <section id="about" className="relative">
+      {/* Wavy divider top */}
+      <div className="wavy-divider">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+          <path d="M0,20 C240,60 480,0 720,20 C960,40 1200,0 1440,20 L1440,0 L0,0 Z" fill="#F2F6F9" />
+        </svg>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
+        {/* Pill Badge */}
+        <div className="flex justify-center mb-4">
+          <span className="inline-flex items-center gap-2 px-5 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider"
+            style={{ backgroundColor: '#1B4965', color: 'white' }}>
             WHO WE ARE
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold" style={{ fontFamily: "Plus Jakarta Sans", color: "#003844" }}>
-            About Etcom Manpower
-          </h2>
         </div>
 
-        <div ref={ref} className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className={`img-hover-zoom rounded-2xl shadow-lg overflow-hidden transition-all duration-700 ${inView ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6"}`}>
-            <img
-              src="/src/assets/images/about-office.jpg"
-              alt="Our office"
-              className="w-full h-72 sm:h-80 object-cover"
-              onError={(e) => { e.target.style.display = "none"; e.target.parentElement.className = "fallback-img w-full h-72 sm:h-80 rounded-2xl"; e.target.parentElement.textContent = "ETCOM OFFICE"; }}
-            />
-          </div>
-
-          <div className={`transition-all duration-700 delay-200 ${inView ? "opacity-100 translate-x-0" : "opacity-0 translate-x-6"}`}>
-            <p className="leading-relaxed mb-4" style={{ color: "#4a5568" }}>
-              Etcom Manpower Promoters (Pvt) Ltd is a licensed manpower promoter based in G-11 Markaz, Islamabad,
-              providing comprehensive visa & immigration and human-resource services under one roof.
-            </p>
-            <p className="leading-relaxed mb-6" style={{ color: "#4a5568" }}>
-              We specialize in overseas manpower promotion, visa processing, immigration services, and HR support
-              — delivering end-to-end solutions for individuals and businesses seeking employment, recruitment, and
-              global mobility.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              {trust.map((t) => (
-                <span key={t.text} className="inline-flex items-center gap-2 px-4 py-2 text-sm font-bold rounded-full" style={{ backgroundColor: "#EDF6F9", color: "#006D77" }}>
-                  <FontAwesomeIcon icon={t.icon} size="sm" /> {t.text}
-                </span>
-              ))}
+        {/* Content */}
+        <div ref={ref} className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center mb-12">
+          <div className={`fade-up ${visible ? 'visible' : ''} order-2 lg:order-1`}>
+            <div className="img-hover-zoom rounded-2xl overflow-hidden shadow-xl relative">
+              <img
+                src="/images/office.jpg"
+                alt="M & L Consultants office"
+                className="w-full h-[280px] sm:h-[340px] object-cover"
+                loading="lazy"
+                onError={handleImgError}
+              />
             </div>
           </div>
+
+          <div className={`fade-up ${visible ? 'visible' : ''} fade-up-delay-2 space-y-5 order-1 lg:order-2`}>
+            <h2 className="text-3xl sm:text-4xl font-bold m-0 leading-tight" style={{ color: '#0B2436' }}>
+              Islamabad&apos;s Trusted{' '}
+              <span style={{ color: '#1B4965' }}>HR Consulting Partner</span>
+            </h2>
+            <p className="text-base sm:text-lg leading-relaxed" style={{ color: '#4A5C6B' }}>
+              M &amp; L Consultants is a human-resource consulting firm based in Islamabad, dedicated to helping organizations and professionals achieve their people-management goals. We provide practical, tailored HR solutions that align with your business needs.
+            </p>
+            <p className="text-base sm:text-lg leading-relaxed" style={{ color: '#4A5C6B' }}>
+              From recruitment and payroll to policy development and training, our experienced consultants work closely with you to build stronger, more capable teams. We believe in straightforward, results-driven HR that makes a real difference.
+            </p>
+          </div>
+        </div>
+
+        {/* Trust Chips */}
+        <div className={`fade-up ${visible ? 'visible' : ''} fade-up-delay-3 flex flex-wrap justify-center gap-3 sm:gap-4`}>
+          {trustChips.map((chip) => (
+            <span
+              key={chip.label}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold shadow-sm transition-transform duration-200 hover:scale-105"
+              style={{ backgroundColor: chip.color + '12', color: chip.color, border: `1px solid ${chip.color}30` }}
+            >
+              <i className={`${chip.icon} text-xs`} />
+              {chip.label}
+            </span>
+          ))}
         </div>
       </div>
     </section>

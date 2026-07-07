@@ -1,81 +1,118 @@
-import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { useState } from 'react';
+
+const interests = [
+  'HR Consulting',
+  'Recruitment & Staffing',
+  'Payroll & Benefits',
+  'Policy & Compliance',
+  'Training & Development',
+  'Career Consultation',
+  'Other',
+];
 
 export default function FloatingWidget() {
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [service, setService] = useState("");
+  const [form, setForm] = useState({ name: '', phone: '', interest: '' });
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const text = encodeURIComponent(
-      `Hello Etcom Manpower!%0A%0AName: ${name}%0APhone: ${phone}%0AService: ${service || "Not specified"}`
-    );
-    window.open(`https://wa.me/923219115599?text=${text}`, "_blank");
+    const text = `Name: ${form.name}%0APhone: ${form.phone}%0AInterest: ${form.interest}`;
+    window.open(`https://wa.me/923353465095?text=${encodeURIComponent(text.replace(/%0A/g, '\n'))}`, '_blank');
+    setSubmitted(true);
+  };
+
+  const reset = () => {
+    setForm({ name: '', phone: '', interest: '' });
+    setSubmitted(false);
     setOpen(false);
-    setName("");
-    setPhone("");
-    setService("");
   };
 
   return (
-    <>
-      {/* FAB button */}
+    <div className="fixed bottom-6 right-4 sm:right-6 z-40 flex flex-col items-end gap-3">
+      {/* Expanded form */}
+      <div
+        className={`quick-apply-form bg-white rounded-2xl shadow-2xl overflow-hidden ${open ? 'opacity-100 scale-100' : 'opacity-0 scale-90 pointer-events-none'}`}
+        style={{ maxWidth: '300px', width: '100%', border: '1px solid #C9CCD5' }}
+      >
+        {!submitted ? (
+          <form onSubmit={handleSubmit} className="p-4 sm:p-5 space-y-3">
+            <div className="flex items-center justify-between mb-1">
+              <h4 className="text-sm font-bold m-0" style={{ color: '#0B2436' }}>Get Started</h4>
+              <button type="button" onClick={reset} className="text-sm cursor-pointer" style={{ color: '#FF6B35', background: 'none', border: 'none' }}>
+                <i className="fa-solid fa-xmark" />
+              </button>
+            </div>
+            <input
+              type="text"
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              required
+              placeholder="Your Name"
+              className="w-full px-3 py-2.5 rounded-lg border-2 text-xs outline-none"
+              style={{ borderColor: '#C9CCD5', color: '#0B2436' }}
+            />
+            <input
+              type="tel"
+              name="phone"
+              value={form.phone}
+              onChange={handleChange}
+              required
+              placeholder="Phone Number"
+              className="w-full px-3 py-2.5 rounded-lg border-2 text-xs outline-none"
+              style={{ borderColor: '#C9CCD5', color: '#0B2436' }}
+            />
+            <select
+              name="interest"
+              value={form.interest}
+              onChange={handleChange}
+              required
+              className="w-full px-3 py-2.5 rounded-lg border-2 text-xs outline-none"
+              style={{ borderColor: '#C9CCD5', color: '#0B2436' }}
+            >
+              <option value="">I&apos;m interested in...</option>
+              {interests.map((cat) => (
+                <option key={cat} value={cat}>{cat}</option>
+              ))}
+            </select>
+            <button
+              type="submit"
+              className="w-full py-2.5 rounded-lg text-xs font-semibold text-white shadow-md transition-all duration-200 hover:shadow-lg cursor-pointer"
+              style={{ backgroundColor: '#FF6B35', border: 'none' }}
+            >
+              <i className="fa-brands fa-whatsapp mr-2" />
+              Send
+            </button>
+          </form>
+        ) : (
+          <div className="p-4 sm:p-5 text-center space-y-3">
+            <div className="w-10 h-10 rounded-full flex items-center justify-center mx-auto" style={{ backgroundColor: '#FF6B35' }}>
+              <i className="fa-brands fa-whatsapp text-white" />
+            </div>
+            <p className="text-xs font-semibold" style={{ color: '#0B2436' }}>Sent via WhatsApp!</p>
+            <button
+              onClick={reset}
+              className="text-xs underline cursor-pointer"
+              style={{ color: '#4A5C6B', background: 'none', border: 'none' }}
+            >
+              Close
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* FAB Button */}
       <button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full shadow-xl flex items-center justify-center transition-all duration-200 hover:scale-110"
-        style={{ backgroundColor: "#E29578" }}
+        className="w-14 h-14 rounded-full shadow-xl flex items-center justify-center text-white text-xl transition-all duration-300 hover:scale-110 cursor-pointer"
+        style={{ backgroundColor: open ? '#1B4965' : '#FF6B35', border: 'none' }}
+        aria-label="Get Started"
       >
-        {open ? (
-          <FontAwesomeIcon icon={faXmark} size="lg" style={{ color: "#FFFFFF" }} />
-        ) : (
-          <FontAwesomeIcon icon={faWhatsapp} size="2x" style={{ color: "#FFFFFF" }} />
-        )}
+        <i className={`fa-solid ${open ? 'fa-xmark' : 'fa-brands fa-whatsapp'} transition-transform duration-300 ${open ? 'rotate-90' : ''}`} />
       </button>
-
-      {/* Widget panel */}
-      <div
-        className="fixed bottom-24 right-6 z-40 w-72 rounded-2xl shadow-xl overflow-hidden transition-all duration-300"
-        style={{
-          maxHeight: open ? "400px" : "0",
-          opacity: open ? 1 : 0,
-          backgroundColor: "#FFFFFF",
-          border: open ? "1px solid rgba(0, 109, 119, 0.12)" : "none",
-        }}
-      >
-        <div className="p-4" style={{ backgroundColor: "#006D77" }}>
-          <p className="text-white font-extrabold text-sm" style={{ fontFamily: "Plus Jakarta Sans" }}>Quick Inquiry</p>
-          <p className="text-white/70 text-xs">We'll reply on WhatsApp instantly</p>
-        </div>
-        <form onSubmit={handleSubmit} className="p-4 flex flex-col gap-3">
-          <input type="text" placeholder="Your Name" value={name} onChange={(e) => setName(e.target.value)} required
-            className="w-full px-3 py-2.5 rounded-xl text-xs transition"
-            style={{ backgroundColor: "#EDF6F9", border: "1px solid rgba(0, 109, 119, 0.1)", color: "#003844", outline: "none" }}
-            onFocus={(e) => e.target.style.borderColor = "#006D77"}
-            onBlur={(e) => e.target.style.borderColor = "rgba(0, 109, 119, 0.1)"} />
-          <input type="tel" placeholder="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} required
-            className="w-full px-3 py-2.5 rounded-xl text-xs transition"
-            style={{ backgroundColor: "#EDF6F9", border: "1px solid rgba(0, 109, 119, 0.1)", color: "#003844", outline: "none" }}
-            onFocus={(e) => e.target.style.borderColor = "#006D77"}
-            onBlur={(e) => e.target.style.borderColor = "rgba(0, 109, 119, 0.1)"} />
-          <select value={service} onChange={(e) => setService(e.target.value)}
-            className="w-full px-3 py-2.5 rounded-xl text-xs transition"
-            style={{ backgroundColor: "#EDF6F9", border: "1px solid rgba(0, 109, 119, 0.1)", color: "#003844", outline: "none" }}>
-            <option value="">Select Service</option>
-            <option>Manpower</option>
-            <option>Visa</option>
-            <option>Immigration</option>
-            <option>HR</option>
-          </select>
-          <button type="submit" className="w-full py-2.5 text-white text-xs font-bold rounded-xl transition-all duration-200 shadow"
-            style={{ backgroundColor: "#E29578" }}>
-            <FontAwesomeIcon icon={faWhatsapp} className="mr-2" /> Send
-          </button>
-        </form>
-      </div>
-    </>
+    </div>
   );
 }

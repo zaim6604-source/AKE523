@@ -1,45 +1,55 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBuildingColumns, faPeopleGroup, faScaleBalanced, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
-import useInView from "../hooks/useInView";
+import useInView from '../hooks/useInView';
 
 const features = [
-  { icon: faBuildingColumns, title: "Manpower + Visas in One Place", desc: "Everything you need under one roof — from recruitment to visa processing and deployment." },
-  { icon: faPeopleGroup, title: "Experienced Team", desc: "Decades of combined experience in manpower, immigration, and HR services." },
-  { icon: faScaleBalanced, title: "Transparent Process", desc: "Clear communication, honest timelines, and no hidden fees at any stage." },
-  { icon: faCircleCheck, title: "End-to-End Support", desc: "We support you from the first consultation to post-arrival follow-up." },
+  { icon: 'fa-solid fa-user-tie', title: 'Experienced Consultants', desc: 'Seasoned HR professionals with deep industry knowledge.', color: '#1B4965' },
+  { icon: 'fa-solid fa-wand-magic-sparkles', title: 'Tailored Solutions', desc: 'Customized HR strategies designed for your unique needs.', color: '#5FA8D3' },
+  { icon: 'fa-solid fa-lock', title: 'Confidential & Compliant', desc: 'Discreet, ethical service with full regulatory compliance.', color: '#FF6B35' },
+  { icon: 'fa-solid fa-bullseye', title: 'Practical & Results-Driven', desc: 'Actionable recommendations that deliver measurable outcomes.', color: '#0B3954' },
+  { icon: 'fa-solid fa-headset', title: 'Dedicated Support', desc: 'Ongoing guidance and support whenever you need it.', color: '#1B4965' },
+  { icon: 'fa-solid fa-location-dot', title: 'Local Expertise', desc: 'Deep understanding of Islamabad&apos;s business and HR landscape.', color: '#5FA8D3' },
 ];
 
 export default function WhyChooseUs() {
-  const [ref, inView] = useInView();
+  const [ref, visible] = useInView(0.1);
 
   return (
-    <section className="py-20" style={{ backgroundColor: "#FFFFFF" }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <span className="inline-block mb-3 px-4 py-1.5 text-xs font-bold rounded-full tracking-widest uppercase border" style={{ color: "#006D77", backgroundColor: "rgba(0, 109, 119, 0.08)", borderColor: "rgba(0, 109, 119, 0.2)" }}>
-            WHY ETCOM
+    <section id="why-us" className="relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
+        {/* Pill Badge */}
+        <div className="flex justify-center mb-4">
+          <span className="inline-flex items-center gap-2 px-5 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider"
+            style={{ backgroundColor: '#1B4965', color: 'white' }}>
+            WHY M &amp; L
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold" style={{ fontFamily: "Plus Jakarta Sans", color: "#003844" }}>Why Choose Us</h2>
         </div>
 
-        <div ref={ref} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <p className="text-center text-base sm:text-lg mb-10 sm:mb-12 max-w-2xl mx-auto" style={{ color: '#4A5C6B' }}>
+          What sets us apart in Islamabad&apos;s HR consulting landscape.
+        </p>
+
+        <div ref={ref} className="flex flex-wrap justify-center gap-3 sm:gap-4 max-w-4xl mx-auto">
           {features.map((f, i) => (
             <div
               key={f.title}
-              className="rounded-2xl p-6 text-center transition-all duration-500 hover:-translate-y-1 hover:shadow-md"
-              style={{
-                backgroundColor: "#EDF6F9",
-                border: "1px solid rgba(0, 109, 119, 0.1)",
-                opacity: inView ? 1 : 0,
-                transform: inView ? "translateY(0)" : "translateY(20px)",
-                transitionDelay: `${i * 0.1}s`,
-              }}
+              className={`fade-up ${visible ? 'visible' : ''} fade-up-delay-${(i % 3) + 1} rounded-2xl p-5 sm:p-6 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg`}
+              style={{ backgroundColor: 'white', flex: '1 1 280px', maxWidth: '360px', borderTop: `3px solid ${f.color}` }}
             >
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 text-xl" style={{ backgroundColor: "#006D77", color: "#FFDD00" }}>
-                <FontAwesomeIcon icon={f.icon} />
+              <div className="flex items-start gap-4">
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 shadow-sm"
+                  style={{ backgroundColor: f.color + '15', color: f.color }}
+                >
+                  <i className={`${f.icon} text-sm`} />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold m-0 mb-1" style={{ color: '#0B2436' }}>
+                    {f.title}
+                  </h3>
+                  <p className="text-xs leading-relaxed m-0" style={{ color: '#4A5C6B' }}>
+                    {f.desc}
+                  </p>
+                </div>
               </div>
-              <h4 className="font-extrabold text-sm mb-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#003844" }}>{f.title}</h4>
-              <p className="text-xs leading-relaxed" style={{ color: "#4a5568" }}>{f.desc}</p>
             </div>
           ))}
         </div>

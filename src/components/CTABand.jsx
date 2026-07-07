@@ -1,40 +1,41 @@
+import useInView from '../hooks/useInView';
+
 export default function CTABand() {
+  const [ref, visible] = useInView(0.2);
+
   return (
-    <section className="relative py-16 overflow-hidden" style={{ background: "linear-gradient(135deg, #006D77 0%, #E29578 100%)" }}>
-      <div className="absolute inset-0 pointer-events-none opacity-15">
-        <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-white animate-blob" />
-        <div className="absolute -bottom-10 -left-10 w-40 h-40 rounded-full bg-white animate-blob" style={{ animationDelay: "-4s" }} />
+    <section className="relative">
+      {/* Wavy divider */}
+      <div className="wavy-divider">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+          <path d="M0,20 C240,60 480,0 720,20 C960,40 1200,0 1440,20 L1440,0 L0,0 Z" fill="#F2F6F9" />
+        </svg>
       </div>
 
-      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <span className="inline-block mb-4 px-4 py-1.5 text-xs font-bold rounded-full tracking-widest uppercase" style={{ backgroundColor: "#FFDD00", color: "#003844" }}>
-          Let's Get Started
-        </span>
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4" style={{ fontFamily: "Plus Jakarta Sans" }}>
-          Jobs, Visas, or Immigration — <span style={{ color: "#FFDD00" }}>Let's Get You Moving.</span>
-        </h2>
-        <p className="text-white/80 mb-8 max-w-lg mx-auto">
-          Ready to take the next step? Our team is here to guide you through every stage of the process.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a
-            href="https://wa.me/923219115599"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-8 py-3.5 text-sm font-bold rounded-full transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-            style={{ backgroundColor: "#FFFFFF", color: "#006D77" }}
-          >
-            Get Started
-          </a>
-          <a
-            href="https://wa.me/923219115599"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-8 py-3.5 text-sm font-bold rounded-full transition-all duration-200 border-2 hover:-translate-y-0.5"
-            style={{ color: "#FFFFFF", borderColor: "rgba(255,255,255,0.4)" }}
-          >
-            Chat on WhatsApp
-          </a>
+      <div
+        className="py-16 sm:py-20 lg:py-24 px-4"
+        style={{ background: 'linear-gradient(135deg, #1B4965 0%, #0B3954 50%, #1B4965 100%)' }}
+      >
+        <div ref={ref} className={`fade-up ${visible ? 'visible' : ''} max-w-3xl mx-auto text-center space-y-6 sm:space-y-7`}>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white m-0 leading-tight">
+            Ready to Strengthen Your Team? Let&apos;s Talk HR.
+          </h2>
+          <p className="text-base sm:text-lg text-white/80 max-w-xl mx-auto leading-relaxed">
+            Take the first step toward better HR. Reach out today for a free consultation.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4 pt-2">
+            <a href="https://wa.me/923353465095" target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 px-7 py-3.5 rounded-full text-base font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
+              style={{ backgroundColor: '#FF6B35', color: 'white' }}>
+              <i className="fa-brands fa-whatsapp" />
+              Get Started
+            </a>
+            <a href="https://wa.me/923353465095" target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 px-7 py-3.5 rounded-full text-base font-semibold text-white border-2 border-white/60 transition-all duration-300 hover:scale-105 hover:bg-white/10">
+              <i className="fa-brands fa-whatsapp" />
+              Chat on WhatsApp
+            </a>
+          </div>
         </div>
       </div>
     </section>

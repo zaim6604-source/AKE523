@@ -1,56 +1,77 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faComments, faFilePen, faPassport, faStethoscope, faPlaneDeparture } from "@fortawesome/free-solid-svg-icons";
-import useInView from "../hooks/useInView";
+import useInView from '../hooks/useInView';
 
 const steps = [
-  { icon: faComments, title: "Consultation", desc: "Discuss your goals and explore opportunities with our team." },
-  { icon: faFilePen, title: "Documents & Application", desc: "Submit required documents and complete your application." },
-  { icon: faPassport, title: "Visa / Processing", desc: "We handle visa filing, tracking, and follow-ups." },
-  { icon: faStethoscope, title: "Medical & Trade Test", desc: "Coordinate medical exams and skill assessments if required." },
-  { icon: faPlaneDeparture, title: "Deployment & Departure", desc: "Pre-departure briefing, ticketing, and final travel arrangements." },
+  { icon: 'fa-solid fa-clipboard-list', label: 'Consultation & Assessment', desc: 'We start with a thorough discussion to understand your HR needs and goals.', color: '#FF6B35' },
+  { icon: 'fa-solid fa-magnifying-glass-chart', label: 'HR Audit & Planning', desc: 'We assess your current practices and develop a strategic HR plan.', color: '#5FA8D3' },
+  { icon: 'fa-solid fa-pen-ruler', label: 'Solution Design', desc: 'Custom HR solutions are designed to address your specific challenges.', color: '#1B4965' },
+  { icon: 'fa-solid fa-gears', label: 'Implementation', desc: 'We work alongside your team to put the solutions into action.', color: '#FF6B35' },
+  { icon: 'fa-solid fa-arrows-rotate', label: 'Ongoing Support & Review', desc: 'Continuous guidance and periodic reviews to ensure lasting results.', color: '#5FA8D3' },
 ];
 
 export default function Process() {
-  const [ref, inView] = useInView();
+  const [ref, visible] = useInView(0.05);
 
   return (
-    <section id="process" className="relative py-20 overflow-hidden">
-      {/* Angled background */}
-      <div className="absolute inset-0 origin-bottom-left pointer-events-none" style={{ background: "linear-gradient(170deg, #006D77 0%, #E29578 100%)", transform: "skewY(-3deg)", height: "110%", top: "-5%" }} />
-      <div className="absolute inset-0 pointer-events-none opacity-10" style={{ backgroundImage: "radial-gradient(circle at 30% 50%, rgba(255,255,255,0.15) 0%, transparent 50%), radial-gradient(circle at 70% 50%, rgba(255,221,0,0.1) 0%, transparent 50%)" }} />
+    <section id="process" className="relative">
+      {/* Wavy divider */}
+      <div className="wavy-divider">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+          <path d="M0,40 C240,0 480,60 720,40 C960,20 1200,60 1440,40 L1440,60 L0,60 Z" fill="#F2F6F9" />
+        </svg>
+      </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <span className="inline-block mb-3 px-4 py-1.5 text-xs font-bold rounded-full tracking-widest uppercase border" style={{ color: "#FFDD00", backgroundColor: "rgba(255,255,255,0.15)", borderColor: "rgba(255,255,255,0.25)" }}>
-            HOW IT WORKS
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white" style={{ fontFamily: "Plus Jakarta Sans" }}>Our Process</h2>
+      <div className="relative" style={{ backgroundColor: '#1B4965' }}>
+        {/* Angled band effect */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-24 -bottom-24 left-0 right-0" style={{ backgroundColor: '#1B4965', transform: 'skewY(-2deg)' }} />
         </div>
 
-        <div ref={ref} className="grid sm:grid-cols-3 lg:grid-cols-5 gap-4">
-          {steps.map((s, i) => (
-            <div
-              key={s.title}
-              className="relative text-center p-6 rounded-2xl transition-all duration-500 hover:-translate-y-2"
-              style={{
-                backgroundColor: "rgba(255,255,255,0.12)",
-                backdropFilter: "blur(8px)",
-                border: "1px solid rgba(255,255,255,0.15)",
-                opacity: inView ? 1 : 0,
-                transform: inView ? "translateY(0)" : "translateY(20px)",
-                transitionDelay: `${i * 0.1}s`,
-              }}
-            >
-              <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-extrabold" style={{ backgroundColor: i % 2 === 0 ? "#FFDD00" : "#FFFFFF", color: i % 2 === 0 ? "#003844" : "#006D77" }}>
-                <FontAwesomeIcon icon={s.icon} />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
+          {/* Pill Badge */}
+          <div className="flex justify-center mb-4">
+            <span className="inline-flex items-center gap-2 px-5 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider"
+              style={{ backgroundColor: 'rgba(255,255,255,0.15)', color: 'white', border: '1px solid rgba(255,255,255,0.25)' }}>
+              HOW WE WORK
+            </span>
+          </div>
+
+          <p className="text-center text-base sm:text-lg mb-10 sm:mb-12 max-w-2xl mx-auto" style={{ color: '#5FA8D3' }}>
+            A structured approach to delivering lasting HR results.
+          </p>
+
+          <div ref={ref} className="grid sm:grid-cols-2 lg:grid-cols-5 gap-5 sm:gap-6">
+            {steps.map((s, i) => (
+              <div
+                key={s.label}
+                className={`fade-up ${visible ? 'visible' : ''} fade-up-delay-${i + 1} text-center`}
+              >
+                <div className="rounded-2xl p-6 sm:p-7 h-full shadow-lg transition-all duration-300 hover:-translate-y-1"
+                  style={{ backgroundColor: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(4px)', border: '1px solid rgba(255,255,255,0.1)' }}
+                >
+                  {/* Step Number */}
+                  <div
+                    className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-white font-extrabold text-lg sm:text-xl mb-4 mx-auto shadow-lg"
+                    style={{ backgroundColor: s.color }}
+                  >
+                    {i + 1}
+                  </div>
+
+                  {/* Icon */}
+                  <i className={`${s.icon} text-xl sm:text-2xl mb-3`} style={{ color: s.color }} />
+
+                  {/* Label */}
+                  <h3 className="text-sm sm:text-base font-bold m-0 mb-2" style={{ color: '#fff' }}>
+                    {s.label}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-xs sm:text-sm leading-relaxed" style={{ color: '#C9CCD5' }}>
+                    {s.desc}
+                  </p>
+                </div>
               </div>
-              <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full flex items-center justify-center text-xs font-extrabold" style={{ backgroundColor: "#FFDD00", color: "#003844" }}>
-                {i + 1}
-              </div>
-              <h4 className="text-white font-extrabold text-sm mb-1" style={{ fontFamily: "Plus Jakarta Sans" }}>{s.title}</h4>
-              <p className="text-xs opacity-85 text-white/80">{s.desc}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
