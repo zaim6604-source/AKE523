@@ -1,59 +1,50 @@
-import useInView from '../hooks/useInView';
+import { useState } from 'react';
+import { useEffect, useRef } from 'react';
 
-const FALLBACK = '/images/office.jpg';
-const handleImgError = (e) => {
-  if (e.target.src !== FALLBACK) e.target.src = FALLBACK;
-};
-
-const images = [
-  { src: '/images/office.jpg', alt: 'Modern corporate office' },
-  { src: '/images/meeting.jpg', alt: 'Team collaboration meeting' },
-  { src: '/images/handshake.jpg', alt: 'Professional handshake' },
-  { src: '/images/professionals.jpg', alt: 'Corporate professionals' },
+const galleryImages = [
+  { src: '/images/community-volunteers.jpg', alt: 'Community volunteers in action' },
+  { src: '/images/helping-hands.jpg', alt: 'Helping hands' },
+  { src: '/images/food-relief.jpg', alt: 'Food relief distribution' },
+  { src: '/images/community-group.jpg', alt: 'Community group' },
 ];
 
 export default function Gallery() {
-  const [ref, visible] = useInView(0.1);
+  const ref = useRef(null);
+  const [errs, setErrs] = useState({});
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (e) => e.forEach(en => { if (en.isIntersecting) en.target.classList.add('show'); }),
+      { threshold: 0.1 }
+    );
+    ref.current?.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
 
   return (
-    <section id="gallery" className="relative">
-      {/* Wavy divider */}
-      <div className="wavy-divider">
-        <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
-          <path d="M0,40 C240,0 480,60 720,40 C960,20 1200,60 1440,40 L1440,60 L0,60 Z" fill="#C9CCD5" />
-        </svg>
-      </div>
-
-      <div style={{ backgroundColor: '#C9CCD5' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-          {/* Pill Badge */}
-          <div className="flex justify-center mb-4">
-            <span className="inline-flex items-center gap-2 px-5 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider"
-              style={{ backgroundColor: '#1B4965', color: 'white' }}>
-              OUR WORKSPACE
-            </span>
+    <section className="bg-white py-20 px-6" ref={ref}>
+      <div className="max-w-[1200px] mx-auto">
+        <div className="text-center mb-10 reveal">
+          <div className="pill-badge mx-auto mb-[18px]">
+            <span className="pill-dot" />
+            IN ACTION
           </div>
-
-          <p className="text-center text-base sm:text-lg mb-10 max-w-2xl mx-auto" style={{ color: '#4A5C6B' }}>
-            A glimpse into our professional environment and team.
-          </p>
-
-          <div ref={ref} className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-            {images.map((img, i) => (
-              <div
-                key={img.alt}
-                className={`fade-up ${visible ? 'visible' : ''} fade-up-delay-${i + 1} img-hover-zoom rounded-2xl overflow-hidden shadow-lg`}
-              >
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  className="w-full h-44 sm:h-52 object-cover"
-                  loading="lazy"
-                  onError={handleImgError}
-                />
-              </div>
-            ))}
-          </div>
+          <h2 className="font-heading font-black text-[clamp(24px,3vw,36px)] text-ink mb-2">
+            Our <span className="text-primary">Gallery</span>
+          </h2>
+        </div>
+        <div className="grid grid-cols-4 max-md:grid-cols-2 max-[480px]:grid-cols-1 gap-4">
+          {galleryImages.map((img, i) => (
+            <div key={i} className="gal-card h-60 relative cursor-pointer reveal" style={{ transitionDelay: `${i * 0.1}s` }}>
+              <img
+                src={errs[i] ? '/images/fallback.svg' : img.src}
+                alt={img.alt}
+                loading="lazy"
+                className="w-full h-full object-cover block transition-transform duration-500 hover:scale-105"
+                onError={() => setErrs(p => ({ ...p, [i]: true }))}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </section>

@@ -1,118 +1,55 @@
 import { useState } from 'react';
-
-const interests = [
-  'HR Consulting',
-  'Recruitment & Staffing',
-  'Payroll & Benefits',
-  'Policy & Compliance',
-  'Training & Development',
-  'Career Consultation',
-  'Other',
-];
+import { Heart, X } from 'lucide-react';
 
 export default function FloatingWidget() {
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ name: '', phone: '', interest: '' });
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [interest, setInterest] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const text = `Name: ${form.name}%0APhone: ${form.phone}%0AInterest: ${form.interest}`;
-    window.open(`https://wa.me/923353465095?text=${encodeURIComponent(text.replace(/%0A/g, '\n'))}`, '_blank');
-    setSubmitted(true);
-  };
-
-  const reset = () => {
-    setForm({ name: '', phone: '', interest: '' });
-    setSubmitted(false);
+    const text = `*Awaz e Insan — Quick Inquiry*\n\nName: ${name}\nPhone: ${phone}\nInterest: ${interest || 'General'}`;
+    window.open(`https://wa.me/923159942780?text=${encodeURIComponent(text)}`, '_blank');
     setOpen(false);
+    setName('');
+    setPhone('');
+    setInterest('');
   };
 
   return (
-    <div className="fixed bottom-6 right-4 sm:right-6 z-40 flex flex-col items-end gap-3">
-      {/* Expanded form */}
-      <div
-        className={`quick-apply-form bg-white rounded-2xl shadow-2xl overflow-hidden ${open ? 'opacity-100 scale-100' : 'opacity-0 scale-90 pointer-events-none'}`}
-        style={{ maxWidth: '300px', width: '100%', border: '1px solid #C9CCD5' }}
-      >
-        {!submitted ? (
-          <form onSubmit={handleSubmit} className="p-4 sm:p-5 space-y-3">
-            <div className="flex items-center justify-between mb-1">
-              <h4 className="text-sm font-bold m-0" style={{ color: '#0B2436' }}>Get Started</h4>
-              <button type="button" onClick={reset} className="text-sm cursor-pointer" style={{ color: '#FF6B35', background: 'none', border: 'none' }}>
-                <i className="fa-solid fa-xmark" />
-              </button>
+    <>
+      <style>{`
+        .fw-card { transform-origin: bottom right; }
+      `}</style>
+      <div className="fixed bottom-6 right-6 z-[9998] flex flex-col items-end gap-3">
+        <div className={`fw-card bg-white rounded-2xl p-5 w-[300px] shadow-[0_12px_40px_rgba(0,0,0,.12)] border border-primary/8 transition-all duration-250 ${open ? 'scale-100 translate-y-0 opacity-100' : 'scale-75 translate-y-5 opacity-0 pointer-events-none'}`}>
+          <div className="font-heading font-extrabold text-[15px] text-ink mb-1">Get Involved</div>
+          <div className="text-xs text-[#555] mb-3.5">Connect with us on WhatsApp</div>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-2.5">
+              <input placeholder="Your name" value={name} onChange={e => setName(e.target.value)} required
+                className="w-full px-3.5 py-2.5 rounded-xl border border-primary/10 text-[13px] font-body text-ink outline-none transition-all duration-200 focus:border-primary focus:shadow-[0_0_0_2px_rgba(0,109,119,.06)] box-border" />
             </div>
-            <input
-              type="text"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              required
-              placeholder="Your Name"
-              className="w-full px-3 py-2.5 rounded-lg border-2 text-xs outline-none"
-              style={{ borderColor: '#C9CCD5', color: '#0B2436' }}
-            />
-            <input
-              type="tel"
-              name="phone"
-              value={form.phone}
-              onChange={handleChange}
-              required
-              placeholder="Phone Number"
-              className="w-full px-3 py-2.5 rounded-lg border-2 text-xs outline-none"
-              style={{ borderColor: '#C9CCD5', color: '#0B2436' }}
-            />
-            <select
-              name="interest"
-              value={form.interest}
-              onChange={handleChange}
-              required
-              className="w-full px-3 py-2.5 rounded-lg border-2 text-xs outline-none"
-              style={{ borderColor: '#C9CCD5', color: '#0B2436' }}
-            >
-              <option value="">I&apos;m interested in...</option>
-              {interests.map((cat) => (
-                <option key={cat} value={cat}>{cat}</option>
-              ))}
-            </select>
-            <button
-              type="submit"
-              className="w-full py-2.5 rounded-lg text-xs font-semibold text-white shadow-md transition-all duration-200 hover:shadow-lg cursor-pointer"
-              style={{ backgroundColor: '#FF6B35', border: 'none' }}
-            >
-              <i className="fa-brands fa-whatsapp mr-2" />
-              Send
+            <div className="mb-2.5">
+              <input placeholder="Phone number" value={phone} onChange={e => setPhone(e.target.value)} required
+                className="w-full px-3.5 py-2.5 rounded-xl border border-primary/10 text-[13px] font-body text-ink outline-none transition-all duration-200 focus:border-primary focus:shadow-[0_0_0_2px_rgba(0,109,119,.06)] box-border" />
+            </div>
+            <div className="mb-2.5">
+              <input placeholder="Donate / Volunteer / Help" value={interest} onChange={e => setInterest(e.target.value)}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-primary/10 text-[13px] font-body text-ink outline-none transition-all duration-200 focus:border-primary focus:shadow-[0_0_0_2px_rgba(0,109,119,.06)] box-border" />
+            </div>
+            <button type="submit" className="w-full py-2.5 rounded-xl border-none bg-primary text-white font-bold text-[13px] cursor-pointer flex items-center justify-center gap-2 transition-transform duration-200 hover:-translate-y-0.5">
+              <Heart size={14} /> Send
             </button>
           </form>
-        ) : (
-          <div className="p-4 sm:p-5 text-center space-y-3">
-            <div className="w-10 h-10 rounded-full flex items-center justify-center mx-auto" style={{ backgroundColor: '#FF6B35' }}>
-              <i className="fa-brands fa-whatsapp text-white" />
-            </div>
-            <p className="text-xs font-semibold" style={{ color: '#0B2436' }}>Sent via WhatsApp!</p>
-            <button
-              onClick={reset}
-              className="text-xs underline cursor-pointer"
-              style={{ color: '#4A5C6B', background: 'none', border: 'none' }}
-            >
-              Close
-            </button>
-          </div>
-        )}
-      </div>
+        </div>
 
-      {/* FAB Button */}
-      <button
-        onClick={() => setOpen(!open)}
-        className="w-14 h-14 rounded-full shadow-xl flex items-center justify-center text-white text-xl transition-all duration-300 hover:scale-110 cursor-pointer"
-        style={{ backgroundColor: open ? '#1B4965' : '#FF6B35', border: 'none' }}
-        aria-label="Get Started"
-      >
-        <i className={`fa-solid ${open ? 'fa-xmark' : 'fa-brands fa-whatsapp'} transition-transform duration-300 ${open ? 'rotate-90' : ''}`} />
-      </button>
-    </div>
+        <button className="w-14 h-14 rounded-full border-none cursor-pointer flex items-center justify-center shadow-[0_6px_24px_rgba(226,149,120,.35)] transition-all duration-250 hover:scale-110 hover:shadow-[0_8px_30px_rgba(226,149,120,.5)] bg-cta text-white relative z-2"
+          onClick={() => setOpen(!open)} aria-label="Get Involved">
+          {open ? <X size={22} /> : <Heart size={22} fill="currentColor" />}
+        </button>
+      </div>
+    </>
   );
 }

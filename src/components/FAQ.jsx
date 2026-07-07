@@ -1,99 +1,58 @@
-import { useState } from 'react';
-import useInView from '../hooks/useInView';
+import { useState, useEffect, useRef } from 'react';
+import { ChevronDown } from 'lucide-react';
 
 const faqs = [
-  {
-    q: 'What HR services does M & L Consultants offer?',
-    a: 'We offer a comprehensive range of HR services including strategic HR consulting, recruitment & staffing, payroll & benefits management, HR policy & compliance, training & development, performance management, organization development, and outsourced HR (HR-as-a-Service).',
-  },
-  {
-    q: 'How does an HR engagement typically work?',
-    a: 'We start with a free consultation to understand your needs, followed by an HR audit and planning phase. We then design tailored solutions, implement them alongside your team, and provide ongoing support and periodic reviews to ensure lasting results.',
-  },
-  {
-    q: 'Which industries do you serve?',
-    a: 'We serve a wide range of industries including technology, healthcare, logistics, manufacturing, construction, services, and non-profits. Our solutions are tailored to the specific needs of each sector.',
-  },
-  {
-    q: 'What is the typical timeline for an HR project?',
-    a: 'Timelines vary based on the scope and complexity of the engagement. A focused policy development project may take 2-4 weeks, while a full HR transformation could span 3-6 months. We provide clear timelines during our initial consultation.',
-  },
-  {
-    q: 'Do you work with job seekers or only businesses?',
-    a: 'We primarily partner with organizations to build stronger HR practices. However, professionals seeking career guidance, skills development, or job placement support can also reach out to us for consultation.',
-  },
-  {
-    q: 'Is there a fee for the initial consultation?',
-    a: 'No, the initial consultation is completely free. We discuss your needs, explain our approach, and provide a clear proposal with transparent pricing before any work begins.',
-  },
+  { q: 'What is Awaz e Insan?', a: 'Awaz e Insan ("Voice of Humanity") is a social welfare community organization founded by Malik Yousaf Khan, based in Larama, Peshawar. We serve communities through welfare, relief, education, health, and advocacy programs.' },
+  { q: 'How can I donate?', a: 'You can donate by contacting us via WhatsApp at 0315-9942780. We accept financial donations, food supplies, clothing, and other essentials. Every contribution, big or small, makes a difference.' },
+  { q: 'How can I volunteer?', a: 'We welcome volunteers! Reach out to us on WhatsApp at 0315-9942780 or visit our community office in Larama, Peshawar. Tell us your skills and availability, and we\'ll find the right opportunity for you.' },
+  { q: 'How can I request help?', a: 'If you or someone you know needs support, contact us on WhatsApp at 0315-9942780 or visit our office. We assist with food, medical care, education support, and emergency relief based on need and available resources.' },
+  { q: 'Where do you work?', a: 'We are based in Larama, Peshawar, KPK, Pakistan. Our programs serve the local community including Hazrat Jan Colony, Charsadda Road, and surrounding areas of Peshawar.' },
+  { q: 'How are donations used?', a: 'Donations are used directly for our programs: food distribution, health camps, education support, emergency relief, and community awareness. We are committed to transparency and ensuring every rupee reaches those in need.' },
 ];
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState(null);
-  const [ref, visible] = useInView(0.1);
+  const ref = useRef(null);
+  const [open, setOpen] = useState(null);
 
-  const toggle = (i) => setOpenIndex(openIndex === i ? null : i);
-
-  const borderColors = ['#FF6B35', '#5FA8D3', '#1B4965', '#FF6B35', '#5FA8D3', '#0B3954'];
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (e) => e.forEach(en => { if (en.isIntersecting) en.target.classList.add('show'); }),
+      { threshold: 0.1 }
+    );
+    ref.current?.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
 
   return (
-    <section id="faqs" className="relative">
-      {/* Wavy divider */}
-      <div className="wavy-divider">
-        <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
-          <path d="M0,40 C240,0 480,60 720,40 C960,20 1200,60 1440,40 L1440,60 L0,60 Z" fill="#C9CCD5" />
-        </svg>
-      </div>
-
-      <div style={{ backgroundColor: '#C9CCD5' }}>
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
-          {/* Pill Badge */}
-          <div className="flex justify-center mb-4">
-            <span className="inline-flex items-center gap-2 px-5 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider"
-              style={{ backgroundColor: '#1B4965', color: 'white' }}>
-              FAQS
-            </span>
+    <section id="faqs" className="bg-background py-20 px-6" ref={ref}>
+      <div className="max-w-[800px] mx-auto">
+        <div className="text-center mb-10 reveal">
+          <div className="pill-badge mx-auto mb-[18px]">
+            <span className="pill-dot" />
+            FAQS
           </div>
+          <h2 className="font-heading font-black text-[clamp(24px,3vw,36px)] text-ink mb-2">
+            Frequently Asked <span className="text-primary">Questions</span>
+          </h2>
+        </div>
 
-          <p className="text-center text-base sm:text-lg mb-10 max-w-2xl mx-auto" style={{ color: '#4A5C6B' }}>
-            Quick answers to common questions about our HR consulting services.
-          </p>
-
-          <div ref={ref} className="space-y-3 sm:space-y-4">
-            {faqs.map((faq, i) => (
-              <div
-                key={i}
-                className={`fade-up ${visible ? 'visible' : ''} fade-up-delay-${(i % 3) + 1} rounded-xl overflow-hidden shadow-sm transition-all duration-300`}
+        <div className="flex flex-col gap-3">
+          {faqs.map((f, i) => (
+            <div key={i} className={`faq-q ${open === i ? 'open' : ''} reveal`} style={{ transitionDelay: `${i * 0.06}s` }}>
+              <button className="flex items-center justify-between w-full bg-transparent border-none cursor-pointer font-semibold text-[15px] text-ink text-left font-body transition-colors duration-200 hover:text-primary p-0"
+                onClick={() => setOpen(open === i ? null : i)}>
+                {f.q}
+                <ChevronDown size={18} className={`shrink-0 transition-transform duration-300 ${open === i ? 'rotate-180 text-primary' : 'text-secondary'}`} />
+              </button>
+              <div className="overflow-hidden transition-all duration-350"
                 style={{
-                  backgroundColor: 'white',
-                  borderLeft: `4px solid ${borderColors[i]}`,
-                }}
-              >
-                <button
-                  onClick={() => toggle(i)}
-                  className="w-full flex items-center justify-between p-4 sm:p-5 text-left cursor-pointer"
-                  style={{ backgroundColor: 'transparent', border: 'none' }}
-                >
-                  <span className="text-sm sm:text-base font-semibold pr-4" style={{ color: '#0B2436' }}>
-                    {faq.q}
-                  </span>
-                  <i
-                    className={`fa-solid fa-chevron-down text-sm transition-transform duration-300 shrink-0 ${openIndex === i ? 'rotate-180' : ''}`}
-                    style={{ color: '#FF6B35' }}
-                  />
-                </button>
-                <div className={`accordion-content ${openIndex === i ? 'open' : ''}`}>
-                  <div>
-                    <div className="px-4 sm:px-5 pb-4 sm:pb-5 pt-0">
-                      <p className="text-sm sm:text-base leading-relaxed m-0" style={{ color: '#4A5C6B' }}>
-                        {faq.a}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                  maxHeight: open === i ? 300 : 0,
+                  padding: open === i ? '0 0 18px 0' : '0',
+                }}>
+                <p className="text-sm text-[#555] leading-relaxed m-0">{f.a}</p>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

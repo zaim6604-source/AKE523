@@ -1,142 +1,86 @@
-import useInView from '../hooks/useInView';
-
-const FALLBACK = '/images/hero-team.jpg';
-const handleImgError = (e) => {
-  if (e.target.src !== FALLBACK) e.target.src = FALLBACK;
-};
-
-const statCards = [
-  { icon: 'fa-solid fa-building', value: '100+', label: 'Clients Advised' },
-  { icon: 'fa-solid fa-industry', value: '12+', label: 'Industries Served' },
-  { icon: 'fa-solid fa-calendar-check', value: '8+', label: 'Years of Experience' },
-  { icon: 'fa-solid fa-face-smile', value: '95%', label: 'Satisfaction' },
-];
+import { useEffect, useRef, useState } from 'react';
+import { Heart, Hand } from 'lucide-react';
 
 export default function Hero() {
-  const [ref, visible] = useInView(0.1);
+  const ref = useRef(null);
+  const [err, setErr] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      ref.current?.querySelectorAll('.h-rev').forEach((el, i) => {
+        setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }, i * 120);
+      });
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const wa = () => window.open('https://wa.me/923159942780', '_blank');
 
   return (
-    <section id="hero">
-      {/* Hero Main */}
-      <div className="relative pt-28 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto" ref={ref}>
-        <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-          {/* Left Content */}
-          <div className="lg:col-span-7 space-y-6 sm:space-y-7">
-            {/* Kicker Pill */}
-            <div className={`fade-up ${visible ? 'visible' : ''}`}>
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide shadow-sm"
-                style={{ backgroundColor: '#1B4965', color: 'white' }}>
-                <i className="fa-solid fa-handshake text-[10px]" />
-                Your HR Partner in Islamabad
-              </span>
+    <>
+      <style>{`
+        .h-rev { opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease; }
+        @keyframes floatY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+        .stat-chip { position:absolute; display:flex; align-items:center; gap:10px; background:rgba(255,255,255,.92); backdrop-filter:blur(12px); border:1px solid rgba(0,109,119,.15); padding:12px 18px; border-radius:14px; box-shadow:0 4px 20px rgba(0,0,0,.05); animation:floatY 4s ease-in-out infinite; }
+        @media(max-width:900px){ .stat-chip{display:none!important} }
+      `}</style>
+
+      <section id="home" ref={ref} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-6 pt-[120px] pb-[60px] bg-gradient-to-br from-background via-[#e8f4f5] to-background">
+        {/* Floating stat chips */}
+       
+
+        <div className="relative z-10 max-w-[1200px] w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Left content */}
+          <div>
+            <div className="h-rev inline-flex items-center gap-2.5 bg-primary/10 border border-primary/20 text-primary text-[11px] font-bold tracking-widest uppercase px-[18px] py-[7px] rounded-full mb-6">
+              <span className="w-[6px] h-[6px] rounded-full bg-primary" />
+              Serving Humanity
             </div>
 
-            {/* Headline */}
-            <h1 className={`fade-up ${visible ? 'visible' : ''} fade-up-delay-1 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight m-0`}
-              style={{ color: '#0B2436' }}>
-              Smarter{' '}
-              <span style={{ color: '#1B4965' }}>HR Decisions</span>
-              ,<br />Backed by Expert Consulting
+            <h1 className="h-rev font-heading font-black text-[clamp(34px,5vw,56px)] text-highlight leading-tight mb-4" style={{ transitionDelay: '.08s' }}>
+              A Voice for Humanity,<br />
+              <span className="text-primary">A Hand for Those in Need</span>
             </h1>
 
-            {/* Subhead */}
-            <p className={`fade-up ${visible ? 'visible' : ''} fade-up-delay-2 text-base sm:text-lg lg:text-xl leading-relaxed max-w-xl`}
-              style={{ color: '#4A5C6B' }}>
-              M &amp; L Consultants helps Islamabad&apos;s organizations hire, manage, and grow their people — practical HR consulting tailored to your business.
+            <p className="h-rev text-[clamp(15px,1.6vw,18px)] text-[#555] leading-relaxed max-w-[560px] mb-3" style={{ transitionDelay: '.16s' }}>
+              Awaz e Insan serves Peshawar's communities through welfare, relief, and support — driven by compassion
+              and the belief that every person matters.
             </p>
 
-            {/* Buttons */}
-            <div className={`fade-up ${visible ? 'visible' : ''} fade-up-delay-3 flex flex-wrap gap-4 pt-1`}>
-              <a href="https://wa.me/923353465095" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 px-7 py-3.5 rounded-full text-base font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-                style={{ backgroundColor: '#FF6B35' }}>
-                <i className="fa-brands fa-whatsapp" />
-                Get Started
-              </a>
-              <a href="https://wa.me/923353465095" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 px-7 py-3.5 rounded-full text-base font-semibold transition-all duration-300 hover:scale-105 border-2 shadow-sm"
-                style={{ borderColor: '#1B4965', color: '#1B4965' }}>
-                <i className="fa-brands fa-whatsapp" />
-                Chat on WhatsApp
-              </a>
+            <div className="h-rev flex flex-wrap gap-3 mt-8" style={{ transitionDelay: '.24s' }}>
+              <button className="btn-cta" onClick={wa} style={{ fontSize: 15, padding: '15px 32px' }}>
+                <Heart size={16} /> Get Involved
+              </button>
+              <button className="btn-wa" onClick={wa} style={{ fontSize: 15, padding: '14px 32px' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Chat on WhatsApp
+              </button>
             </div>
 
-            {/* Trust badges */}
-            <div className={`fade-up ${visible ? 'visible' : ''} fade-up-delay-4 flex flex-wrap items-center gap-5 pt-3`}>
-              <div className="flex items-center gap-2">
-                <i className="fa-solid fa-location-dot text-sm" style={{ color: '#FF6B35' }} />
-                <span className="text-xs sm:text-sm font-medium" style={{ color: '#4A5C6B' }}>Islamabad</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <i className="fa-solid fa-handshake text-sm" style={{ color: '#1B4965' }} />
-                <span className="text-xs sm:text-sm font-medium" style={{ color: '#4A5C6B' }}>100+ Clients</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <i className="fa-solid fa-shield-halved text-sm" style={{ color: '#FF6B35' }} />
-                <span className="text-xs sm:text-sm font-medium" style={{ color: '#4A5C6B' }}>Trusted Partner</span>
-              </div>
-            </div>
+            {/* Yellow accent line */}
+            <div className="h-rev mt-10 w-20 h-0.5 rounded-full bg-accent" style={{ transitionDelay: '.32s' }} />
           </div>
 
-          {/* Right — Image */}
-          <div className="lg:col-span-5 relative">
-            <div className="rounded-2xl overflow-hidden img-hover-zoom shadow-xl relative"
-              style={{ backgroundColor: '#C9CCD5' }}>
+          {/* Right image */}
+          <div className="h-rev relative" style={{ transitionDelay: '.12s' }}>
+            <div className="img-zoom-wrap rounded-3xl shadow-[0_8px_40px_rgba(0,109,119,.15)]">
               <img
-                src="/images/hero-team.jpg"
-                alt="M & L Consultants team meeting"
-                className="w-full h-[340px] sm:h-[420px] lg:h-[480px] object-cover"
-                loading="lazy"
-                onError={handleImgError}
+                src={err ? '/images/community-volunteers.jpg' : '/images/community-volunteers.jpg'}
+                alt="Awaz e Insan community volunteers"
+                className="w-full h-[480px] object-cover block"
+                onError={() => setErr(true)}
               />
             </div>
-
-            {/* Floating stat chip */}
-            <div className="absolute -top-3 -right-2 sm:-top-4 sm:-right-4 bg-white rounded-xl shadow-lg px-3 sm:px-4 py-2 sm:py-2.5 flex items-center gap-2 sm:gap-3 border border-[#5FA8D3]/50">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-white text-sm sm:text-base font-bold"
-                style={{ backgroundColor: '#1B4965' }}>
-                M&L
-              </div>
-              <div>
-                <div className="text-[10px] sm:text-xs font-semibold" style={{ color: '#1B4965' }}>HR Consulting</div>
-                <div className="text-xs sm:text-sm font-bold" style={{ color: '#0B2436' }}>Islamabad</div>
-              </div>
+            <div className="float absolute -top-4 -right-4 bg-white rounded-2xl px-5 py-3.5 shadow-[0_8px_32px_rgba(0,0,0,.08)] border border-primary/10">
+              <div className="font-heading font-black text-2xl text-primary leading-none">5,000+</div>
+              <div className="text-[11px] text-[#555] font-semibold mt-0.5">Lives Touched</div>
             </div>
-
-            {/* Floating stat 1 */}
-            <div className="absolute bottom-6 -left-3 sm:bottom-8 sm:-left-4 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg px-3 sm:px-4 py-2 sm:py-2.5 border border-[#FF6B35]/30">
-              <div className="text-xs sm:text-sm font-bold" style={{ color: '#FF6B35' }}>100+</div>
-              <div className="text-[10px] sm:text-xs font-medium" style={{ color: '#4A5C6B' }}>Clients Served</div>
+            <div className="float absolute -bottom-4 -left-4 bg-white rounded-2xl px-5 py-3.5 shadow-[0_8px_32px_rgba(0,0,0,.08)] border border-primary/10" style={{ animationDelay: '2s' }}>
+              <div className="font-heading font-black text-2xl text-cta leading-none">10+</div>
+              <div className="text-[11px] text-[#555] font-semibold mt-0.5">Years Serving</div>
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Stats Band */}
-      <div style={{ backgroundColor: '#1B4965' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 lg:py-14">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
-            {statCards.map((stat, i) => (
-              <StatCounter key={stat.label} stat={stat} delay={i} />
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function StatCounter({ stat, delay }) {
-  const [ref, visible] = useInView(0.3);
-  return (
-    <div ref={ref} className={`text-center fade-up ${visible ? 'visible' : ''} fade-up-delay-${delay + 1}`}>
-      <i className={`${stat.icon} text-2xl sm:text-3xl mb-2 sm:mb-3`} style={{ color: '#FF6B35' }} />
-      <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-1">
-        {visible ? stat.value : '0'}
-      </div>
-      <div className="text-sm sm:text-base font-medium tracking-wide" style={{ color: '#5FA8D3' }}>
-        {stat.label}
-      </div>
-    </div>
+      </section>
+    </>
   );
 }

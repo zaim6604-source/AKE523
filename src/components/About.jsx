@@ -1,79 +1,118 @@
-import useInView from '../hooks/useInView';
-
-const FALLBACK = '/images/office.jpg';
-const handleImgError = (e) => {
-  if (e.target.src !== FALLBACK) e.target.src = FALLBACK;
-};
+import { useEffect, useRef, useState } from 'react';
+import { MapPin } from 'lucide-react';
 
 const trustChips = [
-  { icon: 'fa-solid fa-medal', label: 'Experienced', color: '#1B4965' },
-  { icon: 'fa-solid fa-wand-magic-sparkles', label: 'Tailored', color: '#5FA8D3' },
-  { icon: 'fa-solid fa-lock', label: 'Confidential', color: '#FF6B35' },
+  { label: 'Community-Led', desc: 'Rooted in Peshawar, run by people who live and serve alongside their neighbors.' },
+  { label: 'Compassionate', desc: 'Every action is guided by empathy, dignity, and respect for those we serve.' },
+  { label: 'Transparent', desc: 'Open about how resources are used — our community trusts us because we are honest.' },
 ];
 
 export default function About() {
-  const [ref, visible] = useInView(0.1);
+  const ref = useRef(null);
+  const [err, setErr] = useState(false);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); }),
+      { threshold: 0.1 }
+    );
+    ref.current?.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
 
   return (
-    <section id="about" className="relative">
-      {/* Wavy divider top */}
-      <div className="wavy-divider">
-        <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
-          <path d="M0,20 C240,60 480,0 720,20 C960,40 1200,0 1440,20 L1440,0 L0,0 Z" fill="#F2F6F9" />
-        </svg>
-      </div>
+    <>
+      <style>{`
+        @media(max-width:900px){ .ab-grid{grid-template-columns:1fr !important; gap:48px !important} }
+      `}</style>
+      <section id="about" className="bg-white py-24 px-6" ref={ref}>
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-14 reveal">
+            <div className="pill-badge mx-auto mb-[18px]">
+              <span className="pill-dot" />
+              WHO WE ARE
+            </div>
+            <h2 className="font-heading font-black text-[clamp(30px,4vw,46px)] text-ink mb-3.5">
+              About <span className="text-primary">Awaz e Insan</span>
+            </h2>
+            <p className="text-[#555] text-base max-w-[560px] mx-auto leading-relaxed">
+              A community welfare organization serving Peshawar — giving voice and support to those in need since 2014.
+            </p>
+          </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
-        {/* Pill Badge */}
-        <div className="flex justify-center mb-4">
-          <span className="inline-flex items-center gap-2 px-5 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider"
-            style={{ backgroundColor: '#1B4965', color: 'white' }}>
-            WHO WE ARE
-          </span>
-        </div>
+          <div className="ab-grid grid grid-cols-2 gap-16 items-center">
+            <div className="relative reveal-l">
+              <div className="overflow-hidden rounded-2xl">
+                <img
+                  src={err ? '/images/helping-hands.jpg' : '/images/helping-hands.jpg'}
+                  alt="Awaz e Insan community work"
+                  className="w-full h-[460px] object-cover block shadow-sm"
+                  onError={() => setErr(true)}
+                />
+              </div>
+              <div className="absolute -top-4 -right-4 bg-white border border-primary/15 rounded-2xl px-5 py-3.5 shadow-md float">
+                <div className="font-heading font-black text-2xl text-primary leading-none">10+</div>
+                <div className="text-[11px] text-[#555] font-semibold mt-0.5">Years of Service</div>
+              </div>
+              <div className="absolute -bottom-4 -left-4 bg-white border border-primary/15 rounded-2xl px-5 py-3.5 shadow-md float" style={{ animationDelay: '2s' }}>
+                <div className="font-heading font-black text-2xl text-primary leading-none">5,000+</div>
+                <div className="text-[11px] text-[#555] font-semibold mt-0.5">Lives Touched</div>
+              </div>
+            </div>
 
-        {/* Content */}
-        <div ref={ref} className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center mb-12">
-          <div className={`fade-up ${visible ? 'visible' : ''} order-2 lg:order-1`}>
-            <div className="img-hover-zoom rounded-2xl overflow-hidden shadow-xl relative">
-              <img
-                src="/images/office.jpg"
-                alt="M & L Consultants office"
-                className="w-full h-[280px] sm:h-[340px] object-cover"
-                loading="lazy"
-                onError={handleImgError}
-              />
+            <div className="reveal-r">
+              <div className="pill-badge mb-[18px] bg-primary/8 border-primary/15 text-primary">
+                <span className="pill-dot" />
+                Peshawar, KPK — Pakistan
+              </div>
+              <h3 className="font-heading font-black text-[clamp(26px,3.2vw,38px)] text-ink mb-4">
+                A Voice for<br />
+                <span className="text-primary">Every Person</span>
+              </h3>
+              <p className="text-[15px] leading-relaxed text-[#555] mb-3.5">
+                <strong>Awaz e Insan</strong> ("Voice of Humanity") is a social welfare community organization founded by
+                Malik Yousaf Khan, based in Larama, Peshawar. We believe that every person deserves to be heard,
+                supported, and uplifted.
+              </p>
+              <p className="text-[15px] leading-relaxed text-[#555] mb-3.5">
+                From food distribution and emergency relief to health camps, education support, and advocacy —
+                we work hand-in-hand with our community to bring hope, dignity, and tangible change to those
+                who need it most.
+              </p>
+
+              <div className="mt-6">
+                <div className="flex items-start gap-3 p-3.5 px-[18px] bg-background border border-primary/10 rounded-xl mb-3">
+                  <div className="w-[38px] h-[38px] rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                    <MapPin size={18} color="#006D77" />
+                  </div>
+                  <div>
+                    <div className="text-[11px] font-bold uppercase tracking-wider text-primary mb-1">Community Office</div>
+                    <div className="text-sm font-semibold text-[#555] leading-relaxed">3H2G+8V4, Larama Rd, Larama Hazrat Jan Colony<br />Peshawar, KPK, Pakistan</div>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 p-3.5 px-[18px] bg-background border border-accent/20 rounded-xl mb-3">
+                  <div className="w-[38px] h-[38px] rounded-xl bg-accent/12 flex items-center justify-center shrink-0">
+                    <span className="text-base">👤</span>
+                  </div>
+                  <div>
+                    <div className="text-[11px] font-bold uppercase tracking-wider text-primary mb-1">Founder</div>
+                    <div className="text-sm font-semibold text-[#555] leading-relaxed">Malik Yousaf Khan</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-4 mt-8">
+                {trustChips.map((c, i) => (
+                  <div key={i} className="flex-1 min-w-[160px] bg-background border border-primary/10 rounded-2xl p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-md reveal" style={{ transitionDelay: `${i * 0.1}s` }}>
+                    <div className="font-bold text-sm text-primary mb-1.5">{c.label}</div>
+                    <div className="text-[13px] text-[#555] leading-relaxed">{c.desc}</div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-
-          <div className={`fade-up ${visible ? 'visible' : ''} fade-up-delay-2 space-y-5 order-1 lg:order-2`}>
-            <h2 className="text-3xl sm:text-4xl font-bold m-0 leading-tight" style={{ color: '#0B2436' }}>
-              Islamabad&apos;s Trusted{' '}
-              <span style={{ color: '#1B4965' }}>HR Consulting Partner</span>
-            </h2>
-            <p className="text-base sm:text-lg leading-relaxed" style={{ color: '#4A5C6B' }}>
-              M &amp; L Consultants is a human-resource consulting firm based in Islamabad, dedicated to helping organizations and professionals achieve their people-management goals. We provide practical, tailored HR solutions that align with your business needs.
-            </p>
-            <p className="text-base sm:text-lg leading-relaxed" style={{ color: '#4A5C6B' }}>
-              From recruitment and payroll to policy development and training, our experienced consultants work closely with you to build stronger, more capable teams. We believe in straightforward, results-driven HR that makes a real difference.
-            </p>
-          </div>
         </div>
-
-        {/* Trust Chips */}
-        <div className={`fade-up ${visible ? 'visible' : ''} fade-up-delay-3 flex flex-wrap justify-center gap-3 sm:gap-4`}>
-          {trustChips.map((chip) => (
-            <span
-              key={chip.label}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold shadow-sm transition-transform duration-200 hover:scale-105"
-              style={{ backgroundColor: chip.color + '12', color: chip.color, border: `1px solid ${chip.color}30` }}
-            >
-              <i className={`${chip.icon} text-xs`} />
-              {chip.label}
-            </span>
-          ))}
-        </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
