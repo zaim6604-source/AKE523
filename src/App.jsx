@@ -1,41 +1,39 @@
-import Navbar from './components/MAFHHNavbar';
-import Marquee from './components/MAFHHMarquee';
-import Hero from './components/MAFHHHero';
-import Stats from './components/MAFHHStats';
-import About from './components/MAFHHAbout';
-import Staff from './components/MAFHHStaff';
-import Services from './components/MAFHHOurServices';
-import Process from './components/MAFHHProcess';
-import WhyUs from './components/MAFHHWhyUs';
-import Testimonials from './components/MAFHHTestimonials';
-import Gallery from './components/MAFHHCtaBand';
-import CtaBand from './components/MAFHHGradientCta';
-import Contact from './components/MAFHHContact';
-import FAQ from './components/MAFHHFAQ';
-import Footer from './components/MAFHHFooter';
-import FloatingWidget from './components/MAFHHFloatingWidget';
+import Navbar from './components/Navbar';
+import MarqueeTicker from './components/MarqueeTicker';
+import Hero from './components/Hero';
+import StatsBar from './components/StatsBar';
+import About from './components/About';
+import Services from './components/Services';
+import WhyChooseUs from './components/WhyChooseUs';
+import Process from './components/Process';
+import Testimonials from './components/Testimonials';
+import Gallery from './components/Gallery';
+import CTA from './components/CTA';
+import Contact from './components/Contact';
+import FAQ from './components/FAQ';
+import Footer from './components/Footer';
+import FloatingWidget from './components/FloatingWidget';
 
 export default function App() {
   return (
-    <>
+    <div className="overflow-x-hidden">
       <Navbar />
-      <Marquee />
+      <MarqueeTicker />
       <main>
         <Hero />
-        <Stats />
+        <StatsBar />
         <About />
-        <Staff />
         <Services />
+        <WhyChooseUs />
         <Process />
-        <WhyUs />
         <Testimonials />
         <Gallery />
-        <CtaBand />
+        <CTA />
         <Contact />
         <FAQ />
       </main>
       <Footer />
       <FloatingWidget />
-    </>
+    </div>
   );
 }

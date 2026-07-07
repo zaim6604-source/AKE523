@@ -1,164 +1,157 @@
-import { useEffect, useRef } from 'react';
-import { MapPin, Phone, ExternalLink, Clock, Mail } from 'lucide-react';
+import { useState } from 'react';
+import { FaWhatsapp, FaMapMarkerAlt, FaPhone, FaEnvelope, FaPaperPlane } from 'react-icons/fa';
+import useInView from '../hooks/useInView';
 
-const LAT = 33.642120925508515;
-const LNG = 73.07372511349284;
-
-const info = [
-  {
-    Icon: MapPin,
-    color: '#39FF14',
-    bg: 'rgba(57,255,20,.08)',
-    label: 'Office Address',
-    lines: [
-      'H-132, D Block, Satellite Town',
-      '6th Road, Near Total Petrol Pump',
-      'Rawalpindi, Punjab, Pakistan',
-    ],
-  },
-  {
-    Icon: Phone,
-    color: '#00FFEF',
-    bg: 'rgba(0,255,239,.08)',
-    label: 'Phone Numbers',
-    lines: ['051-4853259', '0333-3664912', '0347-0111494', '0337-9204202', '0332-5356206'],
-  },
-  {
-    Icon: Mail,
-    color: '#FFFF00',
-    bg: 'rgba(255,255,0,.08)',
-    label: 'Email',
-    lines: ['alamalcompany@yahoo.com'],
-  },
-  {
-    Icon: Clock,
-    color: '#FF073A',
-    bg: 'rgba(255,7,58,.08)',
-    label: 'Office Hours',
-    lines: ['Mon – Sat: 9:00 AM – 6:00 PM', 'Sunday: By Appointment'],
-  },
+const contactDetails = [
+  { icon: FaWhatsapp, label: 'WhatsApp', value: '0333-5553256', href: 'https://wa.me/923335553256' },
+  { icon: FaMapMarkerAlt, label: 'Address', value: '2X6Q+52M, Mohalla Meetha Khel, Nowshera, 24100, KPK' },
+  { icon: FaEnvelope, label: 'Email', value: 'info@innovativeworld.pk', href: 'mailto:info@innovativeworld.pk' },
 ];
 
 export default function Contact() {
-  const ref = useRef(null);
+  const [ref, inView] = useInView();
+  const [form, setForm] = useState({ name: '', phone: '', email: '', service: '', message: '' });
+  const [submitted, setSubmitted] = useState(false);
 
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      (e) => e.forEach(en => { if (en.isIntersecting) en.target.classList.add('show'); }),
-      { threshold: 0.1 }
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const msg = encodeURIComponent(
+      `Hello Innovative World,\n\nName: ${form.name}\nPhone: ${form.phone}\nEmail: ${form.email}\nService Interest: ${form.service}\nMessage: ${form.message}`
     );
-    ref.current?.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
+    setSubmitted(true);
+    setTimeout(() => {
+      window.open(`https://wa.me/923335553256?text=${msg}`, '_blank');
+    }, 800);
+  };
+
+  const interestOptions = [
+    'Recruitment & Placement',
+    'Staffing Solutions',
+    'Career Consultancy',
+    'Document Support',
+    'Corporate Services',
+    'Training & Development',
+    'Manpower Supply',
+    'Other',
+  ];
 
   return (
-    <>
-      <style>{`
-        .ct-section { background:#fff; padding:96px 24px; }
-        .ct-inner { max-width:1200px; margin:0 auto; }
-        .ct-title { font-weight:900; font-size:clamp(30px,4vw,46px); color:#1a1a2e; margin-bottom:16px; }
-        .ct-layout { display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start; }
-        @media(max-width:900px){ .ct-layout{grid-template-columns:1fr} }
-        .ct-company-card { background:linear-gradient(135deg,#39FF14,#00FFEF); border-radius:20px; padding:28px; margin-bottom:20px; display:flex; align-items:center; gap:16px; }
-        .ct-company-logo { width:56px;height:56px;border-radius:14px;background:rgba(0,0,0,.15);border:2px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px;color:#000;flex-shrink:0; }
-        .ct-company-name { font-weight:900; font-size:20px; color:#000; }
-        .ct-company-sub  { font-size:13px; color:rgba(0,0,0,.5); margin-top:3px; font-weight:600; }
-        .ct-info-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:20px; }
-        @media(max-width:480px){ .ct-info-grid{grid-template-columns:1fr} }
-        .ct-info-card { background:#fff; border:1px solid #e8e8f0; border-radius:16px; padding:20px; transition:border-color .25s,box-shadow .25s,transform .25s; }
-        .ct-info-card:hover { border-color: var(--hc, #39FF14); box-shadow:0 8px 24px rgba(0,0,0,.04); transform:translateY(-2px); }
-        .ct-info-icon { width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;flex-shrink:0; }
-        .ct-info-label { font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px; }
-        .ct-info-line  { font-size:13px;color:#555570;line-height:1.65; }
-        .ct-fb-btn { display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:12px;font-size:13px;font-weight:700;text-decoration:none;transition:transform .2s,box-shadow .2s;background:rgba(57,255,20,.08);border:1px solid rgba(57,255,20,.25);color:#39FF14; }
-        .ct-fb-btn:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(57,255,20,.15); }
-        .ct-map { border-radius:20px;overflow:hidden;border:1px solid #e8e8f0;box-shadow:0 4px 24px rgba(0,0,0,.04);position:relative; }
-        .ct-map-badge { position:absolute;top:14px;left:14px;z-index:10;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);padding:8px 14px;border-radius:10px;font-size:13px;font-weight:600;color:#1a1a2e;display:flex;align-items:center;gap:6px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid rgba(57,255,20,.15); }
-      `}</style>
+    <section id="contact" className="section-pad bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <span className="pill-badge bg-[#D7263D]/10 text-[#D7263D] mb-4">GET IN TOUCH</span>
+          <h2 className="section-heading">Contact <span className="text-[#D7263D]">Us</span></h2>
+          <p className="text-[#340710]/60 mt-4 max-w-2xl mx-auto text-base md:text-lg">
+            Reach out to us — we're here to help with all your recruitment and service needs
+          </p>
+        </div>
 
-      <section id="contact" className="ct-section" ref={ref}>
-        <div className="ct-inner">
-
-          {/* Header */}
-          <div style={{ textAlign: 'center', marginBottom: 60 }} className="reveal">
-            <div className="neon-chip" style={{ borderColor: 'rgba(255,7,58,.25)', color: '#FF073A' }}>
-              <span className="neon-dot" style={{ background: '#FF073A' }} />
-              Get In Touch
-            </div>
-            <h2 className="ct-title">
-              Contact{' '}
-              <span className="grad-text">Al-Amal Company</span>
-            </h2>
-            <p style={{ color: '#777', fontSize: 16, maxWidth: 540, margin: '0 auto', lineHeight: 1.7 }}>
-              Visit our Rawalpindi office or reach out by phone, email, or Facebook. Our team is ready to guide you through
-              every step of your overseas employment journey.
-            </p>
+        <div ref={ref} className={`grid lg:grid-cols-2 gap-10 lg:gap-16 transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          {/* Form */}
+          <div>
+            {submitted ? (
+              <div className="bg-[#FFF0F3] rounded-3xl p-10 text-center">
+                <div className="w-20 h-20 bg-[#02C39A]/10 rounded-full flex items-center justify-center mx-auto mb-5">
+                  <FaPaperPlane className="text-[#02C39A] text-2xl" />
+                </div>
+                <h3 className="text-2xl font-bold text-[#340710] font-heading mb-2">Thank You!</h3>
+                <p className="text-[#340710]/60">Redirecting you to WhatsApp to connect with our team...</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} noValidate className="space-y-5">
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-[#340710] mb-1.5">Name *</label>
+                    <input type="text" name="name" value={form.name} onChange={handleChange} required
+                      placeholder="Your full name"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-[#FFF0F3]/50 text-sm outline-none focus:border-[#D7263D] focus:ring-2 focus:ring-[#D7263D]/20 transition-all" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-[#340710] mb-1.5">Phone *</label>
+                    <input type="tel" name="phone" value={form.phone} onChange={handleChange} required
+                      placeholder="03XX-XXXXXXX"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-[#FFF0F3]/50 text-sm outline-none focus:border-[#D7263D] focus:ring-2 focus:ring-[#D7263D]/20 transition-all" />
+                  </div>
+                </div>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-[#340710] mb-1.5">Email</label>
+                    <input type="email" name="email" value={form.email} onChange={handleChange}
+                      placeholder="you@email.com"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-[#FFF0F3]/50 text-sm outline-none focus:border-[#D7263D] focus:ring-2 focus:ring-[#D7263D]/20 transition-all" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-[#340710] mb-1.5">Interest / Service</label>
+                    <select name="service" value={form.service} onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-[#FFF0F3]/50 text-sm outline-none focus:border-[#D7263D] focus:ring-2 focus:ring-[#D7263D]/20 transition-all appearance-none">
+                      <option value="">Select a service...</option>
+                      {interestOptions.map((opt) => (
+                        <option key={opt} value={opt}>{opt}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-[#340710] mb-1.5">Message</label>
+                  <textarea name="message" value={form.message} onChange={handleChange} rows={4}
+                    placeholder="Tell us about your requirements..."
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-[#FFF0F3]/50 text-sm outline-none focus:border-[#D7263D] focus:ring-2 focus:ring-[#D7263D]/20 transition-all resize-none" />
+                </div>
+                <button type="submit"
+                  className="w-full bg-[#02C39A] hover:bg-[#02b38d] text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 active:scale-98 text-base">
+                  <FaWhatsapp /> Send via WhatsApp
+                </button>
+              </form>
+            )}
           </div>
 
-          <div className="ct-layout">
-
-            {/* Left: Info */}
-            <div className="reveal-l">
-              {/* Company badge */}
-              <div className="ct-company-card">
-                <div className="ct-company-logo">A</div>
-                <div>
-                  <div className="ct-company-name">Al-Amal Company</div>
-                  <div className="ct-company-sub">License: 0056 / RWP · Est. 2005</div>
-                </div>
-              </div>
-
-              {/* Info grid */}
-              <div className="ct-info-grid">
-                {info.map(({ Icon, color, bg, label, lines }, i) => (
-                  <div key={i} className="ct-info-card" style={{ '--hc': color }}>
-                    <div className="ct-info-icon" style={{ background: bg }}>
-                      <Icon size={18} color={color} strokeWidth={2} />
+          {/* Info & Map */}
+          <div className="space-y-6">
+            {/* Contact info cards */}
+            <div className="space-y-4">
+              {contactDetails.map((item, i) => {
+                const Icon = item.icon;
+                return (
+                  <div key={i} className="flex items-start gap-4 p-5 rounded-2xl border border-gray-100 hover:border-[#D7263D]/20 hover:shadow-card transition-all duration-300">
+                    <div className="w-12 h-12 rounded-xl bg-[#FFF0F3] flex items-center justify-center flex-shrink-0">
+                      <Icon className="text-[#D7263D] text-lg" />
                     </div>
-                    <div className="ct-info-label" style={{ color }}>{label}</div>
-                    {lines.map((l, j) => (
-                      <div key={j} className="ct-info-line" style={j === 0 && label === 'Email' ? { color: '#FFFF00', fontWeight: 600 } : {}}>{l}</div>
-                    ))}
+                    <div>
+                      <p className="text-xs font-semibold text-[#D7263D]/60 uppercase tracking-wider mb-1">{item.label}</p>
+                      {item.href ? (
+                        <a href={item.href} target="_blank" rel="noopener noreferrer"
+                          className="text-[#340710] font-semibold hover:text-[#D7263D] transition-colors">
+                          {item.value}
+                        </a>
+                      ) : (
+                        <p className="text-[#340710] font-medium">{item.value}</p>
+                      )}
+                    </div>
                   </div>
-                ))}
-              </div>
-
-              {/* Facebook CTA */}
-              <a
-                href="https://www.facebook.com/alamalco/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="ct-fb-btn"
-              >
-                <svg width="16" height="16" fill="#39FF14" viewBox="0 0 24 24">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                </svg>
-                Follow Al-Amal Company on Facebook
-              </a>
+                );
+              })}
             </div>
 
-            {/* Right: Map */}
-            <div className="reveal-r" style={{ transitionDelay: '.15s' }}>
-              <div className="ct-map">
-                <div className="ct-map-badge">
-                  <MapPin size={14} color="#39FF14" />
-                  Satellite Town, Rawalpindi
-                </div>
-                <iframe
-                  title="Al-Amal Company Location"
-                  src={`https://maps.google.com/maps?q=${LAT},${LNG}&z=16&output=embed`}
-                  width="100%"
-                  height="520"
-                  style={{ display: 'block', border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              </div>
+            {/* Map */}
+            <div className="map-container">
+              <iframe
+                title="Innovative World Location - Nowshera"
+                src="https://www.google.com/maps?q=34.01062882981548,71.98752091349283&hl=en&z=16&output=embed"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
             </div>
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
