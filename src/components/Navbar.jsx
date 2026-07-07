@@ -1,97 +1,113 @@
-import { useState } from "react";
+import { useState, useEffect } from 'react';
+
+const links = [
+  { label: 'Home', href: '#home' },
+  { label: 'About', href: '#about' },
+  { label: 'Services', href: '#services' },
+  { label: 'Destinations', href: '#destinations' },
+  { label: 'Process', href: '#process' },
+  { label: 'Contact', href: '#contact' },
+];
 
 export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState('home');
 
-  const links = [
-    { label: "Services", href: "#services" },
-    { label: "About", href: "#about" },
-    { label: "Destinations", href: "#destinations" },
-    { label: "Process", href: "#process" },
-    { label: "Contact", href: "#contact" },
-  ];
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 20);
+      const sections = document.querySelectorAll('section[id]');
+      const y = window.scrollY + 100;
+      sections.forEach(sec => {
+        if (y >= sec.offsetTop && y < sec.offsetTop + sec.offsetHeight)
+          setActive(sec.id);
+      });
+    };
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
-  const scrollTo = (href) => {
-    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+  const scrollTo = (e, href) => {
+    e.preventDefault();
     setOpen(false);
+    const el = document.querySelector(href);
+    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: 'smooth' });
   };
 
   return (
-    <nav className="bg-white shadow-sm border-b border-primary/10 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Left: brand + license */}
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2">
-              <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-white font-heading font-extrabold text-sm">AR</span>
-              </div>
-              <div className="leading-tight">
-                <h1 className="font-heading text-sm font-bold text-ink">Afnan Recruiting</h1>
-                <p className="text-[10px] font-semibold text-primary/70 -mt-0.5">Agency</p>
-              </div>
-            </div>
-            <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary border border-primary/20">
-              2202/MLK
+    <header className={`fixed top-0 left-0 right-0 z-50 h-[72px] transition-all duration-300 bg-white/90 backdrop-blur-xl shadow-lg`}>
+      <div className="max-w-[1180px] mx-auto px-6 h-full flex items-center justify-between">
+        <a href="#home" onClick={e => scrollTo(e, '#home')} className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white flex-shrink-0 shadow-lg"
+            style={{ background: 'var(--color-primary)' }}>
+            <i className="fas fa-handshake text-base" />
+          </div>
+          <div className="flex flex-col leading-tight">
+            <span className={`font-bold text-[0.95rem] leading-tight text-[#340710]`}>
+              Habib Brothers
+            </span>
+            <span className={`text-[0.55rem] font-medium uppercase tracking-wider text-gray-400`}>
+              Recruiting Agency
             </span>
           </div>
+        </a>
 
-          {/* Right: links + apply */}
-          <div className="hidden md:flex items-center gap-1">
-            {links.map(({ label, href }) => (
-              <button
-                key={label}
-                onClick={() => scrollTo(href)}
-                className="px-3 py-2 text-sm font-medium text-ink/70 hover:text-primary transition-colors rounded-lg hover:bg-primary/5"
-              >
-                {label}
-              </button>
-            ))}
-            <a
-              href="https://wa.me/923445937116"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ml-3 bg-cta text-white px-5 py-2 rounded-lg text-sm font-bold hover:bg-cta/90 transition-all shadow-md"
-            >
-              <i className="fab fa-whatsapp mr-1.5"></i>
-              Apply
+        {/* Desktop: underline-tab */}
+        <nav className="hidden md:flex items-center gap-1">
+          {links.map(l => (
+            <a key={l.href} href={l.href} onClick={e => scrollTo(e, l.href)}
+              className={`relative px-3.5 py-2 text-sm font-medium transition-all ${
+                active === l.href.replace('#','')
+                  ? 'text-[#D7263D]'
+                  : 'text-gray-600 hover:text-[#D7263D]'
+              }`}>
+              {l.label}
+              <span className={`absolute bottom-0 left-2 right-2 h-0.5 rounded-full transition-all duration-300 ${
+                active === l.href.replace('#','') ? 'scale-x-100' : 'scale-x-0'
+              }`}
+                style={{ background: active === l.href.replace('#','') ? 'var(--color-cta)' : 'transparent' }} />
             </a>
-          </div>
+          ))}
+          <a href="https://wa.me/923459510123" target="_blank" rel="noopener noreferrer"
+            className="ml-3 px-5 py-2.5 rounded-full text-white text-sm font-semibold transition-all shadow-lg"
+            style={{ background: 'var(--color-cta)' }}>
+            Apply Now
+          </a>
+        </nav>
 
-          {/* Mobile hamburger */}
-          <button
-            className="md:hidden p-2 rounded-lg text-ink/60 hover:bg-primary/5"
-            onClick={() => setOpen(!open)}
-            aria-label="Toggle menu"
-          >
-            <i className={`fas ${open ? "fa-xmark" : "fa-bars"} text-lg`}></i>
-          </button>
-        </div>
+        {/* Hamburger */}
+        <button onClick={() => setOpen(!open)} className="md:hidden flex flex-col gap-[5px] p-2 rounded-lg" aria-label="Menu">
+          <span className={`block w-6 h-[2px] rounded transition-all duration-300 ${scrolled ? 'bg-[#340710]' : 'bg-[#340710]'} ${open ? 'translate-y-[7px] rotate-45' : ''}`} />
+          <span className={`block w-6 h-[2px] rounded transition-all duration-300 ${scrolled ? 'bg-[#340710]' : 'bg-[#340710]'} ${open ? 'opacity-0' : ''}`} />
+          <span className={`block w-6 h-[2px] rounded transition-all duration-300 ${scrolled ? 'bg-[#340710]' : 'bg-[#340710]'} ${open ? '-translate-y-[7px] -rotate-45' : ''}`} />
+        </button>
+      </div>
 
-        {/* Mobile menu */}
-        {open && (
-          <div className="md:hidden pb-4 border-t border-primary/10 pt-3 space-y-1">
-            {links.map(({ label, href }) => (
-              <button
-                key={label}
-                onClick={() => scrollTo(href)}
-                className="block w-full text-left px-3 py-2 text-sm font-medium text-ink/70 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors"
-              >
-                {label}
-              </button>
-            ))}
-            <a
-              href="https://wa.me/923445937116"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block mt-2 bg-cta text-white text-center px-5 py-2.5 rounded-lg text-sm font-bold"
-            >
-              <i className="fab fa-whatsapp mr-1.5"></i>
+      {/* Mobile menu */}
+      <div className={`md:hidden absolute top-[72px] left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-gray-100 shadow-xl px-6 py-5 transition-all duration-300 ${
+        open ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-3 pointer-events-none'
+      }`}>
+        <ul className="flex flex-col gap-1">
+          {links.map(l => (
+            <li key={l.href}>
+              <a href={l.href} onClick={e => scrollTo(e, l.href)}
+                className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+                  active === l.href.replace('#','') ? 'text-[#D7263D] bg-[#FFF0F3]' : 'text-gray-700 hover:bg-gray-50'
+                }`}>
+                {l.label}
+              </a>
+            </li>
+          ))}
+          <li>
+            <a href="https://wa.me/923459510123" target="_blank" rel="noopener noreferrer"
+              className="block mt-2 px-4 py-3 rounded-xl text-sm font-semibold text-center text-white"
+              style={{ background: 'var(--color-cta)' }}>
               Apply Now
             </a>
-          </div>
-        )}
+          </li>
+        </ul>
       </div>
-    </nav>
+    </header>
   );
 }

@@ -1,37 +1,37 @@
-import Navbar from "./components/Navbar";
-import MarqueeTicker from "./components/MarqueeTicker";
-import Hero from "./components/Hero";
-import Services from "./components/Services";
-import StatsBand from "./components/StatsBand";
-import About from "./components/About";
-import CountryGuide from "./components/CountryGuide";
-import Process from "./components/Process";
-import Testimonials from "./components/Testimonials";
-import Gallery from "./components/Gallery";
-import CTABand from "./components/CTABand";
-import Contact from "./components/Contact";
-import FAQs from "./components/FAQs";
-import Footer from "./components/Footer";
-import QuickApply from "./components/QuickApply";
+import Navbar from './components/Navbar';
+import MarqueeTicker from './components/MarqueeTicker';
+import Hero from './components/Hero';
+import StatBand from './components/StatBand';
+import About from './components/About';
+import Services from './components/Services';
+import CountryGuide from './components/CountryGuide';
+import Process from './components/Process';
+import Testimonials from './components/Testimonials';
+import Gallery from './components/Gallery';
+import CtaBand from './components/CtaBand';
+import Contact from './components/Contact';
+import MapSection from './components/MapSection';
+import Faqs from './components/Faqs';
+import Footer from './components/Footer';
 
 export default function App() {
   return (
-    <div className="font-body antialiased">
+    <div className="min-h-screen">
       <Navbar />
       <MarqueeTicker />
       <Hero />
-      <Services />
-      <StatsBand />
+      <StatBand />
       <About />
+      <Services />
       <CountryGuide />
       <Process />
       <Testimonials />
       <Gallery />
-      <CTABand />
+      <CtaBand />
       <Contact />
-      <FAQs />
+      <MapSection />
+      <Faqs />
       <Footer />
-      <QuickApply />
     </div>
   );
 }

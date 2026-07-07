@@ -1,79 +1,116 @@
-import { useState } from "react";
+import { useEffect, useRef } from 'react';
+import SectionHeader from './SectionHeader';
 
-function ImgWithFallback({ src, alt, className }) {
-  const [failed, setFailed] = useState(false);
-  if (failed) {
-    return (
-      <div className={`${className} bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center`}>
-        <i className="fas fa-building text-primary/40 text-6xl"></i>
-      </div>
-    );
-  }
-  return <img src={src} alt={alt} className={className} onError={() => setFailed(true)} />;
-}
+const features = [
+  'Government licensed & registered',
+  'Transparent recruitment process',
+  'End-to-end placement support',
+  'Experienced & dedicated team',
+];
 
 const trustChips = [
-  { icon: "fa-certificate", label: "Govt. Licensed 2202/MLK" },
-  { icon: "fa-handshake", label: "Ethical Recruitment" },
-  { icon: "fa-clock", label: "Fast Processing" },
-  { icon: "fa-globe", label: "9+ Countries" },
+  'Government Licensed 2201/MLK',
+  'Ethical Recruitment',
+  'No Hidden Fees',
+  'End-to-End Support',
+  'Pre-Departure Training',
 ];
 
 export default function About() {
-  return (
-    <section id="about" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Pill */}
-        <div className="flex justify-center mb-14">
-          <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-primary/10 text-primary border border-primary/20">
-            WHO WE ARE
-          </span>
-        </div>
+  const ref = useRef(null);
+  useEffect(() => {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    ref.current?.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
-          {/* Image side */}
-          <div className="relative">
-            <div className="rounded-2xl overflow-hidden shadow-lg">
-              <ImgWithFallback
-                src="https://plus.unsplash.com/premium_photo-1661760902897-2495710199ec?w=800&q=80"
-                alt="Afnan Recruiting Agency team"
-                className="w-full h-80 sm:h-96 object-cover"
-              />
-            </div>
-            {/* Address caption */}
-            <div className="mt-4 bg-background rounded-xl p-4 shadow-sm border border-primary/10">
-              <p className="text-sm text-ink/70">
-                <i className="fas fa-location-dot text-primary mr-2"></i>
-                Office No. 80, 2nd Floor, Mobi Plaza, Haider Road, Opp. Ciro's Cinema, Saddar, Rawalpindi
-              </p>
+  return (
+    <section id="about" className="py-24 bg-white relative overflow-hidden" ref={ref}>
+      <div className="blob blob-crimson hidden lg:block" style={{ width: 350, height: 350, top: '-15%', right: '-8%' }} />
+      <div className="blob blob-mint hidden lg:block" style={{ width: 250, height: 250, bottom: '-10%', left: '-5%' }} />
+
+      <div className="max-w-[1180px] mx-auto px-6 relative z-10">
+        <div className="reveal"><SectionHeader tag="Who We Are" title="About Habib Brothers" /></div>
+
+        <div className="grid md:grid-cols-[1fr_1.4fr] gap-16 items-center">
+          {/* Framed photo */}
+          <div className="reveal">
+            <div className="relative">
+              <div className="rounded-[2rem] overflow-hidden shadow-xl">
+                <img
+                  src="/images/about.jpg"
+                  alt="Habib Brothers team"
+                  className="w-full h-[400px] object-cover"
+                  onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80'; }}
+                />
+              </div>
+              {/* Floating badge */}
+              <div className="floating-3 absolute -bottom-4 -right-4 bg-white rounded-2xl px-5 py-4 flex items-center gap-4 shadow-2xl"
+                style={{ boxShadow: '0 20px 60px rgba(215,38,61,.15)' }}>
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center text-xl text-white"
+                  style={{ background: 'var(--color-primary)' }}>
+                  <i className="fas fa-award" />
+                </div>
+                <div>
+                  <strong className="block text-sm text-[#340710]">Licensed Agency</strong>
+                  <span className="text-xs" style={{ color: 'var(--color-cta)' }}>2201/MLK</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Text content */}
-          <div>
-            <p className="text-ink/70 mb-6 leading-relaxed">
-              Based at <strong>Mobi Plaza, Haider Road, Saddar, Rawalpindi</strong>, Afnan
-              Recruiting Agency (License <strong>2202/MLK</strong>) is a government-licensed
-              recruitment firm dedicated to connecting Pakistani workers with trusted employers across
-              the Gulf and Europe.
+          {/* Content */}
+          <div className="reveal">
+            <p className="text-base leading-[1.85] mb-4" style={{ color: '#444' }}>
+              <strong>Habib Brothers Recruiting Agency Pvt (Ltd)</strong> is a government-licensed overseas employment agency based in <strong>Mingora, Swat, KPK</strong>.
+              With License <strong>2201/MLK</strong>, we are dedicated to connecting local workers with trusted employers across the Gulf and Europe.
             </p>
-            <p className="text-ink/70 mb-8 leading-relaxed">
-              With over 12 years of experience, we provide clear, end-to-end recruitment services
-              — from documentation and visa processing to pre-departure orientation and travel support.
-              Our commitment to honesty and transparency sets us apart.
+            <p className="text-sm leading-[1.8] mb-7" style={{ color: '#777' }}>
+              We provide complete, honest recruitment services — from documentation and visa processing to medical coordination and
+              pre-departure orientation. Our team ensures every candidate is fully prepared for their journey abroad. Located at <strong>G.T Road, Malakand Market, Sohrab Khan Chowk, Mingora, Swat</strong>, we have been serving the community with integrity and professionalism.
             </p>
 
+            {/* Feature checkmarks */}
+            <div className="grid grid-cols-2 gap-3 mb-7">
+              {features.map(f => (
+                <div key={f} className="flex items-center gap-2.5 text-sm font-medium" style={{ color: '#444' }}>
+                  <span className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
+                    style={{ background: 'var(--color-background)' }}>
+                    <i className="fas fa-check text-[0.55rem]" style={{ color: 'var(--color-primary)' }} />
+                  </span>
+                  {f}
+                </div>
+              ))}
+            </div>
+
             {/* Trust chips */}
-            <div className="flex flex-wrap gap-3">
-              {trustChips.map((chip) => (
-                <span
-                  key={chip.label}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/15"
-                >
-                  <i className={`fas ${chip.icon} text-[10px]`}></i>
-                  {chip.label}
+            <div className="flex flex-wrap gap-2 mb-7">
+              {trustChips.map((t, i) => (
+                <span key={t}
+                  className="inline-flex items-center gap-1.5 text-[0.7rem] font-semibold px-3 py-1.5 rounded-full"
+                  style={{
+                    background: i % 2 === 0 ? 'var(--color-background)' : 'rgba(119,104,174,.08)',
+                    color: i % 2 === 0 ? 'var(--color-primary)' : 'var(--color-accent)',
+                  }}>
+                  <i className="fas fa-check-circle" />
+                  {t}
                 </span>
               ))}
+            </div>
+
+            {/* Address */}
+            <div className="flex items-start gap-4 rounded-xl p-5"
+              style={{ background: 'var(--color-background)', border: '1px solid rgba(215,38,61,.1)' }}>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-white"
+                style={{ background: 'var(--color-primary)' }}>
+                <i className="fas fa-map-marker-alt text-sm" />
+              </div>
+              <div>
+                <strong className="block text-sm text-[#340710] mb-0.5">Office Address</strong>
+                <span className="text-sm" style={{ color: '#666' }}>G.T Road, Malakand Market, Sohrab Khan Chowk, Mingora, Swat, KPK</span>
+              </div>
             </div>
           </div>
         </div>

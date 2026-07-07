@@ -1,50 +1,38 @@
-import { useState } from "react";
+import { useEffect, useRef } from 'react';
 
-const photos = [
-  {
-    src: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80",
-    alt: "Professional team collaboration",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&q=80",
-    alt: "Office environment",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=600&q=80",
-    alt: "Team discussion",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=80",
-    alt: "Team meeting",
-  },
-];
-
-function ImgWithFallback({ src, alt, className }) {
-  const [failed, setFailed] = useState(false);
-  if (failed) {
-    return (
-      <div className={`${className} bg-gray-100 flex items-center justify-center rounded-xl`}>
-        <i className="fas fa-image text-gray-300 text-3xl"></i>
-      </div>
-    );
-  }
-  return <img src={src} alt={alt} className={className} onError={() => setFailed(true)} loading="lazy" />;
-}
+const photos = ['/images/gallery-1.jpg', '/images/gallery-2.jpg', '/images/gallery-3.jpg', '/images/gallery-4.jpg'];
 
 export default function Gallery() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    ref.current?.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
+
   return (
-    <section className="py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-24 relative overflow-hidden bg-white" ref={ref}>
+      <div className="max-w-[1180px] mx-auto px-6 relative z-10">
+        <div className="reveal text-center mb-12">
+          <span className="section-tag inline-block text-[0.7rem] font-bold uppercase tracking-[2px] px-4 py-1.5 rounded-full mb-3">
+            Gallery
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-black leading-tight text-[#340710]">
+            Our Office &amp; Team
+          </h2>
+          <div className="w-16 h-1 rounded-full mx-auto mt-4" style={{ background: 'var(--color-cta)' }} />
+        </div>
+
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {photos.map((photo, i) => (
-            <div
-              key={i}
-              className="rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-            >
-              <ImgWithFallback
-                src={photo.src}
-                alt={photo.alt}
-                className="w-full h-48 sm:h-56 object-cover"
+          {photos.map((src, i) => (
+            <div key={i} className="reveal rounded-2xl overflow-hidden shadow-md" style={{ transitionDelay: `${i * 0.1}s` }}>
+              <img
+                src={src}
+                alt={`Gallery ${i + 1}`}
+                className="w-full h-56 object-cover card-img"
+                onError={(e) => { e.target.style.display = 'none'; }}
               />
             </div>
           ))}

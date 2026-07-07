@@ -1,142 +1,111 @@
-import { useState } from "react";
+import { useEffect, useRef } from 'react';
+import SectionHeader from './SectionHeader';
 
 const testimonials = [
   {
-    name: "Ahmed Raza",
-    role: "Construction Worker — Qatar",
-    quote: "Afnan Recruiting made the entire process smooth and transparent. From documentation to departure, they guided me at every step. I'm now working in Doha and earning well.",
+    name: 'Ahmed Khan',
+    location: 'Saudi Arabia',
+    role: 'Construction Supervisor',
+    text: 'Habib Brothers made my dream of working in Saudi Arabia a reality. From documentation to departure, their team guided me at every step. I am now earning a stable income and supporting my family back in Swat.',
     rating: 5,
+    img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80',
   },
   {
-    name: "Muhammad Usman",
-    role: "Driver — Saudi Arabia",
-    quote: "I was hesitant about overseas work, but Afnan's team patiently answered all my questions. They found me a great driving position in Riyadh. Highly recommended!",
+    name: 'Fatima Ali',
+    location: 'UAE',
+    role: 'Hospitality Staff',
+    text: 'I was nervous about finding a job abroad, but Habib Brothers found me a wonderful position in Dubai. The pre-departure orientation was incredibly helpful. Highly recommended!',
     rating: 5,
+    img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80',
   },
   {
-    name: "Kamran Ali",
-    role: "Nurse — Germany",
-    quote: "The team handled my credential attestation, visa processing, and even arranged German language classes. Thanks to them, I'm now working at a hospital in Berlin.",
+    name: 'Mohammad Usman',
+    location: 'Germany',
+    role: 'Skilled Technician',
+    text: 'The team at Habib Brothers helped me with everything from my visa to trade tests. Their employer verification gave me peace of mind. I am now working in Berlin and loving it.',
     rating: 5,
+    img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80',
   },
   {
-    name: "Sajid Mehmood",
-    role: "Factory Worker — Poland",
-    quote: "Professional, honest, and efficient. Afnan Recruiting helped me get a factory job in Warsaw within weeks. I'm grateful for their support throughout.",
+    name: 'Zainab Noor',
+    location: 'Qatar',
+    role: 'Retail Associate',
+    text: 'Thanks to Habib Brothers, I secured a job in Doha within weeks. Their process was transparent and professional. I appreciate their honest approach and genuine care.',
     rating: 4,
+    img: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80',
   },
   {
-    name: "Tariq Khan",
-    role: "Hospitality Staff — UAE",
-    quote: "From the initial consultation at their Saddar office to my flight to Dubai, everything was handled professionally. They truly care about their candidates.",
+    name: 'Bilal Ahmad',
+    location: 'Oman (Muscat)',
+    role: 'Driver',
+    text: 'Habib Brothers helped me get a driving job in Muscat. The whole process was smooth and they kept me informed at every step. Grateful for their support!',
     rating: 5,
+    img: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80',
   },
 ];
 
-export default function Testimonials() {
-  const [active, setActive] = useState(0);
+const rotations = [-3, 4, -5, 3, -2];
 
-  const prev = () => setActive((a) => (a === 0 ? testimonials.length - 1 : a - 1));
-  const next = () => setActive((a) => (a === testimonials.length - 1 ? 0 : a + 1));
+export default function Testimonials() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    ref.current?.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
 
   return (
-    <section id="testimonials" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Pill */}
-        <div className="flex justify-center mb-14">
-          <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-primary/10 text-primary border border-primary/20">
-            SUCCESS STORIES
-          </span>
+    <section className="py-24 relative overflow-hidden bg-white" ref={ref}>
+      <div className="blob blob-crimson hidden lg:block" style={{ width: 300, height: 300, top: '5%', left: '-5%' }} />
+      <div className="blob blob-mint hidden lg:block" style={{ width: 250, height: 250, bottom: '5%', right: '-5%' }} />
+
+      <div className="max-w-[1180px] mx-auto px-6 relative z-10">
+        <div className="reveal">
+          <SectionHeader tag="Success Stories" title="What Our Candidates Say" />
         </div>
 
-        <div className="max-w-4xl mx-auto">
-          {/* Coverflow carousel */}
-          <div className="relative overflow-hidden py-8">
-            <div className="flex items-center justify-center gap-4 perspective-[1000px]">
-              {testimonials.map((t, i) => {
-                const offset = i - active;
-                const isCenter = i === active;
-                return (
-                  <div
-                    key={i}
-                    onClick={() => setActive(i)}
-                    className={`transition-all duration-500 cursor-pointer flex-shrink-0 ${
-                      isCenter
-                        ? "scale-100 z-10 opacity-100 w-full max-w-lg"
-                        : Math.abs(offset) === 1
-                        ? "scale-85 opacity-50 w-40 hidden md:block"
-                        : "scale-75 opacity-20 w-24 hidden lg:block"
-                    }`}
-                    style={{
-                      transform: isCenter
-                        ? "scale(1) translateX(0)"
-                        : offset < 0
-                        ? `scale(0.85) translateX(${30 * offset}px)`
-                        : `scale(0.85) translateX(${30 * offset}px)`,
-                    }}
-                  >
-                    {isCenter ? (
-                      <div className="bg-background rounded-2xl p-6 md:p-8 shadow-md border border-primary/10 text-center">
-                        {/* Stars */}
-                        <div className="flex justify-center gap-1 mb-4">
-                          {[...Array(5)].map((_, s) => (
-                            <i
-                              key={s}
-                              className={`fas fa-star ${s < t.rating ? "text-secondary" : "text-gray-200"}`}
-                            ></i>
-                          ))}
-                        </div>
-                        <p className="text-ink/80 text-sm md:text-base leading-relaxed italic mb-6">
-                          &ldquo;{t.quote}&rdquo;
-                        </p>
-                        <div>
-                          <p className="font-heading font-bold text-ink">{t.name}</p>
-                          <p className="text-xs text-ink/50">{t.role}</p>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="bg-background/50 rounded-xl p-4 shadow border border-primary/5 text-center">
-                        <p className="text-xs text-ink/40 italic truncate">&ldquo;{t.quote.slice(0, 50)}...&rdquo;</p>
-                        <p className="text-xs font-semibold text-ink/60 mt-2">{t.name}</p>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Navigation arrows */}
-            <div className="flex justify-center gap-4 mt-6">
-              <button
-                onClick={prev}
-                className="w-9 h-9 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all flex items-center justify-center"
-                aria-label="Previous"
-              >
-                <i className="fas fa-chevron-left text-sm"></i>
-              </button>
-              <button
-                onClick={next}
-                className="w-9 h-9 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all flex items-center justify-center"
-                aria-label="Next"
-              >
-                <i className="fas fa-chevron-right text-sm"></i>
-              </button>
-            </div>
-
-            {/* Dots */}
-            <div className="flex justify-center gap-2 mt-4">
-              {testimonials.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActive(i)}
-                  className={`w-2 h-2 rounded-full transition-all ${
-                    i === active ? "bg-primary w-6" : "bg-primary/30"
-                  }`}
-                  aria-label={`Go to testimonial ${i + 1}`}
+        <div className="reveal grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {testimonials.map((t, i) => (
+            <div key={i}
+              className="polaroid rounded-2xl"
+              style={{ transform: `rotate(${rotations[i]}deg)`, transitionDelay: `${i * 0.08}s` }}>
+              {/* Tape */}
+              <div className="polaroid-tape" />
+              {/* Photo area */}
+              <div className="rounded-xl overflow-hidden mb-3 h-40">
+                <img
+                  src={t.img}
+                  alt={t.name}
+                  className="w-full h-full object-cover"
+                  onError={(e) => { e.target.style.display = 'none'; }}
                 />
-              ))}
+              </div>
+              {/* Content */}
+              <div className="px-2">
+                <p className="text-sm leading-relaxed mb-3" style={{ color: '#555' }}>"{t.text}"</p>
+                {/* Mint stars */}
+                <div className="flex gap-1 mb-2">
+                  {[...Array(5)].map((_, si) => (
+                    <i key={si} className={`fas fa-star text-xs ${si < t.rating ? 'polaroid-stars' : 'text-gray-200'}`} />
+                  ))}
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full overflow-hidden bg-gray-100 flex-shrink-0">
+                    <img src={t.img} alt={t.name} className="w-full h-full object-cover"
+                      onError={(e) => { e.target.style.display = 'none'; }} />
+                  </div>
+                  <div>
+                    <strong className="block text-sm text-[#340710]">{t.name}</strong>
+                    <span className="text-xs" style={{ color: 'var(--color-primary)' }}>
+                      {t.role} &middot; {t.location}
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

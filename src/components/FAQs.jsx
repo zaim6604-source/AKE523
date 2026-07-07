@@ -1,74 +1,70 @@
-import { useState, useRef } from "react";
+import { useState } from 'react';
+import SectionHeader from './SectionHeader';
+import { useEffect, useRef } from 'react';
 
 const faqs = [
   {
-    q: "Is Afnan Recruiting Agency government licensed?",
-    a: "Yes, we are fully licensed by the Government of Pakistan under License No. 2202/MLK.",
+    q: 'What is License 2201/MLK and why does it matter?',
+    a: 'License 2201/MLK is the official government registration issued to Habib Brothers Recruiting Agency Pvt (Ltd) by the Bureau of Immigration & Overseas Employment, Pakistan. It certifies that we are legally authorized to recruit and deploy workers for overseas employment, ensuring you are dealing with a legitimate agency.',
   },
   {
-    q: "Which countries do you recruit for?",
-    a: "We recruit for Qatar, UAE, Saudi Arabia, Oman, Germany, Poland, Italy, Greece, and Hungary across various industries.",
+    q: 'Which countries do you recruit for?',
+    a: 'We recruit for Saudi Arabia, UAE, Qatar, Oman (Muscat), Germany, Romania, Greece, Croatia (Dubrovnik), Malaysia (KL), and other countries. Contact us for the latest job openings.',
   },
   {
-    q: "Where is your office located?",
-    a: "Office No. 80, 2nd Floor, Mobi Plaza, Haider Road, Opp. Ciro's Cinema, Saddar, Rawalpindi, Punjab.",
+    q: 'Where is your office located?',
+    a: 'Our office is at G.T Road, Malakand Market, Sohrab Khan Chowk, Mingora, Swat, KPK. You can visit us during working hours (Mon–Sat, 9 AM–6 PM) or contact us via phone or WhatsApp.',
   },
   {
-    q: "What documents do I need to apply?",
-    a: "You'll need your CNIC, passport (valid for at least 2 years), educational certificates, and experience letters. We'll guide you through the full list.",
+    q: 'What documents do I need to apply?',
+    a: 'You typically need your CNIC, passport (valid), educational certificates, experience letters, and passport-sized photographs. Our team will guide you through the exact requirements for your desired country and position.',
   },
   {
-    q: "How long does the processing take?",
-    a: "Processing times vary by country and role, typically ranging from 2 to 8 weeks from documentation to departure.",
+    q: 'How long does the processing take?',
+    a: 'Processing time varies by country and position, but typically ranges from 2 to 8 weeks. We strive to make the process as efficient as possible while ensuring all requirements are properly met.',
   },
   {
-    q: "What are your service fees?",
-    a: "Our fees are transparent and competitive. Contact us for a detailed breakdown based on your desired country and role.",
+    q: 'What are your fees?',
+    a: 'Our fees are transparent and communicated upfront. We believe in no hidden charges. Contact us for a detailed breakdown based on your desired country and job role.',
   },
 ];
 
-export default function FAQs() {
+export default function Faqs() {
+  const ref = useRef(null);
   const [openIndex, setOpenIndex] = useState(null);
-  const contentRefs = useRef([]);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    ref.current?.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
 
   return (
-    <section id="faqs" className="py-20 bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Pill */}
-        <div className="flex justify-center mb-14">
-          <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-primary/10 text-primary border border-primary/20">
-            FAQS
-          </span>
+    <section className="py-24 relative overflow-hidden" style={{ background: 'var(--color-background)' }} ref={ref}>
+      <div className="max-w-[800px] mx-auto px-6 relative z-10">
+        <div className="reveal">
+          <SectionHeader tag="FAQs" title="Frequently Asked Questions" />
         </div>
 
-        <div className="max-w-3xl mx-auto space-y-3">
+        <div className="reveal flex flex-col gap-3">
           {faqs.map((faq, i) => {
             const isOpen = openIndex === i;
             return (
-              <div
-                key={i}
-                className="bg-white rounded-xl border border-primary/10 overflow-hidden shadow-sm"
-              >
+              <div key={i}
+                className="rounded-xl overflow-hidden bg-white transition-all"
+                style={{ border: `1px solid ${isOpen ? 'var(--color-primary)' : 'rgba(215,38,61,.1)'}` }}>
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : i)}
-                  className="w-full flex items-center justify-between p-5 text-left"
-                  aria-expanded={isOpen}
-                >
-                  <span className="font-medium text-sm sm:text-base text-ink pr-4">{faq.q}</span>
-                  <i
-                    className={`fas fa-chevron-down text-primary transition-transform duration-300 flex-shrink-0 ${
-                      isOpen ? "rotate-180" : ""
-                    }`}
-                  ></i>
+                  className="w-full flex items-center justify-between px-6 py-4 text-left text-sm font-semibold transition-all"
+                  style={{ color: isOpen ? 'var(--color-primary)' : '#340710' }}>
+                  <span className="pr-4">{faq.q}</span>
+                  <i className={`fas fa-chevron-down text-xs transition-all duration-300 flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`}
+                    style={{ color: 'var(--color-primary)' }} />
                 </button>
-                <div
-                  ref={(el) => (contentRefs.current[i] = el)}
-                  className="overflow-hidden transition-all duration-300"
-                  style={{
-                    maxHeight: isOpen ? contentRefs.current[i]?.scrollHeight + "px" : "0",
-                  }}
-                >
-                  <p className="px-5 pb-5 text-sm text-ink/70 leading-relaxed">{faq.a}</p>
+                <div className={`px-6 transition-all duration-300 overflow-hidden ${isOpen ? 'pb-5 max-h-96' : 'max-h-0 pb-0'}`}>
+                  <p className="text-sm leading-relaxed" style={{ color: '#666' }}>{faq.a}</p>
                 </div>
               </div>
             );
