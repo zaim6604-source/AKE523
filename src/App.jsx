@@ -1,37 +1,41 @@
 import Navbar from './components/Navbar';
 import MarqueeTicker from './components/MarqueeTicker';
 import Hero from './components/Hero';
-import StatBand from './components/StatBand';
+import StatsBar from './components/StatsBar';
 import About from './components/About';
 import Services from './components/Services';
-import CountryGuide from './components/CountryGuide';
+import Industries from './components/Industries';
 import Process from './components/Process';
+import WhyChooseUs from './components/WhyChooseUs';
 import Testimonials from './components/Testimonials';
-import CtaBand from './components/CTABand';
+import Gallery from './components/Gallery';
+import CTA from './components/CTA';
 import Contact from './components/Contact';
-import MapSection from './components/MapSection';
-import Faqs from './components/FAQs';
+import FAQ from './components/FAQ';
 import Footer from './components/Footer';
-import QuickApply from './components/QuickApply';
+import FloatingWidget from './components/FloatingWidget';
 
 export default function App() {
   return (
-    <div className="min-h-screen">
+    <div className="overflow-x-hidden">
       <Navbar />
-      <Hero />
       <MarqueeTicker />
-      <StatBand />
-      <About />
-      <Services />
-      <CountryGuide />
-      <Process />
-      <Testimonials />
-      <CtaBand />
-      <Contact />
-      <MapSection />
-      <Faqs />
+      <main>
+        <Hero />
+        <StatsBar />
+        <About />
+        <Services />
+        <Industries />
+        <Process />
+        <WhyChooseUs />
+        <Testimonials />
+        <Gallery />
+        <CTA />
+        <Contact />
+        <FAQ />
+      </main>
       <Footer />
-      <QuickApply />
+      <FloatingWidget />
     </div>
   );
 }

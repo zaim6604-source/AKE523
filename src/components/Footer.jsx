@@ -1,95 +1,112 @@
-import { useEffect, useRef } from 'react';
-
 const quickLinks = [
   { label: 'Home', href: '#home' },
-  { label: 'About', href: '#about' },
+  { label: 'About Us', href: '#about' },
   { label: 'Services', href: '#services' },
-  { label: 'Destinations', href: '#destinations' },
+  { label: 'Industries', href: '#industries' },
   { label: 'Process', href: '#process' },
+  { label: 'FAQs', href: '#faqs' },
   { label: 'Contact', href: '#contact' },
 ];
 
-export default function Footer() {
-  const ref = useRef(null);
-  useEffect(() => {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    ref.current?.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
+const services = [
+  'Recruitment & Talent Acquisition',
+  'Executive Search',
+  'Temporary Staffing',
+  'Payroll Management',
+  'HR Consulting',
+  'Training & Development',
+];
 
-  const scrollTo = (e, href) => {
-    e.preventDefault();
-    const el = document.querySelector(href);
-    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: 'smooth' });
-  };
+const industries = [
+  'IT & Software', 'Banking & Finance', 'Healthcare', 'Manufacturing',
+  'Retail & E-commerce', 'Hospitality', 'Construction', 'Education',
+];
+
+export default function Footer() {
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="relative overflow-hidden" style={{ background: '#9C2A52' }} ref={ref}>
-      <div className="blob blob-amber" style={{ width: 400, height: 400, top: '-30%', right: '-10%', opacity: 0.06 }} />
-
-      <div className="max-w-[1180px] mx-auto px-6 pt-16 pb-0 relative z-10">
-        <div className="reveal grid sm:grid-cols-2 gap-12 mb-10">
+    <footer className="bg-highlight text-white">
+      <div className="container-pad py-14">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white flex-shrink-0 shadow-lg"
-                style={{ background: 'var(--color-cta)' }}>
-                <i className="fas fa-briefcase text-base" style={{ color: 'var(--color-ink)' }} />
+            <a href="#home" className="flex items-center gap-2 mb-5 group">
+              <span className="w-10 h-10 rounded-lg bg-cta text-ink flex items-center justify-center font-heading font-bold text-sm">ZB</span>
+              <div>
+                <p className="font-heading font-bold text-white text-sm leading-tight">ZB HR Services</p>
+                <p className="text-cta text-xs font-semibold">HR & Staffing, Lahore</p>
               </div>
-              <div className="flex flex-col leading-tight">
-                <span className="font-bold text-[1.05rem] text-white">Zahid Buneri</span>
-                <span className="text-[0.6rem] text-white/50 font-medium uppercase tracking-wider">Overseas Recruiting Agent</span>
-              </div>
-            </div>
-            <p className="text-sm text-white/50 leading-[1.75]">
-              Your local connection to jobs across the Gulf. Based in Cheena Kalay, Buner — honest, personal guidance from first call to departure.
+            </a>
+            <p className="text-white/60 text-sm leading-relaxed mb-5">
+              Lahore's trusted HR and staffing partner — helping businesses hire, manage, and retain top talent since 2014.
             </p>
+            <div className="flex flex-wrap gap-2">
+              <a href="https://wa.me/923008582313" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="w-9 h-9 bg-white/10 hover:bg-green-500 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110">
+                <i className="fab fa-whatsapp text-sm" />
+              </a>
+            </div>
           </div>
 
-          {/* Quick links + Contact */}
-          <div className="grid sm:grid-cols-2 gap-8">
-            <div>
-              <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-5">Quick Links</h4>
-              <ul className="flex flex-col gap-2.5">
-                {quickLinks.map(l => (
-                  <li key={l.href}>
-                    <a href={l.href} onClick={e => scrollTo(e, l.href)}
-                      className="flex items-center gap-2 text-sm text-white/45 hover:text-white hover:pl-1 transition-all">
-                      <i className="fas fa-chevron-right text-[0.55rem]" style={{ color: 'var(--color-cta)' }} /> {l.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-5">Contact</h4>
-              <div className="flex flex-col gap-4">
-                <a href="https://wa.me/923345577225" target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-sm text-white/45 hover:text-white transition-all">
-                  <i className="fab fa-whatsapp" style={{ color: 'var(--color-cta)' }} />
-                  0334-5577225
-                </a>
-                <a href="mailto:info@zahidburneri.pk"
-                  className="flex items-center gap-3 text-sm text-white/45 hover:text-white transition-all">
-                  <i className="fas fa-envelope" style={{ color: 'var(--color-cta)' }} />
-                  info@zahidburneri.pk
-                </a>
-                <div className="flex items-start gap-3 text-sm text-white/45">
-                  <i className="fas fa-map-marker-alt mt-0.5" style={{ color: 'var(--color-cta)' }} />
-                  Cheena Kalay, Buner, KPK
-                </div>
+          {/* Quick Links */}
+          <div>
+            <h4 className="font-heading font-bold text-white text-base mb-5">Quick Links</h4>
+            <ul className="space-y-2.5">
+              {quickLinks.map((link) => (
+                <li key={link.href}>
+                  <a href={link.href} className="text-white/60 hover:text-cta text-sm transition-colors duration-200 flex items-center gap-1.5 group">
+                    <i className="fas fa-chevron-right text-[10px] opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all duration-200" />
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Services */}
+          <div>
+            <h4 className="font-heading font-bold text-white text-base mb-5">Our Services</h4>
+            <ul className="space-y-2.5">
+              {services.map((s, i) => (
+                <li key={i}>
+                  <a href="#services" className="text-white/60 hover:text-cta text-sm transition-colors duration-200 flex items-center gap-1.5 group">
+                    <i className="fas fa-chevron-right text-[10px] opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all duration-200" />
+                    {s}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Industries & Contact */}
+          <div>
+            <h4 className="font-heading font-bold text-white text-base mb-5">Industries</h4>
+            <ul className="space-y-1.5 mb-7">
+              {industries.map((ind, i) => (
+                <li key={i} className="text-white/60 text-sm">{ind}</li>
+              ))}
+            </ul>
+            <h4 className="font-heading font-bold text-white text-sm mb-3">Contact</h4>
+            <div className="space-y-2 text-sm text-white/60">
+              <div className="flex items-start gap-2">
+                <i className="fab fa-whatsapp text-cta mt-0.5" />
+                <span>0300-8582313</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <i className="fas fa-location-dot text-cta mt-0.5" />
+                <span>FORC+RCP, Service Rd, Islam Nagar, Zaman Colony, Lahore, Punjab</span>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div className="border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
-        <div className="max-w-[1180px] mx-auto px-6 py-5 text-center">
-          <p className="text-xs text-white/30">&copy; 2026 Zahid Buneri. All rights reserved. | Overseas Recruiting Agent, Cheena Kalay, Buner.</p>
+      <div className="border-t border-white/10">
+        <div className="container-pad py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-white/40">
+          <p>&copy; {year} ZB HR Services. All rights reserved.</p>
+          <p className="flex items-center gap-1">
+            Made with <i className="fas fa-heart text-accent mx-0.5" /> for Lahore's businesses
+          </p>
         </div>
       </div>
     </footer>

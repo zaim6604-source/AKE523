@@ -1,151 +1,101 @@
-import { useState, useEffect, useRef } from 'react';
-import SectionHeader from './SectionHeader';
-
-const contactItems = [
-  { icon: 'fab fa-whatsapp',       label: 'WhatsApp',       lines: ['0334-5577225'] },
-  { icon: 'fas fa-map-marker-alt', label: 'Location',       lines: ['Cheena Kalay, Buner, KPK'] },
-  { icon: 'fas fa-envelope',       label: 'Email',          lines: ['info@zahidburneri.pk'] },
-  { icon: 'fas fa-clock',          label: 'Working Hours',  lines: ['Mon – Sat: 9:00 AM – 6:00 PM', 'Sunday: Closed'] },
-];
+import { useState } from 'react';
+import useInView from '../hooks/useInView';
 
 export default function Contact() {
-  const ref = useRef(null);
-  const [form, setForm]     = useState({ fullName: '', phone: '', country: '', message: '' });
-  const [errors, setErrors] = useState({});
+  const [ref, inView] = useInView();
+  const [formType, setFormType] = useState('hiring');
+  const [form, setForm] = useState({ name: '', phone: '', email: '', extra: '', message: '' });
 
-  useEffect(() => {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    ref.current?.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
-
-  const validate = () => {
-    const e = {};
-    if (!form.fullName.trim()) e.fullName = 'Please enter your full name.';
-    if (!form.phone.trim())    e.phone    = 'Please enter your phone number.';
-    if (!form.country) e.country = 'Please select a country.';
-    return e;
-  };
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const errs = validate();
-    setErrors(errs);
-    if (Object.keys(errs).length > 0) return;
-    const text =
-`Hello Zahid Buneri,
-My name is ${form.fullName}.
-Phone: ${form.phone}
-Desired Country: ${form.country}
-Message: ${form.message || 'N/A'}`;
-    window.open(`https://wa.me/923345577225?text=${encodeURIComponent(text)}`, '_blank');
+    const msg = encodeURIComponent(
+      `Hello ZB HR Services!%0A%0AI'm ${formType === 'hiring' ? 'hiring' : 'job seeking'}.%0AName: ${form.name}%0APhone: ${form.phone}%0AEmail: ${form.email}%0A${formType === 'hiring' ? 'Company/Role' : 'Job Category'}: ${form.extra}%0AMessage: ${form.message}`
+    );
+    window.open(`https://wa.me/923008582313?text=${msg}`, '_blank');
   };
-
-  const set = (key) => (e) => {
-    setForm(p  => ({ ...p,  [key]: e.target.value }));
-    setErrors(p => ({ ...p, [key]: '' }));
-  };
-
-  const inputCls = (id) =>
-    `w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-white placeholder-gray-400 transition-all input-focus ${
-      errors[id] ? 'border-red-400' : 'border-gray-200'}`;
 
   return (
-    <section id="contact" className="py-24 relative overflow-hidden" style={{ background: 'linear-gradient(180deg, var(--color-background) 0%, #fff 40%)' }} ref={ref}>
-      <div className="blob blob-mulberry" style={{ width: 300, height: 300, top: '50%', left: '-8%', opacity: 0.1 }} />
-
-      <div className="max-w-[1180px] mx-auto px-6 relative z-10">
-        <div className="reveal">
-          <SectionHeader tag="CONTACT" title="Get In Touch"
-            sub="Send your details and I'll get back to you on WhatsApp." />
+    <section id="contact" className="section-pad bg-white overflow-hidden">
+      <div className="container-pad">
+        <div className="text-center mb-12">
+          <span className="inline-flex items-center gap-1.5 bg-primary/10 text-primary font-semibold text-xs sm:text-sm px-4 py-1.5 rounded-full mb-4">
+            <i className="fas fa-envelope text-primary/70 text-xs" /> GET IN TOUCH
+          </span>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-ink font-heading">Let's Start a Conversation</h2>
+          <p className="text-ink/60 text-lg mt-3 max-w-2xl mx-auto">Reach out and we'll get back to you within 24 hours.</p>
         </div>
 
-        <div className="grid md:grid-cols-[1fr_1.5fr] gap-12 items-start">
-          {/* Info panel */}
-          <div className="reveal rounded-[1.5rem] p-10 text-white relative overflow-hidden"
-            style={{ background: 'linear-gradient(135deg, var(--color-primary), var(--color-highlight))' }}>
-            <div className="blob blob-blue" style={{ width: 200, height: 200, top: '-20%', right: '-20%', opacity: 0.2 }} />
-            <div className="blob blob-amber" style={{ width: 150, height: 150, bottom: '-10%', left: '-10%', opacity: 0.15 }} />
-            <h3 className="text-xl font-bold mb-8 relative z-10">Contact Information</h3>
-            {contactItems.map(item => (
-              <div key={item.label} className="flex items-start gap-4 mb-7 relative z-10">
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(255,255,255,0.12)' }}>
-                  <i className={item.icon} />
-                </div>
-                <div>
-                  <strong className="block text-xs text-white/60 uppercase tracking-wider mb-1">{item.label}</strong>
-                  {item.lines.map(l => <span key={l} className="block text-sm text-white/90">{l}</span>)}
-                </div>
+        <div ref={ref} className="grid lg:grid-cols-2 gap-10 items-start max-w-5xl mx-auto">
+          {/* Form */}
+          <div className={`bg-background rounded-2xl p-6 sm:p-8 ${inView ? 'animate-fade-in-up' : 'opacity-0'}`}>
+            <div className="flex gap-2 mb-6 bg-white rounded-xl p-1 shadow-sm">
+              <button onClick={() => setFormType('hiring')} className={`flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all ${formType === 'hiring' ? 'bg-primary text-white shadow-md' : 'text-ink/60 hover:text-primary'}`}>
+                <i className="fas fa-building mr-1.5" /> I'm Hiring
+              </button>
+              <button onClick={() => setFormType('seeking')} className={`flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all ${formType === 'seeking' ? 'bg-primary text-white shadow-md' : 'text-ink/60 hover:text-primary'}`}>
+                <i className="fas fa-user mr-1.5" /> I'm Job Seeking
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <input type="text" name="name" value={form.name} onChange={handleChange} placeholder="Your Name" required
+                className="w-full px-4 py-3 rounded-xl border border-primary/10 bg-white text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" />
+              <div className="grid sm:grid-cols-2 gap-4">
+                <input type="tel" name="phone" value={form.phone} onChange={handleChange} placeholder="Phone Number" required
+                  className="w-full px-4 py-3 rounded-xl border border-primary/10 bg-white text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" />
+                <input type="email" name="email" value={form.email} onChange={handleChange} placeholder="Email Address"
+                  className="w-full px-4 py-3 rounded-xl border border-primary/10 bg-white text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" />
               </div>
-            ))}
+              <input type="text" name="extra" value={form.extra} onChange={handleChange}
+                placeholder={formType === 'hiring' ? 'Company Name / Role to Fill' : 'Job Category Interested In'} required
+                className="w-full px-4 py-3 rounded-xl border border-primary/10 bg-white text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" />
+              <textarea name="message" value={form.message} onChange={handleChange} rows={3} placeholder="Your Message..."
+                className="w-full px-4 py-3 rounded-xl border border-primary/10 bg-white text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 resize-none" />
+              <button type="submit"
+                className="w-full bg-primary text-white font-bold py-3.5 rounded-xl hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 active:scale-[0.98] flex items-center justify-center gap-2 text-base">
+                <i className="fab fa-whatsapp text-lg" /> Send via WhatsApp
+              </button>
+              <p className="text-xs text-ink/40 text-center">Your information is kept confidential. WhatsApp is our primary contact method.</p>
+            </form>
           </div>
 
-          {/* Form */}
-          <div className="reveal bg-white rounded-[1.5rem] p-10 border shadow-xl"
-            style={{ borderColor: 'rgba(196,69,105,0.1)', boxShadow: '0 20px 60px rgba(196,69,105,0.08)' }}>
-            <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor="fullName" className="text-sm font-semibold text-[var(--color-ink)]">
-                  Full Name <span style={{ color: 'var(--color-primary)' }}>*</span>
-                </label>
-                <div className="relative">
-                  <i className="fas fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm pointer-events-none" />
-                  <input id="fullName" type="text" placeholder="Enter your full name"
-                    value={form.fullName} onChange={set('fullName')} className={inputCls('fullName')} />
+          {/* Info + Map */}
+          <div className={`space-y-6 ${inView ? 'animate-fade-in-up' : 'opacity-0'}`} style={{ animationDelay: '0.15s' }}>
+            <div className="bg-background rounded-2xl p-6 space-y-4">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <i className="fab fa-whatsapp text-primary" />
                 </div>
-                {errors.fullName && <span className="text-xs text-red-500">{errors.fullName}</span>}
-              </div>
-
-              <div className="grid sm:grid-cols-2 gap-5">
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="phone" className="text-sm font-semibold text-[var(--color-ink)]">
-                    Phone Number <span style={{ color: 'var(--color-primary)' }}>*</span>
-                  </label>
-                  <div className="relative">
-                    <i className="fas fa-phone absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm pointer-events-none" />
-                    <input id="phone" type="tel" placeholder="+92 300 0000000"
-                      value={form.phone} onChange={set('phone')} className={inputCls('phone')} />
-                  </div>
-                  {errors.phone && <span className="text-xs text-red-500">{errors.phone}</span>}
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="country" className="text-sm font-semibold text-[var(--color-ink)]">
-                    Desired Country <span style={{ color: 'var(--color-primary)' }}>*</span>
-                  </label>
-                  <div className="relative">
-                    <i className="fas fa-globe absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm pointer-events-none z-10" />
-                    <select id="country" value={form.country} onChange={set('country')}
-                      className={`${inputCls('country')} appearance-none`}>
-                      <option value="" disabled>Select a country</option>
-                      {['Saudi Arabia', 'UAE', 'Qatar', 'Oman', 'Kuwait', 'Malaysia', 'Germany', 'Romania', 'Greece', 'Other'].map(o => (
-                        <option key={o} value={o}>{o}</option>
-                      ))}
-                    </select>
-                    <i className="fas fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs pointer-events-none" />
-                  </div>
-                  {errors.country && <span className="text-xs text-red-500">{errors.country}</span>}
+                <div>
+                  <p className="text-xs font-semibold text-ink/40 uppercase tracking-wider">WhatsApp</p>
+                  <a href="https://wa.me/923008582313" target="_blank" rel="noopener noreferrer" className="text-primary font-semibold hover:underline">0300-8582313</a>
                 </div>
               </div>
-
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor="message" className="text-sm font-semibold text-[var(--color-ink)]">Message / Job Interest</label>
-                <div className="relative">
-                  <i className="fas fa-comment-dots absolute left-3.5 top-3.5 text-gray-400 text-sm pointer-events-none" />
-                  <textarea id="message" rows={4}
-                    placeholder="Tell me about your skills and experience..."
-                    value={form.message} onChange={set('message')}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 text-sm bg-white placeholder-gray-400 resize-y min-h-[110px] outline-none transition-all input-focus" />
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <i className="fas fa-envelope text-primary" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-ink/40 uppercase tracking-wider">Email</p>
+                  <a href="mailto:info@zbhrservices.pk" className="text-primary font-semibold hover:underline">info@zbhrservices.pk</a>
                 </div>
               </div>
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <i className="fas fa-location-dot text-primary" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-ink/40 uppercase tracking-wider">Address</p>
+                  <p className="text-ink/70 text-sm">FORC+RCP, Service Rd, Islam Nagar, Zaman Colony, Lahore, Punjab</p>
+                </div>
+              </div>
+            </div>
 
-              <button type="submit"
-                className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-semibold text-base transition-all duration-200 btn-amber"
-                style={{ background: 'var(--color-cta)', color: 'var(--color-ink)' }}>
-                <i className="fab fa-whatsapp text-xl" /> Send via WhatsApp
-              </button>
-            </form>
+            <div className="rounded-2xl overflow-hidden shadow-card border border-primary/5 h-64">
+              <iframe title="ZB HR Services Location" src="https://www.google.com/maps?q=Service+Road+Islam+Nagar+Zaman+Colony+Lahore&hl=en&z=15&output=embed" width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+            </div>
           </div>
         </div>
       </div>

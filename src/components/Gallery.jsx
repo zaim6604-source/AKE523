@@ -1,39 +1,26 @@
-import { useEffect, useRef } from 'react';
-
-const photos = ['/images/gallery-1.jpg', '/images/gallery-2.jpg', '/images/gallery-3.jpg', '/images/gallery-4.jpg'];
+const images = [
+  { src: '/images/hero-team.jpg', alt: 'Team collaboration' },
+  { src: '/images/office-interview.jpg', alt: 'Interview session' },
+  { src: '/images/meeting.jpg', alt: 'Client meeting' },
+  { src: '/images/consulting.jpg', alt: 'HR consulting' },
+];
 
 export default function Gallery() {
-  const ref = useRef(null);
-  useEffect(() => {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    ref.current?.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
-
   return (
-    <section className="py-24 relative overflow-hidden bg-white" ref={ref}>
-      <div className="max-w-[1180px] mx-auto px-6 relative z-10">
-        <div className="reveal text-center mb-12">
-          <span className="section-tag inline-block text-[0.7rem] font-bold uppercase tracking-[2px] px-4 py-1.5 rounded-full mb-3">
-            Gallery
+    <section className="py-12 md:py-16 bg-background overflow-hidden">
+      <div className="container-pad">
+        <div className="text-center mb-10">
+          <span className="inline-flex items-center gap-1.5 bg-primary/10 text-primary font-semibold text-xs sm:text-sm px-4 py-1.5 rounded-full mb-4">
+            <i className="fas fa-camera text-primary/70 text-xs" /> GALLERY
           </span>
-          <h2 className="text-3xl sm:text-4xl font-black leading-tight text-[#340710]">
-            Our Office &amp; Team
-          </h2>
-          <div className="w-16 h-1 rounded-full mx-auto mt-4" style={{ background: 'var(--color-cta)' }} />
+          <h2 className="text-3xl md:text-4xl font-extrabold text-ink font-heading">A Glimpse of Our Work</h2>
         </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {photos.map((src, i) => (
-            <div key={i} className="reveal rounded-2xl overflow-hidden shadow-md" style={{ transitionDelay: `${i * 0.1}s` }}>
-              <img
-                src={src}
-                alt={`Gallery ${i + 1}`}
-                className="w-full h-56 object-cover card-img"
-                onError={(e) => { e.target.style.display = 'none'; }}
-              />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+          {images.map((img, i) => (
+            <div key={i} className="overflow-hidden rounded-2xl group">
+              <div className="aspect-[4/3] overflow-hidden">
+                <img src={img.src} alt={img.alt} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" onError={(e) => { e.target.src = '/images/fallback.svg'; }} loading="lazy" />
+              </div>
             </div>
           ))}
         </div>

@@ -1,64 +1,38 @@
-import { useEffect, useRef } from 'react';
-import SectionHeader from './SectionHeader';
+import useInView from '../hooks/useInView';
 
 const services = [
-  { icon: 'fa-plane-departure', title: 'Overseas Job Placement', desc: 'I connect you with verified employers across the Gulf and Europe, matching your skills to the right opportunity.', color: '#C44569' },
-  { icon: 'fa-passport',        title: 'Visa Guidance',          desc: 'Step-by-step assistance with your visa application, documentation, and all related formalities.', color: '#9C2A52' },
-  { icon: 'fa-file-alt',        title: 'Document Support',       desc: 'Help with attestation, certificates, and all paperwork required for overseas employment.', color: '#A1C4FD' },
-  { icon: 'fa-stethoscope',     title: 'Medical & Trade Tests',  desc: 'Coordination of medical examinations and trade test preparations for your target country.', color: '#C44569' },
-  { icon: 'fa-graduation-cap',  title: 'Pre-Departure Guidance', desc: 'Briefing on culture, work expectations, and travel tips to ensure a smooth transition abroad.', color: '#9C2A52' },
-  { icon: 'fa-ticket-alt',      title: 'Air Ticketing Assistance',desc: 'Help with flight bookings and travel arrangements at competitive rates.', color: '#A1C4FD' },
-  { icon: 'fa-shield-alt',      title: 'Employer Verification',  desc: 'I verify every employer to ensure they are legitimate and trustworthy before connecting you.', color: '#C44569' },
-  { icon: 'fa-hard-hat',        title: 'Skilled & Unskilled Manpower', desc: 'Placement services for both skilled professionals and general workers across multiple sectors.', color: '#9C2A52' },
+  { title: 'Recruitment & Talent Acquisition', desc: 'End-to-end hiring solutions to find the right talent for your organization.', color: 'bg-primary', icon: 'users' },
+  { title: 'Executive Search & Headhunting', desc: 'Specialized search for senior leadership and hard-to-fill roles.', color: 'bg-secondary', icon: 'magnifying-glass' },
+  { title: 'Temporary & Contract Staffing', desc: 'Flexible staffing solutions for seasonal, project, or interim needs.', color: 'bg-accent', icon: 'clock' },
+  { title: 'Payroll & Benefits Management', desc: 'Accurate payroll processing and employee benefits administration.', color: 'bg-cta', icon: 'file-invoice' },
+  { title: 'HR Consulting & Policy Setup', desc: 'Strategic HR guidance, policy development, and compliance support.', color: 'bg-highlight', icon: 'handshake' },
+  { title: 'Training & Development', desc: 'Upskilling programs and professional development for your workforce.', color: 'bg-primary', icon: 'chart-line' },
+  { title: 'Employee Onboarding & Compliance', desc: 'Streamlined onboarding processes and regulatory compliance management.', color: 'bg-accent', icon: 'clipboard-check' },
+  { title: 'Outsourced HR (HR-as-a-Service)', desc: 'Complete HR department outsourcing for startups and SMEs.', color: 'bg-secondary', icon: 'building' },
 ];
 
 export default function Services() {
-  const ref = useRef(null);
-  useEffect(() => {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    ref.current?.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
-
-  const scrollTo = (e, href) => {
-    e.preventDefault();
-    const el = document.querySelector(href);
-    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: 'smooth' });
-  };
+  const [ref, inView] = useInView();
 
   return (
-    <section id="services" className="py-24 relative overflow-hidden"
-      style={{ background: 'linear-gradient(180deg, #fff 0%, var(--color-background) 30%, #fff 70%)' }}
-      ref={ref}
-    >
-      <div className="blob blob-mulberry" style={{ width: 350, height: 350, top: '20%', right: '-10%', opacity: 0.1 }} />
-      <div className="blob blob-blue" style={{ width: 300, height: 300, bottom: '10%', left: '-8%', opacity: 0.1 }} />
-
-      <div className="max-w-[1180px] mx-auto px-6 relative z-10">
-        <div className="reveal">
-          <SectionHeader tag="HOW I HELP" title="My Services"
-            sub="Standard overseas recruitment services tailored for workers from Buner and surrounding areas." />
+    <section id="services" className="section-pad bg-background overflow-hidden">
+      <div className="container-pad">
+        <div className="text-center mb-12">
+          <span className="inline-flex items-center gap-1.5 bg-primary/10 text-primary font-semibold text-xs sm:text-sm px-4 py-1.5 rounded-full mb-4">
+            <i className="fas fa-briefcase text-primary/70 text-xs" /> OUR SERVICES
+          </span>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-ink font-heading">Comprehensive HR Solutions</h2>
+          <p className="text-ink/60 text-lg mt-3 max-w-2xl mx-auto">From recruitment to HR consulting — everything your business needs to build a strong workforce.</p>
         </div>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div ref={ref} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {services.map((s, i) => (
-            <div key={i}
-              className="reveal service-card rounded-[1.5rem] p-8 text-white"
-              style={{
-                background: s.color,
-                transitionDelay: `${(i % 4) * 0.06}s`,
-              }}>
-              <div className="w-14 h-14 rounded-xl flex items-center justify-center text-2xl mb-5 bg-white/20">
-                <i className={`fas ${s.icon}`} />
+            <div key={i} className={`rounded-2xl p-6 ${s.color} ${s.color === 'bg-cta' ? 'text-ink' : 'text-white'} transition-all duration-500 hover:-translate-y-1 hover:shadow-xl ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              style={{ transitionDelay: `${i * 80}ms`, minHeight: '180px' }}>
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 ${s.color === 'bg-cta' ? 'bg-ink/10' : 'bg-white/15'}`}>
+                <i className={`fas fa-${s.icon} text-lg`} />
               </div>
-              <h3 className="text-base font-bold mb-2 text-white">{s.title}</h3>
-              <p className="text-sm leading-[1.7] text-white/80 mb-4">{s.desc}</p>
-              <a href="#contact" onClick={e => scrollTo(e, '#contact')}
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-white/90 transition-all duration-200 hover:gap-3">
-                Enquire <i className="fas fa-arrow-right text-xs" />
-              </a>
+              <h3 className="font-bold text-base font-heading mb-2">{s.title}</h3>
+              <p className={`text-sm leading-relaxed ${s.color === 'bg-cta' ? 'text-ink/70' : 'text-white/80'}`}>{s.desc}</p>
             </div>
           ))}
         </div>

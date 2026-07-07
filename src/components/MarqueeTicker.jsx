@@ -1,28 +1,23 @@
-const items = [
-  'Saudi Arabia',
-  'UAE',
-  'Qatar',
-  'Oman (Muscat)',
-  'Kuwait',
-  'Malaysia (KL)',
-  'Germany',
-  'Romania',
-  'Greece',
-  'Cheena Kalay, Buner',
-  'KPK, Pakistan',
-  'Overseas Jobs',
-  'Gulf Employment',
+const tickerItems = [
+  'Recruitment', 'Executive Search', 'Staffing', 'Payroll',
+  'HR Consulting', 'Compliance', 'Based in Lahore', 'Free Consultation',
 ];
 
 export default function MarqueeTicker() {
   return (
-    <div className="relative z-40" style={{ background: 'var(--color-primary)' }}>
-      <div className="overflow-hidden py-2.5">
-        <div className="marquee-animate">
-          {[...items, ...items].map((item, i) => (
-            <span key={i} className="flex items-center gap-3 mx-6 text-white text-sm font-medium whitespace-nowrap">
-              <i className="fas fa-circle text-[0.35rem] opacity-60" />
-              {item}
+    <div className="relative mt-16 md:mt-20 bg-primary overflow-hidden py-3">
+      <div className="flex whitespace-nowrap marquee-track">
+        <div className="flex shrink-0 gap-8 items-center">
+          {tickerItems.map((item, i) => (
+            <span key={i} className="text-background/80 font-medium text-sm sm:text-base tracking-wide">
+              <i className="fa-regular fa-star text-cta mr-2 text-xs" /> {item}
+            </span>
+          ))}
+        </div>
+        <div className="flex shrink-0 gap-8 items-center ml-8">
+          {tickerItems.map((item, i) => (
+            <span key={`dup-${i}`} className="text-background/80 font-medium text-sm sm:text-base tracking-wide">
+              <i className="fa-regular fa-star text-cta mr-2 text-xs" /> {item}
             </span>
           ))}
         </div>

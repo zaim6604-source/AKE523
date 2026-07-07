@@ -1,83 +1,37 @@
-import { useEffect, useRef } from 'react';
-import SectionHeader from './SectionHeader';
+import useInView from '../hooks/useInView';
 
 const testimonials = [
-  {
-    name: 'Sohail Khan',
-    location: 'Saudi Arabia',
-    role: 'Heavy Driver',
-    text: 'Zahid helped me get a driving job in Dammam. From paperwork to the flight booking, he handled everything. I am now earning well and supporting my family back in Buner. Highly recommend!',
-    rating: 5,
-    img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80',
-  },
-  {
-    name: 'Rashid Ahmad',
-    location: 'UAE',
-    role: 'Construction Worker',
-    text: 'I was unsure about going abroad but Zahid guided me through the entire process. The employer was verified and the job was exactly what was promised. Great service!',
-    rating: 5,
-    img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80',
-  },
-  {
-    name: 'Naveed Ali',
-    location: 'Qatar',
-    role: 'Sales Assistant',
-    text: 'Thanks to Zahid, I found a job in Doha within weeks. Everything was transparent and he kept me updated at every step. A trustworthy agent from our own area.',
-    rating: 5,
-    img: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80',
-  },
+  { name: 'Ahmed Hassan', role: 'CEO, TechVista Solutions', text: 'ZB HR Services transformed our hiring process. They found us exceptional talent in half the time it used to take. Highly professional and responsive.', rating: 5 },
+  { name: 'Sara Imran', role: 'HR Director, CareFirst Group', text: 'We\'ve been using ZB HR for payroll and compliance for over a year now. Their attention to detail and reliability is outstanding. A true partner.', rating: 5 },
+  { name: 'Usman Chaudhry', role: 'Founder, GrowthCraze', text: 'As a startup, finding the right people was our biggest challenge. ZB HR connected us with amazing team members who share our vision. Game-changer!', rating: 5 },
 ];
 
 export default function Testimonials() {
-  const ref = useRef(null);
-  useEffect(() => {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    ref.current?.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
+  const [ref, inView] = useInView();
 
   return (
-    <section className="py-24 relative overflow-hidden bg-white" ref={ref}>
-      <div className="blob blob-mulberry hidden lg:block" style={{ width: 300, height: 300, top: '5%', left: '-5%', opacity: 0.08 }} />
-      <div className="blob blob-blue hidden lg:block" style={{ width: 250, height: 250, bottom: '5%', right: '-5%', opacity: 0.08 }} />
-
-      <div className="max-w-[1180px] mx-auto px-6 relative z-10">
-        <div className="reveal">
-          <SectionHeader tag="SUCCESS STORIES" title="What People Say" />
+    <section className="section-pad bg-white overflow-hidden">
+      <div className="container-pad">
+        <div className="text-center mb-12">
+          <span className="inline-flex items-center gap-1.5 bg-primary/10 text-primary font-semibold text-xs sm:text-sm px-4 py-1.5 rounded-full mb-4">
+            <i className="fas fa-quote-right text-primary/70 text-xs" /> CLIENT SUCCESS
+          </span>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-ink font-heading">What Our Clients Say</h2>
+          <p className="text-ink/60 text-lg mt-3 max-w-2xl mx-auto">Trusted by Lahore's leading businesses.</p>
         </div>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div ref={ref} className="grid md:grid-cols-3 gap-7">
           {testimonials.map((t, i) => (
-            <div key={i}
-              className="reveal bg-white rounded-2xl p-7 border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300"
-              style={{ borderColor: 'rgba(196,69,105,0.1)', transitionDelay: `${i * 0.1}s` }}>
-              {/* Stars */}
+            <div key={i} className={`bg-background rounded-2xl p-7 shadow-card hover:shadow-card-hover border border-primary/5 transition-all duration-500 hover:-translate-y-1 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              style={{ transitionDelay: `${i * 120}ms` }}>
               <div className="flex gap-1 mb-4">
-                {[...Array(5)].map((_, si) => (
-                  <i key={si} className={`fas fa-star text-sm ${si < t.rating ? '' : 'text-gray-200'}`}
-                    style={{ color: si < t.rating ? 'var(--color-cta)' : undefined }} />
+                {[...Array(t.rating)].map((_, j) => (
+                  <i key={j} className="fas fa-star text-cta text-sm" />
                 ))}
               </div>
-              {/* Quote */}
-              <p className="text-sm leading-relaxed mb-5" style={{ color: '#555' }}>
-                &ldquo;{t.text}&rdquo;
-              </p>
-              {/* Avatar overlap */}
-              <div className="flex items-center gap-4">
-                <div className="avatar-overlap">
-                  <div className="avatar-item">
-                    <img src={t.img} alt={t.name} className="w-full h-full object-cover"
-                      onError={(e) => { e.target.style.display = 'none'; }} />
-                  </div>
-                </div>
-                <div>
-                  <strong className="block text-sm text-[var(--color-ink)]">{t.name}</strong>
-                  <span className="text-xs" style={{ color: 'var(--color-primary)' }}>
-                    {t.role} &middot; {t.location}
-                  </span>
-                </div>
+              <p className="text-ink/70 text-sm leading-relaxed mb-6 italic">"{t.text}"</p>
+              <div className="pt-4 border-t border-primary/10">
+                <p className="font-bold text-ink text-sm font-heading">{t.name}</p>
+                <p className="text-xs text-secondary font-medium">{t.role}</p>
               </div>
             </div>
           ))}

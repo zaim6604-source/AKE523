@@ -1,66 +1,62 @@
-import { useEffect, useRef } from 'react';
-import SectionHeader from './SectionHeader';
+import useInView from '../hooks/useInView';
 
 const steps = [
-  { num: '01', icon: 'fa-pen-to-square',  title: 'Reach Out',         desc: 'Contact me via WhatsApp or fill the enquiry form. Tell me about your skills, experience, and desired country.' },
-  { num: '02', icon: 'fa-phone',          title: 'Consultation',      desc: 'I discuss your profile and preferences to identify the best job opportunities for you.' },
-  { num: '03', icon: 'fa-file-contract',  title: 'Documentation & Visa', desc: 'I help compile documents, coordinate medical checks, and guide you through the visa process.' },
-  { num: '04', icon: 'fa-plane',          title: 'Job Match & Offer', desc: 'I connect you with verified employers, arrange interviews, and help secure your job offer.' },
-  { num: '05', icon: 'fa-circle-check',   title: 'Departure',         desc: 'Pre-departure briefing, travel arrangements, and support to ensure a smooth start abroad.' },
+  { number: '01', title: 'Consultation & Needs Analysis', desc: 'We start by understanding your business needs or career goals through a detailed consultation.' },
+  { number: '02', title: 'Sourcing & Screening', desc: 'Our team sources and screens candidates or opportunities to find the perfect match.' },
+  { number: '03', title: 'Interviews & Shortlisting', desc: 'We coordinate interviews and help shortlist the best-fit candidates or positions.' },
+  { number: '04', title: 'Offer & Onboarding', desc: 'From offer negotiation to onboarding, we ensure a smooth transition for all parties.' },
+  { number: '05', title: 'Ongoing HR Support', desc: 'We provide continued HR support, check-ins, and follow-up to ensure lasting success.' },
 ];
 
 export default function Process() {
-  const ref = useRef(null);
-  useEffect(() => {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.08 });
-    ref.current?.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
+  const [ref, inView] = useInView();
 
   return (
-    <section id="process" className="py-24 relative overflow-hidden" ref={ref}
-      style={{ background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%)' }}>
-      {/* Pattern overlay */}
-      <div className="absolute inset-0 pointer-events-none"
+    <section id="process" className="relative overflow-hidden py-20 md:py-28">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-accent" style={{ transform: 'skewY(-3deg)', transformOrigin: 'top left' }} />
+      <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-accent" style={{ transform: 'skewY(3deg)', transformOrigin: 'bottom right' }} />
+      <div className="absolute inset-0 opacity-10"
         style={{
-          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0)',
-          backgroundSize: '32px 32px',
-        }} />
+          backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
+          backgroundSize: '30px 30px',
+        }}
+      />
 
-      <div className="max-w-[900px] mx-auto px-6 relative z-10">
-        <div className="reveal">
-          <SectionHeader tag="HOW IT WORKS" title="My 5-Step Process" light
-            sub="A simple, clear path from application to departure." />
+      <div className="relative z-10 container-pad">
+        <div className="text-center mb-14">
+          <span className="inline-flex items-center gap-1.5 bg-white/15 text-white font-semibold text-xs px-4 py-1.5 rounded-full mb-4">
+            <i className="fas fa-list-ol text-xs" />
+            HOW IT WORKS
+          </span>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-white font-heading">
+            Our Simple 5-Step Process
+          </h2>
+          <p className="text-white/70 text-lg mt-3 max-w-2xl mx-auto">
+            A streamlined approach to finding the right talent or the right role.
+          </p>
         </div>
 
-        <div className="relative">
-          {/* Connecting line */}
-          <div className="hidden lg:block absolute left-[42px] top-0 bottom-0 w-0.5 bg-white/30" />
-
-          <div className="flex flex-col gap-8">
-            {steps.map((s, i) => (
-              <div key={i}
-                className="reveal step-card relative flex flex-col sm:flex-row items-start gap-6 p-6 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 transition-all"
-                style={{ transitionDelay: `${i * 0.1}s` }}>
-
-                {/* Big number */}
-                <div className="flex-shrink-0 w-[84px] h-[84px] rounded-2xl flex flex-col items-center justify-center text-white font-black text-lg relative z-10 bg-white/20 backdrop-blur-sm border border-white/20">
-                  <span className="text-[0.5rem] font-bold uppercase tracking-wider opacity-70">Step</span>
-                  {s.num}
-                </div>
-
-                <div className="flex-1 min-w-0 pt-1">
-                  <div className="flex items-center gap-3 mb-1.5">
-                    <i className={`fas ${s.icon} text-white/80 text-sm`} />
-                    <h3 className="text-lg font-bold text-white">{s.title}</h3>
-                  </div>
-                  <p className="text-sm leading-[1.7] text-white/75">{s.desc}</p>
-                </div>
+        <div ref={ref} className="max-w-4xl mx-auto">
+          {steps.map((step, i) => (
+            <div
+              key={i}
+              className={`relative flex items-start mb-10 last:mb-0 transition-all duration-700 ${inView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}
+              style={{ transitionDelay: `${i * 120}ms` }}
+            >
+              <div className={`relative z-10 flex-shrink-0 w-14 h-14 rounded-full flex items-center justify-center font-heading font-extrabold text-xl shadow-lg border-4 border-white/30 ${i % 2 === 0 ? 'bg-cta text-ink' : 'bg-white text-primary'}`}>
+                {step.number}
               </div>
-            ))}
-          </div>
+
+              {i < steps.length - 1 && (
+                <div className="hidden md:block absolute left-7 top-14 w-0.5 h-16 bg-gradient-to-b from-white/40 to-transparent" />
+              )}
+
+              <div className="ml-6 flex-1 bg-white/10 backdrop-blur-sm rounded-2xl p-5 md:p-6 border border-white/10 hover:bg-white/15 transition-all duration-300">
+                <h3 className="font-bold text-white text-lg font-heading mb-2">{step.title}</h3>
+                <p className="text-white/70 text-sm leading-relaxed">{step.desc}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
