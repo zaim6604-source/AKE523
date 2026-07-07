@@ -1,160 +1,176 @@
-import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { useState } from "react";
 
-const contactDetails = [
+const WHATSAPP_NUMBER = "923445937116";
+
+const contactInfo = [
   {
-    icon: 'fa-location-dot',
-    label: 'Office Address',
-    value: '11-Kashmir Centre, Kutchery Road, Sialkot, Punjab',
-    color: 'bg-diver-primary',
+    icon: "fa-phone",
+    title: "Phone",
+    lines: ["0934-431312"],
+    href: "tel:+92934431312",
   },
   {
-    icon: 'fa-phone',
-    label: 'Phone Number',
-    value: '052-4290391',
-    href: 'tel:0524290391',
-    color: 'bg-diver-secondary',
+    icon: "fa-envelope",
+    title: "Email",
+    lines: ["info@afnanra.pk"],
+    href: "mailto:info@afnanra.pk",
   },
   {
-    icon: 'fa-envelope',
-    label: 'Email Address',
-    value: 'info@sialkottraders.pk',
-    href: 'mailto:info@sialkottraders.pk',
-    color: 'bg-diver-cta',
-  },
-  {
-    icon: 'fa-clock',
-    label: 'Working Hours',
-    value: 'Mon – Sat: 9:00 AM – 6:00 PM',
-    color: 'bg-diver-highlight',
+    icon: "fa-location-dot",
+    title: "Address",
+    lines: [
+      "Office No. 80, 2nd Floor, Mobi Plaza,",
+      "Haider Road, Opp. Ciro's Cinema,",
+      "Saddar, Rawalpindi, Punjab",
+    ],
+    href: "https://www.google.com/maps?q=Mobi+Plaza+Haider+Road+Saddar+Rawalpindi&hl=en&z=16&output=embed",
   },
 ];
 
 export default function Contact() {
-  const [ref, isVisible] = useScrollAnimation();
+  const [form, setForm] = useState({ name: "", phone: "", email: "", message: "" });
+
+  const handleChange = (e) =>
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const text = encodeURIComponent(
+      `Hello Afnan Recruiting Agency,\n\nName: ${form.name}\nPhone: ${form.phone}\nEmail: ${form.email}\n\nMessage:\n${form.message}`
+    );
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, "_blank");
+  };
 
   return (
-    <section id="contact" className="section-pad bg-white overflow-hidden">
-      <div className="container-pad">
-        <div className="text-center mb-12">
-          <span className="inline-flex items-center gap-1.5 bg-diver-primary/10 text-diver-primary font-semibold text-xs px-4 py-1.5 rounded-full mb-4 tracking-wider uppercase">
-            <i className="fas fa-address-card" />
-            Contact Us
+    <section id="contact" className="py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Pill */}
+        <div className="flex justify-center mb-14">
+          <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-primary/10 text-primary border border-primary/20">
+            GET IN TOUCH
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-diver-highlight font-heading">
-            Get in Touch
-          </h2>
-          <p className="text-gray-500 text-lg mt-3 max-w-2xl mx-auto">
-            Visit our office, give us a call, or send a message on WhatsApp.
-          </p>
         </div>
 
-        <div ref={ref} className="grid lg:grid-cols-2 gap-10 items-start">
-          {/* Left: Contact Cards + Form */}
-          <div className={`space-y-5 transition-all duration-700 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-            <h3 className="text-xl font-bold text-diver-highlight font-heading mb-6">
-              The Sialkot Traders
-            </h3>
-
-            {contactDetails.map((item, i) => (
-              <div
-                key={i}
-                className="flex items-start gap-4 p-5 rounded-2xl border border-gray-100 hover:border-diver-primary/20 hover:shadow-md transition-all duration-300 group"
-                style={{ transitionDelay: `${i * 80}ms` }}
+        <div className="grid lg:grid-cols-2 gap-12">
+          {/* Left — info + map */}
+          <div className="flex flex-col gap-6">
+            {contactInfo.map(({ icon, title, lines, href }) => (
+              <a
+                key={title}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-start gap-4 p-5 rounded-2xl transition-all duration-200 group bg-background border border-primary/10 hover:border-primary/30"
               >
-                <div className={`w-12 h-12 ${item.color} rounded-xl flex items-center justify-center flex-shrink-0 shadow-md group-hover:scale-110 transition-transform duration-300`}>
-                  <i className={`fas ${item.icon} text-white text-lg`} />
+                <div className="w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0 bg-primary/10 border border-primary/20">
+                  <i className={`fas ${icon} text-primary`}></i>
                 </div>
                 <div>
-                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
-                    {item.label}
-                  </p>
-                  {item.href ? (
-                    <a
-                      href={item.href}
-                      className="text-diver-highlight font-semibold hover:text-diver-primary transition-colors duration-200"
-                    >
-                      {item.value}
-                    </a>
-                  ) : (
-                    <p className="text-diver-highlight font-medium">{item.value}</p>
-                  )}
+                  <p className="text-xs font-bold uppercase tracking-widest mb-1 text-ink/50">{title}</p>
+                  {lines.map((line) => (
+                    <p key={line} className="text-sm font-medium leading-relaxed text-ink">{line}</p>
+                  ))}
                 </div>
-              </div>
+              </a>
             ))}
 
-            {/* WhatsApp CTA */}
-            <a
-              href="https://wa.me/923068860125"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 p-5 rounded-2xl bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold hover:from-green-600 hover:to-green-700 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 group"
-            >
-              <i className="fab fa-whatsapp text-3xl" />
-              <div>
-                <p className="text-sm opacity-90">Chat on WhatsApp</p>
-                <p className="text-base">+92 306-8860125</p>
-              </div>
-            </a>
-
-            {/* Quick Form */}
-            <div className="bg-diver-background rounded-2xl p-6 border border-diver-secondary/20">
-              <h4 className="font-bold text-diver-highlight text-sm mb-4 font-heading">Quick Message</h4>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  const form = e.target;
-                  const name = form.name.value;
-                  const phone = form.phone.value;
-                  const msg = encodeURIComponent(
-                    `Hello The Sialkot Traders!%0A%0AName: ${name}%0APhone: ${phone}%0AI am interested in overseas employment.`
-                  );
-                  window.open(`https://wa.me/923068860125?text=${msg}`, '_blank');
-                }}
-                className="space-y-3"
-              >
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Your Name"
-                  required
-                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-sm outline-none focus:border-diver-primary focus:ring-2 focus:ring-diver-primary/20"
-                />
-                <input
-                  type="tel"
-                  name="phone"
-                  placeholder="Phone Number"
-                  required
-                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-sm outline-none focus:border-diver-primary focus:ring-2 focus:ring-diver-primary/20"
-                />
-                <button
-                  type="submit"
-                  className="w-full bg-diver-cta hover:bg-diver-cta/90 text-white font-semibold py-3 rounded-xl text-sm transition-all duration-300 hover:shadow-lg flex items-center justify-center gap-2"
-                >
-                  <i className="fab fa-whatsapp" />
-                  Send via WhatsApp
-                </button>
-              </form>
-            </div>
-          </div>
-
-          {/* Right: Map */}
-          <div className={`transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-            <div className="rounded-3xl overflow-hidden shadow-xl border border-gray-100 h-80 lg:h-full min-h-[400px]">
+            {/* Map */}
+            <div className="rounded-2xl overflow-hidden h-64 border border-primary/10">
               <iframe
-                title="The Sialkot Traders Office Location"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3360.0!2d74.542!3d32.642!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzLCsDM4JzMxLjIiTiA3NMKwMzInMzEuMiJF!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s&q=Kashmir+Centre+Kutchery+Road+Sialkot"
+                title="Afnan Recruiting Agency Location"
                 width="100%"
                 height="100%"
-                style={{ border: 0, minHeight: '400px' }}
+                frameBorder="0"
+                style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
+                src="https://www.google.com/maps?q=Mobi+Plaza+Haider+Road+Saddar+Rawalpindi&hl=en&z=16&output=embed"
               />
             </div>
-            <p className="text-center text-sm text-gray-400 mt-3 flex items-center justify-center gap-1">
-              <i className="fas fa-location-dot text-diver-cta" />
-              Kashmir Centre, Kutchery Road, Sialkot
-            </p>
+          </div>
+
+          {/* Right — Inquiry Form */}
+          <div className="rounded-3xl p-8 bg-background border border-primary/10">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-primary/10 border border-primary/20">
+                <i className="fab fa-whatsapp text-primary"></i>
+              </div>
+              <div>
+                <h3 className="font-heading font-bold text-lg text-ink">Send an Inquiry</h3>
+                <p className="text-xs text-ink/50">Redirects to WhatsApp on submit</p>
+              </div>
+            </div>
+
+            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+              <div className="grid sm:grid-cols-2 gap-5">
+                <div>
+                  <label className="block text-xs font-bold mb-1.5 uppercase tracking-wide text-ink/70">
+                    Full Name <span className="text-primary">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
+                    required
+                    placeholder="Muhammad Ali"
+                    className="w-full px-4 py-3 rounded-xl text-sm placeholder-gray-400 transition bg-white border border-primary/15 text-ink outline-none focus:border-primary"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold mb-1.5 uppercase tracking-wide text-ink/70">
+                    Phone <span className="text-primary">*</span>
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={form.phone}
+                    onChange={handleChange}
+                    required
+                    placeholder="+92 300 0000000"
+                    className="w-full px-4 py-3 rounded-xl text-sm placeholder-gray-400 transition bg-white border border-primary/15 text-ink outline-none focus:border-primary"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold mb-1.5 uppercase tracking-wide text-ink/70">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  placeholder="you@example.com"
+                  className="w-full px-4 py-3 rounded-xl text-sm placeholder-gray-400 transition bg-white border border-primary/15 text-ink outline-none focus:border-primary"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold mb-1.5 uppercase tracking-wide text-ink/70">
+                  Message <span className="text-primary">*</span>
+                </label>
+                <textarea
+                  name="message"
+                  value={form.message}
+                  onChange={handleChange}
+                  required
+                  rows={5}
+                  placeholder="Describe your inquiry..."
+                  className="w-full px-4 py-3 rounded-xl text-sm placeholder-gray-400 transition resize-none bg-white border border-primary/15 text-ink outline-none focus:border-primary"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="flex items-center justify-center gap-2 w-full py-3.5 text-white font-bold rounded-xl transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5 bg-cta"
+              >
+                <i className="fas fa-paper-plane"></i>
+                Send via WhatsApp
+              </button>
+            </form>
           </div>
         </div>
       </div>

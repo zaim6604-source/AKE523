@@ -1,116 +1,119 @@
-import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { useState } from "react";
 
 const services = [
   {
-    title: 'Overseas Job Placement',
-    desc: 'We match skilled workers with verified employers in Gulf and European countries across multiple industries.',
-    icon: 'fa-briefcase',
-    bg: 'bg-diver-primary',
+    title: "Overseas Job Placement",
+    desc: "Connecting skilled Pakistani workers with reputable employers across the Gulf and Europe. End-to-end placement support.",
+    icon: "fa-briefcase",
+    color: "bg-primary",
+    img: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&q=80",
   },
   {
-    title: 'Visa Processing',
-    desc: 'Complete visa application support — from document preparation to embassy submission and follow-up.',
-    icon: 'fa-passport',
-    bg: 'bg-diver-secondary',
+    title: "Visa Processing",
+    desc: "Complete visa documentation and processing for work permits, ensuring compliance with destination country requirements.",
+    icon: "fa-passport",
+    color: "bg-secondary",
+    img: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=600&q=80",
   },
   {
-    title: 'Document Attestation',
-    desc: 'Educational certificate attestation, legalization, and translation services for overseas employment.',
-    icon: 'fa-file-signature',
-    bg: 'bg-diver-accent',
-    text: 'text-diver-highlight',
+    title: "Document Attestation",
+    desc: "Degree attestation, certificate verification, and embassy legalization services for overseas employment.",
+    icon: "fa-file-shield",
+    color: "bg-accent",
+    img: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&q=80",
   },
   {
-    title: 'Medical & Trade Test',
-    desc: 'Coordination of medical examinations and trade skill tests required by overseas employers.',
-    icon: 'fa-stethoscope',
-    bg: 'bg-diver-cta',
+    title: "Medical & Trade Test Coordination",
+    desc: "Scheduling and coordination of mandatory medical examinations and trade skill assessments.",
+    icon: "fa-stethoscope",
+    color: "bg-cta",
+    img: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&q=80",
   },
   {
-    title: 'Pre-Departure Orientation',
-    desc: 'Cultural awareness, language basics, and practical guidance for a smooth transition abroad.',
-    icon: 'fa-graduation-cap',
-    bg: 'bg-diver-highlight',
+    title: "Pre-Departure Orientation",
+    desc: "Cultural and practical orientation sessions preparing workers for life and work in their destination country.",
+    icon: "fa-chalkboard-user",
+    color: "bg-primary",
+    img: "https://images.unsplash.com/photo-1559223607-a43c990c692c?w=600&q=80",
   },
   {
-    title: 'Air Ticketing & Travel',
-    desc: 'Flight bookings, travel insurance, and airport assistance for departing workers.',
-    icon: 'fa-ticket-alt',
-    bg: 'bg-diver-primary',
+    title: "Air Ticketing & Travel Support",
+    desc: "Competitive airfare arrangements and travel logistics support for a smooth departure experience.",
+    icon: "fa-plane",
+    color: "bg-secondary",
+    img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600&q=80",
   },
   {
-    title: 'Employer Verification',
-    desc: 'We vet every employer to ensure legitimate contracts, fair wages, and safe working conditions.',
-    icon: 'fa-shield-halved',
-    bg: 'bg-diver-secondary',
+    title: "Employer Verification",
+    desc: "Thorough background verification of overseas employers to ensure legitimate and safe placement.",
+    icon: "fa-magnifying-glass",
+    color: "bg-accent",
+    img: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=600&q=80",
   },
   {
-    title: 'Manpower Supply',
-    desc: 'Bulk skilled and unskilled manpower supply for large-scale projects across industries.',
-    icon: 'fa-users-gear',
-    bg: 'bg-diver-accent',
-    text: 'text-diver-highlight',
+    title: "Skilled & Unskilled Manpower Supply",
+    desc: "Comprehensive workforce solutions providing skilled professionals and general laborers to overseas employers.",
+    icon: "fa-people-group",
+    color: "bg-cta",
+    img: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=80",
   },
 ];
 
-export default function Services() {
-  const [ref, isVisible] = useScrollAnimation();
-
-  return (
-    <section id="services" className="relative overflow-hidden bg-diver-background pb-16 md:pb-20">
-      {/* Wave SVG Top */}
-      <div className="wave-divider">
-        <svg viewBox="0 0 1440 100" preserveAspectRatio="none" className="w-full h-16 md:h-24">
-          <path
-            d="M0,50 C360,100 1080,0 1440,50 L1440,0 L0,0 Z"
-            fill="#EDF6F9"
-          />
-        </svg>
+function ImgWithFallback({ src, alt, className }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) {
+    return (
+      <div className={`${className} bg-gray-200 flex items-center justify-center`}>
+        <i className="fas fa-image text-gray-400 text-3xl"></i>
       </div>
+    );
+  }
+  return <img src={src} alt={alt} className={className} onError={() => setFailed(true)} loading="lazy" />;
+}
 
-      <div className="container-pad">
-        <div className="text-center mb-12">
-          <span className="inline-flex items-center gap-1.5 bg-diver-primary/10 text-diver-primary font-semibold text-xs px-4 py-1.5 rounded-full mb-4 tracking-wider uppercase">
-            <i className="fas fa-concierge-bell" />
-            Our Services
+export default function Services() {
+  return (
+    <section id="services" className="py-20 bg-background">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Pill */}
+        <div className="flex justify-center mb-14">
+          <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-primary/10 text-primary border border-primary/20">
+            OUR SERVICES
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-diver-highlight font-heading">
-            Complete Recruitment Services
-          </h2>
-          <p className="text-gray-500 text-lg mt-3 max-w-2xl mx-auto">
-            End-to-end overseas employment solutions under one roof.
-          </p>
         </div>
 
-        <div
-          ref={ref}
-          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5"
-        >
-          {services.map((s, i) => (
-            <div
-              key={i}
-              className={`group rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-xl ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-              }`}
-              style={{ transitionDelay: `${i * 60}ms` }}
-            >
-              {/* Curved top */}
-              <div className={`${s.bg} ${s.text || 'text-white'} pt-8 pb-6 px-6 relative`}>
-                <svg viewBox="0 0 200 60" className="absolute -top-1 left-0 w-full h-8" preserveAspectRatio="none">
-                  <path d="M0,30 C50,60 150,0 200,30 L200,0 L0,0 Z" fill="rgba(255,255,255,0.08)" />
-                </svg>
-                <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <i className={`fas ${s.icon} text-xl`} />
+        <div className="space-y-6">
+          {services.map((s, i) => {
+            const isLeft = i % 2 === 0;
+            return (
+              <div
+                key={s.title}
+                className={`flex flex-col md:flex-row rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 ${
+                  isLeft ? "" : "md:flex-row-reverse"
+                }`}
+              >
+                {/* Text side */}
+                <div className={`${s.color} text-white p-6 sm:p-8 md:p-10 flex-1 flex flex-col justify-center`}>
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center">
+                      <i className={`fas ${s.icon} text-lg`}></i>
+                    </div>
+                    <h3 className="font-heading text-lg sm:text-xl font-bold">{s.title}</h3>
+                  </div>
+                  <p className="text-white/80 text-sm sm:text-base leading-relaxed max-w-md">{s.desc}</p>
                 </div>
-                <h3 className="font-bold text-lg font-heading mb-2">{s.title}</h3>
-                <p className={`text-sm leading-relaxed ${s.text ? 'text-diver-highlight/70' : 'text-white/80'}`}>
-                  {s.desc}
-                </p>
+
+                {/* Image side */}
+                <div className="w-full md:w-72 lg:w-80 h-52 md:h-auto flex-shrink-0 overflow-hidden">
+                  <ImgWithFallback
+                    src={s.img}
+                    alt={s.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
               </div>
-              {/* Bottom white bar */}
-              <div className="h-1 bg-white" />
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

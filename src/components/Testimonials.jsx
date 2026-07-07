@@ -1,105 +1,142 @@
-import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { useState } from "react";
 
 const testimonials = [
   {
-    name: 'Ahmed Raza',
-    role: 'Construction Worker',
-    location: 'Now in Saudi Arabia',
-    text: 'The Sialkot Traders helped me find a great job in Riyadh. The whole process was smooth — from documentation to departure. Highly recommended!',
+    name: "Ahmed Raza",
+    role: "Construction Worker — Qatar",
+    quote: "Afnan Recruiting made the entire process smooth and transparent. From documentation to departure, they guided me at every step. I'm now working in Doha and earning well.",
     rating: 5,
   },
   {
-    name: 'Muhammad Usman',
-    role: 'Driver',
-    location: 'Now in UAE',
-    text: 'I was nervous about working abroad, but their team guided me every step. Got my visa in 3 weeks. Fair and honest service.',
+    name: "Muhammad Usman",
+    role: "Driver — Saudi Arabia",
+    quote: "I was hesitant about overseas work, but Afnan's team patiently answered all my questions. They found me a great driving position in Riyadh. Highly recommended!",
     rating: 5,
   },
   {
-    name: 'Bilal Ahmad',
-    role: 'Welder',
-    location: 'Now in Poland',
-    text: 'Professional team with real experience. They connected me with a verified employer in Poland. The pay is good and conditions are excellent.',
+    name: "Kamran Ali",
+    role: "Nurse — Germany",
+    quote: "The team handled my credential attestation, visa processing, and even arranged German language classes. Thanks to them, I'm now working at a hospital in Berlin.",
     rating: 5,
   },
   {
-    name: 'Sajid Mahmood',
-    role: 'Security Guard',
-    location: 'Now in Oman',
-    text: 'I applied through The Sialkot Traders and got placed in Muscat within a month. Everything was transparent — no hidden charges.',
+    name: "Sajid Mehmood",
+    role: "Factory Worker — Poland",
+    quote: "Professional, honest, and efficient. Afnan Recruiting helped me get a factory job in Warsaw within weeks. I'm grateful for their support throughout.",
     rating: 4,
   },
   {
-    name: 'Farhan Ali',
-    role: 'Hospitality Staff',
-    location: 'Now in Qatar',
-    text: 'Thanks to The Sialkot Traders, I have a secure job in Doha. They handled all paperwork and even arranged my flight. Very grateful.',
-    rating: 5,
-  },
-  {
-    name: 'Khalid Parvez',
-    role: 'Agriculture Worker',
-    location: 'Now in Italy',
-    text: 'Excellent service from start to finish. The team at Kutchery Road is professional and caring. They genuinely want the best for you.',
+    name: "Tariq Khan",
+    role: "Hospitality Staff — UAE",
+    quote: "From the initial consultation at their Saddar office to my flight to Dubai, everything was handled professionally. They truly care about their candidates.",
     rating: 5,
   },
 ];
 
 export default function Testimonials() {
-  const [ref, isVisible] = useScrollAnimation();
+  const [active, setActive] = useState(0);
+
+  const prev = () => setActive((a) => (a === 0 ? testimonials.length - 1 : a - 1));
+  const next = () => setActive((a) => (a === testimonials.length - 1 ? 0 : a + 1));
 
   return (
-    <section id="testimonials" className="section-pad bg-diver-background overflow-hidden">
-      <div className="container-pad">
-        <div className="text-center mb-12">
-          <span className="inline-flex items-center gap-1.5 bg-diver-primary/10 text-diver-primary font-semibold text-xs px-4 py-1.5 rounded-full mb-4 tracking-wider uppercase">
-            <i className="fas fa-star" />
-            Success Stories
+    <section id="testimonials" className="py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Pill */}
+        <div className="flex justify-center mb-14">
+          <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-primary/10 text-primary border border-primary/20">
+            SUCCESS STORIES
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-diver-highlight font-heading">
-            What Our Workers Say
-          </h2>
-          <p className="text-gray-500 text-lg mt-3 max-w-2xl mx-auto">
-            Real stories from workers we have placed overseas.
-          </p>
         </div>
 
-        {/* Offset Masonry */}
-        <div ref={ref} className="columns-1 sm:columns-2 lg:columns-3 gap-5 space-y-5">
-          {testimonials.map((t, i) => (
-            <div
-              key={i}
-              className={`break-inside-avoid bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1 border-l-4 border-diver-cta ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-              }`}
-              style={{ transitionDelay: `${i * 80}ms` }}
-            >
-              {/* Stars */}
-              <div className="flex gap-1 mb-3">
-                {[...Array(t.rating)].map((_, j) => (
-                  <i key={j} className="fas fa-star text-diver-accent text-sm" />
-                ))}
-                {[...Array(5 - t.rating)].map((_, j) => (
-                  <i key={j} className="far fa-star text-gray-300 text-sm" />
-                ))}
-              </div>
-
-              <p className="text-gray-600 text-sm leading-relaxed mb-4 italic">
-                "{t.text}"
-              </p>
-
-              <div className="pt-3 border-t border-gray-100">
-                <p className="font-bold text-diver-highlight text-sm font-heading">
-                  {t.name}
-                </p>
-                <p className="text-xs text-diver-primary font-medium">{t.role}</p>
-                <p className="text-xs text-gray-400 mt-0.5">
-                  <i className="fas fa-location-dot text-diver-cta mr-1" />
-                  {t.location}
-                </p>
-              </div>
+        <div className="max-w-4xl mx-auto">
+          {/* Coverflow carousel */}
+          <div className="relative overflow-hidden py-8">
+            <div className="flex items-center justify-center gap-4 perspective-[1000px]">
+              {testimonials.map((t, i) => {
+                const offset = i - active;
+                const isCenter = i === active;
+                return (
+                  <div
+                    key={i}
+                    onClick={() => setActive(i)}
+                    className={`transition-all duration-500 cursor-pointer flex-shrink-0 ${
+                      isCenter
+                        ? "scale-100 z-10 opacity-100 w-full max-w-lg"
+                        : Math.abs(offset) === 1
+                        ? "scale-85 opacity-50 w-40 hidden md:block"
+                        : "scale-75 opacity-20 w-24 hidden lg:block"
+                    }`}
+                    style={{
+                      transform: isCenter
+                        ? "scale(1) translateX(0)"
+                        : offset < 0
+                        ? `scale(0.85) translateX(${30 * offset}px)`
+                        : `scale(0.85) translateX(${30 * offset}px)`,
+                    }}
+                  >
+                    {isCenter ? (
+                      <div className="bg-background rounded-2xl p-6 md:p-8 shadow-md border border-primary/10 text-center">
+                        {/* Stars */}
+                        <div className="flex justify-center gap-1 mb-4">
+                          {[...Array(5)].map((_, s) => (
+                            <i
+                              key={s}
+                              className={`fas fa-star ${s < t.rating ? "text-secondary" : "text-gray-200"}`}
+                            ></i>
+                          ))}
+                        </div>
+                        <p className="text-ink/80 text-sm md:text-base leading-relaxed italic mb-6">
+                          &ldquo;{t.quote}&rdquo;
+                        </p>
+                        <div>
+                          <p className="font-heading font-bold text-ink">{t.name}</p>
+                          <p className="text-xs text-ink/50">{t.role}</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="bg-background/50 rounded-xl p-4 shadow border border-primary/5 text-center">
+                        <p className="text-xs text-ink/40 italic truncate">&ldquo;{t.quote.slice(0, 50)}...&rdquo;</p>
+                        <p className="text-xs font-semibold text-ink/60 mt-2">{t.name}</p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
-          ))}
+
+            {/* Navigation arrows */}
+            <div className="flex justify-center gap-4 mt-6">
+              <button
+                onClick={prev}
+                className="w-9 h-9 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all flex items-center justify-center"
+                aria-label="Previous"
+              >
+                <i className="fas fa-chevron-left text-sm"></i>
+              </button>
+              <button
+                onClick={next}
+                className="w-9 h-9 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all flex items-center justify-center"
+                aria-label="Next"
+              >
+                <i className="fas fa-chevron-right text-sm"></i>
+              </button>
+            </div>
+
+            {/* Dots */}
+            <div className="flex justify-center gap-2 mt-4">
+              {testimonials.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActive(i)}
+                  className={`w-2 h-2 rounded-full transition-all ${
+                    i === active ? "bg-primary w-6" : "bg-primary/30"
+                  }`}
+                  aria-label={`Go to testimonial ${i + 1}`}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

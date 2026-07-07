@@ -1,108 +1,80 @@
-import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { useState } from "react";
 
-const stats = [
-  { value: '3500+', label: 'Workers Placed', icon: 'fa-users' },
-  { value: '12+', label: 'Countries', icon: 'fa-globe-asia' },
-  { value: '15+', label: 'Years Experience', icon: 'fa-calendar-alt' },
-  { value: 'Licensed', label: 'Govt. Approved', icon: 'fa-certificate' },
-];
+function ImgWithFallback({ src, alt, className }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) {
+    return (
+      <div className={`${className} bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center`}>
+        <i className="fas fa-building text-primary/40 text-6xl"></i>
+      </div>
+    );
+  }
+  return <img src={src} alt={alt} className={className} onError={() => setFailed(true)} />;
+}
 
 const trustChips = [
-  'Govt. Licensed OEP 2196/SKT',
-  'Verified Gulf Employers',
-  'European Union Partners',
-  'Transparent Fee Structure',
-  'End-to-End Support',
-  'Pre-Departure Training',
+  { icon: "fa-certificate", label: "Govt. Licensed 2202/MLK" },
+  { icon: "fa-handshake", label: "Ethical Recruitment" },
+  { icon: "fa-clock", label: "Fast Processing" },
+  { icon: "fa-globe", label: "9+ Countries" },
 ];
 
 export default function About() {
-  const [sectionRef, isVisible] = useScrollAnimation();
-  const [cardRef, cardVisible] = useScrollAnimation();
-
   return (
-    <section id="about" className="relative overflow-hidden">
-      {/* Wide Banner */}
-      <div className="bg-diver-primary py-20 md:py-28">
-        <div className="container-pad text-center">
-          <span className="inline-flex items-center gap-1.5 bg-white/15 text-diver-accent font-semibold text-xs px-4 py-1.5 rounded-full mb-4 tracking-wider uppercase">
-            <i className="fas fa-building" />
-            Who We Are
+    <section id="about" className="py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Pill */}
+        <div className="flex justify-center mb-14">
+          <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-primary/10 text-primary border border-primary/20">
+            WHO WE ARE
           </span>
-          <h2 className="text-3xl md:text-5xl font-bold text-white font-heading max-w-3xl mx-auto">
-            Sialkot's Trusted Overseas Recruitment Agency
-          </h2>
-          <p className="text-diver-secondary/80 text-lg mt-4 max-w-2xl mx-auto">
-            Registered with the Government of Pakistan, we connect skilled workers
-            with verified employers across the Gulf and Europe.
-          </p>
         </div>
-      </div>
 
-      {/* Overlapping Card */}
-      <div className="relative -mt-16 z-10" ref={cardRef}>
-        <div className="container-pad">
-          <div className={`bg-white rounded-3xl shadow-xl p-8 md:p-12 max-w-5xl mx-auto transition-all duration-700 ${
-            cardVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}>
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div>
-                <img
-                  src="/src/assets/images/about-factory.jpg"
-                  alt="Sialkot manufacturing"
-                  className="rounded-2xl w-full h-64 md:h-80 object-cover shadow-lg"
-                  onError={(e) => { e.target.src = '/src/assets/images/gold-street/fallback.jpg'; }}
-                  loading="lazy"
-                />
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold text-diver-highlight font-heading mb-4">
-                  Licensed. Honest. Complete.
-                </h3>
-                <p className="text-gray-600 leading-relaxed mb-4">
-                  Based at Kutchery Road, Sialkot, we have been placing local talent
-                  with reliable overseas employers for over 15 years. Our team handles
-                  everything — from documentation to departure.
-                </p>
-                <p className="text-gray-600 leading-relaxed mb-6">
-                  We work only with verified employers and ensure every worker receives
-                  fair contracts, proper visas, and complete pre-departure support.
-                </p>
-
-                {/* Trust Chips */}
-                <div className="flex flex-wrap gap-2">
-                  {trustChips.map((chip, i) => (
-                    <span key={i} className="inline-flex items-center gap-1 bg-diver-background text-diver-primary text-xs font-medium px-3 py-1.5 rounded-full">
-                      <i className="fas fa-check-circle text-diver-secondary" />
-                      {chip}
-                    </span>
-                  ))}
-                </div>
-              </div>
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
+          {/* Image side */}
+          <div className="relative">
+            <div className="rounded-2xl overflow-hidden shadow-lg">
+              <ImgWithFallback
+                src="https://plus.unsplash.com/premium_photo-1661760902897-2495710199ec?w=800&q=80"
+                alt="Afnan Recruiting Agency team"
+                className="w-full h-80 sm:h-96 object-cover"
+              />
+            </div>
+            {/* Address caption */}
+            <div className="mt-4 bg-background rounded-xl p-4 shadow-sm border border-primary/10">
+              <p className="text-sm text-ink/70">
+                <i className="fas fa-location-dot text-primary mr-2"></i>
+                Office No. 80, 2nd Floor, Mobi Plaza, Haider Road, Opp. Ciro's Cinema, Saddar, Rawalpindi
+              </p>
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Stats Band */}
-      <div className="bg-diver-secondary py-14 md:py-18 mt-10" ref={sectionRef}>
-        <div className="container-pad">
-          <div className={`grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 transition-all duration-700 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}>
-            {stats.map((stat, i) => (
-              <div key={i} className="text-center group" style={{ transitionDelay: `${i * 100}ms` }}>
-                <div className="w-14 h-14 md:w-16 md:h-16 bg-diver-highlight/10 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 group-hover:bg-diver-highlight/20 transition-all duration-300">
-                  <i className={`fas ${stat.icon} text-2xl md:text-3xl text-diver-highlight`} />
-                </div>
-                <div className="text-3xl md:text-4xl font-extrabold text-diver-highlight font-heading mb-1">
-                  {stat.value}
-                </div>
-                <div className="text-sm md:text-base text-diver-highlight/70 font-medium">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
+          {/* Text content */}
+          <div>
+            <p className="text-ink/70 mb-6 leading-relaxed">
+              Based at <strong>Mobi Plaza, Haider Road, Saddar, Rawalpindi</strong>, Afnan
+              Recruiting Agency (License <strong>2202/MLK</strong>) is a government-licensed
+              recruitment firm dedicated to connecting Pakistani workers with trusted employers across
+              the Gulf and Europe.
+            </p>
+            <p className="text-ink/70 mb-8 leading-relaxed">
+              With over 12 years of experience, we provide clear, end-to-end recruitment services
+              — from documentation and visa processing to pre-departure orientation and travel support.
+              Our commitment to honesty and transparency sets us apart.
+            </p>
+
+            {/* Trust chips */}
+            <div className="flex flex-wrap gap-3">
+              {trustChips.map((chip) => (
+                <span
+                  key={chip.label}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/15"
+                >
+                  <i className={`fas ${chip.icon} text-[10px]`}></i>
+                  {chip.label}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </div>

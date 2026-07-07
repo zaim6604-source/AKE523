@@ -1,89 +1,174 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer base {
-  html {
-    scroll-behavior: smooth;
-  }
-  body {
-    @apply font-sans text-gray-700 bg-diver-background antialiased;
-    margin: 0;
-  }
-  #root {
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    text-align: left;
-    border-inline: none;
-  }
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-heading;
-    font-size: unset;
-    letter-spacing: unset;
-    margin: unset;
-    font-weight: unset;
-    color: unset;
-  }
-  p { margin: 0; }
+@theme {
+  --color-primary: #FF1654;
+  --color-secondary: #FFD400;
+  --color-accent: #247BA0;
+  --color-cta: #70C1B3;
+  --color-highlight: #D60046;
+  --color-background: #FFF3E0;
+  --color-ink: #152935;
+  --font-heading: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Inter', sans-serif;
 }
 
-@layer components {
-  .section-pad {
-    @apply py-16 md:py-20;
-  }
-  .container-pad {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
-  }
-  .pill-badge {
-    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold tracking-wider uppercase;
-  }
+* {
+  box-sizing: border-box;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #EDF6F9; }
-::-webkit-scrollbar-thumb { background: #006D77; border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: #003844; }
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-ink);
+}
 
-/* Marquee */
-.marquee-track {
-  display: flex;
-  animation: marquee 30s linear infinite;
-  gap: 2rem;
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
-.marquee-track:hover {
-  animation-play-state: paused;
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  text-align: left;
+  border: none;
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ===== Animations ===== */
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
-/* Wave divider */
-.wave-divider {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  line-height: 0;
+@keyframes sunPulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
 }
 
-/* Anchor timeline */
-.timeline-anchor {
-  position: relative;
+@keyframes coverflowFocus {
+  0% { transform: scale(0.85) translateX(30px); opacity: 0.6; }
+  50% { transform: scale(1) translateX(0); opacity: 1; }
+  100% { transform: scale(0.85) translateX(-30px); opacity: 0.6; }
 }
-.timeline-anchor::before {
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-fade-in-up-delay-1 {
+  animation: fadeInUp 0.6s ease-out 0.15s forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-up-delay-2 {
+  animation: fadeInUp 0.6s ease-out 0.3s forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-up-delay-3 {
+  animation: fadeInUp 0.6s ease-out 0.45s forwards;
+  opacity: 0;
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Sunburst rays */
+.sunburst {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.sunburst::before {
   content: '';
   position: absolute;
-  left: 50%;
+  inset: -50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(255, 22, 84, 0.08) 10deg,
+    transparent 20deg,
+    rgba(255, 212, 0, 0.06) 30deg,
+    transparent 40deg,
+    rgba(255, 22, 84, 0.05) 50deg,
+    transparent 60deg,
+    rgba(255, 212, 0, 0.07) 70deg,
+    transparent 80deg,
+    rgba(255, 22, 84, 0.06) 90deg,
+    transparent 100deg,
+    rgba(255, 212, 0, 0.05) 110deg,
+    transparent 120deg,
+    rgba(255, 22, 84, 0.08) 130deg,
+    transparent 140deg,
+    rgba(255, 212, 0, 0.06) 150deg,
+    transparent 160deg,
+    rgba(255, 22, 84, 0.05) 170deg,
+    transparent 180deg,
+    rgba(255, 212, 0, 0.07) 190deg,
+    transparent 200deg,
+    rgba(255, 22, 84, 0.06) 210deg,
+    transparent 220deg,
+    rgba(255, 212, 0, 0.05) 230deg,
+    transparent 240deg,
+    rgba(255, 22, 84, 0.08) 250deg,
+    transparent 260deg,
+    rgba(255, 212, 0, 0.06) 270deg,
+    transparent 280deg,
+    rgba(255, 22, 84, 0.05) 290deg,
+    transparent 300deg,
+    rgba(255, 212, 0, 0.07) 310deg,
+    transparent 320deg,
+    rgba(255, 22, 84, 0.06) 330deg,
+    transparent 340deg,
+    rgba(255, 212, 0, 0.05) 350deg,
+    transparent 360deg
+  );
+  animation: sunPulse 8s ease-in-out infinite;
+}
+
+/* Staircase process */
+.staircase-step {
+  position: relative;
+}
+
+.staircase-step::before {
+  content: '';
+  position: absolute;
   top: 0;
   bottom: 0;
   width: 3px;
-  background: linear-gradient(to bottom, #006D77, #E29578);
-  transform: translateX(-50%);
+  background: linear-gradient(to bottom, #FF1654, #247BA0);
 }
 
-/* Image fallback */
-img {
-  transition: opacity 0.3s ease;
-}
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #FFF3E0; }
+::-webkit-scrollbar-thumb { background: #FF1654; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #D60046; }
