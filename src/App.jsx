@@ -1,75 +1,45 @@
+import './index.css';
 import Navbar from './components/Navbar';
 import Marquee from './components/Marquee';
 import Hero from './components/Hero';
+import Stats from './components/Stats';
 import About from './components/About';
-import Services from './components/Services';
-import ThinkHR from './components/ThinkHR';
 import Sectors from './components/Sectors';
+import Services from './components/Services';
 import Process from './components/Process';
-import WhyUs from './components/WhyUs';
+import WhyChooseUs from './components/WhyChooseUs';
 import Testimonials from './components/Testimonials';
 import Gallery from './components/Gallery';
 import CTABand from './components/CTABand';
+import ContactForm from './components/ContactForm';
 import Contact from './components/Contact';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
-import FloatingWidget from './components/FloatingWidget';
+import QuickApply from './components/QuickApply';
 
 function App() {
   return (
     <>
       <Navbar />
+      <Marquee />
       <main>
         <Hero />
-        <Marquee />
-        <StatsBand />
+        <Stats />
         <About />
-        <Services />
-        <ThinkHR />
         <Sectors />
+        <Services />
         <Process />
-        <WhyUs />
+        <WhyChooseUs />
         <Testimonials />
         <Gallery />
         <CTABand />
+        <ContactForm />
         <Contact />
         <FAQ />
       </main>
       <Footer />
-      <FloatingWidget />
+      <QuickApply />
     </>
-  );
-}
-
-function StatsBand() {
-  return (
-    <div style={{ background: '#006BA6', padding: '52px 24px' }}>
-      <div className="st-grid-inner" style={{ maxWidth: 1000, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 0 }}>
-        {[
-          { n: '150+', l: 'Organizations Served', c: '#FFBC42' },
-          { n: '5,000+', l: 'Professionals Trained', c: '#FFBC42' },
-          { n: '2,000+', l: 'Roles Filled', c: '#FFBC42' },
-          { n: '15+', l: 'Years of Expertise', c: '#FFBC42' },
-        ].map((s, i) => (
-          <div key={i} style={{
-            textAlign: 'center', padding: '0 16px',
-            borderRight: i < 3 ? '1px solid rgba(255,255,255,.15)' : 'none',
-          }}>
-            <div style={{ fontFamily: '"Plus Jakarta Sans",sans-serif', fontWeight: 900, fontSize: 'clamp(28px,3.5vw,42px)', color: s.c, lineHeight: 1, marginBottom: 6 }}>
-              {s.n}
-            </div>
-            <div style={{ fontSize: 13, fontWeight: 500, color: 'rgba(255,255,255,.85)' }}>
-              {s.l}
-            </div>
-          </div>
-        ))}
-      </div>
-      <style>{`
-        @media(max-width:640px){
-          .st-grid-inner { grid-template-columns:repeat(2,1fr) !important; gap:24px !important; }
-        }
-      `}</style>
-    </div>
   );
 }
 

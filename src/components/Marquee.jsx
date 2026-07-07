@@ -1,27 +1,99 @@
 export default function Marquee() {
+  const trades = [
+    '★ Welder',
+    'Electrician',
+    'Plumber',
+    'Mason',
+    'Steel Fixer',
+    'AC Technician',
+    'Heavy Driver',
+    'Pipe Fitter',
+    'Painter',
+    'Duct Man',
+    'Auto Mechanic',
+    'Shuttering Carpenter',
+  ];
+
   return (
-    <>
-      <style>{`
-        .mq-wrap { background:#006BA6; overflow:hidden; padding:12px 0; border-top:1px solid rgba(255,255,255,.10); border-bottom:1px solid rgba(255,255,255,.10); }
-        .mq-track { display:flex; gap:48px; white-space:nowrap; animation:marquee 30s linear infinite; width:max-content; }
-        .mq-item { font-size:13px; font-weight:600; letter-spacing:.02em; color:#fff; display:flex; align-items:center; gap:12px; }
-        .mq-item span { color:#FFBC42; }
-        @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-      `}</style>
-      <div className="mq-wrap">
-        <div className="mq-track">
-          {[...Array(2)].map((_, idx) => (
-            <div key={idx} style={{ display: 'flex', gap: 48 }}>
-              <span className="mq-item">◆ <span>Staff & Payroll Outsourcing</span></span>
-              <span className="mq-item">• <span>Recruitment & Executive Search</span></span>
-              <span className="mq-item">• <span>Blended Learning & Training</span></span>
-              <span className="mq-item">• <span>Org Design & Restructuring</span></span>
-              <span className="mq-item">• <span>Leadership Development</span></span>
-              <span className="mq-item">◆ <span>Karachi</span></span>
-            </div>
-          ))}
-        </div>
+    <div
+      style={{
+        background: '#FF206E',
+        padding: '10px 0',
+        overflow: 'hidden',
+        position: 'relative',
+        zIndex: 5,
+        marginTop: '5rem'
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          whiteSpace: 'nowrap',
+          animation: 'marquee 32s linear infinite',
+          gap: 0,
+        }}
+      >
+        {[...Array(2)].map((_, dup) => (
+          <div
+            key={dup}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 0,
+              flexShrink: 0,
+            }}
+          >
+            {trades.map((trade, i) => (
+              <span
+                key={`${dup}-${i}`}
+                style={{
+                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontWeight: 700,
+                  fontSize: 14,
+                  color: i % 2 === 0 ? '#fff' : '#FBFF12',
+                  marginRight: 40,
+                  letterSpacing: '0.03em',
+                }}
+              >
+                {trade}
+              </span>
+            ))}
+            <span
+              style={{
+                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontWeight: 700,
+                fontSize: 14,
+                color: '#FBFF12',
+                marginRight: 40,
+              }}
+            >
+              ★ Training & Trade Testing
+            </span>
+            <span
+              style={{
+                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontWeight: 700,
+                fontSize: 14,
+                color: '#fff',
+                marginRight: 40,
+              }}
+            >
+              ★ Mardan
+            </span>
+            <span
+              style={{
+                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontWeight: 700,
+                fontSize: 14,
+                color: '#FBFF12',
+                marginRight: 40,
+              }}
+            >
+              ★ Certificates Issued
+            </span>
+          </div>
+        ))}
       </div>
-    </>
+    </div>
   );
 }

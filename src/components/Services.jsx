@@ -1,91 +1,193 @@
-import { useEffect, useRef } from 'react';
-import { Users, DollarSign, Search, GraduationCap, Building2, GitBranch, Award, Shield } from 'lucide-react';
+import { useEffect } from 'react';
+import { Wrench, ClipboardCheck, Award, Compass, Settings, BookOpen } from 'lucide-react';
 
-const services = [
-  { Icon: Users, title: 'Staff Outsourcing', desc: 'Flexible, vetted staffing solutions to meet your operational needs with speed and quality.', color: '#006BA6' },
-  { Icon: DollarSign, title: 'Payroll Outsourcing', desc: 'End-to-end payroll management — accurate, compliant, and hassle-free for your business.', color: '#0496FF' },
-  { Icon: Search, title: 'Recruitment & Executive Search', desc: 'Talent acquisition from entry-level to C-suite, leveraging our extensive network and research.', color: '#FFBC42' },
-  { Icon: GraduationCap, title: 'Blended Learning & Training', desc: 'Innovative learning programs combining digital and in-person modalities for maximum impact.', color: '#D81159' },
-  { Icon: Building2, title: 'HR Management Solutions', desc: 'Comprehensive HR systems, processes, and frameworks tailored to your organization.', color: '#00897B' },
-  { Icon: GitBranch, title: 'Organization Development', desc: 'Strategic OD interventions to enhance effectiveness, culture, and performance.', color: '#006BA6' },
-  { Icon: Award, title: 'Talent Assessment', desc: 'Psychometric testing, skills assessment, and competency mapping for informed decisions.', color: '#0496FF' },
-  { Icon: Shield, title: 'HR Advisory & Compliance', desc: 'Expert guidance on labor laws, policy development, and regulatory compliance.', color: '#FFBC42' },
+const offerings = [
+  {
+    icon: Wrench,
+    title: 'Technical Skill Training',
+    desc: 'Hands-on practical training in welding, electrical, plumbing, masonry, and more. Our workshops are equipped with real tools and industry-standard equipment.',
+    accent: '#FF206E',
+  },
+  {
+    icon: ClipboardCheck,
+    title: 'Trade Testing & Skill Assessment',
+    desc: 'Professional trade testing to assess candidates against international standards. Practical exams with qualified assessors.',
+    accent: '#41EAD4',
+  },
+  {
+    icon: Award,
+    title: 'Trade Test Certificate',
+    desc: 'Recognised certificates issued after successful completion of trade tests. Valid documentation for local and overseas employment.',
+    accent: '#FBFF12',
+  },
+  {
+    icon: Compass,
+    title: 'Pre-Departure Skill Prep',
+    desc: 'Targeted skill preparation for workers planning to go abroad. Covers trade-specific techniques, safety standards, and workplace expectations.',
+    accent: '#FF6B35',
+  },
+  {
+    icon: Settings,
+    title: 'Employer-Specific Test Setups',
+    desc: 'Custom trade test setups designed to match specific employer requirements. We tailor assessments to client standards.',
+    accent: '#7B2D8E',
+  },
+  {
+    icon: BookOpen,
+    title: 'Short Courses & Refreshers',
+    desc: 'Quick upskilling courses and refresher modules for experienced workers looking to update their skills or learn new techniques.',
+    accent: '#FF206E',
+  },
 ];
 
 export default function Services() {
-  const ref = useRef(null);
-
   useEffect(() => {
-    const obs = new IntersectionObserver(
-      (e) => e.forEach(en => { if (en.isIntersecting) en.target.classList.add('show'); }),
-      { threshold: 0.1 }
+    const els = document.querySelectorAll('.sv-reveal');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('show');
+            observer.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
     );
-    ref.current?.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el => obs.observe(el));
-    return () => obs.disconnect();
+    els.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
   }, []);
 
-  const wa = () => window.open('https://wa.me/923121124692', '_blank');
-
   return (
-    <>
-      <style>{`
-        .sv-section { background:#E6F3FB; padding:96px 24px; }
-        .sv-inner { max-width:1200px; margin:0 auto; }
-        .sv-masonry { columns: 2; column-gap: 20px; }
-        @media(max-width:768px){ .sv-masonry{columns:1} }
-        .sv-card { break-inside:avoid; margin-bottom:20px; border-radius:20px; padding:32px 28px; transition:transform .35s,box-shadow .35s; cursor:default; display:inline-block; width:100%; }
-        .sv-card:hover { transform:translateY(-6px); box-shadow:0 16px 48px rgba(0,0,0,.10); }
-        .sv-card-icon { width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px; }
-        .sv-card-title { font-family:"Plus Jakarta Sans",sans-serif;font-weight:800;font-size:17px;margin-bottom:8px; }
-        .sv-card-desc { font-size:14px;line-height:1.7; }
-      `}</style>
+    <section
+      id="training"
+      style={{
+        padding: 'clamp(80px,10vw,130px) 24px',
+        background: '#fff',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      <div
+        style={{
+          position: 'absolute',
+          bottom: -180,
+          left: -180,
+          width: 500,
+          height: 500,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(255,32,110,0.05), transparent 70%)',
+          pointerEvents: 'none',
+        }}
+      />
 
-      <section id="services" className="sv-section" ref={ref}>
-        <div className="sv-inner">
-          {/* Header */}
-          <div style={{ textAlign: 'center', marginBottom: 56 }} className="reveal">
-            <div className="pill-badge" style={{ margin: '0 auto 18px' }}>
-              <span className="pill-dot" />
-              OUR SERVICES
-            </div>
-            <h2 style={{ fontFamily: '"Plus Jakarta Sans",sans-serif', fontWeight: 900, fontSize: 'clamp(30px,4vw,46px)', color: '#06283D', marginBottom: 16 }}>
-              Comprehensive <span style={{ color: '#006BA6' }}>HR Solutions</span>
-            </h2>
-            <p style={{ color: '#555', fontSize: 16, maxWidth: 560, margin: '0 auto', lineHeight: 1.7 }}>
-              From outsourcing to executive search and strategic consulting — everything you need under one roof.
-            </p>
-          </div>
+      <div className="section-container">
+        <div
+          className="sv-reveal reveal"
+          style={{ textAlign: 'center', marginBottom: 64 }}
+        >
+          <span className="pill-badge">TRAINING & TESTING</span>
+          <h2
+            style={{
+              fontFamily: 'Plus Jakarta Sans, sans-serif',
+              fontWeight: 800,
+              fontSize: 'clamp(28px,5vw,46px)',
+              color: '#1A1423',
+              marginTop: 16,
+              marginBottom: 16,
+              letterSpacing: '-0.8px',
+            }}
+          >
+            What We{' '}
+            <span style={{ color: '#FF206E' }}>Offer</span>
+          </h2>
+          <p
+            style={{
+              fontSize: 16,
+              color: '#4B4453',
+              maxWidth: 520,
+              margin: '0 auto',
+              lineHeight: 1.7,
+              fontFamily: 'Inter, sans-serif',
+            }}
+          >
+            From hands-on training to professional certification — we cover the full cycle of trade skill development.
+          </p>
+        </div>
 
-          {/* Masonry grid */}
-          <div className="sv-masonry">
-            {services.map((s, i) => (
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
+            gap: 24,
+          }}
+        >
+          {offerings.map((s, i) => {
+            const Icon = s.icon;
+            return (
               <div
-                key={i}
-                className="sv-card reveal"
+                key={s.title}
+                className="sv-reveal reveal"
                 style={{
-                  background: `${s.color}${i % 3 === 0 ? '15' : i % 3 === 1 ? '0D' : '0A'}`,
-                  border: `1px solid ${s.color}20`,
-                  transitionDelay: `${(i % 4) * 0.08}s`,
+                  borderRadius: 20,
+                  border: `1px solid ${s.accent}20`,
+                  boxShadow: `0 4px 24px ${s.accent}10`,
+                  background: '#fff',
+                  padding: '32px 24px',
+                  transition: 'transform 0.3s, box-shadow 0.3s',
+                  transitionDelay: `${i * 0.08}s`,
+                  cursor: 'default',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-6px)';
+                  e.currentTarget.style.boxShadow = `0 16px 48px ${s.accent}20`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = `0 4px 24px ${s.accent}10`;
                 }}
               >
-                <div className="sv-card-icon" style={{ background: `${s.color}18` }}>
-                  <s.Icon size={22} color={s.color} strokeWidth={2} />
+                <div
+                  style={{
+                    width: 52,
+                    height: 52,
+                    borderRadius: 14,
+                    background: `${s.accent}15`,
+                    border: `1px solid ${s.accent}25`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: 18,
+                  }}
+                >
+                  <Icon size={24} color={s.accent} />
                 </div>
-                <div className="sv-card-title" style={{ color: s.color }}>{s.title}</div>
-                <div className="sv-card-desc" style={{ color: '#555' }}>{s.desc}</div>
+                <h3
+                  style={{
+                    fontFamily: 'Plus Jakarta Sans, sans-serif',
+                    fontWeight: 700,
+                    fontSize: 18,
+                    color: '#1A1423',
+                    marginBottom: 10,
+                  }}
+                >
+                  {s.title}
+                </h3>
+                <p
+                  style={{
+                    fontSize: 14,
+                    color: '#4B4453',
+                    lineHeight: 1.7,
+                    fontFamily: 'Inter, sans-serif',
+                  }}
+                >
+                  {s.desc}
+                </p>
               </div>
-            ))}
-          </div>
-
-          {/* CTA */}
-          <div className="reveal" style={{ textAlign: 'center', marginTop: 48 }}>
-            <button className="btn-cta" onClick={wa} style={{ fontSize: 15, padding: '15px 32px' }}>
-              Enquire About Our Services
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-            </button>
-          </div>
+            );
+          })}
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

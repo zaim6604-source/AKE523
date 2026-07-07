@@ -1,61 +1,91 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
-export default function Stats() {
-  const [counts, setCounts] = useState({ served: 0, trained: 0, filled: 0, years: 0 });
+const stats = [
+  { n: '5000+', l: 'Trainees & Tested' },
+  { n: '15+', l: 'Trades Covered' },
+  { n: '10,000+', l: 'Certificates Issued' },
+  { n: '8+', l: 'Years of Service' },
+];
+
+function AnimatedCounter({ end, suffix }) {
+  const ref = useRef(null);
+  const counted = useRef(false);
 
   useEffect(() => {
-    const targets = { served: 150, trained: 5000, filled: 2000, years: 15 };
-    const duration = 2000;
-    const steps = 40;
-    let step = 0;
-    const timer = setInterval(() => {
-      step++;
-      setCounts({
-        served: Math.min(Math.floor((targets.served / steps) * step), targets.served),
-        trained: Math.min(Math.floor((targets.trained / steps) * step), targets.trained),
-        filled: Math.min(Math.floor((targets.filled / steps) * step), targets.filled),
-        years: Math.min(Math.floor((targets.years / steps) * step), targets.years),
-      });
-      if (step >= steps) clearInterval(timer);
-    }, duration / steps);
-    return () => clearInterval(timer);
-  }, []);
+    const el = ref.current;
+    if (!el) return;
 
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !counted.current) {
+          counted.current = true;
+          let current = 0;
+          const step = Math.ceil(end / 40);
+          const timer = setInterval(() => {
+            current += step;
+            if (current >= end) {
+              current = end;
+              clearInterval(timer);
+            }
+            if (el) el.textContent = current.toLocaleString() + suffix;
+          }, 30);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [end, suffix]);
+
+  return <span ref={ref}>0{suffix}</span>;
+}
+
+export default function Stats() {
   return (
-    <>
-      <style>{`
-        .st-section { background:#006BA6; padding:56px 24px; }
-        .st-inner { max-width:1000px; margin:0 auto; }
-        .st-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:0; }
-        @media(max-width:640px){ .st-grid{grid-template-columns:repeat(2,1fr);gap:24px} }
-        .st-item { text-align:center; padding:0 16px; }
-        .st-item:not(:last-child) { border-right:1px solid rgba(255,255,255,.15); }
-        @media(max-width:640px){ .st-item:nth-child(2){border-right:none} .st-item:nth-child(3){border-right:1px solid rgba(255,255,255,.15)} }
-        .st-num { font-family:"Plus Jakarta Sans",sans-serif;font-weight:900;font-size:clamp(28px,3.5vw,42px);color:#FFBC42;line-height:1;margin-bottom:6px; }
-        .st-label { font-size:13px;font-weight:500;color:rgba(255,255,255,.85);letter-spacing:.02em; }
-      `}</style>
-      <div className="st-section">
-        <div className="st-inner">
-          <div className="st-grid">
-            <div className="st-item">
-              <div className="st-num">{counts.served}+</div>
-              <div className="st-label">Organizations Served</div>
+    <section
+      style={{
+        background: '#FF206E',
+        padding: '48px 24px',
+      }}
+    >
+      <div
+        className="section-container"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))',
+          gap: 32,
+          textAlign: 'center',
+        }}
+      >
+        {stats.map((s) => (
+          <div key={s.l}>
+            <div
+              style={{
+                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontWeight: 800,
+                fontSize: 'clamp(28px, 4vw, 40px)',
+                color: '#fff',
+                lineHeight: 1,
+                marginBottom: 6,
+              }}
+            >
+              <AnimatedCounter end={parseInt(s.n)} suffix={s.n.replace(/[\d,]/g, '')} />
             </div>
-            <div className="st-item">
-              <div className="st-num">{counts.trained.toLocaleString()}+</div>
-              <div className="st-label">Professionals Trained</div>
-            </div>
-            <div className="st-item">
-              <div className="st-num">{counts.filled.toLocaleString()}+</div>
-              <div className="st-label">Roles Filled</div>
-            </div>
-            <div className="st-item">
-              <div className="st-num">{counts.years}+</div>
-              <div className="st-label">Years of Expertise</div>
+            <div
+              style={{
+                fontSize: 13,
+                color: '#FBFF12',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 600,
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase',
+              }}
+            >
+              {s.l}
             </div>
           </div>
-        </div>
+        ))}
       </div>
-    </>
+    </section>
   );
 }

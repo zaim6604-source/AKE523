@@ -1,84 +1,60 @@
-import useInView from '../hooks/useInView';
-import { Search, ClipboardList, Settings, Users, RefreshCw } from 'lucide-react';
+import useReveal from '../hooks/useReveal';
+import { FaUserPlus, FaTools, FaClipboardCheck, FaChartBar, FaCertificate } from 'react-icons/fa';
 
-const steps = [
-  { num: '01', Icon: Search, title: 'Discovery & Diagnostics', desc: 'We dive deep into your HR landscape — understanding challenges, goals, and opportunities through assessments and stakeholder interviews.' },
-  { num: '02', Icon: ClipboardList, title: 'Strategy & Solution Design', desc: 'A tailored roadmap is crafted with clear objectives, timelines, and measurable outcomes aligned to your business strategy.' },
-  { num: '03', Icon: Settings, title: 'Implementation', desc: 'Our team works alongside yours to deploy solutions seamlessly — from new processes to technology platforms and training programs.' },
-  { num: '04', Icon: Users, title: 'Enablement & Training', desc: 'We build capability within your teams through targeted training, coaching, and knowledge transfer for lasting impact.' },
-  { num: '05', Icon: RefreshCw, title: 'Review & Continuous Support', desc: 'Ongoing evaluation, feedback loops, and iterative improvements ensure your HR practices stay effective and relevant.' },
+const STEPS = [
+  { icon: FaUserPlus, title: 'Register & Pick a Trade', desc: 'Sign up and choose the trade you want to be trained or tested in.' },
+  { icon: FaTools, title: 'Training / Skill Prep', desc: 'Hands-on training with experienced instructors using real workshop equipment.' },
+  { icon: FaClipboardCheck, title: 'Practical Trade Test', desc: 'Undergo a thorough practical assessment based on industry standards.' },
+  { icon: FaChartBar, title: 'Assessment & Grading', desc: 'Your performance is evaluated and graded by certified assessors.' },
+  { icon: FaCertificate, title: 'Certificate Issued', desc: 'Receive a recognised trade test certificate upon successful completion.' },
 ];
 
+const STEP_COLORS = ['#FF206E', '#FF6B35', '#41EAD4', '#7B2D8E', '#FBFF12'];
+
 export default function Process() {
-  const [ref, inView] = useInView();
+  useReveal('.prc-reveal');
 
   return (
-    <>
-      <style>{`
-        .pr-section { padding:96px 24px; position:relative; overflow:hidden; }
-        .pr-inner { max-width:1200px; margin:0 auto; position:relative; z-index:10; }
-        .pr-steps { display:grid; grid-template-columns:repeat(5,1fr); gap:0; position:relative; }
-        @media(max-width:1024px){ .pr-steps{grid-template-columns:repeat(3,1fr); gap:16px} }
-        @media(max-width:640px){ .pr-steps{grid-template-columns:1fr; max-width:400px; margin:0 auto} }
-        .pr-step { text-align:center; padding:32px 16px; position:relative; }
-        .pr-arrow { display:flex; align-items:center; position:absolute; right:-12px; top:50%; transform:translateY(-50%); color:#FFBC42; font-size:20px; opacity:.6; z-index:5; }
-        @media(max-width:1024px){ .pr-arrow{display:none} }
-        .pr-circle { width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 4px 16px rgba(0,0,0,.15); }
-        .pr-title { font-family:"Plus Jakarta Sans",sans-serif;font-weight:800;font-size:15px;margin-bottom:8px;color:#fff; }
-        .pr-desc { font-size:13px;line-height:1.65;color:rgba(255,255,255,.85); }
-      `}</style>
-
-      <section id="process" className="pr-section" ref={ref}>
-        {/* Diagonal background */}
-        <div style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
-          <div style={{
-            position: 'absolute', inset: 0,
-            background: 'linear-gradient(160deg, #006BA6 0%, #0496FF 100%)',
-            transform: 'skewY(-2deg)',
-            transformOrigin: 'top left',
-            width: '100%', height: '120%', top: '-10%',
-          }} />
+    <section
+      id="process"
+      className="py-[clamp(60px,10vw,100px)] px-5 relative overflow-hidden"
+      style={{
+        background: 'linear-gradient(160deg, #FF206E 0%, #D4005A 30%, #7B2D8E 60%, #41EAD4 100%)',
+      }}
+    >
+      <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, #fff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+      <div className="max-w-5xl mx-auto relative z-10">
+        <div className="text-center mb-12 prc-reveal reveal">
+          <span className="pill-badge" style={{ background: 'rgba(255,255,255,0.15)', color: '#fff' }}>HOW IT WORKS</span>
+          <h2 className="font-display font-extrabold mt-4 mb-3" style={{ fontSize: 'clamp(28px,5vw,42px)', color: '#fff' }}>
+            Your Journey to Certification
+          </h2>
+          <p className="text-sm md:text-base max-w-xl mx-auto leading-relaxed" style={{ color: 'rgba(255,255,255,0.7)' }}>
+            From registration to certification — a clear path to proving your trade skills.
+          </p>
         </div>
 
-        {/* Wavy divider */}
-        <div style={{ position: 'absolute', bottom: -1, left: 0, right: 0, zIndex: 5 }}>
-          <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style={{ width: '100%', height: '50px' }}>
-            <path d="M0,30 C360,0 720,60 1440,20 L1440,60 L0,60 Z" fill="#E6F3FB" />
-          </svg>
-        </div>
-
-        <div className="pr-inner">
-          <div style={{ textAlign: 'center', marginBottom: 48 }} className={`reveal${inView ? ' show' : ''}`}>
-            <div className="pill-badge" style={{ margin: '0 auto 18px', background: 'rgba(255,255,255,.12)', borderColor: 'rgba(255,255,255,.20)', color: '#fff' }}>
-              <span className="pill-dot" style={{ background: '#FFBC42' }} />
-              HOW WE WORK
-            </div>
-            <h2 style={{ fontFamily: '"Plus Jakarta Sans",sans-serif', fontWeight: 900, fontSize: 'clamp(28px,3.5vw,42px)', color: '#fff', marginBottom: 14 }}>
-              Our <span style={{ color: '#FFBC42' }}>Process</span>
-            </h2>
-            <p style={{ color: 'rgba(255,255,255,.8)', fontSize: 15, maxWidth: 540, margin: '0 auto', lineHeight: 1.7 }}>
-              A structured, proven approach to delivering HR solutions that make a real difference.
-            </p>
-          </div>
-
-          <div className="pr-steps">
-            {steps.map((p, i) => (
-              <div key={i} className={`pr-step reveal${inView ? ' show' : ''}`} style={{ transitionDelay: `${i * 0.1}s` }}>
-                {i < steps.length - 1 && (
-                  <div className="pr-arrow">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFBC42" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>
-                  </div>
-                )}
-                <div className="pr-circle" style={{ background: i % 2 === 0 ? '#FFBC42' : '#fff', color: i % 2 === 0 ? '#005580' : '#006BA6' }}>
-                  <p.Icon size={24} strokeWidth={2} />
-                </div>
-                <div className="pr-title">{p.title}</div>
-                <div className="pr-desc">{p.desc}</div>
+        <div className="grid md:grid-cols-5 gap-6">
+          {STEPS.map((s, i) => (
+            <div key={i} className="prc-reveal reveal text-center" style={{ transitionDelay: `${i * 0.1}s` }}>
+              <div
+                className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg"
+                style={{ background: STEP_COLORS[i] }}
+              >
+                <s.icon size={24} color={i === 4 ? '#1A1423' : '#fff'} />
               </div>
-            ))}
-          </div>
+              <div
+                className="w-9 h-9 rounded-full flex items-center justify-center mx-auto mb-3 text-sm font-bold"
+                style={{ background: 'rgba(255,255,255,0.15)', color: '#FBFF12' }}
+              >
+                {i + 1}
+              </div>
+              <h3 className="font-display font-bold text-sm mb-1.5" style={{ color: '#fff' }}>{s.title}</h3>
+              <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.65)' }}>{s.desc}</p>
+            </div>
+          ))}
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

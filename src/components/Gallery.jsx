@@ -1,55 +1,54 @@
 import { useState } from 'react';
-import useInView from '../hooks/useInView';
+import useReveal from '../hooks/useReveal';
 
-const galleryImages = [
-  { src: '/images/workshop.jpg', alt: 'Corporate workshop session' },
-  { src: '/images/meeting.jpg', alt: 'Team meeting' },
-  { src: '/images/coaching.jpg', alt: 'Executive coaching session' },
-  { src: '/images/professionals.jpg', alt: 'HR professionals team' },
+const IMAGES = [
+  { src: '/images/gallery-welding.jpg', alt: 'Welding Workshop' },
+  { src: '/images/gallery-electrical.jpg', alt: 'Electrical Workshop' },
+  { src: '/images/gallery-training.jpg', alt: 'Training Classroom' },
+  { src: '/images/gallery-mechanic.jpg', alt: 'Mechanic Workshop' },
 ];
 
 export default function Gallery() {
-  const [ref, inView] = useInView();
-  const [errs, setErrs] = useState({});
+  useReveal('.gll-reveal');
+  const [errors, setErrors] = useState({});
 
   return (
-    <>
-      <style>{`
-        .ga-section { background:#E6F3FB; padding:80px 24px; }
-        .ga-inner { max-width:1200px; margin:0 auto; }
-        .ga-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
-        @media(max-width:768px){ .ga-grid{grid-template-columns:repeat(2,1fr)} }
-        @media(max-width:480px){ .ga-grid{grid-template-columns:1fr} }
-        .ga-item { border-radius:16px; overflow:hidden; position:relative; cursor:pointer; height:240px; }
-        .ga-item img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s; }
-        .ga-item:hover img { transform:scale(1.08); }
-      `}</style>
-
-      <section className="ga-section" ref={ref}>
-        <div className="ga-inner">
-          <div style={{ textAlign: 'center', marginBottom: 40 }} className={`reveal${inView ? ' show' : ''}`}>
-            <div className="pill-badge" style={{ margin: '0 auto 18px' }}>
-              <span className="pill-dot" />
-              GALLERY
-            </div>
-            <h2 style={{ fontFamily: '"Plus Jakarta Sans",sans-serif', fontWeight: 900, fontSize: 'clamp(24px,3vw,36px)', color: '#06283D', marginBottom: 8 }}>
-              Our <span style={{ color: '#006BA6' }}>Workspace</span>
-            </h2>
-          </div>
-          <div className="ga-grid">
-            {galleryImages.map((img, i) => (
-              <div key={i} className={`ga-item reveal${inView ? ' show' : ''}`} style={{ transitionDelay: `${i * 0.1}s` }}>
-                <img
-                  src={errs[i] ? '/images/fallback.svg' : img.src}
-                  alt={img.alt}
-                  loading="lazy"
-                  onError={() => setErrs(p => ({ ...p, [i]: true }))}
-                />
-              </div>
-            ))}
-          </div>
+    <section className="py-[clamp(60px,10vw,100px)] px-5" style={{ background: '#fff' }}>
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-12 gll-reveal reveal">
+          <span className="pill-badge">OUR FACILITY</span>
+          <h2 className="font-display font-extrabold mt-4 mb-3" style={{ fontSize: 'clamp(28px,5vw,42px)', color: '#1A1423' }}>
+            Facility &amp; Workshop
+          </h2>
+          <p className="text-sm md:text-base max-w-xl mx-auto leading-relaxed" style={{ color: '#4B4453' }}>
+            A look inside our training centre and workshop facilities in Mardan.
+          </p>
         </div>
-      </section>
-    </>
+
+        <div className="grid sm:grid-cols-2 gap-4 md:gap-5">
+          {IMAGES.map((img, i) => (
+            <div
+              key={i}
+              className="gll-reveal reveal rounded-2xl overflow-hidden group img-hover-zoom"
+              style={{ transitionDelay: `${i * 0.1}s` }}
+            >
+              {!errors[i] ? (
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  className="w-full h-64 md:h-72 object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                  onError={() => setErrors((p) => ({ ...p, [i]: true }))}
+                />
+              ) : (
+                <div className="w-full h-64 md:h-72 flex items-center justify-center rounded-2xl" style={{ background: '#FFF8E0' }}>
+                  <span className="text-sm font-medium" style={{ color: '#FF206E' }}>{img.alt}</span>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
