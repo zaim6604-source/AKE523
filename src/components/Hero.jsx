@@ -1,106 +1,88 @@
-import { useEffect, useRef } from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGlobe } from "@fortawesome/free-solid-svg-icons";
+import useInView from "../hooks/useInView";
 
 export default function Hero() {
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    ref.current?.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
+  const [ref, inView] = useInView();
+  const scrollTo = (h) => document.querySelector(h)?.scrollIntoView({ behavior: "smooth" });
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center overflow-hidden pt-[72px]"
-      style={{ background: 'linear-gradient(135deg, #0B2545 0%, #13315C 50%, #0B2545 100%)' }}
-      ref={ref}
+    <section
+      id="home"
+      className="relative min-h-screen flex items-center overflow-hidden pt-16 md:pt-20"
+      style={{ backgroundColor: "#EDF6F9" }}
     >
-      {/* Decorative pattern */}
-      <div className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,.04) 1px, transparent 0)',
-          backgroundSize: '32px 32px',
-        }} />
+      {/* Decorative blob */}
+      <div className="absolute -top-40 -right-40 w-[500px] h-[500px] opacity-15 animate-blob pointer-events-none" style={{ background: "radial-gradient(circle, rgba(0, 109, 119, 0.3) 0%, transparent 70%)" }} />
+      <div className="absolute -bottom-40 -left-40 w-[450px] h-[450px] opacity-10 animate-blob pointer-events-none" style={{ background: "radial-gradient(circle, rgba(226, 149, 120, 0.25) 0%, transparent 70%)", animationDelay: "-4s" }} />
 
-      {/* Glow */}
-      <div className="absolute inset-0 pointer-events-none"
-        style={{
-          background: 'radial-gradient(ellipse at 30% 40%, rgba(201,162,39,.08) 0%, transparent 50%), radial-gradient(ellipse at 70% 60%, rgba(201,162,39,.04) 0%, transparent 50%)',
-        }} />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 w-full">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left: Content */}
+          <div ref={ref} className={`text-center lg:text-left transition-all duration-700 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+            <span
+              className="inline-flex items-center gap-1.5 mb-5 px-4 py-1.5 text-xs font-bold rounded-full tracking-widest uppercase border"
+              style={{ color: "#006D77", backgroundColor: "rgba(0, 109, 119, 0.1)", borderColor: "rgba(0, 109, 119, 0.25)" }}
+            >
+              <FontAwesomeIcon icon={faGlobe} size="sm" /> Manpower • Visas • Immigration
+            </span>
 
-      <div className="relative z-10 w-full max-w-[1180px] mx-auto px-6 py-16">
-        <div className="grid lg:grid-cols-[1.2fr_1fr] gap-12 items-center">
-          {/* Left Content */}
-          <div>
-            <div className="reveal">
-              <span className="section-pill">
-                <i className="fas fa-gavel mr-1.5 text-[0.5rem]" /> Est. Practice &bull; Islamabad
-              </span>
-            </div>
-
-            <h1 className="reveal text-4xl sm:text-5xl md:text-6xl font-extrabold text-white leading-[1.08] tracking-tight mb-4"
-              style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
-              25 Years of Advocacy at the<br />
-              <span style={{ color: 'var(--color-accent)' }}>Highest Courts</span> of Pakistan
+            <h1
+              className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-[1.1] mb-6"
+              style={{ fontFamily: "Plus Jakarta Sans", color: "#003844" }}
+            >
+              Your Complete Partner for{" "}
+              <span style={{ color: "#006D77" }}>Jobs, Visas & Immigration</span>
             </h1>
 
-            <p className="reveal text-base sm:text-lg text-white/65 max-w-[580px] leading-relaxed mb-8">
-              The chambers of <strong className="text-white/85">Ch. Muhammad Ashraf Gujjar</strong>, Advocate Supreme Court of Pakistan — trusted counsel for individuals, corporations, and institutions.
+            <p className="text-lg leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0" style={{ color: "#4a5568" }}>
+              Etcom Manpower Promoters delivers overseas manpower, visa processing, and immigration and HR services
+              — a licensed, all-in-one Islamabad team.
             </p>
 
-            <div className="reveal flex flex-wrap gap-4">
-              <a href="https://wa.me/923335107178" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full text-white font-semibold text-sm transition-all duration-200 shadow-lg btn-gold">
-                <i className="fab fa-whatsapp text-base" /> Book Consultation
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <a
+                href="https://wa.me/923219115599"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 px-8 py-3.5 text-white font-bold rounded-full transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                style={{ backgroundColor: "#E29578" }}
+              >
+                Get Started
               </a>
-              <a href="https://wa.me/923335107178" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border-2 border-white/30 text-white font-semibold text-sm hover:bg-white/10 hover:border-white/50 transition-all duration-200">
-                <i className="fab fa-whatsapp text-base" /> Chat on WhatsApp
+              <a
+                href="https://wa.me/923219115599"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 px-8 py-3.5 font-bold rounded-full transition-all duration-200"
+                style={{ color: "#006D77", border: "2px solid rgba(0, 109, 119, 0.3)" }}
+              >
+                Chat on WhatsApp
               </a>
-            </div>
-
-            {/* Trust indicators */}
-            <div className="reveal flex flex-wrap gap-6 mt-12 pt-8"
-              style={{ borderTop: '1px solid rgba(255,255,255,.08)' }}>
-              {[
-                { icon: 'fa-scale-balanced', text: 'Supreme Court' },
-                { icon: 'fa-building-columns', text: 'High Courts' },
-                { icon: 'fa-landmark', text: '25+ Years' },
-                { icon: 'fa-award', text: 'Bar Leader' },
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-2">
-                  <i className={`fas ${item.icon} text-[#C9A227] text-sm`} />
-                  <span className="text-white/60 text-xs font-medium">{item.text}</span>
-                </div>
-              ))}
             </div>
           </div>
 
-          {/* Right Image */}
-          <div className="reveal hidden lg:flex justify-center">
-            <div className="relative">
-              {/* Main image */}
-              <div className="w-[400px] h-[500px] rounded-[2rem] overflow-hidden shadow-2xl"
-                style={{ border: '1px solid rgba(201,162,39,.2)' }}>
+          {/* Right: Image */}
+          <div className={`flex justify-center lg:justify-end transition-all duration-700 delay-200 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+            <div className="relative w-full max-w-md">
+              <div className="img-hover-zoom rounded-3xl shadow-xl overflow-hidden">
                 <img
-                  src="/src/assets/images/hero-img.jpg"
-                  alt="Courthouse"
-                  className="w-full h-full object-cover"
-                  onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1505664194779-8beaceb93744?w=800&q=80'; }}
+                  src="/src/assets/images/hero-right.jpg"
+                  alt="Professional team at work"
+                  className="w-full h-80 object-cover"
+                  onError={(e) => {
+                    e.target.style.display = "none";
+                    e.target.parentElement.className = "fallback-img w-full h-80 rounded-3xl";
+                    e.target.parentElement.textContent = "Etcom Team";
+                  }}
                 />
               </div>
-
-              {/* Seal badge */}
-              <div className="absolute -bottom-4 -left-4 bg-white rounded-2xl px-5 py-4 shadow-2xl flex items-center gap-3 floating-1">
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center text-white"
-                  style={{ background: 'var(--color-accent)' }}>
-                  <i className="fas fa-scale-balanced" />
-                </div>
-                <div>
-                  <strong className="block text-sm text-[#0B2545]">Adv. Supreme Court</strong>
-                  <span className="text-[0.65rem] text-gray-500 font-medium">of Pakistan</span>
-                </div>
+              {/* Floating stat chips */}
+              <div className="absolute -bottom-4 -left-4 px-4 py-2 rounded-xl shadow-lg text-sm font-bold" style={{ backgroundColor: "#FFDD00", color: "#003844" }}>
+                ★ 1000+ Placed
+              </div>
+              <div className="absolute -top-4 -right-4 px-4 py-2 rounded-xl shadow-lg text-sm font-bold" style={{ backgroundColor: "#FFFFFF", color: "#006D77" }}>
+                12+ Countries
               </div>
             </div>
           </div>

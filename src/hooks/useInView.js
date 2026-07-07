@@ -1,25 +1,26 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from "react";
 
-export default function useInView(threshold = 0.1) {
+export default function useInView({ threshold = 0.15, triggerOnce = true } = {}) {
   const ref = useRef(null);
+  const [inView, setInView] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const obs = new IntersectionObserver(
-      entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            e.target.classList.add('visible');
-            obs.unobserve(e.target);
-          }
-        });
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          if (triggerOnce) observer.unobserve(el);
+        } else if (!triggerOnce) {
+          setInView(false);
+        }
       },
       { threshold }
     );
-    el.querySelectorAll('.reveal').forEach(child => obs.observe(child));
-    return () => obs.disconnect();
-  }, [threshold]);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [threshold, triggerOnce]);
 
-  return ref;
+  return [ref, inView];
 }

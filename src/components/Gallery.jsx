@@ -1,50 +1,42 @@
-import { useEffect, useRef } from 'react';
+import useInView from "../hooks/useInView";
 
 const photos = [
-  { src: '/src/assets/images/law-library.jpg', alt: 'Law Library' },
-  { src: '/src/assets/images/courthouse.jpg', alt: 'Courthouse' },
-  { src: '/src/assets/images/scales.jpg', alt: 'Scales of Justice' },
-  { src: '/src/assets/images/chambers.jpg', alt: 'Chambers Office' },
-];
-
-const fallbacks = [
-  'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80',
-  'https://images.unsplash.com/photo-1505664194779-8beaceb93744?w=800&q=80',
-  'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&q=80',
-  'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80',
+  { src: "/src/assets/images/gallery-1.jpg", alt: "Our team at work" },
+  { src: "/src/assets/images/gallery-2.jpg", alt: "Travel and airport assistance" },
+  { src: "/src/assets/images/gallery-3.jpg", alt: "Client consultation meeting" },
+  { src: "/src/assets/images/gallery-4.jpg", alt: "Office workspace" },
 ];
 
 export default function Gallery() {
-  const ref = useRef(null);
-  useEffect(() => {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    ref.current?.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
+  const [ref, inView] = useInView();
 
   return (
-    <section className="py-24 relative overflow-hidden" style={{ background: 'var(--color-background)' }} ref={ref}>
-      <div className="max-w-[1180px] mx-auto px-6 relative z-10">
-        <div className="reveal text-center mb-14">
-          <span className="section-pill">CHAMBERS</span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold leading-tight text-[#0B2545]">
-            Our Chambers
-          </h2>
-          <div className="gold-divider mt-4" />
+    <section className="py-20" style={{ backgroundColor: "#FFFFFF" }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <span className="inline-block mb-3 px-4 py-1.5 text-xs font-bold rounded-full tracking-widest uppercase border" style={{ color: "#006D77", backgroundColor: "rgba(0, 109, 119, 0.08)", borderColor: "rgba(0, 109, 119, 0.2)" }}>
+            GALLERY
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold" style={{ fontFamily: "Plus Jakarta Sans", color: "#003844" }}>Our Work in Action</h2>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div ref={ref} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {photos.map((p, i) => (
-            <div key={i} className="reveal relative rounded-2xl overflow-hidden shadow-md"
-              style={{ transitionDelay: `${i * 0.1}s` }}>
+            <div
+              key={i}
+              className="img-hover-zoom rounded-2xl shadow-sm transition-all duration-500"
+              style={{
+                opacity: inView ? 1 : 0,
+                transform: inView ? "translateY(0)" : "translateY(20px)",
+                transitionDelay: `${i * 0.1}s`,
+              }}
+            >
               <img
                 src={p.src}
                 alt={p.alt}
-                className="w-full h-56 object-cover"
+                className="w-full h-52 object-cover rounded-2xl"
                 loading="lazy"
-                onError={(e) => { e.target.src = fallbacks[i]; }}
+                onError={(e) => { e.target.style.display = "none"; e.target.parentElement.className = "fallback-img h-52 rounded-2xl"; e.target.parentElement.textContent = "ETCOM"; }}
               />
             </div>
           ))}

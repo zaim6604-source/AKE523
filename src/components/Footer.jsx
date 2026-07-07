@@ -1,142 +1,120 @@
-import { useEffect, useRef } from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
+import { faMapMarkerAlt, faEnvelope, faArrowRight, faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 
 const quickLinks = [
-  { label: 'Home', href: '#home' },
-  { label: 'About', href: '#about' },
-  { label: 'Practice Areas', href: '#practice-areas' },
-  { label: 'Credentials', href: '#credentials' },
-  { label: 'Process', href: '#process' },
-  { label: 'FAQs', href: '#faqs' },
-  { label: 'Contact', href: '#contact' },
+  { label: "Home", href: "#home" },
+  { label: "About", href: "#about" },
+  { label: "Services", href: "#services" },
+  { label: "Countries", href: "#countries" },
+  { label: "Visa & Immigration", href: "#visa" },
+  { label: "Process", href: "#process" },
+  { label: "FAQs", href: "#faqs" },
+  { label: "Contact", href: "#contact" },
 ];
 
-const practiceLinks = [
-  'Constitutional & PIL',
-  'Civil Litigation',
-  'Corporate & Commercial',
-  'Banking & Finance',
-  'Regulatory Matters',
-  'Media & Telecom Law',
-  'Property Disputes',
-  'Appellate Practice',
+const services = [
+  "Overseas Manpower", "Visa Processing", "Immigration Services",
+  "HR & Recruitment", "Document Attestation", "Travel Support",
+];
+
+const destinations = [
+  "Saudi Arabia", "UAE", "Qatar", "Oman", "Germany", "Poland",
+  "Italy", "Greece", "Malaysia", "Singapore", "South Korea",
 ];
 
 export default function Footer() {
-  const ref = useRef(null);
-  useEffect(() => {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    ref.current?.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
-
-  const scrollTo = (e, href) => {
-    e.preventDefault();
-    const el = document.querySelector(href);
-    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: 'smooth' });
-  };
+  const scrollTo = (href) => document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
 
   return (
-    <footer className="relative overflow-hidden" style={{ background: '#081A33' }} ref={ref}>
-      <div className="max-w-[1180px] mx-auto px-6 pt-16 pb-0 relative z-10">
-        <div className="reveal grid sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1.4fr] gap-10 mb-10">
+    <footer style={{ backgroundColor: "#003844" }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                style={{ background: 'var(--color-accent)' }}>
-                <i className="fas fa-gavel text-white text-sm" />
+            <div className="flex items-center gap-2.5 mb-4">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: "#006D77" }}>
+                <span className="text-white font-extrabold text-sm" style={{ fontFamily: "Plus Jakarta Sans" }}>E</span>
               </div>
-              <div className="flex flex-col leading-tight">
-                <span className="font-bold text-[0.95rem] text-white"
-                  style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
-                  Ashraf Gujjar Law
-                </span>
-                <span className="text-[0.5rem] text-white/40 font-semibold uppercase tracking-widest">
-                  Associates
-                </span>
+              <div className="leading-tight">
+                <p className="text-white font-extrabold text-sm tracking-tight" style={{ fontFamily: "Plus Jakarta Sans" }}>Etcom Manpower</p>
+                <p className="text-xs font-bold tracking-widest uppercase" style={{ color: "#83C5BE" }}>Promoters</p>
               </div>
             </div>
-            <p className="text-sm text-white/40 leading-relaxed max-w-xs">
-              The chambers of Ch. Muhammad Ashraf Gujjar, Advocate Supreme Court of Pakistan — providing distinguished legal counsel from our chambers in F-8 Markaz, Islamabad.
-            </p>
-            <div className="flex gap-2.5 mt-5">
-              <a href="https://www.linkedin.com/in/ch-muhammad-ashraf-gujjar-22791170/" target="_blank" rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                className="w-9 h-9 rounded-lg flex items-center justify-center text-white/50 text-sm hover:text-white transition-colors"
-                style={{ background: 'rgba(255,255,255,.05)' }}>
-                <i className="fab fa-linkedin-in" />
-              </a>
-              <a href="https://wa.me/923335107178" target="_blank" rel="noopener noreferrer"
-                aria-label="WhatsApp"
-                className="w-9 h-9 rounded-lg flex items-center justify-center text-white/50 text-sm hover:text-white transition-colors"
-                style={{ background: 'rgba(255,255,255,.05)' }}>
-                <i className="fab fa-whatsapp" />
-              </a>
-            </div>
+            <p className="text-sm leading-relaxed mb-4" style={{ color: "#9CA3AF" }}>Manpower, visas, and immigration under one roof — G-11 Markaz, Islamabad.</p>
+            <a href="https://www.linkedin.com/company/etcommp/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm font-bold rounded-full transition-all" style={{ backgroundColor: "rgba(0, 109, 119, 0.3)", color: "#83C5BE" }}>
+              <FontAwesomeIcon icon={faLinkedin} /> LinkedIn
+            </a>
           </div>
 
-          {/* Quick links */}
+          {/* Quick Links */}
           <div>
-            <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-5">Quick Links</h4>
+            <h4 className="text-white font-extrabold text-sm uppercase tracking-widest mb-5" style={{ fontFamily: "Plus Jakarta Sans" }}>Quick Links</h4>
             <ul className="flex flex-col gap-2.5">
-              {quickLinks.map(l => (
-                <li key={l.href}>
-                  <a href={l.href} onClick={e => scrollTo(e, l.href)}
-                    className="flex items-center gap-2 text-sm text-white/45 hover:text-white hover:pl-1 transition-all">
-                    <i className="fas fa-chevron-right text-[0.5rem]" style={{ color: 'var(--color-accent)' }} /> {l.label}
-                  </a>
+              {quickLinks.map((l) => (
+                <li key={l.label}>
+                  <button onClick={() => scrollTo(l.href)} className="flex items-center gap-2 text-sm text-left transition-colors duration-200 group" style={{ color: "#9CA3AF" }}>
+                    <FontAwesomeIcon icon={faArrowRight} size="xs" className="transition-all duration-200 flex-shrink-0 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0" style={{ color: "#FFDD00" }} />
+                    <span className="group-hover:text-[#FFDD00] transition-colors">{l.label}</span>
+                  </button>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Practice Areas */}
+          {/* Services */}
           <div>
-            <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-5">Practice Areas</h4>
+            <h4 className="text-white font-extrabold text-sm uppercase tracking-widest mb-5" style={{ fontFamily: "Plus Jakarta Sans" }}>Services</h4>
             <ul className="flex flex-col gap-2.5">
-              {practiceLinks.map(s => (
+              {services.map((s) => (
                 <li key={s}>
-                  <a href="#practice-areas" onClick={e => scrollTo(e, '#practice-areas')}
-                    className="flex items-center gap-2 text-sm text-white/45 hover:text-white hover:pl-1 transition-all">
-                    <i className="fas fa-chevron-right text-[0.5rem]" style={{ color: 'var(--color-accent)' }} /> {s}
-                  </a>
+                  <button onClick={() => scrollTo("#services")} className="flex items-center gap-2 text-sm text-left transition-colors duration-200 group" style={{ color: "#9CA3AF" }}>
+                    <span className="group-hover:text-[#FFDD00] transition-colors">{s}</span>
+                  </button>
                 </li>
               ))}
             </ul>
+            <h4 className="text-white font-extrabold text-xs uppercase tracking-widest mt-6 mb-3" style={{ fontFamily: "Plus Jakarta Sans" }}>Destinations</h4>
+            <div className="flex flex-wrap gap-1.5">
+              {destinations.slice(0, 6).map((d) => (
+                <span key={d} className="px-2 py-0.5 text-xs rounded-full" style={{ backgroundColor: "rgba(0, 109, 119, 0.3)", color: "#83C5BE" }}>{d}</span>
+              ))}
+            </div>
           </div>
 
           {/* Contact */}
           <div>
-            <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-5">Contact Us</h4>
-            <div className="flex flex-col gap-4">
-              <div className="flex items-start gap-3">
-                <i className="fas fa-map-marker-alt mt-0.5 flex-shrink-0 text-sm" style={{ color: 'var(--color-accent)' }} />
-                <span className="text-sm text-white/50 leading-relaxed">
-                  Chamber No. 7, Muslim Block,<br />
-                  Johar Rd, near Bar Room,<br />
-                  F-8 Markaz, Islamabad
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <i className="fab fa-whatsapp flex-shrink-0 text-sm" style={{ color: 'var(--color-accent)' }} />
-                <span className="text-sm text-white/50">0333-5107178</span>
-              </div>
-            </div>
+            <h4 className="text-white font-extrabold text-sm uppercase tracking-widest mb-5" style={{ fontFamily: "Plus Jakarta Sans" }}>Contact</h4>
+            <ul className="flex flex-col gap-4">
+              <li>
+                <a href="https://wa.me/923219115599" target="_blank" rel="noopener noreferrer" className="flex items-start gap-3 transition-colors group" style={{ color: "#9CA3AF" }}>
+                  <FontAwesomeIcon icon={faWhatsapp} size="sm" className="mt-0.5 flex-shrink-0" style={{ color: "#83C5BE" }} />
+                  <span className="text-sm group-hover:text-[#FFDD00] transition-colors">0321-9115599</span>
+                </a>
+              </li>
+              <li>
+                <a href="mailto:info@etcommanpower.pk" className="flex items-start gap-3 transition-colors group" style={{ color: "#9CA3AF" }}>
+                  <FontAwesomeIcon icon={faEnvelope} size="sm" className="mt-0.5 flex-shrink-0" style={{ color: "#83C5BE" }} />
+                  <span className="text-sm group-hover:text-[#FFDD00] transition-colors">info@etcommanpower.pk</span>
+                </a>
+              </li>
+              <li>
+                <div className="flex items-start gap-3" style={{ color: "#9CA3AF" }}>
+                  <FontAwesomeIcon icon={faMapMarkerAlt} size="sm" className="mt-0.5 flex-shrink-0" style={{ color: "#83C5BE" }} />
+                  <span className="text-sm leading-relaxed">Office #1, 2nd Floor, Sajid Shabbir,<br />Sharif Road, G-11 Markaz,<br />Islamabad</span>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
-        <div className="max-w-[1180px] mx-auto px-6 py-5">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-3">
-            <p className="text-xs text-white/25">&copy; {new Date().getFullYear()} Ashraf Gujjar Law Associates. All rights reserved.</p>
-            <p className="text-[0.6rem] text-white/20 max-w-xl text-center md:text-right leading-relaxed">
-              This website is for informational purposes and does not constitute legal advice. Visiting this site or contacting us via WhatsApp does not create an attorney-client relationship.
-            </p>
-          </div>
+      <div className="border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-xs text-center sm:text-left" style={{ color: "#6B7280" }}>&copy; {new Date().getFullYear()} Etcom Manpower Promoters (Pvt) Ltd. All rights reserved.</p>
+          <p className="text-xs flex items-center gap-1" style={{ color: "#6B7280" }}>Made with <FontAwesomeIcon icon={faHeart} size="xs" style={{ color: "#E29578" }} /> in Pakistan</p>
         </div>
       </div>
     </footer>

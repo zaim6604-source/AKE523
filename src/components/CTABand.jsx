@@ -1,42 +1,40 @@
-import { useEffect, useRef } from 'react';
-
-export default function CtaBand() {
-  const ref = useRef(null);
-  useEffect(() => {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.12 });
-    ref.current?.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
-
+export default function CTABand() {
   return (
-    <section className="relative py-20 overflow-hidden gradient-cta" ref={ref}>
-      <div className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,.04) 1px, transparent 0)',
-          backgroundSize: '32px 32px',
-        }} />
+    <section className="relative py-16 overflow-hidden" style={{ background: "linear-gradient(135deg, #006D77 0%, #E29578 100%)" }}>
+      <div className="absolute inset-0 pointer-events-none opacity-15">
+        <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-white animate-blob" />
+        <div className="absolute -bottom-10 -left-10 w-40 h-40 rounded-full bg-white animate-blob" style={{ animationDelay: "-4s" }} />
+      </div>
 
-      <div className="relative z-10 max-w-[700px] mx-auto px-6 text-center">
-        <div className="reveal">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white leading-tight mb-4"
-            style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
-            Seeking Trusted Legal Counsel?
-          </h2>
-          <p className="text-base sm:text-lg text-white/70 mb-8 leading-relaxed">
-            Request a consultation to discuss your legal matter with an experienced Supreme Court advocate.
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <a href="https://wa.me/923335107178" target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full font-bold text-sm transition-all duration-200 shadow-lg btn-gold">
-              <i className="fab fa-whatsapp text-base" /> Book Consultation
-            </a>
-            <a href="https://wa.me/923335107178" target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full border-2 border-white/30 text-white font-semibold text-sm hover:bg-white/10 hover:border-white/50 transition-all duration-200">
-              <i className="fab fa-whatsapp" /> Chat on WhatsApp
-            </a>
-          </div>
+      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <span className="inline-block mb-4 px-4 py-1.5 text-xs font-bold rounded-full tracking-widest uppercase" style={{ backgroundColor: "#FFDD00", color: "#003844" }}>
+          Let's Get Started
+        </span>
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4" style={{ fontFamily: "Plus Jakarta Sans" }}>
+          Jobs, Visas, or Immigration — <span style={{ color: "#FFDD00" }}>Let's Get You Moving.</span>
+        </h2>
+        <p className="text-white/80 mb-8 max-w-lg mx-auto">
+          Ready to take the next step? Our team is here to guide you through every stage of the process.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="https://wa.me/923219115599"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-8 py-3.5 text-sm font-bold rounded-full transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+            style={{ backgroundColor: "#FFFFFF", color: "#006D77" }}
+          >
+            Get Started
+          </a>
+          <a
+            href="https://wa.me/923219115599"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-8 py-3.5 text-sm font-bold rounded-full transition-all duration-200 border-2 hover:-translate-y-0.5"
+            style={{ color: "#FFFFFF", borderColor: "rgba(255,255,255,0.4)" }}
+          >
+            Chat on WhatsApp
+          </a>
         </div>
       </div>
     </section>

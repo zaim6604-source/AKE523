@@ -1,188 +1,157 @@
-import { useState, useEffect, useRef } from 'react';
-
-const contactItems = [
-  { icon: 'fab fa-whatsapp', label: 'WhatsApp', lines: ['0333-5107178'] },
-  { icon: 'fas fa-map-marker-alt', label: 'Chamber Address', lines: [
-    'Chamber No. 7, Ashraf Gujjar Law Associates',
-    'Muslim Block, Johar Rd, near Bar Room / Tehsildar Office',
-    'F-8 Markaz, Islamabad',
-  ]},
-  { icon: 'fas fa-envelope', label: 'Email', lines: ['info@ashrafgujjarlaw.pk'] },
-  { icon: 'fas fa-clock', label: 'Working Hours', lines: ['Mon – Sat: 9:00 AM – 6:00 PM'] },
-];
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWhatsapp, faLinkedin } from "@fortawesome/free-brands-svg-icons";
+import { faMapMarkerAlt, faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import useInView from "../hooks/useInView";
 
 export default function Contact() {
-  const ref = useRef(null);
-  const [form, setForm] = useState({ name: '', phone: '', email: '', matter: '', message: '' });
-  const [errors, setErrors] = useState({});
+  const [form, setForm] = useState({ name: "", phone: "", email: "", service: "", message: "" });
+  const [ref, inView] = useInView();
 
-  useEffect(() => {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    ref.current?.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
-
-  const validate = () => {
-    const e = {};
-    if (!form.name.trim()) e.name = 'Please enter your name.';
-    if (!form.phone.trim()) e.phone = 'Please enter your phone number.';
-    if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
-      e.email = 'Please enter a valid email.';
-    return e;
-  };
+  const handleChange = (e) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const errs = validate();
-    setErrors(errs);
-    if (Object.keys(errs).length > 0) return;
-    const text =
-`Hello Ashraf Gujjar Law Associates,
-My name is ${form.name}.
-Phone: ${form.phone}
-Email: ${form.email}
-Matter Type: ${form.matter || 'Not specified'}
-Message: ${form.message || 'N/A'}`;
-    window.open(`https://wa.me/923335107178?text=${encodeURIComponent(text)}`, '_blank');
+    const text = encodeURIComponent(
+      `Hello Etcom Manpower!%0A%0AName: ${form.name}%0APhone: ${form.phone}%0AEmail: ${form.email}%0AService: ${form.service}%0A%0A${form.message}`
+    );
+    window.open(`https://wa.me/923219115599?text=${text}`, "_blank");
   };
 
-  const set = (key) => (e) => {
-    setForm(p => ({ ...p, [key]: e.target.value }));
-    setErrors(p => ({ ...p, [key]: '' }));
+  const handleFallback = () => {
+    window.location.href = "mailto:info@etcommanpower.pk";
   };
 
   return (
-    <section id="contact" className="py-24 relative overflow-hidden" style={{ background: 'var(--color-background)' }} ref={ref}>
-      <div className="max-w-[1180px] mx-auto px-6 relative z-10">
-        <div className="reveal text-center mb-14">
-          <span className="section-pill">GET IN TOUCH</span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold leading-tight text-[#0B2545]">
-            Contact Our Chambers
-          </h2>
-          <div className="gold-divider mt-4" />
-          <p className="text-sm mt-4 text-gray-500 max-w-xl mx-auto leading-relaxed">
-            All enquiries treated in strict confidence.
-          </p>
+    <section id="contact" className="py-20" style={{ backgroundColor: "#FFFFFF" }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <span className="inline-block mb-3 px-4 py-1.5 text-xs font-bold rounded-full tracking-widest uppercase border" style={{ color: "#006D77", backgroundColor: "rgba(0, 109, 119, 0.08)", borderColor: "rgba(0, 109, 119, 0.2)" }}>
+            GET IN TOUCH
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold" style={{ fontFamily: "Plus Jakarta Sans", color: "#003844" }}>Contact Us</h2>
         </div>
 
-        <div className="grid md:grid-cols-[1fr_1.5fr] gap-12 items-start">
-          {/* Info panel */}
-          <div className="reveal rounded-[1.5rem] p-10 text-white relative overflow-hidden"
-            style={{ background: 'linear-gradient(135deg, var(--color-primary), var(--color-secondary))' }}>
-            <h3 className="text-xl font-bold mb-8 relative z-10"
-              style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
-              Chamber Details
-            </h3>
-            {contactItems.map(item => (
-              <div key={item.label} className="flex items-start gap-4 mb-7 relative z-10">
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ background: 'rgba(201,162,39,.15)' }}>
-                  <i className={item.icon} style={{ color: 'var(--color-accent)' }} />
-                </div>
-                <div>
-                  <strong className="block text-xs text-white/50 uppercase tracking-wider mb-1">{item.label}</strong>
-                  {item.lines.map(l => <span key={l} className="block text-sm text-white/85">{l}</span>)}
-                </div>
+        <div ref={ref} className="grid lg:grid-cols-2 gap-10">
+          {/* Left: Info + Map */}
+          <div className={`flex flex-col gap-6 transition-all duration-700 ${inView ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6"}`}>
+            {/* Info rows */}
+            <a href="https://wa.me/923219115599" target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 p-4 rounded-2xl" style={{ backgroundColor: "#EDF6F9", border: "1px solid rgba(0, 109, 119, 0.1)" }}>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: "rgba(0, 109, 119, 0.1)", color: "#006D77" }}>
+                <FontAwesomeIcon icon={faWhatsapp} size="lg" />
               </div>
-            ))}
+              <div>
+                <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: "#6B7280" }}>WhatsApp</p>
+                <p className="text-sm font-bold" style={{ color: "#003844" }}>0321-9115599</p>
+              </div>
+            </a>
+
+            <a href="mailto:info@etcommanpower.pk" className="flex items-start gap-4 p-4 rounded-2xl" style={{ backgroundColor: "#EDF6F9", border: "1px solid rgba(0, 109, 119, 0.1)" }}>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: "rgba(0, 109, 119, 0.1)", color: "#006D77" }}>
+                <FontAwesomeIcon icon={faEnvelope} />
+              </div>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: "#6B7280" }}>Email</p>
+                <p className="text-sm font-bold" style={{ color: "#003844" }}>info@etcommanpower.pk</p>
+              </div>
+            </a>
+
+            <div className="flex items-start gap-4 p-4 rounded-2xl" style={{ backgroundColor: "#EDF6F9", border: "1px solid rgba(0, 109, 119, 0.1)" }}>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: "rgba(0, 109, 119, 0.1)", color: "#006D77" }}>
+                <FontAwesomeIcon icon={faMapMarkerAlt} />
+              </div>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: "#6B7280" }}>Address</p>
+                <p className="text-sm leading-relaxed" style={{ color: "#003844" }}>Office #1, 2nd Floor, Sajid Shabbir, Sharif Road, G-11 Markaz, Islamabad</p>
+              </div>
+            </div>
 
             {/* LinkedIn */}
-            <div className="mt-8 relative z-10">
-              <a href="https://www.linkedin.com/in/ch-muhammad-ashraf-gujjar-22791170/" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all"
-                style={{ background: 'rgba(201,162,39,.15)', color: 'var(--color-accent)' }}>
-                <i className="fab fa-linkedin-in" /> Connect on LinkedIn
-              </a>
+            <a href="https://www.linkedin.com/company/etcommp/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm font-bold rounded-full w-fit transition-all" style={{ backgroundColor: "rgba(0, 109, 119, 0.1)", color: "#006D77" }}>
+              <FontAwesomeIcon icon={faLinkedin} /> Follow on LinkedIn
+            </a>
+
+            {/* Free OpenStreetMap embed */}
+            <div className="rounded-2xl overflow-hidden h-56" style={{ border: "1px solid rgba(0, 109, 119, 0.12)" }}>
+              <iframe
+                title="Etcom Manpower Location"
+                width="100%" height="100%" frameBorder="0" style={{ border: 0 }}
+                allowFullScreen loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=72.9929%2C33.6626%2C73.0029%2C33.6726&amp;layer=mapnik&amp;marker=33.6676%2C72.9979"
+              />
             </div>
           </div>
 
-          {/* Form */}
-          <div className="reveal bg-white rounded-[1.5rem] p-10 shadow-xl"
-            style={{ border: '1px solid rgba(201,162,39,.1)' }}>
-            <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor="name" className="text-sm font-semibold text-[#0B2545]">
-                  Full Name <span style={{ color: 'var(--color-accent)' }}>*</span>
-                </label>
-                <input id="name" type="text" placeholder="Enter your full name"
-                  value={form.name} onChange={set('name')}
-                  className={`form-input ${errors.name ? 'error' : ''}`} />
-                {errors.name && <span className="text-xs text-red-500">{errors.name}</span>}
-              </div>
+          {/* Right: Form */}
+          <div className={`rounded-3xl p-8 transition-all duration-700 delay-200 ${inView ? "opacity-100 translate-x-0" : "opacity-0 translate-x-6"}`} style={{ backgroundColor: "#EDF6F9", border: "1px solid rgba(0, 109, 119, 0.1)" }}>
+            <h3 className="font-extrabold text-lg mb-1" style={{ fontFamily: "Plus Jakarta Sans", color: "#003844" }}>Send us a Message</h3>
+            <p className="text-xs mb-6" style={{ color: "#6B7280" }}>We'll respond on WhatsApp within minutes</p>
 
-              <div className="grid sm:grid-cols-2 gap-5">
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="phone" className="text-sm font-semibold text-[#0B2545]">
-                    Phone Number <span style={{ color: 'var(--color-accent)' }}>*</span>
-                  </label>
-                  <input id="phone" type="tel" placeholder="+92 300 0000000"
-                    value={form.phone} onChange={set('phone')}
-                    className={`form-input ${errors.phone ? 'error' : ''}`} />
-                  {errors.phone && <span className="text-xs text-red-500">{errors.phone}</span>}
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold mb-1 uppercase tracking-wide" style={{ color: "#003844" }}>Full Name <span style={{ color: "#E29578" }}>*</span></label>
+                  <input type="text" name="name" value={form.name} onChange={handleChange} required placeholder="Your name"
+                    className="w-full px-4 py-3 rounded-xl text-sm transition"
+                    style={{ backgroundColor: "#FFFFFF", border: "1px solid rgba(0, 109, 119, 0.15)", color: "#003844", outline: "none" }}
+                    onFocus={(e) => e.target.style.borderColor = "#006D77"}
+                    onBlur={(e) => e.target.style.borderColor = "rgba(0, 109, 119, 0.15)"} />
                 </div>
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="email" className="text-sm font-semibold text-[#0B2545]">
-                    Email Address <span style={{ color: 'var(--color-accent)' }}>*</span>
-                  </label>
-                  <input id="email" type="email" placeholder="your@email.com"
-                    value={form.email} onChange={set('email')}
-                    className={`form-input ${errors.email ? 'error' : ''}`} />
-                  {errors.email && <span className="text-xs text-red-500">{errors.email}</span>}
+                <div>
+                  <label className="block text-xs font-bold mb-1 uppercase tracking-wide" style={{ color: "#003844" }}>Phone <span style={{ color: "#E29578" }}>*</span></label>
+                  <input type="tel" name="phone" value={form.phone} onChange={handleChange} required placeholder="0321-9115599"
+                    className="w-full px-4 py-3 rounded-xl text-sm transition"
+                    style={{ backgroundColor: "#FFFFFF", border: "1px solid rgba(0, 109, 119, 0.15)", color: "#003844", outline: "none" }}
+                    onFocus={(e) => e.target.style.borderColor = "#006D77"}
+                    onBlur={(e) => e.target.style.borderColor = "rgba(0, 109, 119, 0.15)"} />
                 </div>
               </div>
 
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor="matter" className="text-sm font-semibold text-[#0B2545]">Matter Type</label>
-                <select id="matter" value={form.matter} onChange={set('matter')}
-                  className="form-input appearance-none">
-                  <option value="">Select matter type (optional)</option>
-                  <option>Constitutional / Public Interest</option>
-                  <option>Civil Litigation</option>
-                  <option>Corporate / Commercial</option>
-                  <option>Banking & Finance</option>
-                  <option>Regulatory / Administrative</option>
-                  <option>Media & Telecom</option>
-                  <option>Property / Land Dispute</option>
-                  <option>Appellate Practice</option>
-                  <option>Other</option>
+              <div>
+                <label className="block text-xs font-bold mb-1 uppercase tracking-wide" style={{ color: "#003844" }}>Email</label>
+                <input type="email" name="email" value={form.email} onChange={handleChange} placeholder="email@example.com"
+                  className="w-full px-4 py-3 rounded-xl text-sm transition"
+                  style={{ backgroundColor: "#FFFFFF", border: "1px solid rgba(0, 109, 119, 0.15)", color: "#003844", outline: "none" }}
+                  onFocus={(e) => e.target.style.borderColor = "#006D77"}
+                  onBlur={(e) => e.target.style.borderColor = "rgba(0, 109, 119, 0.15)"} />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold mb-1 uppercase tracking-wide" style={{ color: "#003844" }}>Service Needed</label>
+                <select name="service" value={form.service} onChange={handleChange}
+                  className="w-full px-4 py-3 rounded-xl text-sm transition"
+                  style={{ backgroundColor: "#FFFFFF", border: "1px solid rgba(0, 109, 119, 0.15)", color: "#003844", outline: "none" }}
+                  onFocus={(e) => e.target.style.borderColor = "#006D77"}
+                  onBlur={(e) => e.target.style.borderColor = "rgba(0, 109, 119, 0.15)"}>
+                  <option value="">Select a service...</option>
+                  <option>Manpower</option>
+                  <option>Visa</option>
+                  <option>Immigration</option>
+                  <option>HR</option>
                 </select>
               </div>
 
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor="message" className="text-sm font-semibold text-[#0B2545]">Brief Description</label>
-                <textarea id="message" rows={4}
-                  placeholder="Briefly describe your legal matter..."
-                  value={form.message} onChange={set('message')}
-                  className="form-input resize-y min-h-[110px]" />
+              <div>
+                <label className="block text-xs font-bold mb-1 uppercase tracking-wide" style={{ color: "#003844" }}>Message <span style={{ color: "#E29578" }}>*</span></label>
+                <textarea name="message" value={form.message} onChange={handleChange} required rows={4} placeholder="Tell us about your requirement..."
+                  className="w-full px-4 py-3 rounded-xl text-sm transition resize-none"
+                  style={{ backgroundColor: "#FFFFFF", border: "1px solid rgba(0, 109, 119, 0.15)", color: "#003844", outline: "none" }}
+                  onFocus={(e) => e.target.style.borderColor = "#006D77"}
+                  onBlur={(e) => e.target.style.borderColor = "rgba(0, 109, 119, 0.15)"} />
               </div>
 
-              <p className="text-[0.65rem] text-gray-400 leading-relaxed">
-                <i className="fas fa-lock text-[0.5rem] mr-1" />
-                Your information is encrypted and sent via WhatsApp. All enquiries treated in strict confidence.
-              </p>
-
-              <button type="submit"
-                className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-semibold text-sm transition-all duration-200 btn-gold">
-                <i className="fab fa-whatsapp text-base" /> Send via WhatsApp
+              <button type="submit" className="flex items-center justify-center gap-2 w-full py-3.5 text-white font-bold rounded-xl transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                style={{ backgroundColor: "#E29578" }}>
+                <FontAwesomeIcon icon={faWhatsapp} /> Send via WhatsApp
               </button>
+
+              <p className="text-xs text-center mt-1" style={{ color: "#6B7280" }}>
+                WhatsApp not working?{" "}
+                <button type="button" onClick={handleFallback} className="underline font-medium" style={{ color: "#006D77" }}>Email us instead</button>
+              </p>
             </form>
           </div>
-        </div>
-
-        {/* Map */}
-        <div className="reveal mt-12 rounded-[1.5rem] overflow-hidden shadow-xl"
-          style={{ border: '1px solid rgba(201,162,39,.1)' }}>
-          <iframe
-            src="https://www.google.com/maps?q=33.711921206376985,73.03885754232856&hl=en&z=16&output=embed"
-            width="100%" height="400"
-            style={{ border: 0, display: 'block' }}
-            allowFullScreen=""
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            title="Ashraf Gujjar Law Associates - Chamber Location"
-          />
         </div>
       </div>
     </section>

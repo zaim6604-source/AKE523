@@ -1,72 +1,64 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from "react";
 
 const faqs = [
   {
-    q: 'What areas of law does your practice cover?',
-    a: 'Our practice encompasses Constitutional & Public Interest Litigation, Civil Litigation, Corporate & Commercial Law, Banking & Finance, Regulatory & Administrative Matters, Media & Telecom Law, Property & Land Disputes, and Appellate practice before the High Courts and Supreme Court of Pakistan.',
+    q: "Which trades can I get tested for?",
+    a: "We offer testing across 20+ trades including Welder (3G/6G), Electrician, Plumber, Mason, Steel Fixer, Shuttering Carpenter, HVAC/AC Technician, Heavy & Light Driver, Auto Mechanic, Pipe Fitter, Painter, and Duct Man.",
   },
   {
-    q: 'Which courts do you appear before?',
-    a: 'We appear before all High Courts of Pakistan and the Supreme Court of Pakistan, as well as various tribunals, regulatory authorities, and quasi-judicial forums.',
+    q: "How do I book a trade test?",
+    a: "Contact us via WhatsApp at 0300-5719948. Tell us your trade and preferred date, and we'll schedule your test at our Mardan center.",
   },
   {
-    q: 'How can I book a consultation?',
-    a: 'You can book a consultation by clicking the "Book Consultation" button or "Chat on WhatsApp" button anywhere on this site. You may also reach us directly on WhatsApp at 0333-5107178.',
+    q: "How long does the test take?",
+    a: "Most practical tests take 30–60 minutes depending on the trade. Results and certificates are typically issued the same day.",
   },
   {
-    q: 'Where are your chambers located?',
-    a: 'Our chambers are located at Chamber No. 7, Ashraf Gujjar Law Associates, Muslim Block, Johar Rd, near Bar Room / Tehsildar Office, F-8 Markaz, Islamabad.',
+    q: "Is the certificate internationally recognised?",
+    a: "Our trade test certificates are recognised by overseas employers and recruitment agencies. We also provide video and photo records of your test.",
   },
   {
-    q: 'What is the consultation process?',
-    a: 'The process includes: 1) Initial contact and brief, 2) Case review and assessment, 3) Formulation of legal strategy, 4) Representation and filing, and 5) Resolution and follow-up. Each matter receives personal attention from Mr. Gujjar.',
+    q: "Where is the testing center located?",
+    a: "Our facility is at 5XQ2+94P, Mardan, 23200, KPK. You can find us on Google Maps using the Plus Code.",
   },
   {
-    q: 'Is my information kept confidential?',
-    a: 'Absolutely. All client communications, case details, and personal information are treated with the strictest confidentiality. Our ethical obligations as advocates require the highest standards of client privacy.',
+    q: "What documents should I bring?",
+    a: "Bring your CNIC, passport-sized photos, and any relevant tools of your trade. If you have previous certificates, bring those as well.",
   },
 ];
 
-export default function Faqs() {
-  const ref = useRef(null);
+export default function FAQs() {
   const [openIndex, setOpenIndex] = useState(null);
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.08 });
-    ref.current?.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
+  const contentRefs = useRef([]);
 
   return (
-    <section id="faqs" className="py-24 relative overflow-hidden bg-white" ref={ref}>
-      <div className="max-w-[800px] mx-auto px-6 relative z-10">
-        <div className="reveal text-center mb-14">
-          <span className="section-pill">FAQS</span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold leading-tight text-[#0B2545]">
-            Frequently Asked Questions
-          </h2>
-          <div className="gold-divider mt-4" />
+    <section id="faqs" className="py-20 bg-background">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-center mb-14">
+          <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-primary/10 text-primary border border-primary/20">
+            FAQS
+          </span>
         </div>
 
-        <div className="reveal flex flex-col gap-3">
+        <div className="max-w-3xl mx-auto space-y-3">
           {faqs.map((faq, i) => {
             const isOpen = openIndex === i;
             return (
-              <div key={i}
-                className="rounded-xl overflow-hidden bg-white transition-all"
-                style={{ border: `1px solid ${isOpen ? 'rgba(201,162,39,.3)' : 'rgba(11,37,69,.08)'}` }}>
+              <div key={i} className="bg-white rounded-xl border border-primary/10 overflow-hidden shadow-sm">
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : i)}
-                  className="w-full flex items-center justify-between px-6 py-4 text-left text-sm font-semibold transition-all"
-                  style={{ color: isOpen ? '#0B2545' : '#1B2A3E' }}>
-                  <span className="pr-4">{faq.q}</span>
-                  <i className={`fas fa-chevron-down text-xs transition-all duration-300 flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`}
-                    style={{ color: 'var(--color-accent)' }} />
+                  className="w-full flex items-center justify-between p-5 text-left"
+                  aria-expanded={isOpen}
+                >
+                  <span className="font-medium text-sm sm:text-base text-ink pr-4">{faq.q}</span>
+                  <i className={`fas fa-chevron-down text-primary transition-transform duration-300 flex-shrink-0 ${isOpen ? "rotate-180" : ""}`}></i>
                 </button>
-                <div className={`px-6 transition-all duration-300 overflow-hidden ${isOpen ? 'pb-5 max-h-96' : 'max-h-0 pb-0'}`}>
-                  <p className="text-sm leading-relaxed" style={{ color: '#6b7280' }}>{faq.a}</p>
+                <div
+                  ref={(el) => (contentRefs.current[i] = el)}
+                  className="overflow-hidden transition-all duration-300"
+                  style={{ maxHeight: isOpen ? contentRefs.current[i]?.scrollHeight + "px" : "0" }}
+                >
+                  <p className="px-5 pb-5 text-sm text-ink/70 leading-relaxed">{faq.a}</p>
                 </div>
               </div>
             );

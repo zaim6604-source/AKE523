@@ -1,79 +1,54 @@
-import { useEffect, useRef } from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faComments, faFilePen, faPassport, faStethoscope, faPlaneDeparture } from "@fortawesome/free-solid-svg-icons";
+import useInView from "../hooks/useInView";
 
 const steps = [
-  { num: '01', icon: 'fa-pen-to-square', title: 'Contact & Brief', desc: 'Reach out via WhatsApp or the contact form. Share the details of your legal matter for an initial assessment.' },
-  { num: '02', icon: 'fa-file-lines', title: 'Case Review & Assessment', desc: 'We review the facts, applicable law, and precedents to provide a clear assessment of your case and legal options.' },
-  { num: '03', icon: 'fa-scale-balanced', title: 'Legal Strategy', desc: 'A tailored legal strategy is formulated, outlining the approach, timelines, and required documentation.' },
-  { num: '04', icon: 'fa-building-columns', title: 'Representation & Filing', desc: 'We prepare and file the necessary pleadings, appear before the relevant court or forum, and pursue your matter diligently.' },
-  { num: '05', icon: 'fa-circle-check', title: 'Resolution & Follow-up', desc: 'Post-resolution follow-up, including compliance monitoring, further appeals if needed, and ongoing counsel.' },
+  { icon: faComments, title: "Consultation", desc: "Discuss your goals and explore opportunities with our team." },
+  { icon: faFilePen, title: "Documents & Application", desc: "Submit required documents and complete your application." },
+  { icon: faPassport, title: "Visa / Processing", desc: "We handle visa filing, tracking, and follow-ups." },
+  { icon: faStethoscope, title: "Medical & Trade Test", desc: "Coordinate medical exams and skill assessments if required." },
+  { icon: faPlaneDeparture, title: "Deployment & Departure", desc: "Pre-departure briefing, ticketing, and final travel arrangements." },
 ];
 
 export default function Process() {
-  const ref = useRef(null);
-  useEffect(() => {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.08 });
-    ref.current?.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
+  const [ref, inView] = useInView();
 
   return (
-    <section id="process" className="relative py-24 overflow-hidden"
-      style={{ background: 'var(--color-primary)' }}
-      ref={ref}
-    >
-      <div className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,.03) 1px, transparent 0)',
-          backgroundSize: '32px 32px',
-        }} />
-      <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: 'var(--color-accent)' }} />
+    <section id="process" className="relative py-20 overflow-hidden">
+      {/* Angled background */}
+      <div className="absolute inset-0 origin-bottom-left pointer-events-none" style={{ background: "linear-gradient(170deg, #006D77 0%, #E29578 100%)", transform: "skewY(-3deg)", height: "110%", top: "-5%" }} />
+      <div className="absolute inset-0 pointer-events-none opacity-10" style={{ backgroundImage: "radial-gradient(circle at 30% 50%, rgba(255,255,255,0.15) 0%, transparent 50%), radial-gradient(circle at 70% 50%, rgba(255,221,0,0.1) 0%, transparent 50%)" }} />
 
-      <div className="max-w-[900px] mx-auto px-6 relative z-10">
-        <div className="reveal text-center mb-14">
-          <span className="section-pill"
-            style={{ background: 'rgba(201,162,39,.12)', borderColor: 'rgba(201,162,39,.25)', color: 'var(--color-accent)' }}>
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <span className="inline-block mb-3 px-4 py-1.5 text-xs font-bold rounded-full tracking-widest uppercase border" style={{ color: "#FFDD00", backgroundColor: "rgba(255,255,255,0.15)", borderColor: "rgba(255,255,255,0.25)" }}>
             HOW IT WORKS
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold leading-tight text-white">
-            Consultation Process
-          </h2>
-          <div className="gold-divider mt-4" />
-          <p className="text-sm mt-4 max-w-xl mx-auto leading-relaxed" style={{ color: 'rgba(255,255,255,.55)' }}>
-            A structured approach to understanding, preparing, and pursuing your legal matter.
-          </p>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white" style={{ fontFamily: "Plus Jakarta Sans" }}>Our Process</h2>
         </div>
 
-        <div className="flex flex-col gap-6">
+        <div ref={ref} className="grid sm:grid-cols-3 lg:grid-cols-5 gap-4">
           {steps.map((s, i) => (
-            <div key={i}
-              className="reveal flex items-start gap-6 p-6 rounded-2xl"
-              style={{ background: 'rgba(255,255,255,.05)', border: '1px solid rgba(255,255,255,.08)', transitionDelay: `${i * 0.1}s` }}>
-
-              {/* Gold numeral */}
-              <div className="flex-shrink-0 w-[72px] h-[72px] rounded-full flex flex-col items-center justify-center"
-                style={{ background: 'rgba(201,162,39,.12)', border: '2px solid rgba(201,162,39,.3)' }}>
-                <span className="text-[0.45rem] font-bold uppercase tracking-wider" style={{ color: 'rgba(201,162,39,.7)' }}>
-                  Step
-                </span>
-                <span className="text-xl font-black" style={{ color: 'var(--color-accent)' }}>
-                  {s.num}
-                </span>
+            <div
+              key={s.title}
+              className="relative text-center p-6 rounded-2xl transition-all duration-500 hover:-translate-y-2"
+              style={{
+                backgroundColor: "rgba(255,255,255,0.12)",
+                backdropFilter: "blur(8px)",
+                border: "1px solid rgba(255,255,255,0.15)",
+                opacity: inView ? 1 : 0,
+                transform: inView ? "translateY(0)" : "translateY(20px)",
+                transitionDelay: `${i * 0.1}s`,
+              }}
+            >
+              <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-extrabold" style={{ backgroundColor: i % 2 === 0 ? "#FFDD00" : "#FFFFFF", color: i % 2 === 0 ? "#003844" : "#006D77" }}>
+                <FontAwesomeIcon icon={s.icon} />
               </div>
-
-              <div className="flex-1 min-w-0 pt-2">
-                <div className="flex items-center gap-3 mb-1">
-                  <i className={`fas ${s.icon}`} style={{ color: 'var(--color-accent)' }} />
-                  <h3 className="text-base font-bold text-white"
-                    style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
-                    {s.title}
-                  </h3>
-                </div>
-                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,.6)' }}>
-                  {s.desc}
-                </p>
+              <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full flex items-center justify-center text-xs font-extrabold" style={{ backgroundColor: "#FFDD00", color: "#003844" }}>
+                {i + 1}
               </div>
+              <h4 className="text-white font-extrabold text-sm mb-1" style={{ fontFamily: "Plus Jakarta Sans" }}>{s.title}</h4>
+              <p className="text-xs opacity-85 text-white/80">{s.desc}</p>
             </div>
           ))}
         </div>

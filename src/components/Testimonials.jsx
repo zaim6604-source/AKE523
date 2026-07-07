@@ -1,63 +1,49 @@
-import { useEffect, useRef } from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import useInView from "../hooks/useInView";
 
 const testimonials = [
-  {
-    type: 'Corporate Client, Islamabad',
-    text: 'Exceptional legal counsel. Mr. Gujjar\'s command of constitutional law and his presence before the Supreme Court gave us confidence throughout our litigation. Highly professional and thorough.',
-  },
-  {
-    type: 'Business Owner, Rawalpindi',
-    text: 'I approached the chambers for a complex commercial dispute. The strategy and representation were outstanding. Grateful for the clear communication and diligent follow-through.',
-  },
-  {
-    type: 'Institutional Client, Lahore',
-    text: 'Having worked with many law firms over the years, I find the level of dedication and legal acumen at Ashraf Gujjar Law Associates to be among the best. Truly distinguished practice.',
-  },
-  {
-    type: 'Individual Client, F-8 Islamabad',
-    text: 'A property dispute that had dragged on for years was resolved efficiently. The personal attention and courtroom experience made all the difference. Strongly recommend.',
-  },
+  { name: "Ahmed R.", destination: "Saudi Arabia — Construction", quote: "Etcom made the entire process smooth and stress-free. From paperwork to departure, they handled everything professionally.", stars: 5 },
+  { name: "Fatima K.", destination: "UAE — Hospitality", quote: "I was nervous about working abroad, but the team guided me at every step. Truly grateful for their support.", stars: 5 },
+  { name: "Usman M.", destination: "Germany — Skilled Worker", quote: "Excellent visa processing and pre-departure briefing. I felt fully prepared before traveling. Highly recommended!", stars: 5 },
+  { name: "Sana T.", destination: "Qatar — Healthcare", quote: "They found the right opportunity for my skills and managed all the documentation. A trusted partner indeed.", stars: 5 },
 ];
 
 export default function Testimonials() {
-  const ref = useRef(null);
-  useEffect(() => {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    ref.current?.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
+  const [ref, inView] = useInView();
 
   return (
-    <section className="py-24 relative overflow-hidden bg-white" ref={ref}>
-      <div className="max-w-[1180px] mx-auto px-6 relative z-10">
-        <div className="reveal text-center mb-14">
-          <span className="section-pill">CLIENT CONFIDENCE</span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold leading-tight text-[#0B2545]">
-            What Clients Say
-          </h2>
-          <div className="gold-divider mt-4" />
+    <section className="py-20" style={{ backgroundColor: "#EDF6F9" }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <span className="inline-block mb-3 px-4 py-1.5 text-xs font-bold rounded-full tracking-widest uppercase border" style={{ color: "#006D77", backgroundColor: "rgba(0, 109, 119, 0.08)", borderColor: "rgba(0, 109, 119, 0.2)" }}>
+            SUCCESS STORIES
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold" style={{ fontFamily: "Plus Jakarta Sans", color: "#003844" }}>What Our Clients Say</h2>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div ref={ref} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {testimonials.map((t, i) => (
-            <div key={i}
-              className="reveal white-card rounded-2xl p-7 flex flex-col"
-              style={{ transitionDelay: `${i * 0.08}s` }}>
-              {/* Gold quote mark */}
-              <i className="fas fa-quote-left text-lg mb-4" style={{ color: 'var(--color-accent)', opacity: 0.5 }} />
-              <p className="text-sm leading-relaxed mb-6 flex-1" style={{ color: '#555' }}>
-                &ldquo;{t.text}&rdquo;
-              </p>
-              <div className="flex items-center gap-2 pt-4" style={{ borderTop: '1px solid rgba(201,162,39,.1)' }}>
-                <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs"
-                  style={{ background: 'var(--color-accent)' }}>
-                  <i className="fas fa-user" />
-                </div>
-                <div>
-                  <strong className="block text-xs text-[#0B2545]">{t.type}</strong>
-                </div>
+            <div
+              key={t.name}
+              className="rounded-2xl p-6 transition-all duration-500 hover:-translate-y-1"
+              style={{
+                backgroundColor: "#FFFFFF",
+                border: "1px solid rgba(0, 109, 119, 0.08)",
+                opacity: inView ? 1 : 0,
+                transform: inView ? "translateY(0)" : "translateY(20px)",
+                transitionDelay: `${i * 0.1}s`,
+              }}
+            >
+              <div className="flex gap-1 mb-3">
+                {[...Array(t.stars)].map((_, si) => (
+                  <FontAwesomeIcon key={si} icon={faStar} size="sm" style={{ color: "#FFDD00" }} />
+                ))}
+              </div>
+              <p className="text-sm leading-relaxed mb-4 italic" style={{ color: "#4a5568" }}>"{t.quote}"</p>
+              <div>
+                <p className="font-extrabold text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#003844" }}>{t.name}</p>
+                <p className="text-xs" style={{ color: "#006D77" }}>{t.destination}</p>
               </div>
             </div>
           ))}
