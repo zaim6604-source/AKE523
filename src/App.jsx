@@ -7,10 +7,10 @@ import Services from './components/Services';
 import CountryGuide from './components/CountryGuide';
 import Process from './components/Process';
 import Testimonials from './components/Testimonials';
-import CtaBand from './components/CtaBand';
+import CtaBand from './components/CTABand';
 import Contact from './components/Contact';
 import MapSection from './components/MapSection';
-import Faqs from './components/Faqs';
+import Faqs from './components/FAQs';
 import Footer from './components/Footer';
 import QuickApply from './components/QuickApply';
 
