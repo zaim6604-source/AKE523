@@ -1,71 +1,63 @@
-import useReveal from '../hooks/useReveal';
-import { FaStar, FaQuoteRight } from 'react-icons/fa';
+import { useEffect, useRef } from 'react';
 
-const TESTIMONIALS = [
+const testimonials = [
   {
-    name: 'Usman Khan',
-    role: 'Welder — Certified 6G',
-    quote: 'I came to New Trademan with basic welding experience. The hands-on training and trade test gave me the confidence and certificate I needed to apply for overseas jobs.',
-    rating: 5,
-    img: '/images/testimonial-1.jpg',
+    type: 'Corporate Client, Islamabad',
+    text: 'Exceptional legal counsel. Mr. Gujjar\'s command of constitutional law and his presence before the Supreme Court gave us confidence throughout our litigation. Highly professional and thorough.',
   },
   {
-    name: 'Bilal Ahmad',
-    role: 'Electrician',
-    quote: 'The instructors are true professionals. They took me through everything from basic wiring to industrial electrical systems. Highly recommend for anyone serious about their trade.',
-    rating: 5,
-    img: '/images/testimonial-2.jpg',
+    type: 'Business Owner, Rawalpindi',
+    text: 'I approached the chambers for a complex commercial dispute. The strategy and representation were outstanding. Grateful for the clear communication and diligent follow-through.',
   },
   {
-    name: 'Rashid Mehmood',
-    role: 'AC Technician',
-    quote: 'I had been working as an AC tech for years but had no certificate. New Trademan assessed my skills fairly and issued a recognised certificate. Now I\'m preparing to go to the Gulf.',
-    rating: 5,
-    img: '/images/testimonial-3.jpg',
+    type: 'Institutional Client, Lahore',
+    text: 'Having worked with many law firms over the years, I find the level of dedication and legal acumen at Ashraf Gujjar Law Associates to be among the best. Truly distinguished practice.',
+  },
+  {
+    type: 'Individual Client, F-8 Islamabad',
+    text: 'A property dispute that had dragged on for years was resolved efficiently. The personal attention and courtroom experience made all the difference. Strongly recommend.',
   },
 ];
 
 export default function Testimonials() {
-  useReveal('.tst-reveal');
+  const ref = useRef(null);
+  useEffect(() => {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    ref.current?.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
 
   return (
-    <section id="testimonials" className="py-[clamp(60px,10vw,100px)] px-5" style={{ background: '#fff' }}>
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12 tst-reveal reveal">
-          <span className="pill-badge">OUR TRAINEES</span>
-          <h2 className="font-display font-extrabold mt-4 mb-3" style={{ fontSize: 'clamp(28px,5vw,42px)', color: '#1A1423' }}>
-            What Our Trainees Say
+    <section className="py-24 relative overflow-hidden bg-white" ref={ref}>
+      <div className="max-w-[1180px] mx-auto px-6 relative z-10">
+        <div className="reveal text-center mb-14">
+          <span className="section-pill">CLIENT CONFIDENCE</span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold leading-tight text-[#0B2545]">
+            What Clients Say
           </h2>
-          <p className="text-sm md:text-base max-w-xl mx-auto leading-relaxed" style={{ color: '#4B4453' }}>
-            Real stories from workers who trained and certified with New Trademan.
-          </p>
+          <div className="gold-divider mt-4" />
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {TESTIMONIALS.map((t, i) => (
-            <div
-              key={i}
-              className="tst-reveal reveal rounded-2xl p-6 md:p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-              style={{ background: '#FFF8E0', border: '1px solid rgba(255,32,110,0.08)' }}
-            >
-              <div className="flex gap-1 mb-4">
-                {[...Array(t.rating)].map((_, j) => (
-                  <FaStar key={j} size={14} style={{ color: '#FBFF12' }} />
-                ))}
-              </div>
-              <p className="text-sm leading-relaxed mb-5" style={{ color: '#4B4453' }}>"{t.quote}"</p>
-              <div className="flex items-center gap-3">
-                <img
-                  src={t.img}
-                  alt={t.name}
-                  className="w-11 h-11 rounded-full object-cover"
-                  onError={(e) => { e.target.style.display = 'none'; }}
-                />
-                <div>
-                  <div className="font-display font-bold text-sm" style={{ color: '#1A1423' }}>{t.name}</div>
-                  <div className="text-xs font-semibold" style={{ color: '#FF206E' }}>{t.role}</div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {testimonials.map((t, i) => (
+            <div key={i}
+              className="reveal white-card rounded-2xl p-7 flex flex-col"
+              style={{ transitionDelay: `${i * 0.08}s` }}>
+              {/* Gold quote mark */}
+              <i className="fas fa-quote-left text-lg mb-4" style={{ color: 'var(--color-accent)', opacity: 0.5 }} />
+              <p className="text-sm leading-relaxed mb-6 flex-1" style={{ color: '#555' }}>
+                &ldquo;{t.text}&rdquo;
+              </p>
+              <div className="flex items-center gap-2 pt-4" style={{ borderTop: '1px solid rgba(201,162,39,.1)' }}>
+                <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs"
+                  style={{ background: 'var(--color-accent)' }}>
+                  <i className="fas fa-user" />
                 </div>
-                <FaQuoteRight size={20} className="ml-auto" style={{ color: '#FF206E', opacity: 0.15 }} />
+                <div>
+                  <strong className="block text-xs text-[#0B2545]">{t.type}</strong>
+                </div>
               </div>
             </div>
           ))}

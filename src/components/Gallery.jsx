@@ -1,50 +1,51 @@
-import { useState } from 'react';
-import useReveal from '../hooks/useReveal';
+import { useEffect, useRef } from 'react';
 
-const IMAGES = [
-  { src: '/images/gallery-welding.jpg', alt: 'Welding Workshop' },
-  { src: '/images/gallery-electrical.jpg', alt: 'Electrical Workshop' },
-  { src: '/images/gallery-training.jpg', alt: 'Training Classroom' },
-  { src: '/images/gallery-mechanic.jpg', alt: 'Mechanic Workshop' },
+const photos = [
+  { src: '/src/assets/images/law-library.jpg', alt: 'Law Library' },
+  { src: '/src/assets/images/courthouse.jpg', alt: 'Courthouse' },
+  { src: '/src/assets/images/scales.jpg', alt: 'Scales of Justice' },
+  { src: '/src/assets/images/chambers.jpg', alt: 'Chambers Office' },
+];
+
+const fallbacks = [
+  'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80',
+  'https://images.unsplash.com/photo-1505664194779-8beaceb93744?w=800&q=80',
+  'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&q=80',
+  'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80',
 ];
 
 export default function Gallery() {
-  useReveal('.gll-reveal');
-  const [errors, setErrors] = useState({});
+  const ref = useRef(null);
+  useEffect(() => {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    ref.current?.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
 
   return (
-    <section className="py-[clamp(60px,10vw,100px)] px-5" style={{ background: '#fff' }}>
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12 gll-reveal reveal">
-          <span className="pill-badge">OUR FACILITY</span>
-          <h2 className="font-display font-extrabold mt-4 mb-3" style={{ fontSize: 'clamp(28px,5vw,42px)', color: '#1A1423' }}>
-            Facility &amp; Workshop
+    <section className="py-24 relative overflow-hidden" style={{ background: 'var(--color-background)' }} ref={ref}>
+      <div className="max-w-[1180px] mx-auto px-6 relative z-10">
+        <div className="reveal text-center mb-14">
+          <span className="section-pill">CHAMBERS</span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold leading-tight text-[#0B2545]">
+            Our Chambers
           </h2>
-          <p className="text-sm md:text-base max-w-xl mx-auto leading-relaxed" style={{ color: '#4B4453' }}>
-            A look inside our training centre and workshop facilities in Mardan.
-          </p>
+          <div className="gold-divider mt-4" />
         </div>
 
-        <div className="grid sm:grid-cols-2 gap-4 md:gap-5">
-          {IMAGES.map((img, i) => (
-            <div
-              key={i}
-              className="gll-reveal reveal rounded-2xl overflow-hidden group img-hover-zoom"
-              style={{ transitionDelay: `${i * 0.1}s` }}
-            >
-              {!errors[i] ? (
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  className="w-full h-64 md:h-72 object-cover transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
-                  onError={() => setErrors((p) => ({ ...p, [i]: true }))}
-                />
-              ) : (
-                <div className="w-full h-64 md:h-72 flex items-center justify-center rounded-2xl" style={{ background: '#FFF8E0' }}>
-                  <span className="text-sm font-medium" style={{ color: '#FF206E' }}>{img.alt}</span>
-                </div>
-              )}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {photos.map((p, i) => (
+            <div key={i} className="reveal relative rounded-2xl overflow-hidden shadow-md"
+              style={{ transitionDelay: `${i * 0.1}s` }}>
+              <img
+                src={p.src}
+                alt={p.alt}
+                className="w-full h-56 object-cover"
+                loading="lazy"
+                onError={(e) => { e.target.src = fallbacks[i]; }}
+              />
             </div>
           ))}
         </div>

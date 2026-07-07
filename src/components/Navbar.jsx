@@ -1,290 +1,126 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Phone } from 'lucide-react';
-
-const FacebookIcon = ({ size = 18, color = 'currentColor' }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill={color} xmlns="http://www.w3.org/2000/svg">
-    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-  </svg>
-);
 
 const links = [
-  { id: 'home', label: 'Home' },
-  { id: 'about', label: 'About' },
-  { id: 'trades', label: 'Trades' },
-  { id: 'training', label: 'Training' },
-  { id: 'process', label: 'Process' },
-  { id: 'faqs', label: 'FAQs' },
-  { id: 'contact', label: 'Contact' },
+  { label: 'Home', href: '#home' },
+  { label: 'About', href: '#about' },
+  { label: 'Practice Areas', href: '#practice-areas' },
+  { label: 'Credentials', href: '#credentials' },
+  { label: 'Process', href: '#process' },
+  { label: 'FAQs', href: '#faqs' },
+  { label: 'Contact', href: '#contact' },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
   const [active, setActive] = useState('home');
-  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 20);
-      const ids = links.map((l) => l.id);
-      const scrollPos = window.scrollY + 120;
-      for (let i = ids.length - 1; i >= 0; i--) {
-        const el = document.getElementById(ids[i]);
-        if (el && el.offsetTop <= scrollPos) {
-          setActive(ids[i]);
-          break;
-        }
-      }
+      const sections = document.querySelectorAll('section[id]');
+      const y = window.scrollY + 100;
+      sections.forEach(sec => {
+        if (y >= sec.offsetTop && y < sec.offsetTop + sec.offsetHeight)
+          setActive(sec.id);
+      });
     };
-    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const scrollTo = (id) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-    setMenuOpen(false);
+  const scrollTo = (e, href) => {
+    e.preventDefault();
+    setOpen(false);
+    const el = document.querySelector(href);
+    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: 'smooth' });
   };
 
-  const navBg = scrolled
-    ? 'rgba(255,248,224,0.92)'
-    : 'rgba(255,248,224,0)';
-
   return (
-    <>
-      <nav
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 1000,
-          transition: 'background 0.3s, box-shadow 0.3s, backdrop-filter 0.3s',
-          background: navBg,
-          backdropFilter: scrolled ? 'blur(18px)' : 'none',
-          WebkitBackdropFilter: scrolled ? 'blur(18px)' : 'none',
-          boxShadow: scrolled ? '0 1px 30px rgba(255,32,110,0.08)' : 'none',
-          borderBottom: scrolled ? '1px solid rgba(255,32,110,0.08)' : 'none',
-        }}
-      >
-        <div
-          style={{
-            maxWidth: 1200,
-            margin: '0 auto',
-            padding: '0 24px',
-            height: 70,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          {/* Logo */}
-          <button
-            onClick={() => scrollTo('home')}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 10,
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              padding: 0,
-            }}
-          >
-            <div
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 10,
-                background: 'linear-gradient(135deg, #FF206E, #D4005A)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: '0 4px 14px rgba(255,32,110,0.35)',
-                fontWeight: 800,
-                fontSize: 18,
-                color: '#fff',
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-              }}
-            >
-              NT
-            </div>
-            <div style={{ textAlign: 'left' }}>
-              <div
-                style={{
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
-                  fontWeight: 800,
-                  fontSize: 17,
-                  color: '#1A1423',
-                  letterSpacing: '-0.3px',
-                  lineHeight: 1.1,
-                }}
-              >
-                New Trademan
-              </div>
-              <div
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 4,
-                  background: '#FF206E',
-                  borderRadius: 6,
-                  padding: '1px 7px',
-                  marginTop: 2,
-                }}
-              >
-                <span
-                  style={{
-                    fontSize: 9,
-                    fontWeight: 700,
-                    color: '#fff',
-                    letterSpacing: '0.06em',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  Trade Test & Training • Mardan
-                </span>
-              </div>
-            </div>
-          </button>
-
-          {/* Desktop Links */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 24,
-            }}
-            className="hidden-mobile"
-          >
-            {links.map((l) => (
-              <button
-                key={l.id}
-                onClick={() => scrollTo(l.id)}
-                className="nav-link"
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontFamily: 'Inter, sans-serif',
-                  fontWeight: 500,
-                  fontSize: 13.5,
-                  color: active === l.id ? '#FF206E' : '#4B4453',
-                  padding: '4px 0',
-                  transition: 'color 0.3s',
-                  position: 'relative',
-                }}
-              >
-                {l.label}
-                {active === l.id && (
-                  <div
-                    style={{
-                      position: 'absolute',
-                      bottom: -4,
-                      left: 0,
-                      right: 0,
-                      height: 2,
-                      background: '#FF206E',
-                      borderRadius: 99,
-                    }}
-                  />
-                )}
-              </button>
-            ))}
-            <FacebookIcon size={18} color="#FF206E" />
-            <a
-              href="https://wa.me/923194139360"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary"
-              style={{ padding: '10px 20px', fontSize: 13, borderRadius: 10 }}
-            >
-              <Phone size={14} />
-              Enroll / Book Test
-            </a>
+    <header className={`fixed top-0 left-0 right-0 z-50 h-[72px] transition-all duration-300 bg-white/95 backdrop-blur-xl shadow-lg shadow-black/5`}>
+      <div className="max-w-[1180px] mx-auto px-6 h-full flex items-center justify-between">
+        <a href="#home" onClick={e => scrollTo(e, '#home')} className="flex items-center gap-3 no-underline">
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg"
+            style={{ background: 'var(--color-accent)' }}>
+            <i className="fas fa-gavel text-white text-sm" />
           </div>
+          <div className="flex flex-col leading-tight">
+            <span className={`font-bold text-[0.95rem] leading-tight text-[#0B2545]`}
+              style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
+              Ashraf Gujjar Law
+            </span>
+            <span className={`text-[0.5rem] font-semibold uppercase tracking-widest text-[#C9A227]`}>
+              Associates
+            </span>
+          </div>
+        </a>
 
-          {/* Mobile Hamburger */}
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="show-mobile"
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              color: '#1A1423',
-              display: 'none',
-              padding: 4,
-            }}
-          >
-            {menuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile Menu */}
-      <div
-        style={{
-          position: 'fixed',
-          top: 70,
-          left: 0,
-          right: 0,
-          zIndex: 999,
-          background: 'rgba(255,248,224,0.97)',
-          backdropFilter: 'blur(18px)',
-          WebkitBackdropFilter: 'blur(18px)',
-          borderBottom: '1px solid rgba(255,32,110,0.1)',
-          padding: menuOpen ? '20px 24px 24px' : '0 24px',
-          maxHeight: menuOpen ? 480 : 0,
-          overflow: 'hidden',
-          transition: 'max-height 0.35s ease, padding 0.35s ease',
-          boxShadow: '0 8px 30px rgba(255,32,110,0.08)',
-        }}
-      >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-          {links.map((l) => (
-            <button
-              key={l.id}
-              onClick={() => scrollTo(l.id)}
-              style={{
-                background: active === l.id ? 'rgba(255,32,110,0.07)' : 'none',
-                border: 'none',
-                cursor: 'pointer',
-                fontFamily: 'Inter, sans-serif',
-                fontWeight: 500,
-                fontSize: 15,
-                color: active === l.id ? '#FF206E' : '#4B4453',
-                padding: '12px 16px',
-                borderRadius: 10,
-                textAlign: 'left',
-                transition: 'background 0.2s, color 0.2s',
-              }}
-            >
+        {/* Desktop */}
+        <nav className="hidden lg:flex items-center gap-1">
+          {links.map(l => (
+            <a key={l.href} href={l.href} onClick={e => scrollTo(e, l.href)}
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${
+                active === l.href.replace('#','')
+                  ? 'text-[#C9A227] bg-[#C9A227]/10'
+                  : scrolled
+                    ? 'text-gray-600 hover:text-[#C9A227] hover:bg-[#C9A227]/5'
+                    : 'text-gray-600 hover:text-[#C9A227] hover:bg-[#C9A227]/5'
+              }`}>
               {l.label}
-            </button>
+            </a>
           ))}
-          <a
-            href="https://wa.me/923194139360"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary"
-            style={{ marginTop: 8, justifyContent: 'center', width: '100%' }}
-          >
-            <Phone size={14} />
-            Enroll / Book Test
+
+          <span className={`hidden lg:inline-flex text-[0.55rem] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full mx-2 ${
+            scrolled ? 'bg-[#C9A227]/10 text-[#C9A227] border border-[#C9A227]/20' : 'bg-[#C9A227]/10 text-[#C9A227] border border-[#C9A227]/20'
+          }`}>
+            Adv. Supreme Court
+          </span>
+
+          <a href="https://wa.me/923335107178" target="_blank" rel="noopener noreferrer"
+            className="ml-1 px-3 py-2 rounded-full text-white text-[12px] font-semibold transition-all shadow-lg inline-flex items-center gap-2 btn-gold">
+            <i className="fab fa-whatsapp text-xs" /> Book Consultation
           </a>
-        </div>
+
+          <a href="https://www.linkedin.com/in/ch-muhammad-ashraf-gujjar-22791170/" target="_blank" rel="noopener noreferrer"
+            className={`ml-1.5 w-9 h-9 rounded-full flex items-center justify-center transition-all ${
+              scrolled ? 'text-[#0B2545] hover:bg-[#0B2545]/5' : 'text-[#0B2545] hover:bg-[#0B2545]/5'
+            }`}
+            aria-label="LinkedIn">
+            <i className="fab fa-linkedin-in text-sm" />
+          </a>
+        </nav>
+
+        {/* Hamburger */}
+        <button onClick={() => setOpen(!open)} className="md:hidden flex flex-col gap-[5px] p-2 rounded-lg" aria-label="Menu">
+          <span className={`block w-6 h-[2px] rounded transition-all duration-300 bg-[#0B2545] ${open ? 'translate-y-[7px] rotate-45' : ''}`} />
+          <span className={`block w-6 h-[2px] rounded transition-all duration-300 bg-[#0B2545] ${open ? 'opacity-0' : ''}`} />
+          <span className={`block w-6 h-[2px] rounded transition-all duration-300 bg-[#0B2545] ${open ? '-translate-y-[7px] -rotate-45' : ''}`} />
+        </button>
       </div>
 
-      <style>{`
-        @media (max-width: 768px) {
-          .hidden-mobile { display: none !important; }
-          .show-mobile { display: flex !important; }
-        }
-        @media (min-width: 769px) {
-          .hidden-mobile { display: flex !important; }
-          .show-mobile { display: none !important; }
-        }
-      `}</style>
-    </>
+      {/* Mobile */}
+      <div className={`lg:hidden absolute top-[72px] left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-gray-100 shadow-xl px-6 py-5 transition-all duration-300 ${
+        open ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-3 pointer-events-none'
+      }`}>
+        <ul className="flex flex-col gap-1">
+          {links.map(l => (
+            <li key={l.href}>
+              <a href={l.href} onClick={e => scrollTo(e, l.href)}
+                className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+                  active === l.href.replace('#','') ? 'text-[#C9A227] bg-[#C9A227]/5' : 'text-gray-700 hover:bg-gray-50'
+                }`}>
+                {l.label}
+              </a>
+            </li>
+          ))}
+          <li className="mt-2 pt-3 border-t border-gray-100">
+            <a href="https://wa.me/923335107178" target="_blank" rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold text-white btn-gold">
+              <i className="fab fa-whatsapp" /> Book Consultation
+            </a>
+          </li>
+        </ul>
+      </div>
+    </header>
   );
 }

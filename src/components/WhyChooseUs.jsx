@@ -1,50 +1,51 @@
-import useReveal from '../hooks/useReveal';
-import { FaChalkboardTeacher, FaIndustry, FaCertificate, FaGlobeAsia } from 'react-icons/fa';
+import { useEffect, useRef } from 'react';
 
-const FEATURES = [
-  { icon: FaChalkboardTeacher, title: 'Experienced Instructors', desc: 'Learn from certified professionals with years of practical trade experience.', color: '#FF206E' },
-  { icon: FaIndustry, title: 'Real Workshop Practice', desc: 'Train on real equipment in our fully equipped workshop facility.', color: '#41EAD4' },
-  { icon: FaCertificate, title: 'Recognised Certificates', desc: 'Receive certificates that are valued and trusted by employers.', color: '#7B2D8E' },
-  { icon: FaGlobeAsia, title: 'Overseas-Ready Skills', desc: 'Skills and certification aligned with international workplace standards.', color: '#FBFF12' },
+const reasons = [
+  { icon: 'fa-scale-balanced', title: 'Supreme Court Standing', desc: 'Direct access to advocacy at the highest judicial forum in Pakistan.' },
+  { icon: 'fa-calendar', title: '25+ Years\' Experience', desc: 'Over two decades of legal practice across diverse areas of law and jurisdictions.' },
+  { icon: 'fa-globe', title: 'National & Multinational Clients', desc: 'Trusted legal counsel for individuals, corporations, and institutions nationwide.' },
+  { icon: 'fa-handshake', title: 'Trusted Counsel', desc: 'A reputation built on integrity, diligence, and successful outcomes for clients.' },
+  { icon: 'fa-gavel', title: 'Bar Leadership', desc: 'Former President of IDBA and Pioneer IHC Bar Association with international Bar experience.' },
+  { icon: 'fa-file-shield', title: 'Confidential & Discreet', desc: 'All client communications and case details handled with the utmost confidentiality.' },
 ];
 
 export default function WhyChooseUs() {
-  useReveal('.why-reveal');
+  const ref = useRef(null);
+  useEffect(() => {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    ref.current?.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
 
   return (
-    <section className="py-[clamp(60px,10vw,100px)] px-5" style={{ background: '#FFF8E0' }}>
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12 why-reveal reveal">
-          <span className="pill-badge">WHY NEW TRADEMAN</span>
-          <h2 className="font-display font-extrabold mt-4 mb-3" style={{ fontSize: 'clamp(28px,5vw,42px)', color: '#1A1423' }}>
-            Why Choose Us
+    <section id="why-us" className="py-24 relative overflow-hidden" style={{ background: 'var(--color-background)' }} ref={ref}>
+      <div className="max-w-[1180px] mx-auto px-6 relative z-10">
+        <div className="reveal text-center mb-14">
+          <span className="section-pill">WHY US</span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold leading-tight text-[#0B2545]">
+            Why Choose Our Chambers
           </h2>
-          <p className="text-sm md:text-base max-w-xl mx-auto leading-relaxed" style={{ color: '#4B4453' }}>
-            What makes New Trademan the right choice for your trade training and certification.
-          </p>
+          <div className="gold-divider mt-4" />
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {FEATURES.map((f, i) => {
-            const Icon = f.icon;
-            const isYellow = f.color === '#FBFF12';
-            return (
-              <div
-                key={i}
-                className="why-reveal reveal rounded-2xl p-6 md:p-7 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-                style={{ background: '#fff', border: `1px solid ${f.color}20` }}
-              >
-                <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md"
-                  style={{ background: f.color }}
-                >
-                  <Icon size={24} color={isYellow ? '#1A1423' : '#fff'} />
-                </div>
-                <h3 className="font-display font-bold text-base mb-2" style={{ color: '#1A1423' }}>{f.title}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: '#4B4453' }}>{f.desc}</p>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {reasons.map((r, i) => (
+            <div key={i}
+              className="reveal white-card rounded-2xl p-7"
+              style={{ transitionDelay: `${(i % 3) * 0.08}s` }}>
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center text-lg mb-4"
+                style={{ background: 'rgba(201, 162, 39, 0.1)', color: 'var(--color-accent)' }}>
+                <i className={`fas ${r.icon}`} />
               </div>
-            );
-          })}
+              <h3 className="text-base font-bold text-[#0B2545] mb-2"
+                style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
+                {r.title}
+              </h3>
+              <p className="text-sm leading-relaxed" style={{ color: '#6b7280' }}>{r.desc}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

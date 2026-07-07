@@ -1,295 +1,188 @@
-import { useEffect } from 'react';
-import { MapPin, Phone, Mail, Navigation2, ExternalLink } from 'lucide-react';
-
-const FacebookIcon = ({ size = 20, color = 'currentColor' }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill={color} xmlns="http://www.w3.org/2000/svg">
-    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-  </svg>
-);
+import { useState, useEffect, useRef } from 'react';
 
 const contactItems = [
-  {
-    icon: MapPin,
-    label: 'Address',
-    value: 'Faram Stop, Baghdada–Par Hoti Rd, Sikandari Hoti, Mardan, 23200, KPK',
-    accent: '#FF206E',
-    bg: 'rgba(255,32,110,0.08)',
-    link: null,
-  },
-  {
-    icon: Phone,
-    label: 'Phone',
-    value: '0316-9139128',
-    accent: '#41EAD4',
-    bg: 'rgba(65,234,212,0.08)',
-    link: 'tel:+923169139128',
-  },
-  {
-    icon: Phone,
-    label: 'WhatsApp',
-    value: '+92-319-4139360',
-    accent: '#FBFF12',
-    bg: 'rgba(251,255,18,0.08)',
-    link: 'https://wa.me/923194139360',
-  },
-  {
-    icon: Mail,
-    label: 'Email',
-    value: 'newtrademan@gmail.com',
-    accent: '#FF6B35',
-    bg: 'rgba(255,107,53,0.08)',
-    link: 'mailto:newtrademan@gmail.com',
-  },
-  {
-    icon: FacebookIcon,
-    label: 'Facebook',
-    value: 'New Trade Man',
-    accent: '#7B2D8E',
-    bg: 'rgba(123,45,142,0.08)',
-    link: 'https://www.facebook.com/p/New-Trade-Man-100064054780648/',
-  },
+  { icon: 'fab fa-whatsapp', label: 'WhatsApp', lines: ['0333-5107178'] },
+  { icon: 'fas fa-map-marker-alt', label: 'Chamber Address', lines: [
+    'Chamber No. 7, Ashraf Gujjar Law Associates',
+    'Muslim Block, Johar Rd, near Bar Room / Tehsildar Office',
+    'F-8 Markaz, Islamabad',
+  ]},
+  { icon: 'fas fa-envelope', label: 'Email', lines: ['info@ashrafgujjarlaw.pk'] },
+  { icon: 'fas fa-clock', label: 'Working Hours', lines: ['Mon – Sat: 9:00 AM – 6:00 PM'] },
 ];
 
 export default function Contact() {
+  const ref = useRef(null);
+  const [form, setForm] = useState({ name: '', phone: '', email: '', matter: '', message: '' });
+  const [errors, setErrors] = useState({});
+
   useEffect(() => {
-    const els = document.querySelectorAll('.ct-reveal');
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add('show');
-            observer.unobserve(e.target);
-          }
-        });
-      },
-      { threshold: 0.12 }
-    );
-    els.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    ref.current?.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    return () => obs.disconnect();
   }, []);
 
-  return (
-    <section
-      id="contact"
-      style={{
-        padding: 'clamp(80px,10vw,130px) 24px',
-        background: '#FFF8E0',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-    >
-      <div
-        style={{
-          position: 'absolute',
-          top: -200,
-          left: -200,
-          width: 600,
-          height: 600,
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(255,32,110,0.05), transparent 70%)',
-          pointerEvents: 'none',
-        }}
-      />
+  const validate = () => {
+    const e = {};
+    if (!form.name.trim()) e.name = 'Please enter your name.';
+    if (!form.phone.trim()) e.phone = 'Please enter your phone number.';
+    if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
+      e.email = 'Please enter a valid email.';
+    return e;
+  };
 
-      <div className="section-container">
-        <div
-          className="ct-reveal reveal"
-          style={{ textAlign: 'center', marginBottom: 64 }}
-        >
-          <span className="pill-badge">GET IN TOUCH</span>
-          <h2
-            style={{
-              fontFamily: 'Plus Jakarta Sans, sans-serif',
-              fontWeight: 800,
-              fontSize: 'clamp(28px,5vw,46px)',
-              color: '#1A1423',
-              marginTop: 16,
-              marginBottom: 16,
-              letterSpacing: '-0.8px',
-            }}
-          >
-            Contact{' '}
-            <span style={{ color: '#FF206E' }}>Us</span>
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const errs = validate();
+    setErrors(errs);
+    if (Object.keys(errs).length > 0) return;
+    const text =
+`Hello Ashraf Gujjar Law Associates,
+My name is ${form.name}.
+Phone: ${form.phone}
+Email: ${form.email}
+Matter Type: ${form.matter || 'Not specified'}
+Message: ${form.message || 'N/A'}`;
+    window.open(`https://wa.me/923335107178?text=${encodeURIComponent(text)}`, '_blank');
+  };
+
+  const set = (key) => (e) => {
+    setForm(p => ({ ...p, [key]: e.target.value }));
+    setErrors(p => ({ ...p, [key]: '' }));
+  };
+
+  return (
+    <section id="contact" className="py-24 relative overflow-hidden" style={{ background: 'var(--color-background)' }} ref={ref}>
+      <div className="max-w-[1180px] mx-auto px-6 relative z-10">
+        <div className="reveal text-center mb-14">
+          <span className="section-pill">GET IN TOUCH</span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold leading-tight text-[#0B2545]">
+            Contact Our Chambers
           </h2>
-          <p
-            style={{
-              fontSize: 16,
-              color: '#4B4453',
-              maxWidth: 520,
-              margin: '0 auto',
-              lineHeight: 1.7,
-              fontFamily: 'Inter, sans-serif',
-            }}
-          >
-            Visit our training centre in Mardan or reach out via phone, WhatsApp, or email.
+          <div className="gold-divider mt-4" />
+          <p className="text-sm mt-4 text-gray-500 max-w-xl mx-auto leading-relaxed">
+            All enquiries treated in strict confidence.
           </p>
         </div>
 
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,460px),1fr))',
-            gap: 40,
-            alignItems: 'start',
-          }}
-        >
-          {/* Left - contact details */}
-          <div className="ct-reveal reveal-l">
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 16,
-                marginBottom: 32,
-              }}
-            >
-              {contactItems.map((item) => {
-                const Icon = item.icon;
-                const content = (
-                  <div
-                    key={item.label}
-                    style={{
-                      background: '#fff',
-                      border: '1px solid rgba(255,32,110,0.1)',
-                      borderRadius: 18,
-                      padding: '20px 22px',
-                      display: 'flex',
-                      alignItems: 'flex-start',
-                      gap: 16,
-                      boxShadow: '0 4px 20px rgba(255,32,110,0.06)',
-                      transition: 'transform 0.25s, box-shadow 0.25s',
-                      cursor: item.link ? 'pointer' : 'default',
-                      textDecoration: 'none',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-3px)';
-                      e.currentTarget.style.boxShadow = '0 12px 36px rgba(255,32,110,0.12)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '0 4px 20px rgba(255,32,110,0.06)';
-                    }}
-                  >
-                    <div
-                      style={{
-                        minWidth: 46,
-                        height: 46,
-                        borderRadius: 13,
-                        background: item.bg,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexShrink: 0,
-                      }}
-                    >
-                      <Icon size={20} color={item.accent} />
-                    </div>
-                    <div style={{ flex: 1 }}>
-                      <div
-                        style={{
-                          fontSize: 11,
-                          fontFamily: 'Inter, sans-serif',
-                          fontWeight: 600,
-                          color: '#94a3b8',
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.08em',
-                          marginBottom: 4,
-                        }}
-                      >
-                        {item.label}
-                      </div>
-                      <div
-                        style={{
-                          fontFamily: 'Inter, sans-serif',
-                          fontWeight: 600,
-                          fontSize: 14.5,
-                          color: item.link ? item.accent : '#1e293b',
-                          lineHeight: 1.5,
-                          whiteSpace: 'pre-line',
-                        }}
-                      >
-                        {item.value}
-                        {item.link && (
-                          <ExternalLink
-                            size={12}
-                            style={{ marginLeft: 5, display: 'inline', verticalAlign: 'middle' }}
-                          />
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                );
+        <div className="grid md:grid-cols-[1fr_1.5fr] gap-12 items-start">
+          {/* Info panel */}
+          <div className="reveal rounded-[1.5rem] p-10 text-white relative overflow-hidden"
+            style={{ background: 'linear-gradient(135deg, var(--color-primary), var(--color-secondary))' }}>
+            <h3 className="text-xl font-bold mb-8 relative z-10"
+              style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
+              Chamber Details
+            </h3>
+            {contactItems.map(item => (
+              <div key={item.label} className="flex items-start gap-4 mb-7 relative z-10">
+                <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
+                  style={{ background: 'rgba(201,162,39,.15)' }}>
+                  <i className={item.icon} style={{ color: 'var(--color-accent)' }} />
+                </div>
+                <div>
+                  <strong className="block text-xs text-white/50 uppercase tracking-wider mb-1">{item.label}</strong>
+                  {item.lines.map(l => <span key={l} className="block text-sm text-white/85">{l}</span>)}
+                </div>
+              </div>
+            ))}
 
-                return item.link ? (
-                  <a
-                    key={item.label}
-                    href={item.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ textDecoration: 'none', display: 'block' }}
-                  >
-                    {content}
-                  </a>
-                ) : (
-                  <div key={item.label}>{content}</div>
-                );
-              })}
+            {/* LinkedIn */}
+            <div className="mt-8 relative z-10">
+              <a href="https://www.linkedin.com/in/ch-muhammad-ashraf-gujjar-22791170/" target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all"
+                style={{ background: 'rgba(201,162,39,.15)', color: 'var(--color-accent)' }}>
+                <i className="fab fa-linkedin-in" /> Connect on LinkedIn
+              </a>
             </div>
-
-            <a
-              href="https://www.google.com/maps?q=Baghdada+Par+Hoti+Road+Sikandari+Hoti+Mardan&hl=en&z=15"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary"
-              style={{ display: 'inline-flex', width: '100%', justifyContent: 'center' }}
-            >
-              <Navigation2 size={16} />
-              Get Directions on Google Maps
-            </a>
           </div>
 
-          {/* Right - map */}
-          <div
-            className="ct-reveal reveal-r"
-            style={{
-              borderRadius: 24,
-              overflow: 'hidden',
-              boxShadow: '0 20px 60px rgba(255,32,110,0.12)',
-              border: '1px solid rgba(255,32,110,0.1)',
-            }}
-          >
-            <div
-              style={{
-                background: 'linear-gradient(135deg,#FF206E,#D4005A)',
-                padding: '16px 22px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 10,
-              }}
-            >
-              <MapPin size={16} color="rgba(255,255,255,0.8)" />
-              <span
-                style={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontWeight: 600,
-                  fontSize: 13,
-                  color: 'rgba(255,255,255,0.9)',
-                }}
-              >
-                New Trademan — Sikandari Hoti, Mardan
-              </span>
-            </div>
-            <iframe
-              title="New Trademan Location"
-              src="https://www.google.com/maps?q=Baghdada+Par+Hoti+Road+Sikandari+Hoti+Mardan&hl=en&z=15&output=embed"
-              width="100%"
-              height="420"
-              style={{ border: 0, display: 'block' }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
+          {/* Form */}
+          <div className="reveal bg-white rounded-[1.5rem] p-10 shadow-xl"
+            style={{ border: '1px solid rgba(201,162,39,.1)' }}>
+            <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="name" className="text-sm font-semibold text-[#0B2545]">
+                  Full Name <span style={{ color: 'var(--color-accent)' }}>*</span>
+                </label>
+                <input id="name" type="text" placeholder="Enter your full name"
+                  value={form.name} onChange={set('name')}
+                  className={`form-input ${errors.name ? 'error' : ''}`} />
+                {errors.name && <span className="text-xs text-red-500">{errors.name}</span>}
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-5">
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="phone" className="text-sm font-semibold text-[#0B2545]">
+                    Phone Number <span style={{ color: 'var(--color-accent)' }}>*</span>
+                  </label>
+                  <input id="phone" type="tel" placeholder="+92 300 0000000"
+                    value={form.phone} onChange={set('phone')}
+                    className={`form-input ${errors.phone ? 'error' : ''}`} />
+                  {errors.phone && <span className="text-xs text-red-500">{errors.phone}</span>}
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="email" className="text-sm font-semibold text-[#0B2545]">
+                    Email Address <span style={{ color: 'var(--color-accent)' }}>*</span>
+                  </label>
+                  <input id="email" type="email" placeholder="your@email.com"
+                    value={form.email} onChange={set('email')}
+                    className={`form-input ${errors.email ? 'error' : ''}`} />
+                  {errors.email && <span className="text-xs text-red-500">{errors.email}</span>}
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="matter" className="text-sm font-semibold text-[#0B2545]">Matter Type</label>
+                <select id="matter" value={form.matter} onChange={set('matter')}
+                  className="form-input appearance-none">
+                  <option value="">Select matter type (optional)</option>
+                  <option>Constitutional / Public Interest</option>
+                  <option>Civil Litigation</option>
+                  <option>Corporate / Commercial</option>
+                  <option>Banking & Finance</option>
+                  <option>Regulatory / Administrative</option>
+                  <option>Media & Telecom</option>
+                  <option>Property / Land Dispute</option>
+                  <option>Appellate Practice</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="message" className="text-sm font-semibold text-[#0B2545]">Brief Description</label>
+                <textarea id="message" rows={4}
+                  placeholder="Briefly describe your legal matter..."
+                  value={form.message} onChange={set('message')}
+                  className="form-input resize-y min-h-[110px]" />
+              </div>
+
+              <p className="text-[0.65rem] text-gray-400 leading-relaxed">
+                <i className="fas fa-lock text-[0.5rem] mr-1" />
+                Your information is encrypted and sent via WhatsApp. All enquiries treated in strict confidence.
+              </p>
+
+              <button type="submit"
+                className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-semibold text-sm transition-all duration-200 btn-gold">
+                <i className="fab fa-whatsapp text-base" /> Send via WhatsApp
+              </button>
+            </form>
           </div>
+        </div>
+
+        {/* Map */}
+        <div className="reveal mt-12 rounded-[1.5rem] overflow-hidden shadow-xl"
+          style={{ border: '1px solid rgba(201,162,39,.1)' }}>
+          <iframe
+            src="https://www.google.com/maps?q=33.711921206376985,73.03885754232856&hl=en&z=16&output=embed"
+            width="100%" height="400"
+            style={{ border: 0, display: 'block' }}
+            allowFullScreen=""
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Ashraf Gujjar Law Associates - Chamber Location"
+          />
         </div>
       </div>
     </section>
