@@ -1,240 +1,163 @@
-import { useState, useEffect, useRef } from 'react';
-import { site } from '../data/aleshahData';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
-const WA = '923061073179';
-const categories = ['General Inquiry', 'Job Placement', 'Visa Processing', 'Document Attestation', 'Partnership', 'Other'];
-
-const buildMsg = (d) => encodeURIComponent(
-  `🌟 *New Enquiry — Al Eshah International*\n` +
-  `━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
-  `👤 *Name:*         ${d.name}\n` +
-  `📞 *Phone:*        ${d.phone}\n` +
-  `📧 *Email:*        ${d.email || 'Not provided'}\n` +
-  `💼 *Category:*     ${d.category}\n\n` +
-  `📝 *Message:*\n${d.msg}\n\n` +
-  `━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-  `_Sent from Al Eshah International website_`
-);
+const contactDetails = [
+  {
+    icon: 'fa-location-dot',
+    label: 'Office Address',
+    value: '11-Kashmir Centre, Kutchery Road, Sialkot, Punjab',
+    color: 'bg-diver-primary',
+  },
+  {
+    icon: 'fa-phone',
+    label: 'Phone Number',
+    value: '052-4290391',
+    href: 'tel:0524290391',
+    color: 'bg-diver-secondary',
+  },
+  {
+    icon: 'fa-envelope',
+    label: 'Email Address',
+    value: 'info@sialkottraders.pk',
+    href: 'mailto:info@sialkottraders.pk',
+    color: 'bg-diver-cta',
+  },
+  {
+    icon: 'fa-clock',
+    label: 'Working Hours',
+    value: 'Mon – Sat: 9:00 AM – 6:00 PM',
+    color: 'bg-diver-highlight',
+  },
+];
 
 export default function Contact() {
-  const ref = useRef(null);
-  const [openFaq, setOpenFaq] = useState(null);
-  const [form, setForm] = useState({ name: '', phone: '', email: '', category: '', msg: '' });
-  const [submitted, setSubmitted] = useState(false);
-  const [err, setErr] = useState({});
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      (e) => e.forEach(en => { if (en.isIntersecting) en.target.classList.add('show'); }),
-      { threshold: 0.08 }
-    );
-    ref.current?.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const errors = {};
-    if (!form.name.trim()) errors.name = 'Name is required';
-    if (!form.phone.trim()) errors.phone = 'Phone is required';
-    if (Object.keys(errors).length) { setErr(errors); return; }
-    setErr({});
-    const text = buildMsg(form);
-    setSubmitted(true);
-    window.open(`https://wa.me/${WA}?text=${text}`, '_blank');
-  };
-
-  const ch = (k) => (e) => { setForm(p => ({...p, [k]: e.target.value})); if (err[k]) setErr(p => ({...p, [k]: ''})); };
+  const [ref, isVisible] = useScrollAnimation();
 
   return (
-    <div ref={ref}>
-      <style>{`
-        .ct-section { background:var(--white);padding:80px 24px; }
-        .ct-layout { display:grid;grid-template-columns:1fr 1.2fr;gap:48px;align-items:start;max-width:1200px;margin:0 auto; }
-        @media(max-width:900px){ .ct-layout{grid-template-columns:1fr} }
-        .ct-info-grid { display:flex;flex-direction:column;gap:12px;margin-bottom:24px; }
-        .ct-info-card { display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:14px;border:1px solid rgba(255,32,110,.1);transition:transform .2s; }
-        .ct-info-card:hover { transform:translateY(-2px);border-color:var(--color-primary); }
-        .ct-info-icon { width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0; }
-        .ct-info-label { font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-light);margin-bottom:2px; }
-        .ct-info-value { font-size:14px;font-weight:600;color:var(--ink); }
-        .ct-info-value a { color:inherit;text-decoration:none; }
-        .ct-info-value a:hover { color:var(--color-primary); }
-        .ct-map { border-radius:16px;overflow:hidden;border:1px solid rgba(255,32,110,.1); }
-        .ct-map iframe { width:100%;height:220px;display:block;border:none; }
-        .form-card { background:var(--color-background);border-radius:20px;padding:32px;border:1px solid rgba(255,32,110,.08); }
-        .faq-section { background:var(--color-background);padding:80px 24px; }
-        .faq-inner { max-width:800px;margin:0 auto; }
-        .faq-item { background:var(--white);border:1px solid rgba(255,32,110,.08);border-radius:16px;margin-bottom:10px;overflow:hidden;transition:box-shadow .2s; }
-        .faq-item:hover { box-shadow:0 4px 16px rgba(255,32,110,.06); }
-        .faq-q { display:flex;align-items:center;justify-content:space-between;width:100%;padding:18px 22px;background:none;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px;color:var(--ink);text-align:left;transition:color .2s;gap:16px; }
-        .faq-q:hover { color:var(--color-primary); }
-        .faq-q i { transition:transform .3s;flex-shrink:0;font-size:12px;color:var(--color-primary); }
-        .faq-q.open i { transform:rotate(180deg); }
-        .faq-a { padding:0 22px 18px;font-size:14px;line-height:1.7;color:var(--ink-light); }
-        .gf-error { font-size:12px;color:#ef4444;margin-top:5px;display:flex;align-items:center;gap:4px; }
-      `}</style>
-
-      {/* Contact */}
-      <section id="contact" className="ct-section">
-        <div style={{textAlign:'center',marginBottom:48}} className="reveal">
-          <div className="section-pill" style={{margin:'0 auto 18px'}}>
-            <span className="pill-dot" />{site.contact.badge}
-          </div>
-          <h2 style={{fontWeight:900,fontSize:'clamp(28px,3.5vw,42px)',color:'var(--ink)',marginBottom:14}}>
-            Contact <span style={{color:'var(--color-primary)'}}>Al Eshah International</span>
+    <section id="contact" className="section-pad bg-white overflow-hidden">
+      <div className="container-pad">
+        <div className="text-center mb-12">
+          <span className="inline-flex items-center gap-1.5 bg-diver-primary/10 text-diver-primary font-semibold text-xs px-4 py-1.5 rounded-full mb-4 tracking-wider uppercase">
+            <i className="fas fa-address-card" />
+            Contact Us
+          </span>
+          <h2 className="text-3xl md:text-4xl font-bold text-diver-highlight font-heading">
+            Get in Touch
           </h2>
-          <p style={{color:'var(--ink-light)',fontSize:15,maxWidth:540,margin:'0 auto',lineHeight:1.7}}>
-            Visit our Sialkot office or reach out by phone, WhatsApp, or email. Our team is ready to guide you through every step.
+          <p className="text-gray-500 text-lg mt-3 max-w-2xl mx-auto">
+            Visit our office, give us a call, or send a message on WhatsApp.
           </p>
         </div>
 
-        <div className="ct-layout">
-          {/* Left: Info + Map */}
-          <div className="reveal-l">
-            <div className="ct-info-grid">
-              {/* Phone */}
-              <div className="ct-info-card">
-                <div className="ct-info-icon" style={{background:'rgba(255,32,110,.1)',color:'var(--color-primary)'}}>
-                  <i className="fa-solid fa-phone"></i>
-                </div>
-                <div>
-                  <div className="ct-info-label">Phone</div>
-                  <div className="ct-info-value">
-                    {site.contact.phones.map((p, i) => (
-                      <span key={i}><a href={`tel:${p.replace(/-/g,'')}`}>{p}</a>{i < site.contact.phones.length - 1 ? ', ' : ''}</span>
-                    ))}
-                  </div>
-                </div>
-              </div>
+        <div ref={ref} className="grid lg:grid-cols-2 gap-10 items-start">
+          {/* Left: Contact Cards + Form */}
+          <div className={`space-y-5 transition-all duration-700 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
+            <h3 className="text-xl font-bold text-diver-highlight font-heading mb-6">
+              The Sialkot Traders
+            </h3>
 
-              {/* WhatsApp */}
-              <div className="ct-info-card">
-                <div className="ct-info-icon" style={{background:'rgba(65,234,212,.1)',color:'var(--color-accent)'}}>
-                  <i className="fa-brands fa-whatsapp"></i>
+            {contactDetails.map((item, i) => (
+              <div
+                key={i}
+                className="flex items-start gap-4 p-5 rounded-2xl border border-gray-100 hover:border-diver-primary/20 hover:shadow-md transition-all duration-300 group"
+                style={{ transitionDelay: `${i * 80}ms` }}
+              >
+                <div className={`w-12 h-12 ${item.color} rounded-xl flex items-center justify-center flex-shrink-0 shadow-md group-hover:scale-110 transition-transform duration-300`}>
+                  <i className={`fas ${item.icon} text-white text-lg`} />
                 </div>
                 <div>
-                  <div className="ct-info-label">WhatsApp</div>
-                  <div className="ct-info-value">
-                    <a href={site.whatsappLink} target="_blank" rel="noopener noreferrer">{site.whatsapp}</a>
-                  </div>
+                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
+                    {item.label}
+                  </p>
+                  {item.href ? (
+                    <a
+                      href={item.href}
+                      className="text-diver-highlight font-semibold hover:text-diver-primary transition-colors duration-200"
+                    >
+                      {item.value}
+                    </a>
+                  ) : (
+                    <p className="text-diver-highlight font-medium">{item.value}</p>
+                  )}
                 </div>
               </div>
+            ))}
 
-              {/* Email */}
-              <div className="ct-info-card">
-                <div className="ct-info-icon" style={{background:'rgba(251,255,18,.2)',color:'var(--ink)'}}>
-                  <i className="fa-solid fa-envelope"></i>
-                </div>
-                <div>
-                  <div className="ct-info-label">Email</div>
-                  <div className="ct-info-value">
-                    <a href={`mailto:${site.emailDummy}`}>{site.emailDummy}</a>
-                  </div>
-                </div>
+            {/* WhatsApp CTA */}
+            <a
+              href="https://wa.me/923068860125"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 p-5 rounded-2xl bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold hover:from-green-600 hover:to-green-700 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 group"
+            >
+              <i className="fab fa-whatsapp text-3xl" />
+              <div>
+                <p className="text-sm opacity-90">Chat on WhatsApp</p>
+                <p className="text-base">+92 306-8860125</p>
               </div>
+            </a>
 
-              {/* Address */}
-              <div className="ct-info-card">
-                <div className="ct-info-icon" style={{background:'rgba(212,0,90,.1)',color:'var(--color-highlight)'}}>
-                  <i className="fa-solid fa-location-dot"></i>
-                </div>
-                <div>
-                  <div className="ct-info-label">Address</div>
-                  <div className="ct-info-value">{site.address}</div>
-                </div>
-              </div>
+            {/* Quick Form */}
+            <div className="bg-diver-background rounded-2xl p-6 border border-diver-secondary/20">
+              <h4 className="font-bold text-diver-highlight text-sm mb-4 font-heading">Quick Message</h4>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const form = e.target;
+                  const name = form.name.value;
+                  const phone = form.phone.value;
+                  const msg = encodeURIComponent(
+                    `Hello The Sialkot Traders!%0A%0AName: ${name}%0APhone: ${phone}%0AI am interested in overseas employment.`
+                  );
+                  window.open(`https://wa.me/923068860125?text=${msg}`, '_blank');
+                }}
+                className="space-y-3"
+              >
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your Name"
+                  required
+                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-sm outline-none focus:border-diver-primary focus:ring-2 focus:ring-diver-primary/20"
+                />
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="Phone Number"
+                  required
+                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-sm outline-none focus:border-diver-primary focus:ring-2 focus:ring-diver-primary/20"
+                />
+                <button
+                  type="submit"
+                  className="w-full bg-diver-cta hover:bg-diver-cta/90 text-white font-semibold py-3 rounded-xl text-sm transition-all duration-300 hover:shadow-lg flex items-center justify-center gap-2"
+                >
+                  <i className="fab fa-whatsapp" />
+                  Send via WhatsApp
+                </button>
+              </form>
             </div>
+          </div>
 
-            {/* Map */}
-            <div className="ct-map">
+          {/* Right: Map */}
+          <div className={`transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
+            <div className="rounded-3xl overflow-hidden shadow-xl border border-gray-100 h-80 lg:h-full min-h-[400px]">
               <iframe
-                title="Al Eshah International location"
-                src={`https://www.google.com/maps?q=${site.contact.mapQuery}&hl=en&z=16&output=embed`}
+                title="The Sialkot Traders Office Location"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3360.0!2d74.542!3d32.642!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzLCsDM4JzMxLjIiTiA3NMKwMzInMzEuMiJF!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s&q=Kashmir+Centre+Kutchery+Road+Sialkot"
+                width="100%"
+                height="100%"
+                style={{ border: 0, minHeight: '400px' }}
+                allowFullScreen
                 loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
               />
             </div>
-          </div>
-
-          {/* Right: Form */}
-          <div className="reveal-r">
-            <div className="form-card">
-              <div style={{fontFamily:'Plus Jakarta Sans,sans-serif',fontWeight:800,fontSize:18,color:'var(--ink)',marginBottom:6}}>Send Us a Message</div>
-              <p style={{fontSize:13,color:'var(--ink-light)',marginBottom:24,lineHeight:1.6}}>
-                Fill in the form and we'll reply instantly on WhatsApp.
-              </p>
-
-              {submitted ? (
-                <div style={{textAlign:'center',padding:'30px 0'}}>
-                  <div style={{fontSize:40,marginBottom:12,color:'var(--color-accent)'}}><i className="fa-brands fa-whatsapp"></i></div>
-                  <div style={{fontFamily:'Plus Jakarta Sans,sans-serif',fontWeight:800,fontSize:17,color:'var(--ink)',marginBottom:8}}>Thank You!</div>
-                  <p style={{fontSize:14,color:'var(--ink-light)',marginBottom:16}}>You're being redirected to WhatsApp to complete your application.</p>
-                  <a href={site.whatsappLink} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{fontSize:13,padding:'12px 24px'}}>
-                    <i className="fa-brands fa-whatsapp"></i> Chat with Us
-                  </a>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit}>
-                  <div style={{marginBottom:16}}>
-                    <label style={{display:'block',fontSize:12,fontWeight:700,marginBottom:6,color:'var(--ink)',letterSpacing:'.04em'}}>Full Name *</label>
-                    <input className={`field${err.name?' err':''}`} type="text" value={form.name} onChange={ch('name')} placeholder="e.g. Muhammad Ali" />
-                    {err.name && <div className="gf-error">⚠ {err.name}</div>}
-                  </div>
-                  <div style={{marginBottom:16}}>
-                    <label style={{display:'block',fontSize:12,fontWeight:700,marginBottom:6,color:'var(--ink)',letterSpacing:'.04em'}}>Phone Number *</label>
-                    <input className={`field${err.phone?' err':''}`} type="tel" value={form.phone} onChange={ch('phone')} placeholder="e.g. 0300-1234567" />
-                    {err.phone && <div className="gf-error">⚠ {err.phone}</div>}
-                  </div>
-                  <div style={{marginBottom:16}}>
-                    <label style={{display:'block',fontSize:12,fontWeight:700,marginBottom:6,color:'var(--ink)',letterSpacing:'.04em'}}>Email Address</label>
-                    <input className="field" type="email" value={form.email} onChange={ch('email')} placeholder="you@example.com" />
-                  </div>
-                  <div style={{marginBottom:16}}>
-                    <label style={{display:'block',fontSize:12,fontWeight:700,marginBottom:6,color:'var(--ink)',letterSpacing:'.04em'}}>Category</label>
-                    <select className="field" value={form.category} onChange={ch('category')} style={{cursor:'pointer'}}>
-                      <option value="">Select a category</option>
-                      {categories.map((c, i) => <option key={i} value={c}>{c}</option>)}
-                    </select>
-                  </div>
-                  <div style={{marginBottom:20}}>
-                    <label style={{display:'block',fontSize:12,fontWeight:700,marginBottom:6,color:'var(--ink)',letterSpacing:'.04em'}}>Your Message</label>
-                    <textarea className="field" rows={4} style={{resize:'vertical'}} value={form.msg} onChange={ch('msg')} placeholder="Tell us about your skills and preferred destination..." />
-                  </div>
-                  <button type="submit" className="btn-wa" style={{justifyContent:'center'}}>
-                    <i className="fa-brands fa-whatsapp"></i> Submit via WhatsApp
-                  </button>
-                </form>
-              )}
-            </div>
+            <p className="text-center text-sm text-gray-400 mt-3 flex items-center justify-center gap-1">
+              <i className="fas fa-location-dot text-diver-cta" />
+              Kashmir Centre, Kutchery Road, Sialkot
+            </p>
           </div>
         </div>
-      </section>
-
-      {/* FAQs */}
-      <section id="faqs" className="faq-section">
-        <div className="faq-inner reveal">
-          <div style={{textAlign:'center',marginBottom:40}}>
-            <div className="section-pill" style={{margin:'0 auto 18px'}}>
-              <span className="pill-dot" />FAQs
-            </div>
-            <h2 style={{fontWeight:900,fontSize:'clamp(26px,3vw,38px)',color:'var(--ink)'}}>
-              Frequently Asked <span style={{color:'var(--color-primary)'}}>Questions</span>
-            </h2>
-          </div>
-
-          {site.faqs.map((faq, i) => (
-            <div key={i} className="faq-item">
-              <button className={`faq-q ${openFaq === i ? 'open' : ''}`} onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                <span>{faq.q}</span>
-                <i className="fa-solid fa-chevron-down"></i>
-              </button>
-              <div style={{maxHeight: openFaq === i ? 200 : 0, overflow: 'hidden', transition: 'max-height .35s ease'}}>
-                <div className="faq-a">{faq.a}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }

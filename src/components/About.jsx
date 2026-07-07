@@ -1,85 +1,111 @@
-import { useEffect, useRef } from 'react';
-import { site } from '../data/aleshahData';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
+
+const stats = [
+  { value: '3500+', label: 'Workers Placed', icon: 'fa-users' },
+  { value: '12+', label: 'Countries', icon: 'fa-globe-asia' },
+  { value: '15+', label: 'Years Experience', icon: 'fa-calendar-alt' },
+  { value: 'Licensed', label: 'Govt. Approved', icon: 'fa-certificate' },
+];
+
+const trustChips = [
+  'Govt. Licensed OEP 2196/SKT',
+  'Verified Gulf Employers',
+  'European Union Partners',
+  'Transparent Fee Structure',
+  'End-to-End Support',
+  'Pre-Departure Training',
+];
 
 export default function About() {
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      (e) => e.forEach(en => { if (en.isIntersecting) en.target.classList.add('show'); }),
-      { threshold: 0.12 }
-    );
-    ref.current?.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
+  const [sectionRef, isVisible] = useScrollAnimation();
+  const [cardRef, cardVisible] = useScrollAnimation();
 
   return (
-    <>
-      <style>{`
-        .ab-section { background:var(--white);padding:96px 24px; }
-        .ab-inner { max-width:1200px;margin:0 auto; }
-        .ab-grid { display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center; }
-        @media(max-width:900px){ .ab-grid{grid-template-columns:1fr;gap:40px} }
-        .ab-img { width:100%;height:480px;object-fit:cover;border-radius:24px;display:block;border:1px solid var(--card-border);box-shadow:0 4px 20px rgba(0,0,0,.04); }
-        .ab-img-wrap { position:relative; }
-        .ab-img-badge { position:absolute;background:var(--white);border:1px solid rgba(255,32,110,.15);border-radius:16px;padding:14px 20px;box-shadow:0 8px 32px rgba(0,0,0,.06); }
-        .ab-badge-n { font-weight:900;font-size:24px;color:var(--color-primary);line-height:1;font-family:'Plus Jakarta Sans',sans-serif; }
-        .ab-badge-l { font-size:12px;color:var(--ink-light);font-weight:600;margin-top:3px; }
-        .ab-title { font-weight:900;font-size:clamp(26px,3.2vw,38px);color:var(--ink);margin-bottom:16px;font-family:'Plus Jakarta Sans',sans-serif; }
-        .ab-body { font-size:15px;line-height:1.8;color:var(--ink-light);margin-bottom:14px; }
-        .ab-chips { display:flex;flex-wrap:wrap;gap:10px;margin-top:24px; }
-        .ab-chip { display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;font-size:13px;font-weight:700;background:rgba(255,32,110,.08);border:1px solid rgba(255,32,110,.15);color:var(--ink); }
-      `}</style>
+    <section id="about" className="relative overflow-hidden">
+      {/* Wide Banner */}
+      <div className="bg-diver-primary py-20 md:py-28">
+        <div className="container-pad text-center">
+          <span className="inline-flex items-center gap-1.5 bg-white/15 text-diver-accent font-semibold text-xs px-4 py-1.5 rounded-full mb-4 tracking-wider uppercase">
+            <i className="fas fa-building" />
+            Who We Are
+          </span>
+          <h2 className="text-3xl md:text-5xl font-bold text-white font-heading max-w-3xl mx-auto">
+            Sialkot's Trusted Overseas Recruitment Agency
+          </h2>
+          <p className="text-diver-secondary/80 text-lg mt-4 max-w-2xl mx-auto">
+            Registered with the Government of Pakistan, we connect skilled workers
+            with verified employers across the Gulf and Europe.
+          </p>
+        </div>
+      </div>
 
-      <section id="about" className="ab-section" ref={ref}>
-        <div className="ab-inner">
-          <div style={{textAlign:'center',marginBottom:56}} className="reveal">
-            <div className="section-pill" style={{margin:'0 auto 18px'}}>
-              <span className="pill-dot" />WHO WE ARE
-            </div>
-            <h2 style={{fontWeight:900,fontSize:'clamp(30px,4vw,46px)',color:'var(--ink)',marginBottom:16}}>
-              About <span style={{color:'var(--color-primary)'}}>Al Eshah International</span>
-            </h2>
-            <p style={{color:'var(--ink-light)',fontSize:16,maxWidth:560,margin:'0 auto',lineHeight:1.7}}>
-              A government-licensed recruiting and overseas employment agency based on Commissioner Road, Sialkot — connecting talent with global opportunities.
-            </p>
-          </div>
+      {/* Overlapping Card */}
+      <div className="relative -mt-16 z-10" ref={cardRef}>
+        <div className="container-pad">
+          <div className={`bg-white rounded-3xl shadow-xl p-8 md:p-12 max-w-5xl mx-auto transition-all duration-700 ${
+            cardVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}>
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              <div>
+                <img
+                  src="/src/assets/images/about-factory.jpg"
+                  alt="Sialkot manufacturing"
+                  className="rounded-2xl w-full h-64 md:h-80 object-cover shadow-lg"
+                  onError={(e) => { e.target.src = '/src/assets/images/gold-street/fallback.jpg'; }}
+                  loading="lazy"
+                />
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-diver-highlight font-heading mb-4">
+                  Licensed. Honest. Complete.
+                </h3>
+                <p className="text-gray-600 leading-relaxed mb-4">
+                  Based at Kutchery Road, Sialkot, we have been placing local talent
+                  with reliable overseas employers for over 15 years. Our team handles
+                  everything — from documentation to departure.
+                </p>
+                <p className="text-gray-600 leading-relaxed mb-6">
+                  We work only with verified employers and ensure every worker receives
+                  fair contracts, proper visas, and complete pre-departure support.
+                </p>
 
-          <div className="ab-grid">
-            <div className="ab-img-wrap reveal-l">
-              <img src="/images/hero-2.jpg" alt="Al Eshah office" className="ab-img" />
-              <div className="ab-img-badge float" style={{top:-16,right:-16}}>
-                <div className="ab-badge-n">2197</div>
-                <div className="ab-badge-l">License / SKT</div>
-              </div>
-              <div className="ab-img-badge float" style={{bottom:-16,left:-16,animationDelay:'2s'}}>
-                <div className="ab-badge-n">Commissioner</div>
-                <div className="ab-badge-l">Road, Sialkot</div>
-              </div>
-            </div>
-
-            <div className="reveal-r">
-              <div className="section-pill" style={{borderColor:'rgba(65,234,212,.25)',color:'var(--color-accent)'}}>
-                <span className="pill-dot" style={{background:'var(--color-accent)'}} />
-                Commissioner Road, Sialkot — Punjab
-              </div>
-              <h3 className="ab-title">
-                Trusted Partner for <span style={{color:'var(--color-primary)'}}>Overseas Employment</span>
-              </h3>
-              <p className="ab-body">{site.about.para1}</p>
-              <p className="ab-body">{site.about.para2}</p>
-              <div className="ab-chips">
-                {site.about.chips.map((c, i) => (
-                  <span key={i} className="ab-chip">
-                    <i className={c.icon} style={{color:'var(--color-primary)',fontSize:12}}></i>
-                    {c.label}
-                  </span>
-                ))}
+                {/* Trust Chips */}
+                <div className="flex flex-wrap gap-2">
+                  {trustChips.map((chip, i) => (
+                    <span key={i} className="inline-flex items-center gap-1 bg-diver-background text-diver-primary text-xs font-medium px-3 py-1.5 rounded-full">
+                      <i className="fas fa-check-circle text-diver-secondary" />
+                      {chip}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
-    </>
+      </div>
+
+      {/* Stats Band */}
+      <div className="bg-diver-secondary py-14 md:py-18 mt-10" ref={sectionRef}>
+        <div className="container-pad">
+          <div className={`grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 transition-all duration-700 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}>
+            {stats.map((stat, i) => (
+              <div key={i} className="text-center group" style={{ transitionDelay: `${i * 100}ms` }}>
+                <div className="w-14 h-14 md:w-16 md:h-16 bg-diver-highlight/10 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 group-hover:bg-diver-highlight/20 transition-all duration-300">
+                  <i className={`fas ${stat.icon} text-2xl md:text-3xl text-diver-highlight`} />
+                </div>
+                <div className="text-3xl md:text-4xl font-extrabold text-diver-highlight font-heading mb-1">
+                  {stat.value}
+                </div>
+                <div className="text-sm md:text-base text-diver-highlight/70 font-medium">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }

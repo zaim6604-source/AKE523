@@ -1,115 +1,107 @@
-import { useEffect, useRef, useState } from 'react';
-import { site } from '../data/aleshahData';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
-const FALLBACK = 'https://via.placeholder.com/600x400/FFF8E0/FF206E?text=Al+Eshah';
+const testimonials = [
+  {
+    name: 'Ahmed Raza',
+    role: 'Construction Worker',
+    location: 'Now in Saudi Arabia',
+    text: 'The Sialkot Traders helped me find a great job in Riyadh. The whole process was smooth — from documentation to departure. Highly recommended!',
+    rating: 5,
+  },
+  {
+    name: 'Muhammad Usman',
+    role: 'Driver',
+    location: 'Now in UAE',
+    text: 'I was nervous about working abroad, but their team guided me every step. Got my visa in 3 weeks. Fair and honest service.',
+    rating: 5,
+  },
+  {
+    name: 'Bilal Ahmad',
+    role: 'Welder',
+    location: 'Now in Poland',
+    text: 'Professional team with real experience. They connected me with a verified employer in Poland. The pay is good and conditions are excellent.',
+    rating: 5,
+  },
+  {
+    name: 'Sajid Mahmood',
+    role: 'Security Guard',
+    location: 'Now in Oman',
+    text: 'I applied through The Sialkot Traders and got placed in Muscat within a month. Everything was transparent — no hidden charges.',
+    rating: 4,
+  },
+  {
+    name: 'Farhan Ali',
+    role: 'Hospitality Staff',
+    location: 'Now in Qatar',
+    text: 'Thanks to The Sialkot Traders, I have a secure job in Doha. They handled all paperwork and even arranged my flight. Very grateful.',
+    rating: 5,
+  },
+  {
+    name: 'Khalid Parvez',
+    role: 'Agriculture Worker',
+    location: 'Now in Italy',
+    text: 'Excellent service from start to finish. The team at Kutchery Road is professional and caring. They genuinely want the best for you.',
+    rating: 5,
+  },
+];
 
 export default function Testimonials() {
-  const ref = useRef(null);
-  const [galleryErrs, setGalleryErrs] = useState({});
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      (e) => e.forEach(en => { if (en.isIntersecting) en.target.classList.add('show'); }),
-      { threshold: 0.08 }
-    );
-    ref.current?.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
-
-  const chatColors = [
-    { bg: 'rgba(255,32,110,.08)', border: 'rgba(255,32,110,.15)' },
-    { bg: 'rgba(65,234,212,.08)', border: 'rgba(65,234,212,.15)' },
-    { bg: 'rgba(251,255,18,.12)', border: 'rgba(251,255,18,.2)' },
-    { bg: 'rgba(255,32,110,.06)', border: 'rgba(255,32,110,.12)' },
-    { bg: 'rgba(65,234,212,.06)', border: 'rgba(65,234,212,.12)' },
-  ];
+  const [ref, isVisible] = useScrollAnimation();
 
   return (
-    <div ref={ref}>
-      <style>{`
-        .test-section { background:var(--color-background);padding:80px 24px;position:relative; }
-        .test-inner { max-width:900px;margin:0 auto; }
-        .test-chat { display:flex;flex-direction:column;gap:20px; }
-        .test-bubble { display:flex;align-items:flex-start;gap:14px;max-width:80%;padding:20px 24px;border-radius:20px;position:relative; }
-        .test-bubble.left { align-self:flex-start;border-bottom-left-radius:4px; }
-        .test-bubble.right { align-self:flex-end;flex-direction:row-reverse;border-bottom-right-radius:4px; }
-        .test-bubble-avatar { width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-weight:900;font-size:15px;flex-shrink:0; }
-        .test-bubble-stars { display:flex;gap:2px;margin-bottom:8px; }
-        .test-bubble-stars i { color:var(--color-secondary);font-size:13px;text-shadow:0 0 4px rgba(251,255,18,.3); }
-        .test-bubble-quote { font-size:14px;line-height:1.7;color:var(--ink-light);margin-bottom:10px; }
-        .test-bubble-author { font-weight:700;font-size:13px;color:var(--ink); }
-        .test-bubble-role { font-size:12px;color:var(--ink-light);opacity:.7; }
-        @media(max-width:640px){ .test-bubble{max-width:90%;padding:16px 18px} }
-
-        .gallery-section { background:var(--white);padding:60px 24px; }
-        .gallery-inner { max-width:1200px;margin:0 auto; }
-        .gallery-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:16px; }
-        @media(max-width:768px){ .gallery-grid{grid-template-columns:repeat(2,1fr)} }
-        @media(max-width:480px){ .gallery-grid{grid-template-columns:1fr} }
-        .gallery-item { border-radius:14px;overflow:hidden;position:relative;cursor:pointer; }
-        .gallery-item img { width:100%;height:220px;object-fit:cover;display:block;transition:transform .5s; }
-        .gallery-item:hover img { transform:scale(1.08); }
-      `}</style>
-
-      {/* Testimonials */}
-      <section className="test-section">
-        <div className="test-inner">
-          <div style={{textAlign:'center',marginBottom:48}} className="reveal">
-            <div className="section-pill" style={{margin:'0 auto 18px'}}>
-              <span className="pill-dot" />SUCCESS STORIES
-            </div>
-            <h2 style={{fontWeight:900,fontSize:'clamp(28px,3.5vw,42px)',color:'var(--ink)',marginBottom:14}}>
-              What Our <span style={{color:'var(--color-primary)'}}>Workers Say</span>
-            </h2>
-            <p style={{color:'var(--ink-light)',fontSize:15,maxWidth:520,margin:'0 auto',lineHeight:1.7}}>
-              Real stories from real people we've helped place in jobs abroad.
-            </p>
-          </div>
-
-          <div className="test-chat">
-            {site.testimonials.map((t, i) => (
-              <div key={i} className={`test-bubble reveal ${i % 2 === 0 ? 'left' : 'right'}`} style={{
-                background: chatColors[i].bg, border: `1px solid ${chatColors[i].border}`, transitionDelay: `${i * 0.1}s`,
-              }}>
-                <div className="test-bubble-avatar" style={{background: i % 2 === 0 ? 'var(--color-primary)' : 'var(--color-accent)', color: '#fff'}}>
-                  {t.name[0]}
-                </div>
-                <div style={{flex:1}}>
-                  <div className="test-bubble-stars">
-                    {[...Array(t.stars)].map((_, j) => (<i key={j} className="fa-solid fa-star"></i>))}
-                  </div>
-                  <div className="test-bubble-quote">&ldquo;{t.quote}&rdquo;</div>
-                  <div>
-                    <span className="test-bubble-author">{t.name}</span>
-                    <span className="test-bubble-role"> — {t.role}, {t.dest}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+    <section id="testimonials" className="section-pad bg-diver-background overflow-hidden">
+      <div className="container-pad">
+        <div className="text-center mb-12">
+          <span className="inline-flex items-center gap-1.5 bg-diver-primary/10 text-diver-primary font-semibold text-xs px-4 py-1.5 rounded-full mb-4 tracking-wider uppercase">
+            <i className="fas fa-star" />
+            Success Stories
+          </span>
+          <h2 className="text-3xl md:text-4xl font-bold text-diver-highlight font-heading">
+            What Our Workers Say
+          </h2>
+          <p className="text-gray-500 text-lg mt-3 max-w-2xl mx-auto">
+            Real stories from workers we have placed overseas.
+          </p>
         </div>
-      </section>
 
-      {/* Gallery */}
-      <section className="gallery-section">
-        <div className="gallery-inner">
-          <div style={{textAlign:'center',marginBottom:36}} className="reveal">
-            <div className="section-pill" style={{margin:'0 auto 18px'}}>
-              <span className="pill-dot" />Office & Travel
-            </div>
-            <h2 style={{fontWeight:900,fontSize:'clamp(24px,3vw,36px)',color:'var(--ink)',marginBottom:8}}>
-              Our <span style={{color:'var(--color-primary)'}}>Gallery</span>
-            </h2>
-          </div>
-          <div className="gallery-grid">
-            {site.gallery.map((url, i) => (
-              <div key={i} className="gallery-item reveal" style={{transitionDelay:`${i*0.1}s`}}>
-                <img src={galleryErrs[i] ? FALLBACK : url} alt={`Gallery ${i+1}`} onError={() => setGalleryErrs(p => ({...p, [i]: true}))} loading="lazy" />
+        {/* Offset Masonry */}
+        <div ref={ref} className="columns-1 sm:columns-2 lg:columns-3 gap-5 space-y-5">
+          {testimonials.map((t, i) => (
+            <div
+              key={i}
+              className={`break-inside-avoid bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1 border-l-4 border-diver-cta ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+              }`}
+              style={{ transitionDelay: `${i * 80}ms` }}
+            >
+              {/* Stars */}
+              <div className="flex gap-1 mb-3">
+                {[...Array(t.rating)].map((_, j) => (
+                  <i key={j} className="fas fa-star text-diver-accent text-sm" />
+                ))}
+                {[...Array(5 - t.rating)].map((_, j) => (
+                  <i key={j} className="far fa-star text-gray-300 text-sm" />
+                ))}
               </div>
-            ))}
-          </div>
+
+              <p className="text-gray-600 text-sm leading-relaxed mb-4 italic">
+                "{t.text}"
+              </p>
+
+              <div className="pt-3 border-t border-gray-100">
+                <p className="font-bold text-diver-highlight text-sm font-heading">
+                  {t.name}
+                </p>
+                <p className="text-xs text-diver-primary font-medium">{t.role}</p>
+                <p className="text-xs text-gray-400 mt-0.5">
+                  <i className="fas fa-location-dot text-diver-cta mr-1" />
+                  {t.location}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }
