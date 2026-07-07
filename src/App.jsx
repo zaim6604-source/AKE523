@@ -8,11 +8,11 @@ import CountryGuide from './components/CountryGuide';
 import Process from './components/Process';
 import Testimonials from './components/Testimonials';
 import Gallery from './components/Gallery';
-import CtaBand from './components/CtaBand';
 import Contact from './components/Contact';
 import MapSection from './components/MapSection';
 import Faqs from './components/Faqs';
 import Footer from './components/Footer';
+import CtaBand from './components/CtaBand';
 
 export default function App() {
   return (
