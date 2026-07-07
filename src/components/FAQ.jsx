@@ -1,62 +1,94 @@
 import { useState } from 'react';
-import { FaChevronDown, FaQuestionCircle } from 'react-icons/fa';
 import useInView from '../hooks/useInView';
+import { ChevronDown } from 'lucide-react';
 
 const faqs = [
-  { q: 'What services does Innovative World offer?', a: 'We offer recruitment & placement, staffing solutions, career consultancy, document & application support, corporate services, training & development, client advisory, and manpower supply.' },
-  { q: 'How does the recruitment process work?', a: 'It starts with a free consultation. We understand your needs, source the right candidates or opportunities, handle documentation and setup, and provide ongoing support.' },
-  { q: 'Where is Innovative World located?', a: 'We are based in Nowshera, KPK, Pakistan. Our address is 2X6Q+52M, Mohalla Meetha Khel, Nowshera, 24100.' },
-  { q: 'How can I get started?', a: 'Simply contact us via WhatsApp at 0333-5553256 or fill out the contact form on our website. We\'ll get back to you promptly.' },
-  { q: 'What are the typical timelines?', a: 'Timelines vary based on the service. Recruitment and placement typically take 2-4 weeks, while other services may vary. We provide clear timelines during consultation.' },
-  { q: 'Is there a consultation fee?', a: 'Your initial consultation is completely free. We believe in transparent communication and will provide a clear breakdown of any applicable fees before proceeding.' },
+  {
+    q: 'What HR services does HR-Pro offer?',
+    a: 'We provide a full range of HR services including staff & payroll outsourcing, recruitment & executive search, blended learning & training, HR management solutions, organization development, talent assessment, and HR advisory & compliance. Our consulting arm, Think HR, handles organization design, innovation, change leadership, leadership development, and executive coaching.',
+  },
+  {
+    q: 'What is the difference between your outsourcing and consulting services?',
+    a: 'Our outsourcing services (staffing, payroll, recruitment) handle day-to-day operational HR needs for your organization. Think HR, our consulting arm, focuses on strategic advisory — organization design, innovation, change management, leadership development, and executive coaching. Many clients engage both for comprehensive HR support.',
+  },
+  {
+    q: 'What does the Think HR consulting practice cover?',
+    a: 'Think HR is our dedicated strategic consulting practice covering organization design & restructuring, innovation management, leading change, leadership development, executive coaching, and culture & transformation. It\'s designed for organizations seeking high-impact strategic HR advisory.',
+  },
+  {
+    q: 'What industries and sectors do you serve?',
+    a: 'We serve a wide range of industries including Banking & Finance, IT & Tech, Manufacturing, FMCG & Retail, Healthcare, Telecom, Energy, and Services. Our solutions are tailored to the specific needs, regulations, and culture of each sector.',
+  },
+  {
+    q: 'How does your engagement model work?',
+    a: 'We begin with a discovery & diagnostics phase to understand your needs, followed by strategy & solution design. After you approve the plan, we implement alongside your team, provide enablement & training, and offer continuous review & support. We offer both project-based and ongoing retainer engagements.',
+  },
+  {
+    q: 'How can I get a free consultation?',
+    a: 'You can reach us via WhatsApp at 0312-1124692, email us at info@hr-pro.co, or fill out the contact form on our website. We\'ll schedule a no-obligation consultation to understand your HR needs and discuss how we can help.',
+  },
 ];
 
-function FAQItem({ faq, isOpen, onClick }) {
-  return (
-    <div className={`border rounded-2xl mb-3 overflow-hidden transition-all duration-300 ${isOpen ? 'border-[#D7263D]/30 bg-[#FFF0F3]' : 'border-gray-200 hover:border-[#D7263D]/20 bg-white'}`}>
-      <button
-        onClick={onClick}
-        className="w-full flex justify-between items-center px-6 py-5 text-base font-semibold text-left cursor-pointer transition-colors hover:text-[#D7263D]"
-        aria-expanded={isOpen}
-      >
-        <span className="pr-4 text-sm md:text-base">{faq.q}</span>
-        <FaChevronDown className={`text-xs text-gray-400 transition-transform duration-300 shrink-0 ${isOpen ? 'rotate-180 text-[#D7263D]' : ''}`} />
-      </button>
-      <div
-        className="overflow-hidden transition-all duration-300 ease-in-out"
-        style={{ maxHeight: isOpen ? '300px' : '0', padding: isOpen ? '0 24px 20px' : '0 24px' }}
-      >
-        <p className="text-[#340710]/60 text-sm leading-relaxed">{faq.a}</p>
-      </div>
-    </div>
-  );
-}
-
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState(null);
   const [ref, inView] = useInView();
+  const [openIdx, setOpenIdx] = useState(null);
+
+  const toggle = (i) => setOpenIdx(openIdx === i ? null : i);
 
   return (
-    <section id="faqs" className="section-pad bg-[#FFF0F3]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <span className="pill-badge bg-[#7768AE]/10 text-[#7768AE] mb-4">
-            <FaQuestionCircle className="text-xs" /> FAQS
-          </span>
-          <h2 className="section-heading">
-            Frequently Asked{' '}
-            <span className="text-[#D7263D]">Questions</span>
-          </h2>
-          <p className="text-[#340710]/60 text-lg mt-3 max-w-2xl mx-auto">
-            Everything you need to know about working with us.
-          </p>
+    <>
+      <style>{`
+        .faq-section { background:#E6F3FB; padding:96px 24px; }
+        .faq-inner { max-width:800px; margin:0 auto; }
+        .faq-item { background:#fff; border-radius:16px; border:1px solid rgba(0,107,166,.06); margin-bottom:12px; overflow:hidden; transition:box-shadow .25s; }
+        .faq-item:hover { box-shadow:0 4px 20px rgba(0,107,166,.04); }
+        .faq-question { width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:20px 24px; background:none; border:none; cursor:pointer; text-align:left; font-family:"Plus Jakarta Sans",sans-serif; font-weight:700; font-size:15px; color:#06283D; transition:color .2s; }
+        .faq-question:hover { color:#006BA6; }
+        .faq-arrow { width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#E6F3FB;flex-shrink:0;transition:transform .3s,background .3s;color:#006BA6; }
+        .faq-arrow.open { transform:rotate(180deg); background:#006BA6; color:#fff; }
+        .faq-answer { padding:0 24px 20px; font-size:14px; line-height:1.75; color:#555; }
+      `}</style>
+
+      <section id="faqs" className="faq-section" ref={ref}>
+        <div className="faq-inner">
+          <div style={{ textAlign: 'center', marginBottom: 48 }} className={`reveal${inView ? ' show' : ''}`}>
+            <div className="pill-badge" style={{ margin: '0 auto 18px' }}>
+              <span className="pill-dot" />
+              FAQS
+            </div>
+            <h2 style={{ fontFamily: '"Plus Jakarta Sans",sans-serif', fontWeight: 900, fontSize: 'clamp(28px,3.5vw,42px)', color: '#06283D', marginBottom: 14 }}>
+              Frequently Asked <span style={{ color: '#006BA6' }}>Questions</span>
+            </h2>
+            <p style={{ color: '#555', fontSize: 15, maxWidth: 560, margin: '0 auto', lineHeight: 1.7 }}>
+              Everything you need to know about working with HR-Pro.
+            </p>
+          </div>
+
+          <div>
+            {faqs.map((faq, i) => (
+              <div
+                key={i}
+                className={`faq-item reveal${inView ? ' show' : ''}`}
+                style={{ transitionDelay: `${i * 0.06}s` }}
+              >
+                <button className="faq-question" onClick={() => toggle(i)}>
+                  <span>{faq.q}</span>
+                  <span className={`faq-arrow ${openIdx === i ? 'open' : ''}`}>
+                    <ChevronDown size={14} strokeWidth={3} />
+                  </span>
+                </button>
+                <div style={{
+                  maxHeight: openIdx === i ? 300 : 0,
+                  overflow: 'hidden',
+                  transition: 'max-height .35s ease',
+                }}>
+                  <div className="faq-answer">{faq.a}</div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-        <div ref={ref} className={`max-w-2xl mx-auto transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          {faqs.map((faq, i) => (
-            <FAQItem key={i} faq={faq} isOpen={openIndex === i} onClick={() => setOpenIndex(openIndex === i ? null : i)} />
-          ))}
-        </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

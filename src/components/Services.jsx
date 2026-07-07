@@ -1,56 +1,91 @@
-import {
-  FaUserTie, FaUsers, FaBriefcase, FaFileAlt,
-  FaBuilding, FaGraduationCap, FaChartLine, FaTruck
-} from 'react-icons/fa';
-import useInView from '../hooks/useInView';
+import { useEffect, useRef } from 'react';
+import { Users, DollarSign, Search, GraduationCap, Building2, GitBranch, Award, Shield } from 'lucide-react';
 
 const services = [
-  { icon: FaUserTie, title: 'Recruitment & Placement', desc: 'End-to-end recruitment services connecting talent with the right opportunities.', color: 'bg-[#D7263D]' },
-  { icon: FaUsers, title: 'Staffing Solutions', desc: 'Flexible staffing solutions for businesses of all sizes, temporary or permanent.', color: 'bg-[#F46197]' },
-  { icon: FaBriefcase, title: 'Career Consultancy', desc: 'Professional career guidance and counseling to help you achieve your goals.', color: 'bg-[#7768AE]' },
-  { icon: FaFileAlt, title: 'Document & Application Support', desc: 'Assistance with applications, documentation, and administrative processes.', color: 'bg-[#02C39A]' },
-  { icon: FaBuilding, title: 'Corporate Services', desc: 'Comprehensive corporate support services for businesses and organizations.', color: 'bg-[#B3001B]' },
-  { icon: FaGraduationCap, title: 'Training & Development', desc: 'Skill development programs and training to enhance professional capabilities.', color: 'bg-[#D7263D]' },
-  { icon: FaChartLine, title: 'Client Advisory', desc: 'Strategic advisory services to help businesses make informed decisions.', color: 'bg-[#7768AE]' },
-  { icon: FaTruck, title: 'Manpower Supply', desc: 'Reliable manpower supply solutions for projects and ongoing operations.', color: 'bg-[#F46197]' },
+  { Icon: Users, title: 'Staff Outsourcing', desc: 'Flexible, vetted staffing solutions to meet your operational needs with speed and quality.', color: '#006BA6' },
+  { Icon: DollarSign, title: 'Payroll Outsourcing', desc: 'End-to-end payroll management — accurate, compliant, and hassle-free for your business.', color: '#0496FF' },
+  { Icon: Search, title: 'Recruitment & Executive Search', desc: 'Talent acquisition from entry-level to C-suite, leveraging our extensive network and research.', color: '#FFBC42' },
+  { Icon: GraduationCap, title: 'Blended Learning & Training', desc: 'Innovative learning programs combining digital and in-person modalities for maximum impact.', color: '#D81159' },
+  { Icon: Building2, title: 'HR Management Solutions', desc: 'Comprehensive HR systems, processes, and frameworks tailored to your organization.', color: '#00897B' },
+  { Icon: GitBranch, title: 'Organization Development', desc: 'Strategic OD interventions to enhance effectiveness, culture, and performance.', color: '#006BA6' },
+  { Icon: Award, title: 'Talent Assessment', desc: 'Psychometric testing, skills assessment, and competency mapping for informed decisions.', color: '#0496FF' },
+  { Icon: Shield, title: 'HR Advisory & Compliance', desc: 'Expert guidance on labor laws, policy development, and regulatory compliance.', color: '#FFBC42' },
 ];
 
 export default function Services() {
-  const [ref, inView] = useInView();
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (e) => e.forEach(en => { if (en.isIntersecting) en.target.classList.add('show'); }),
+      { threshold: 0.1 }
+    );
+    ref.current?.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
+
+  const wa = () => window.open('https://wa.me/923121124692', '_blank');
 
   return (
-    <section id="services" className="section-pad bg-[#FFF0F3]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 md:mb-16">
-          <span className="pill-badge bg-[#D7263D]/10 text-[#D7263D] mb-4">OUR SERVICES</span>
-          <h2 className="section-heading">What We <span className="text-[#D7263D]">Offer</span></h2>
-          <p className="text-[#340710]/60 mt-4 max-w-2xl mx-auto text-base md:text-lg">
-            Comprehensive services designed to meet your recruitment and professional needs
-          </p>
-        </div>
+    <>
+      <style>{`
+        .sv-section { background:#E6F3FB; padding:96px 24px; }
+        .sv-inner { max-width:1200px; margin:0 auto; }
+        .sv-masonry { columns: 2; column-gap: 20px; }
+        @media(max-width:768px){ .sv-masonry{columns:1} }
+        .sv-card { break-inside:avoid; margin-bottom:20px; border-radius:20px; padding:32px 28px; transition:transform .35s,box-shadow .35s; cursor:default; display:inline-block; width:100%; }
+        .sv-card:hover { transform:translateY(-6px); box-shadow:0 16px 48px rgba(0,0,0,.10); }
+        .sv-card-icon { width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px; }
+        .sv-card-title { font-family:"Plus Jakarta Sans",sans-serif;font-weight:800;font-size:17px;margin-bottom:8px; }
+        .sv-card-desc { font-size:14px;line-height:1.7; }
+      `}</style>
 
-        <div ref={ref} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {services.map((service, i) => {
-            const Icon = service.icon;
-            const isTall = i === 0 || i === 5;
-            return (
+      <section id="services" className="sv-section" ref={ref}>
+        <div className="sv-inner">
+          {/* Header */}
+          <div style={{ textAlign: 'center', marginBottom: 56 }} className="reveal">
+            <div className="pill-badge" style={{ margin: '0 auto 18px' }}>
+              <span className="pill-dot" />
+              OUR SERVICES
+            </div>
+            <h2 style={{ fontFamily: '"Plus Jakarta Sans",sans-serif', fontWeight: 900, fontSize: 'clamp(30px,4vw,46px)', color: '#06283D', marginBottom: 16 }}>
+              Comprehensive <span style={{ color: '#006BA6' }}>HR Solutions</span>
+            </h2>
+            <p style={{ color: '#555', fontSize: 16, maxWidth: 560, margin: '0 auto', lineHeight: 1.7 }}>
+              From outsourcing to executive search and strategic consulting — everything you need under one roof.
+            </p>
+          </div>
+
+          {/* Masonry grid */}
+          <div className="sv-masonry">
+            {services.map((s, i) => (
               <div
                 key={i}
-                className={`group rounded-2xl overflow-hidden shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-xl ${isTall ? 'sm:row-span-2 sm:flex sm:flex-col' : ''} ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-                style={{ transitionDelay: `${i * 80}ms`, transitionProperty: 'opacity, transform', transitionDuration: '0.6s' }}
+                className="sv-card reveal"
+                style={{
+                  background: `${s.color}${i % 3 === 0 ? '15' : i % 3 === 1 ? '0D' : '0A'}`,
+                  border: `1px solid ${s.color}20`,
+                  transitionDelay: `${(i % 4) * 0.08}s`,
+                }}
               >
-                <div className={`${service.color} p-6 md:p-8 h-full flex flex-col`}>
-                  <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <Icon className="text-white text-xl" />
-                  </div>
-                  <h3 className="text-lg font-heading font-bold text-white mb-2">{service.title}</h3>
-                  <p className="text-sm text-white/80 leading-relaxed flex-1">{service.desc}</p>
+                <div className="sv-card-icon" style={{ background: `${s.color}18` }}>
+                  <s.Icon size={22} color={s.color} strokeWidth={2} />
                 </div>
+                <div className="sv-card-title" style={{ color: s.color }}>{s.title}</div>
+                <div className="sv-card-desc" style={{ color: '#555' }}>{s.desc}</div>
               </div>
-            );
-          })}
+            ))}
+          </div>
+
+          {/* CTA */}
+          <div className="reveal" style={{ textAlign: 'center', marginTop: 48 }}>
+            <button className="btn-cta" onClick={wa} style={{ fontSize: 15, padding: '15px 32px' }}>
+              Enquire About Our Services
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </button>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
