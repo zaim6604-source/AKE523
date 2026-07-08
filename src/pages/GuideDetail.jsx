@@ -1,0 +1,182 @@
+import { useParams, Link } from 'react-router-dom';
+import useScrollReveal from '../hooks/useScrollReveal';
+import { countries } from '../data/countries';
+
+export default function GuideDetail() {
+  const { slug } = useParams();
+  const country = countries.find((c) => c.slug === slug);
+  const revealRef = useScrollReveal();
+  const rolesRef = useScrollReveal();
+
+  if (!country) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center bg-[#E8F5FF]">
+        <div className="text-center px-4">
+          <i className="fas fa-map-marked-alt text-5xl text-[#0496FF]/30 mb-4" />
+          <h1 className="text-2xl font-bold font-[Plus Jakarta Sans] text-[#062A45] mb-2">Country Not Found</h1>
+          <p className="text-sm text-[#062A45]/60 mb-6">The guide you&apos;re looking for doesn&apos;t exist.</p>
+          <Link
+            to="/guides"
+            className="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold text-white bg-[#0496FF] rounded-full hover:bg-[#0077CC] transition-all no-underline"
+          >
+            <i className="fas fa-arrow-left" />
+            Back to Guides
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const whatsappText = `Hello Reliance Overseas! I am interested in working in ${country.name}. Please guide me about available roles and the application process.`;
+
+  return (
+    <div>
+      {/* Hero Image */}
+      <section className="relative h-[50vh] sm:h-[60vh] overflow-hidden">
+        <img
+          src={country.image}
+          alt={country.name}
+          className="w-full h-full object-cover"
+          onError={(e) => {
+            e.target.style.display = 'none';
+            e.target.parentElement.classList.add('img-fallback');
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#062A45] via-[#062A45]/40 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10">
+          <div className="max-w-5xl mx-auto">
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#FFBE0B] font-[Plus Jakarta Sans]">
+              {country.region}
+            </span>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-[Plus Jakarta Sans] text-white mt-2 leading-tight">
+              {country.name}
+            </h1>
+            <p className="text-lg sm:text-xl text-white/80 mt-1">{country.headline}</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Quick Facts */}
+      <section className="bg-white border-b border-blue-100">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+            {[
+              { label: 'Capital', value: country.capital, icon: 'fas fa-city' },
+              { label: 'Language', value: country.language, icon: 'fas fa-language' },
+              { label: 'Currency', value: country.currency, icon: 'fas fa-coins' },
+              { label: 'Timezone', value: country.timezone, icon: 'fas fa-clock' },
+            ].map((f, i) => (
+              <div key={i} className="flex items-center gap-3 p-3 sm:p-4 bg-[#E8F5FF] rounded-xl">
+                <div className="w-9 h-9 rounded-lg bg-[#0496FF]/10 flex items-center justify-center text-[#0496FF] flex-shrink-0">
+                  <i className={`${f.icon} text-sm`} />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-[10px] sm:text-xs font-semibold text-[#062A45]/50 uppercase tracking-wider">{f.label}</p>
+                  <p className="text-xs sm:text-sm font-semibold text-[#062A45] truncate">{f.value}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Content */}
+      <section className="py-12 sm:py-16 bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-3 gap-8 sm:gap-12">
+            {/* Main content */}
+            <div className="lg:col-span-2">
+              <div ref={revealRef} className="reveal">
+                <h2 className="text-2xl sm:text-3xl font-bold font-[Plus Jakarta Sans] text-[#062A45] mb-6">
+                  Working in {country.name}
+                </h2>
+                <div className="article-body">
+                  <p>{country.intro}</p>
+                </div>
+
+                {/* Salary range */}
+                <div className="bg-[#E8F5FF] rounded-2xl p-5 sm:p-6 my-8">
+                  <div className="flex items-center gap-3 mb-2">
+                    <i className="fas fa-wallet text-[#0496FF] text-xl" />
+                    <h3 className="text-lg font-bold font-[Plus Jakarta Sans] text-[#062A45]">Expected Salary Range</h3>
+                  </div>
+                  <p className="text-base sm:text-lg font-semibold text-[#0496FF]">{country.salaryRange}</p>
+                </div>
+              </div>
+
+              {/* Roles */}
+              <div ref={rolesRef} className="reveal">
+                <h3 className="text-xl font-bold font-[Plus Jakarta Sans] text-[#062A45] mb-4">
+                  Available Roles
+                </h3>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {country.roles.map((role, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center gap-3 p-3.5 bg-white border border-blue-100 rounded-xl hover:border-[#0496FF]/30 hover:shadow-sm transition-all"
+                    >
+                      <div className="w-2 h-2 rounded-full bg-[#0496FF] flex-shrink-0" />
+                      <span className="text-sm text-[#062A45]/80">{role}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Sidebar */}
+            <div className="lg:col-span-1">
+              <div className="sticky top-24 space-y-6">
+                {/* Apply CTA */}
+                <div className="bg-[#062A45] rounded-2xl p-6 text-center">
+                  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-white mx-auto mb-4">
+                    <i className="fas fa-paper-plane text-xl" />
+                  </div>
+                  <h3 className="text-lg font-bold font-[Plus Jakarta Sans] text-white mb-2">
+                    Ready to Apply?
+                  </h3>
+                  <p className="text-sm text-white/70 mb-5">
+                    Contact us today and start your journey to {country.name}.
+                  </p>
+                  <a
+                    href={`https://wa.me/923158547604?text=${encodeURIComponent(whatsappText)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-3 text-sm font-bold text-white bg-[#FB5607] rounded-full hover:bg-[#e04e06] transition-all w-full justify-center no-underline"
+                  >
+                    <i className="fab fa-whatsapp" />
+                    Apply via WhatsApp
+                  </a>
+                </div>
+
+                {/* Life Notes */}
+                <div className="bg-white rounded-2xl p-6 border border-blue-100">
+                  <h3 className="text-base font-bold font-[Plus Jakarta Sans] text-[#062A45] mb-4 flex items-center gap-2">
+                    <i className="fas fa-info-circle text-[#0496FF]" />
+                    Life in {country.name}
+                  </h3>
+                  <ul className="space-y-3">
+                    {country.lifeNotes.map((note, i) => (
+                      <li key={i} className="flex items-start gap-2.5 text-sm text-[#062A45]/70">
+                        <i className="fas fa-check-circle text-[#0496FF] mt-0.5 flex-shrink-0" />
+                        <span>{note}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Back link */}
+                <Link
+                  to="/guides"
+                  className="flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold text-[#0496FF] border border-[#0496FF]/20 rounded-xl hover:bg-blue-50 transition-all no-underline"
+                >
+                  <i className="fas fa-arrow-left text-xs" />
+                  Back to All Guides
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}

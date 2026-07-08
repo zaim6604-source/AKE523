@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <rect width="400" height="300" fill="#FFF0F5"/>
+  <!-- Handshake illustration -->
+  <circle cx="140" cy="110" r="40" fill="#FF6B9D" opacity="0.15"/>
+  <circle cx="260" cy="110" r="40" fill="#FF6B9D" opacity="0.15"/>
+  <!-- Hands -->
+  <path d="M150 160 Q170 130 200 140 Q230 130 250 160" fill="none" stroke="#FF3366" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+  <path d="M155 155 Q175 125 200 135 Q225 125 245 155" fill="none" stroke="#FF3366" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+  <!-- Globe -->
+  <circle cx="200" cy="180" r="45" fill="none" stroke="#FF3366" stroke-width="1.5" opacity="0.2"/>
+  <ellipse cx="200" cy="180" rx="45" ry="15" fill="none" stroke="#FF3366" stroke-width="1.5" opacity="0.2"/>
+  <line x1="155" y1="180" x2="245" y2="180" stroke="#FF3366" stroke-width="1.5" opacity="0.2"/>
+  <!-- Dots connecting -->
+  <circle cx="100" cy="150" r="4" fill="#FFCE47" opacity="0.6"/>
+  <circle cx="120" cy="130" r="3" fill="#FFCE47" opacity="0.5"/>
+  <circle cx="280" cy="130" r="3" fill="#FFCE47" opacity="0.5"/>
+  <circle cx="300" cy="150" r="4" fill="#FFCE47" opacity="0.6"/>
+  <!-- Decorative lines -->
+  <path d="M80 200 Q200 180 320 200" fill="none" stroke="#FFCE47" stroke-width="1.5" opacity="0.3"/>
+  <path d="M60 220 Q200 200 340 220" fill="none" stroke="#FFCE47" stroke-width="1" opacity="0.2"/>
+  <text x="200" y="270" text-anchor="middle" font-family="Poppins, sans-serif" font-size="14" fill="#FF3366" opacity="0.6" font-weight="600">PARTNERSHIP &amp; TRUST</text>
+</svg>

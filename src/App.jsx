@@ -1,39 +1,25 @@
-import Navbar from './Navbar';
-import MarqueeTicker from './MarqueeTicker';
-import Hero from './Hero';
-import StatBand from './StatBand';
-import About from './About';
-import Services from './Services';
-import CountryGuide from './CountryGuide';
-import Process from './Process';
-import Testimonials from './Testimonials';
-import GalleryStrip from './GalleryStrip';
-import CTABand from './CTABand';
-import Contact from './Contact';
-import FAQs from './FAQs';
-import Footer from './Footer';
-import QuickApply from './QuickApply';
+import { Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+import Home from './pages/Home';
+import About from './pages/About';
+import Services from './pages/Services';
+import Guides from './pages/Guides';
+import GuideDetail from './pages/GuideDetail';
+import Contact from './pages/Contact';
+import NotFound from './pages/NotFound';
 
-function App() {
+export default function App() {
   return (
-    <div className="min-h-screen bg-[#F8EEFF]">
-      <Navbar />
-      <MarqueeTicker />
-      <Hero />
-      <StatBand />
-      <About />
-      <Services />
-      <CountryGuide />
-      <Process />
-      <Testimonials />
-      <GalleryStrip />
-      <CTABand />
-      <Contact />
-      <FAQs />
-      <Footer />
-      <QuickApply />
-    </div>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="story" element={<About />} />
+        <Route path="services" element={<Services />} />
+        <Route path="guides" element={<Guides />} />
+        <Route path="guides/:slug" element={<GuideDetail />} />
+        <Route path="contact" element={<Contact />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
   );
 }
-
-export default App;
