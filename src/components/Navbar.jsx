@@ -1,111 +1,144 @@
-import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 const NAV_LINKS = [
-  { label: 'Home', path: '/' },
-  { label: 'About', path: '/about' },
-  { label: 'Services', path: '/services' },
-  { label: 'Countries', path: '/countries' },
-  { label: 'Process', path: '/process' },
-  { label: 'Contact', path: '/contact' },
+  { label: 'Home', href: '#home' },
+  { label: 'About', href: '#about' },
+  { label: 'Services', href: '#services' },
+  { label: 'Countries', href: '#countries' },
+  { label: 'Process', href: '#process' },
+  { label: 'FAQs', href: '#faqs' },
+  { label: 'Contact', href: '#contact' },
 ];
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
-  const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
 
-  const isActive = (path) => location.pathname === path;
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleObserver = () => {
+      const sections = NAV_LINKS.map(l => l.href.slice(1));
+      for (const id of sections.reverse()) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= 150) {
+          setActiveSection(id);
+          break;
+        }
+      }
+    };
+    window.addEventListener('scroll', handleObserver, { passive: true });
+    return () => window.removeEventListener('scroll', handleObserver);
+  }, []);
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-[#F5F5F5]/90 backdrop-blur-md border-b border-[#E10600]/10">
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? 'bg-[#F2F6F9]/95 backdrop-blur-md shadow-md'
+          : 'bg-[#F2F6F9]/80 backdrop-blur-sm'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 shrink-0">
-            <span className="text-[#E10600] text-xl lg:text-2xl">
-              <i className="fa-solid fa-flag-checkered"></i>
-            </span>
-            <div className="flex flex-col leading-tight">
-              <span className="font-bold text-[#141414] text-sm lg:text-base font-poppins">
-                Gul Shahzad
+          <a href="#home" className="flex items-center gap-3 shrink-0">
+            <div className="w-9 h-9 lg:w-10 lg:h-10 rounded-lg bg-[#1B4965] flex items-center justify-center text-white font-bold text-sm lg:text-base shadow-sm">
+              MG
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[#0B2436] font-bold text-base lg:text-lg leading-tight">
+                M. G. Traders
               </span>
-              <span className="font-bold text-[#141414] text-sm lg:text-base -mt-1 font-poppins">
-                Corporation
-              </span>
-              <span className="bg-[#FFD500] text-[#141414] text-[10px] font-bold px-2 py-0.5 rounded-full mt-0.5 inline-block w-fit font-inter">
-                License 2263/RWP
+              <span className="text-[10px] lg:text-xs text-[#FF6B35] font-medium tracking-wider -mt-0.5">
+                RECRUITMENT AGENCY
               </span>
             </div>
-          </Link>
+          </a>
 
-          {/* Desktop links */}
-          <div className="hidden lg:flex items-center gap-1">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                onClick={() => setOpen(false)}
-                className={`px-3 py-2 text-sm font-medium transition-colors rounded-lg font-inter ${
-                  isActive(link.path)
-                    ? 'text-[#E10600] bg-[#E10600]/5'
-                    : 'text-[#444] hover:text-[#E10600] hover:bg-[#E10600]/5'
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <a
-              href="https://wa.me/92311509987"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ml-3 bg-[#FFD500] text-[#141414] text-sm font-bold px-5 py-2.5 rounded-full hover:bg-[#E10600] hover:text-white transition-all shadow-md hover:shadow-lg"
-            >
-              <i className="fa-brands fa-whatsapp mr-1.5"></i>Apply Now
-            </a>
+          {/* License Badge */}
+          <div className="hidden md:flex items-center ml-4">
+            <span className="bg-[#1B4965] text-white text-[10px] font-semibold px-2.5 py-1 rounded-full whitespace-nowrap shadow-sm">
+              License 2264/RWP
+            </span>
           </div>
 
-          {/* Hamburger */}
+          {/* Desktop Nav Links */}
+          <div className="hidden lg:flex items-center gap-1 ml-6">
+            {NAV_LINKS.map((link) => {
+              const isActive = activeSection === link.href.slice(1);
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className={`underline-tab px-3 py-2 text-sm font-medium ${
+                    isActive ? 'text-[#FF6B35] active' : 'text-[#0B2436]/70 hover:text-[#FF6B35]'
+                  } transition-colors`}
+                >
+                  {link.label}
+                </a>
+              );
+            })}
+          </div>
+
+          {/* Desktop CTA */}
+          <a
+            href="https://wa.me/923330572222"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden lg:inline-flex ml-4 bg-[#FF6B35] hover:bg-[#e55a2b] text-white font-semibold px-5 py-2.5 rounded-full text-sm transition-all shadow-md hover:shadow-lg"
+          >
+            <i className="fab fa-whatsapp mr-2" />
+            Apply Now
+          </a>
+
+          {/* Mobile Hamburger */}
           <button
-            className={`lg:hidden flex flex-col gap-1.5 p-2 ${open ? 'hamburger-open' : ''}`}
-            onClick={() => setOpen(!open)}
+            className="lg:hidden ml-auto p-2 rounded-lg hover:bg-[#1B4965]/5 text-[#0B2436]"
+            onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
           >
-            <span className="hamburger-line"></span>
-            <span className="hamburger-line"></span>
-            <span className="hamburger-line"></span>
+            <i className={`fas ${menuOpen ? 'fa-times' : 'fa-bars'} text-xl`} />
           </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile Menu */}
       <div
-        className={`lg:hidden transition-all duration-300 overflow-hidden ${
-          open ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        className={`lg:hidden overflow-hidden transition-all duration-300 ${
+          menuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <div className="px-4 py-4 space-y-1 bg-[#F5F5F5]/95 backdrop-blur-md border-t border-[#E10600]/10">
+        <div className="px-4 pb-4 pt-2 bg-[#F2F6F9]/95 backdrop-blur-md border-t border-[#C9CCD5]/50">
           {NAV_LINKS.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              onClick={() => setOpen(false)}
-              className={`block px-4 py-2.5 text-sm font-medium rounded-lg transition-colors font-inter ${
-                isActive(link.path)
-                  ? 'text-[#E10600] bg-[#E10600]/5'
-                  : 'text-[#444] hover:text-[#E10600] hover:bg-[#E10600]/5'
-              }`}
+            <a
+              key={link.href}
+              href={link.href}
+              onClick={() => setMenuOpen(false)}
+              className="block px-4 py-3 text-sm font-medium text-[#0B2436]/70 hover:text-[#FF6B35] hover:bg-[#1B4965]/5 rounded-lg transition-colors"
             >
               {link.label}
-            </Link>
+            </a>
           ))}
+          <div className="mt-3 flex items-center gap-3 px-4">
+            <span className="bg-[#1B4965] text-white text-[10px] font-semibold px-2.5 py-1 rounded-full">
+              License 2264/RWP
+            </span>
+          </div>
           <a
-            href="https://wa.me/92311509987"
+            href="https://wa.me/923330572222"
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => setOpen(false)}
-            className="block mt-3 bg-[#FFD500] text-[#141414] text-center text-sm font-bold px-5 py-3 rounded-full hover:bg-[#E10600] hover:text-white transition-all"
+            onClick={() => setMenuOpen(false)}
+            className="mt-3 mx-4 block text-center bg-[#FF6B35] hover:bg-[#e55a2b] text-white font-semibold px-5 py-2.5 rounded-full text-sm transition-all"
           >
-            <i className="fa-brands fa-whatsapp mr-1.5"></i>Apply Now
+            <i className="fab fa-whatsapp mr-2" />
+            Apply Now
           </a>
         </div>
       </div>

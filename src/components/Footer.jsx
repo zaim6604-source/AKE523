@@ -1,116 +1,144 @@
-import { Link } from 'react-router-dom';
+import useInView from '../hooks/useInView';
 
-const destinations = [
-  { name: 'Saudi Arabia', slug: 'saudi-arabia' },
-  { name: 'UAE', slug: 'uae' },
-  { name: 'Qatar', slug: 'qatar' },
-  { name: 'Kuwait', slug: 'kuwait' },
-  { name: 'Oman', slug: 'oman' },
-  { name: 'Germany', slug: 'germany' },
-  { name: 'Poland', slug: 'poland' },
-  { name: 'South Korea', slug: 'south-korea' },
-  { name: 'Turkey', slug: 'turkey' },
+const QUICK_LINKS = [
+  { label: 'Home', href: '#home' },
+  { label: 'About', href: '#about' },
+  { label: 'Services', href: '#services' },
+  { label: 'Countries', href: '#countries' },
+  { label: 'Process', href: '#process' },
+  { label: 'FAQs', href: '#faqs' },
+  { label: 'Contact', href: '#contact' },
+];
+
+const DESTINATIONS = [
+  'Saudi Arabia', 'UAE', 'Qatar', 'Oman', 'Germany', 'Poland', 'Greece', 'Malaysia',
 ];
 
 export default function Footer() {
+  const [ref, inView] = useInView({ threshold: 0.1 });
+
   return (
-    <footer className="bg-[#1C1C1C] text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+    <footer className="bg-[#0B3954] text-white" ref={ref}>
+      {/* Wavy top divider */}
+      <div className="relative w-full h-12 sm:h-16 overflow-hidden">
+        <svg
+          viewBox="0 0 1440 60"
+          preserveAspectRatio="none"
+          className="absolute top-0 w-full h-full"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z"
+            fill="#F2F6F9"
+          />
+        </svg>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
           {/* Brand */}
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-[#FFD500] text-xl">
-                <i className="fa-solid fa-flag-checkered"></i>
-              </span>
-              <div className="flex flex-col leading-tight">
-                <span className="font-bold text-white text-lg font-poppins">Gul Shahzad</span>
-                <span className="font-bold text-white text-lg -mt-1 font-poppins">Corporation</span>
+          <div className={`transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-lg bg-[#FF6B35]/20 flex items-center justify-center text-[#FF6B35] font-bold">
+                MG
+              </div>
+              <div>
+                <div className="font-bold text-lg text-white">M. G. Traders</div>
+                <div className="text-[10px] text-white/50 font-medium tracking-wider">RECRUITMENT AGENCY</div>
               </div>
             </div>
-            <p className="text-white/60 text-sm leading-relaxed mb-4 font-inter">
-              Govt. Licensed OEP — License No. 2263/RWP. Trusted overseas recruitment
-              from Chandni Chowk, Satellite Town, Rawalpindi to the world.
+            <p className="text-sm text-white/60 leading-relaxed mb-4">
+              Govt. Licensed OEP — License No. 2264/RWP. Connecting Pakistan's workforce to global opportunities since 2014.
             </p>
-            <span className="inline-block bg-[#FFD500]/20 text-[#FFD500] text-xs font-bold px-3 py-1.5 rounded-full font-inter">
-              <i className="fa-solid fa-certificate mr-1"></i>License 2263/RWP
-            </span>
+            <div className="inline-block bg-white/10 text-white text-xs font-bold px-3 py-1.5 rounded-full border border-white/20">
+              <i className="fas fa-certificate mr-1.5 text-[#FF6B35]" />
+              License 2264/RWP
+            </div>
           </div>
 
           {/* Quick Links */}
-          <div>
-            <h4 className="font-bold text-[#FFD500] text-sm uppercase tracking-wider mb-4 font-poppins">Quick Links</h4>
-            <ul className="space-y-2">
-              {[
-                { label: 'Home', path: '/' },
-                { label: 'About', path: '/about' },
-                { label: 'Services', path: '/services' },
-                { label: 'Countries', path: '/countries' },
-                { label: 'Process', path: '/process' },
-                { label: 'Contact', path: '/contact' },
-              ].map((link) => (
+          <div className={`transition-all duration-700 delay-100 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <h4 className="font-bold text-[#FF6B35] text-sm mb-4 uppercase tracking-wider">Quick Links</h4>
+            <ul className="space-y-2.5">
+              {QUICK_LINKS.map((link) => (
                 <li key={link.label}>
-                  <Link
-                    to={link.path}
-                    className="text-white/60 hover:text-[#FFD500] text-sm transition-colors font-inter"
+                  <a
+                    href={link.href}
+                    className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-2"
                   >
+                    <i className="fas fa-chevron-right text-[10px] text-[#FF6B35]/60" />
                     {link.label}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
           </div>
 
           {/* Destinations */}
-          <div>
-            <h4 className="font-bold text-[#FFD500] text-sm uppercase tracking-wider mb-4 font-poppins">Destinations</h4>
-            <ul className="space-y-2">
-              {destinations.map((d) => (
-                <li key={d.name}>
-                  <Link
-                    to={`/countries/${d.slug}`}
-                    className="text-white/60 hover:text-[#FFD500] text-sm transition-colors font-inter"
-                  >
-                    <i className="fa-solid fa-location-dot text-[#FF4D4D] mr-2 text-xs"></i>
-                    {d.name}
-                  </Link>
+          <div className={`transition-all duration-700 delay-200 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <h4 className="font-bold text-[#FF6B35] text-sm mb-4 uppercase tracking-wider">Destinations</h4>
+            <ul className="space-y-2.5">
+              {DESTINATIONS.map((dest) => (
+                <li key={dest} className="text-sm text-white/60 flex items-center gap-2">
+                  <i className="fas fa-globe text-[10px] text-[#FF6B35]/60" />
+                  {dest}
                 </li>
               ))}
             </ul>
           </div>
 
           {/* Contact */}
-          <div>
-            <h4 className="font-bold text-[#FFD500] text-sm uppercase tracking-wider mb-4 font-poppins">Contact</h4>
+          <div className={`transition-all duration-700 delay-300 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <h4 className="font-bold text-[#FF6B35] text-sm mb-4 uppercase tracking-wider">Contact</h4>
             <ul className="space-y-3">
-              <li className="flex items-start gap-3 text-white/60 text-sm font-inter">
-                <i className="fa-solid fa-phone text-[#FF4D4D] mt-0.5"></i>
-                <a href="tel:0514933684" className="hover:text-[#FFD500] transition-colors">051-4933684</a>
+              <li>
+                <a href="tel:0514932104" className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-2">
+                  <i className="fas fa-phone text-[#FF6B35] text-xs w-4" />
+                  051-4932104
+                </a>
               </li>
-              <li className="flex items-start gap-3 text-white/60 text-sm font-inter">
-                <i className="fa-brands fa-whatsapp text-[#FF4D4D] mt-0.5"></i>
-                <a href="https://wa.me/92311509987" target="_blank" rel="noopener noreferrer" className="hover:text-[#FFD500] transition-colors">0311-509987</a>
+              <li>
+                <a href="https://wa.me/923330572222" target="_blank" rel="noopener noreferrer" className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-2">
+                  <i className="fab fa-whatsapp text-[#FF6B35] text-xs w-4" />
+                  0333-0572222
+                </a>
               </li>
-              <li className="flex items-start gap-3 text-white/60 text-sm font-inter">
-                <i className="fa-solid fa-location-dot text-[#FF4D4D] mt-0.5"></i>
-                <span>Office No. 2, B-214, Basement, Al Fateh Plaza, Chandni Chowk, Satellite Town, Rawalpindi, Punjab</span>
+              <li>
+                <a href="https://wa.me/923335506297" target="_blank" rel="noopener noreferrer" className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-2">
+                  <i className="fab fa-whatsapp text-[#FF6B35] text-xs w-4" />
+                  0333-5506297
+                </a>
               </li>
-              <li className="flex items-start gap-3 text-white/60 text-sm font-inter">
-                <i className="fa-solid fa-envelope text-[#FF4D4D] mt-0.5"></i>
-                <span>info@gulshahzad.pk</span>
+              <li className="text-sm text-white/60 flex items-start gap-2">
+                <i className="fas fa-location-dot text-[#FF6B35] text-xs w-4 mt-0.5" />
+                <span>Office No. 16, 2nd Floor, Rose Arcade, Rehmanabad Chowk, Murree Road, Rawalpindi, Punjab</span>
+              </li>
+              <li>
+                <a href="mailto:info@mgtraders.pk" className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-2">
+                  <i className="fas fa-envelope text-[#FF6B35] text-xs w-4" />
+                  info@mgtraders.pk
+                </a>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-3">
-          <p className="text-white/40 text-xs font-inter">
-            &copy; {new Date().getFullYear()} Gul Shahzad Corporation & Manpower Consultants. All rights reserved.
+        {/* Bottom Bar */}
+        <div className="mt-10 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-white/40 text-center sm:text-left">
+            &copy; {new Date().getFullYear()} M. G. Traders. All rights reserved. | Govt. Licensed OEP — License No. 2264/RWP
           </p>
-          <p className="text-white/40 text-xs font-inter">
-            Govt. Licensed OEP — License No. 2263/RWP
-          </p>
+          <div className="flex items-center gap-3 text-white/30 text-xs">
+            <span className="flex items-center gap-1">
+              <i className="fas fa-shield-alt" /> Licensed
+            </span>
+            <span className="flex items-center gap-1">
+              <i className="fas fa-handshake" /> Trusted
+            </span>
+            <span className="flex items-center gap-1">
+              <i className="fas fa-bolt" /> Reliable
+            </span>
+          </div>
         </div>
       </div>
     </footer>

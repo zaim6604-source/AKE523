@@ -5,22 +5,24 @@ export default function useInView(options = {}) {
   const [isInView, setIsInView] = useState(false);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+    const element = ref.current;
+    if (!element) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsInView(true);
-          if (!options.repeat) observer.unobserve(el);
+          if (!options.repeat) {
+            observer.unobserve(element);
+          }
         } else if (options.repeat) {
           setIsInView(false);
         }
       },
-      { threshold: options.threshold ?? 0.1, ...options }
+      { threshold: options.threshold || 0.1, ...options }
     );
 
-    observer.observe(el);
+    observer.observe(element);
     return () => observer.disconnect();
   }, [options.threshold, options.repeat]);
 

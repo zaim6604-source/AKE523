@@ -9,11 +9,11 @@ export default function Layout() {
     <>
       <ScrollToTop />
       <Navbar />
-      <main className="pt-16 lg:pt-20 min-h-screen">
+      <main className="min-h-screen pt-16 lg:pt-20">
         <Outlet />
       </main>
-      <Footer />
       <QuickApply />
+      <Footer />
     </>
   );
 }

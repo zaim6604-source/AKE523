@@ -1,79 +1,77 @@
-import FadeUp from './FadeUp';
-import SectionBadge from './SectionBadge';
-import SafeImage from './SafeImage';
+import useInView from '../hooks/useInView';
+import PillBadge from './PillBadge';
+import LazyImage from './LazyImage';
+
+const STAT_CIRCLES = [
+  { icon: 'fa-calendar-check', number: '10+', label: 'Years Experience', color: 'bg-[#1B4965] text-white' },
+  { icon: 'fa-building', number: '150+', label: 'Partner Employers', color: 'bg-[#5FA8D3] text-white' },
+  { icon: 'fa-passport', number: '40+', label: 'Visa Categories', color: 'bg-[#FF6B35] text-white' },
+  { icon: 'fa-star', number: '98%', label: 'Success Rate', color: 'bg-[#0B3954] text-white' },
+];
 
 export default function About() {
-  return (
-    <section id="about" className="py-16 lg:py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <FadeUp className="text-center mb-12">
-          <SectionBadge text="ABOUT US" color="bg-[#7B2D8E]" />
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#3D0A1E]">
-            Trusted Gulf Recruitment Since Day One
-          </h2>
-          <p className="text-[#5C1A32]/70 mt-3 max-w-2xl mx-auto">
-            Learn more about who we are and what drives us.
-          </p>
-        </FadeUp>
+  const [ref, inView] = useInView({ threshold: 0.1 });
 
-        <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-center">
-          {/* Left - Photo */}
-          <FadeUp className="w-full lg:w-1/2">
-            <div className="relative img-zoom rounded-2xl overflow-hidden">
-              <SafeImage
-                src="/images/office.jpg"
-                alt="Arabian Gulf International team office"
-                className="w-full h-[350px] sm:h-[420px] object-cover rounded-2xl"
-                type="office"
+  return (
+    <section id="about" className="bg-[#F2F6F9] py-16 sm:py-20 lg:py-24 overflow-hidden" ref={ref}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <PillBadge text="ABOUT US" index={1} />
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          {/* Left - Image with fact sheet panel */}
+          <div className="relative">
+            <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+              <LazyImage
+                src="/images/about-team.jpg"
+                alt="M. G. Traders team"
+                className="w-full h-[320px] sm:h-[400px] lg:h-[480px] object-cover"
+                containerClass="w-full"
               />
-              <div className="absolute -bottom-3 -right-3 bg-[#7B2D8E] text-white font-extrabold text-sm px-5 py-2.5 rounded-full shadow-lg">
-                License 2175/RWP
-              </div>
             </div>
-          </FadeUp>
+
+            {/* Floating License Badge */}
+            <div className={`absolute -bottom-4 -right-4 bg-[#FF6B35] text-white font-bold px-5 py-3 rounded-2xl shadow-xl rotate-3 transition-all duration-700 ${inView ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
+              <div className="text-xs opacity-80 font-medium">License No.</div>
+              <div className="text-lg">2264 / RWP</div>
+            </div>
+          </div>
 
           {/* Right - Content */}
-          <FadeUp delay={2} className="w-full lg:w-1/2">
-            <p className="text-[#5C1A32]/80 leading-relaxed mb-4">
-              <strong className="text-[#3D0A1E]">Arabian Gulf International</strong> is a
-              premier government-licensed overseas employment promoter (OEP) operating from
-              <strong className="text-[#3D0A1E]"> Office No. 51, 2nd Floor, Rehmat Centre, I-8 Markaz, Islamabad</strong>.
-              We specialize in connecting skilled and semi-skilled Pakistani professionals with
-              rewarding career opportunities across the Arabian Gulf region.
-            </p>
-            <p className="text-[#5C1A32]/80 leading-relaxed mb-8">
-              With our deep understanding of Gulf labor markets and strong employer networks in
-              UAE, Saudi Arabia, Qatar, Oman, Kuwait, and Bahrain, we ensure a seamless and
-              transparent recruitment process — from registration to departure. Our commitment
-              to ethical practices and candidate welfare has made us a trusted name in the
-              Islamabad capital region and beyond.
-            </p>
-
-            {/* Fact sheet */}
-            <div className="border-2 border-[#E0115F]/20 rounded-2xl p-5 bg-[#FFF0F4]/50">
-              <h3 className="font-bold text-[#E0115F] text-sm mb-3 tracking-wider">
-                <i className="fa-solid fa-receipt mr-2"></i>QUICK FACTS
-              </h3>
-              <div className="grid grid-cols-2 gap-3 text-sm">
-                {[
-                  { icon: 'fa-calendar', label: 'Founded', value: '2018' },
-                  { icon: 'fa-id-card', label: 'License No.', value: '2175 / RWP' },
-                  { icon: 'fa-location-dot', label: 'Head Office', value: 'I-8 Markaz, Islamabad' },
-                  { icon: 'fa-globe', label: 'Gulf Reach', value: '6 Countries' },
-                  { icon: 'fa-briefcase', label: 'Placements', value: '4000+' },
-                  { icon: 'fa-shield', label: 'Certification', value: 'Govt. Licensed' },
-                ].map((fact, i) => (
-                  <div key={i} className="flex items-start gap-2.5">
-                    <i className={`fa-solid ${fact.icon} text-[#E0115F] mt-0.5`}></i>
-                    <div>
-                      <span className="text-[#5C1A32]/60 text-xs">{fact.label}</span>
-                      <p className="font-semibold text-[#3D0A1E] text-sm">{fact.value}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+          <div className={`space-y-6 transition-all duration-700 delay-200 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0B2436] leading-tight">
+              Your Trusted Partner in{' '}
+              <span className="text-[#1B4965]">Global Employment</span>
+            </h2>
+            <div className="space-y-4 text-[#0B2436]/70 leading-relaxed text-base sm:text-lg">
+              <p>
+                Based at <strong className="text-[#0B2436]">Rehmanabad Chowk, Murree Road, Rawalpindi</strong>, M. G. Traders is a government-licensed Overseas Employment Promoter (OEP) bearing License No. <strong className="text-[#1B4965]">2264/RWP</strong>. We are dedicated to connecting the talented workforce of Rawalpindi and Punjab with reputable employers across the Gulf and Europe.
+              </p>
+              <p>
+                From construction and healthcare to hospitality and logistics, we handle every step of the recruitment journey — from documentation and visa processing to pre-departure orientation and travel support. Our mission: deliver trusted trade, tested results, and real departures.
+              </p>
             </div>
-          </FadeUp>
+
+            {/* Stat Circles */}
+            <div className="flex flex-wrap gap-4 pt-4">
+              {STAT_CIRCLES.map((stat, i) => (
+                <div
+                  key={stat.label}
+                  className={`flex items-center gap-3 ${stat.color} px-4 py-3 rounded-full shadow-md transition-all duration-700`}
+                  style={{ transitionDelay: `${300 + i * 100}ms` }}
+                >
+                  <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                    <i className={`fas ${stat.icon} text-sm`} />
+                  </div>
+                  <div className="leading-tight">
+                    <div className="font-black text-sm">{stat.number}</div>
+                    <div className="text-[10px] opacity-80 font-medium">{stat.label}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

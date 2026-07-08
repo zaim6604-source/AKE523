@@ -1,29 +1,43 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout';
-import Home from './pages/Home';
-import About from './pages/About';
-import ServicesPage from './pages/Services';
-import Countries from './pages/Countries';
-import CountryDetail from './pages/CountryDetail';
-import Process from './pages/Process';
-import Contact from './pages/Contact';
-import NotFound from './pages/NotFound';
+import Navbar from './components/Navbar';
+import MarqueeBar from './components/MarqueeBar';
+import QuickApply from './components/QuickApply';
+import Hero from './components/Hero';
+import StatsBand from './components/StatsBand';
+import About from './components/About';
+import Services from './components/Services';
+import CountryGuide from './components/CountryGuide';
+import Process from './components/Process';
+import Testimonials from './components/Testimonials';
+import Gallery from './components/Gallery';
+import CtaBand from './components/CtaBand';
+import Contact from './components/Contact';
+import Faqs from './components/Faqs';
+import Footer from './components/Footer';
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/countries" element={<Countries />} />
-          <Route path="/countries/:slug" element={<CountryDetail />} />
-          <Route path="/process" element={<Process />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <div className="min-h-screen bg-[#F2F6F9] font-sans">
+      <Navbar />
+      <MarqueeBar />
+      <QuickApply />
+
+      <Hero />
+      <StatsBand />
+
+      <About />
+      <Services />
+
+      <CountryGuide />
+      <Process />
+
+      <Testimonials />
+      {/* <Gallery /> */}
+
+      <CtaBand />
+
+      <Contact />
+      <Faqs />
+      <Footer />
+    </div>
   );
 }
