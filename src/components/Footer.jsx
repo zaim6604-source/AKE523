@@ -1,78 +1,142 @@
 import { Link } from 'react-router-dom';
+import useInView from '../hooks/useInView';
 
-const destinations = ['Saudi Arabia', 'UAE', 'Qatar', 'Kuwait', 'Oman', 'Germany', 'Poland', 'South Korea', 'Turkey'];
+const QUICK_LINKS = [
+  { label: 'Home', to: '/' },
+  { label: 'Jobs Portal', to: '/jobs' },
+  { label: 'About', to: '/about' },
+  { label: 'Contact', to: '/contact' },
+];
+
+const DESTINATIONS = [
+  'Saudi Arabia', 'UAE', 'Qatar', 'Oman', 'Germany',
+  'Poland', 'Romania', 'Malaysia', 'Greece',
+];
 
 export default function Footer() {
+  const [ref, inView] = useInView({ threshold: 0.1 });
+
   return (
-    <footer className="bg-[#1C1C1C] text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-[#FFD500] text-xl"><i className="fa-solid fa-flag-checkered"></i></span>
-              <div className="flex flex-col leading-tight">
-                <span className="font-bold text-white text-lg font-[Poppins]">PAMI</span>
-                <span className="text-[#FF4D4D] text-xs font-semibold -mt-1">OVERSEAS EMPLOYMENT PROMOTERS</span>
+    <footer className="bg-[#0B3954] text-white" ref={ref}>
+      {/* Top divider */}
+      <div className="relative w-full h-12 sm:h-16 overflow-hidden">
+        <svg
+          viewBox="0 0 1440 60"
+          preserveAspectRatio="none"
+          className="absolute top-0 w-full h-full"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z"
+            fill="#F2F6F9"
+          />
+        </svg>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
+          {/* Brand */}
+          <div className={`transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center text-white font-bold">
+                GO
+              </div>
+              <div>
+                <div className="font-bold text-lg text-white">Gulalai</div>
+                <div className="text-[10px] text-white/60 font-medium tracking-wider">OVERSEAS EMPLOYMENT PROMOTER</div>
               </div>
             </div>
-            <p className="text-white/60 text-sm leading-relaxed mb-4">
-              Full speed ahead to your career abroad. Based in Bannu, KPK — trusted overseas recruitment for opportunities worldwide.
+            <p className="text-sm text-white/70 leading-relaxed mb-4">
+              Based at <strong className="text-white">Deans Trade Center</strong>, Peshawar Cantt — your trusted partner for overseas employment. Licensed by the Government of Pakistan.
             </p>
-            <span className="inline-block bg-[#E10600]/20 text-[#FF4D4D] text-xs font-bold px-3 py-1.5 rounded-full">
-              <i className="fa-solid fa-certificate mr-1"></i>Bannu, KPK
-            </span>
+            <div className="inline-block bg-white/10 text-white text-xs font-bold px-3 py-1.5 rounded-full border border-white/20">
+              <i className="fas fa-certificate mr-1.5 text-[#FF6B35]" />
+              License FF-227
+            </div>
           </div>
 
-          <div>
-            <h4 className="font-bold text-[#FFD500] text-sm uppercase tracking-wider mb-4 font-[Poppins]">Quick Links</h4>
-            <ul className="space-y-2">
-              {[
-                { label: 'Home', path: '/' },
-                { label: 'Services', path: '/services' },
-                { label: 'Destinations', path: '/destinations' },
-                { label: 'Journey', path: '/journey' },
-                { label: 'Contact', path: '/contact' },
-              ].map(link => (
+          {/* Quick Links */}
+          <div className={`transition-all duration-700 delay-100 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <h4 className="font-bold text-[#FF6B35] text-sm mb-4 uppercase tracking-wider">Quick Links</h4>
+            <ul className="space-y-2.5">
+              {QUICK_LINKS.map((link) => (
                 <li key={link.label}>
-                  <Link to={link.path} className="text-white/60 hover:text-[#FFD500] text-sm transition-colors">{link.label}</Link>
+                  <Link
+                    to={link.to}
+                    className="text-sm text-white/70 hover:text-white transition-colors flex items-center gap-2"
+                  >
+                    <i className="fas fa-chevron-right text-[10px] text-[#FF6B35]/60" />
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div>
-            <h4 className="font-bold text-[#FFD500] text-sm uppercase tracking-wider mb-4 font-[Poppins]">Destinations</h4>
-            <ul className="space-y-1.5">
-              {destinations.map(d => (
-                <li key={d} className="text-white/60 text-sm">
-                  <i className="fa-solid fa-location-dot text-[#E10600] mr-2 text-xs"></i>{d}
+          {/* Destinations */}
+          <div className={`transition-all duration-700 delay-200 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <h4 className="font-bold text-[#FF6B35] text-sm mb-4 uppercase tracking-wider">Destinations</h4>
+            <ul className="space-y-2.5">
+              {DESTINATIONS.map((dest) => (
+                <li key={dest} className="text-sm text-white/70 flex items-center gap-2">
+                  <i className="fas fa-globe text-[10px] text-[#FF6B35]/60" />
+                  {dest}
                 </li>
               ))}
             </ul>
           </div>
 
-          <div>
-            <h4 className="font-bold text-[#FFD500] text-sm uppercase tracking-wider mb-4 font-[Poppins]">Contact</h4>
+          {/* Contact */}
+          <div className={`transition-all duration-700 delay-300 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <h4 className="font-bold text-[#FF6B35] text-sm mb-4 uppercase tracking-wider">Contact</h4>
             <ul className="space-y-3">
-              <li className="flex items-start gap-3 text-white/60 text-sm">
-                <i className="fa-brands fa-whatsapp text-[#FFD500] mt-0.5"></i>
-                <a href="https://wa.me/923339742773" target="_blank" rel="noopener noreferrer" className="hover:text-[#FFD500] transition-colors">0333-9742773</a>
+              <li>
+                <a href="https://wa.me/923341999588" target="_blank" rel="noopener noreferrer" className="text-sm text-white/70 hover:text-white transition-colors flex items-center gap-2">
+                  <i className="fab fa-whatsapp text-[#FF6B35] text-xs w-4" />
+                  +92-334-1999588
+                </a>
               </li>
-              <li className="flex items-start gap-3 text-white/60 text-sm">
-                <i className="fa-solid fa-location-dot text-[#E10600] mt-0.5"></i>
-                <span>XIQ5+866, Bannu, KPK</span>
+              <li>
+                <a href="mailto:info@gulalaioverseas.pk" className="text-sm text-white/70 hover:text-white transition-colors flex items-center gap-2">
+                  <i className="fas fa-envelope text-[#FF6B35] text-xs w-4" />
+                  info@gulalaioverseas.pk
+                </a>
               </li>
-              <li className="flex items-start gap-3 text-white/60 text-sm">
-                <i className="fa-solid fa-envelope text-[#FF4D4D] mt-0.5"></i>
-                <span>info@pamioverseas.pk</span>
+              <li className="text-sm text-white/70 flex items-start gap-2">
+                <i className="fas fa-location-dot text-[#FF6B35] text-xs w-4 mt-0.5" />
+                <span>FF-227, Deans Trade Center, Peshawar Cantonment, KPK</span>
+              </li>
+              <li>
+                <a
+                  href="https://www.google.com/maps?q=34.001843052405775,71.5450493"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-[#5FA8D3] hover:text-white transition-colors flex items-center gap-2"
+                >
+                  <i className="fas fa-map-pin text-xs w-4" />
+                  View on Google Maps
+                </a>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-3">
-          <p className="text-white/40 text-xs">&copy; {new Date().getFullYear()} PAMI Overseas Employment Promoters. All rights reserved.</p>
-          <p className="text-white/40 text-xs">Bannu, KPK — Full Speed Ahead to Your Career Abroad</p>
+        {/* Bottom Bar */}
+        <div className="mt-10 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-white/50 text-center sm:text-left">
+            &copy; {new Date().getFullYear()} Gulalai Overseas Employment Promoter. All rights reserved. | License # FF-227 | Deans Trade Center, Peshawar
+          </p>
+          <div className="flex items-center gap-3 text-white/30 text-xs">
+            <span className="flex items-center gap-1">
+              <i className="fas fa-shield-alt" /> Licensed
+            </span>
+            <span className="flex items-center gap-1">
+              <i className="fas fa-handshake" /> Trusted
+            </span>
+            <span className="flex items-center gap-1">
+              <i className="fas fa-bolt" /> Reliable
+            </span>
+          </div>
         </div>
       </div>
     </footer>

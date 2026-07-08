@@ -1,25 +1,25 @@
-import { Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
-import Landing from './pages/Landing';
-import Services from './pages/Services';
-import Destinations from './pages/Destinations';
-import DestinationDetail from './pages/DestinationDetail';
-import Journey from './pages/Journey';
+import Home from './pages/Home';
+import Jobs from './pages/Jobs';
+import JobDetail from './pages/JobDetail';
+import About from './pages/About';
 import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
 
 export default function App() {
   return (
-    <Routes>
-      <Route element={<Layout />}>
-        <Route index element={<Landing />} />
-        <Route path="services" element={<Services />} />
-        <Route path="destinations" element={<Destinations />} />
-        <Route path="destinations/:slug" element={<DestinationDetail />} />
-        <Route path="journey" element={<Journey />} />
-        <Route path="contact" element={<Contact />} />
-        <Route path="*" element={<NotFound />} />
-      </Route>
-    </Routes>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="jobs" element={<Jobs />} />
+          <Route path="jobs/:id" element={<JobDetail />} />
+          <Route path="about" element={<About />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
