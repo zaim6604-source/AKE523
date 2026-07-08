@@ -1,33 +1,37 @@
-export default function CtaBand() {
+import FadeUp from './FadeUp';
+
+export default function CTABand() {
   return (
-    <section className="relative py-16 md:py-20 bg-gradient-to-r from-primary via-primary to-cta overflow-hidden">
-      <div className="absolute inset-0 bg-dot-pattern opacity-20" />
-      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 text-center">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-4">
-          Ready to Work Abroad?
-        </h2>
-        <p className="text-white/85 text-lg sm:text-xl max-w-2xl mx-auto mb-8">
-          Get in touch with us today and start your journey to a better career overseas.
-        </p>
-        <div className="flex flex-wrap justify-center gap-4">
-          <a
-            href="https://wa.me/923064712919"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2.5 bg-white text-primary px-8 py-4 rounded-full text-lg font-bold hover:bg-accent hover:text-ink transition-all shadow-xl hover:shadow-2xl hover:-translate-y-0.5"
-          >
-            <i className="fa-brands fa-whatsapp text-xl" />
-            Apply on WhatsApp
-          </a>
-          <a
-            href="tel:0673380519"
-            className="inline-flex items-center gap-2.5 border-2 border-white/40 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white/10 hover:border-white/60 transition-all"
-          >
-            <i className="fas fa-phone text-xl" />
-            Call 067-3380519
-          </a>
-        </div>
+    <section className="py-16 lg:py-20 bg-gradient-to-r from-[#E0115F] to-[#7B2D8E]">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+        <FadeUp>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-4">
+            The Gulf Is Calling.
+          </h2>
+          <p className="text-white/80 text-lg mb-8 max-w-2xl mx-auto">
+            Take the first step toward a rewarding career in the Arabian Gulf.
+            Your dream job is just an application away.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <a
+              href="#contact"
+              onClick={(e) => {
+                e.preventDefault();
+                document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="bg-[#FFD700] text-[#3D0A1E] font-bold px-8 py-4 rounded-full hover:bg-white transition-all shadow-lg text-sm sm:text-base"
+            >
+              <i className="fa-solid fa-paper-plane mr-2"></i>Apply Now
+            </a>
+            <a
+              href="tel:0514938271"
+              className="border-2 border-white text-white font-semibold px-8 py-4 rounded-full hover:bg-white hover:text-[#7B2D8E] transition-all text-sm sm:text-base"
+            >
+              <i className="fa-solid fa-phone mr-2"></i>Call Us Now
+            </a>
+          </div>
+        </FadeUp>
       </div>
     </section>
-  )
+  );
 }

@@ -1,82 +1,56 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState, useEffect, useRef } from 'react';
+import useInView from '../hooks/useInView';
 
-const STATS = [
-  { value: 30, suffix: '+', label: 'Countries', icon: 'fa-globe' },
-  { value: 12, suffix: '+', label: 'Years Experience', icon: 'fa-calendar-check' },
-  { value: 5000, suffix: '+', label: 'Workers Placed', icon: 'fa-users' },
-  { value: 7, suffix: ' Days', label: 'Fast Processing', icon: 'fa-bolt' },
-]
-
-function Counter({ target, suffix }) {
-  const [count, setCount] = useState(0)
-  const ref = useRef(null)
-  const counted = useRef(false)
+function AnimatedCounter({ end, suffix = '', duration = 2000 }) {
+  const [count, setCount] = useState(0);
+  const [ref, inView] = useInView({ threshold: 0.5 });
 
   useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !counted.current) {
-          counted.current = true
-          const duration = 2000
-          const steps = 60
-          const increment = target / steps
-          let current = 0
-          const timer = setInterval(() => {
-            current += increment
-            if (current >= target) {
-              setCount(target)
-              clearInterval(timer)
-            } else {
-              setCount(Math.floor(current))
-            }
-          }, duration / steps)
-        }
-      },
-      { threshold: 0.3 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [target])
+    if (!inView) return;
+    let start = 0;
+    const increment = end / (duration / 16);
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= end) {
+        setCount(end);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, 16);
+    return () => clearInterval(timer);
+  }, [inView, end, duration]);
 
   return (
-    <span ref={ref} className="text-3xl sm:text-4xl font-extrabold text-white">
-      {count.toLocaleString()}{suffix}
+    <span ref={ref} className="counter-value font-extrabold text-3xl md:text-4xl lg:text-5xl text-white">
+      {count}{suffix}
     </span>
-  )
+  );
 }
+
+const STATS = [
+  { icon: 'fa-users', end: 4000, suffix: '+', label: 'Workers Placed' },
+  { icon: 'fa-globe', end: 6, suffix: '+', label: 'Gulf Countries' },
+  { icon: 'fa-certificate', end: 100, suffix: '%', label: 'Govt. Licensed' },
+  { icon: 'fa-star', end: 0, suffix: '', label: 'Trusted in Islamabad', always: 'Trusted' },
+];
 
 export default function StatBand() {
   return (
-    <section className="relative bg-primary py-14 md:py-18">
-      {/* Wave divider top */}
-      <div className="absolute top-0 left-0 w-full overflow-hidden leading-none rotate-180">
-        <svg viewBox="0 0 1440 60" className="relative block w-full h-[40px] md:h-[60px]">
-          <path fill="#FFF5EE" d="M0,30 C360,60 720,0 1440,30 L1440,60 L0,60 Z" />
-        </svg>
-      </div>
-
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-8 pb-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6 text-center">
-          {STATS.map((stat) => (
-            <div key={stat.label} className="flex flex-col items-center gap-2">
-              <i className={`fas ${stat.icon} text-accent text-2xl`} />
-              <Counter target={stat.value} suffix={stat.suffix} />
-              <span className="text-white/80 text-sm font-medium uppercase tracking-wider">
-                {stat.label}
-              </span>
+    <section className="bg-[#E0115F] py-10 md:py-14">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-center">
+          {STATS.map((stat, i) => (
+            <div key={i} className="text-white">
+              <i className={`fa-solid ${stat.icon} text-2xl md:text-3xl text-[#FFD700] mb-2`}></i>
+              <div className="mb-1">
+                <AnimatedCounter end={stat.end} suffix={stat.suffix} />
+              </div>
+              <div className="text-sm md:text-base font-medium text-white/90">{stat.label}</div>
             </div>
           ))}
         </div>
       </div>
-
-      {/* Wave divider bottom */}
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
-        <svg viewBox="0 0 1440 60" className="relative block w-full h-[40px] md:h-[60px]">
-          <path fill="#FFF5EE" d="M0,30 C360,60 720,0 1440,30 L1440,60 L0,60 Z" />
-        </svg>
-      </div>
     </section>
-  )
+  );
 }

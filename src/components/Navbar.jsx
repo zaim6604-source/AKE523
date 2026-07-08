@@ -1,110 +1,105 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react';
+import { NavLink, Link } from 'react-router-dom';
 
 const NAV_LINKS = [
-  { label: 'Home', href: '#hero' },
-  { label: 'About', href: '#about' },
-  { label: 'Services', href: '#services' },
-  { label: 'Countries', href: '#countries' },
-  { label: 'Process', href: '#process' },
-  { label: 'Contact', href: '#contact' },
-]
+  { label: 'Home', to: '/' },
+  { label: 'About', to: '/about' },
+  { label: 'Services', to: '/services' },
+  { label: 'Countries', to: '/countries' },
+  { label: 'Process', to: '/process' },
+  { label: 'Contact', to: '/contact' },
+];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  const linkClass = ({ isActive }) =>
+    `px-3 py-2 text-sm font-medium transition-colors rounded-lg ${
+      isActive
+        ? 'text-[#E10600] bg-[#E10600]/10'
+        : 'text-[#141414]/70 hover:text-[#E10600] hover:bg-[#E10600]/5'
+    }`;
 
   return (
-    <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-lg'
-          : 'bg-transparent'
-      }`}
-    >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16 md:h-18">
-        {/* Brand */}
-        <a href="#hero" className="flex items-center gap-2.5">
-          <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-primary text-white font-extrabold text-sm">
-            AB
-          </span>
-          <div className={`leading-tight transition-colors ${scrolled ? 'text-ink' : 'text-ink'}`}>
-            <p className="font-bold text-sm">Abu Bakar Bilal</p>
-            <p className="text-[11px] font-semibold opacity-70">Travel International</p>
-          </div>
-        </a>
+    <nav className="fixed top-0 left-0 w-full z-50 bg-white/85 backdrop-blur-md border-b border-[#E10600]/10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 lg:h-20">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2 shrink-0">
+            <span className="text-[#E10600] text-xl lg:text-2xl">
+              <i className="fa-regular fa-building"></i>
+            </span>
+            <div className="flex flex-col leading-tight">
+              <span className="font-bold text-[#141414] text-sm lg:text-base">
+                Pak. Arsalan
+              </span>
+              <span className="font-bold text-[#141414] text-sm lg:text-base -mt-1">
+                Corporation
+              </span>
+              <span className="bg-[#FFD500] text-[#141414] text-[10px] font-bold px-2 py-0.5 rounded-full mt-0.5 inline-block w-fit">
+                License 2210/ABT
+              </span>
+            </div>
+          </Link>
 
-        {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-1">
-          {NAV_LINKS.map((link) => (
+          {/* Desktop links */}
+          <div className="hidden lg:flex items-center gap-1">
+            {NAV_LINKS.map((link) => (
+              <NavLink key={link.to} to={link.to} end={link.to === '/'} className={linkClass} onClick={() => setOpen(false)}>
+                {link.label}
+              </NavLink>
+            ))}
             <a
-              key={link.href}
-              href={link.href}
-              className={`px-3 py-2 rounded-full text-sm font-medium transition-colors ${
-                scrolled
-                  ? 'text-ink/70 hover:text-primary hover:bg-primary/5'
-                  : 'text-ink/70 hover:text-primary hover:bg-primary/5'
-              }`}
+              href="https://wa.me/923005096511"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-3 bg-[#FFD500] text-[#141414] text-sm font-bold px-5 py-2.5 rounded-full hover:bg-[#E10600] hover:text-white transition-all shadow-md hover:shadow-lg"
             >
-              {link.label}
+              <i className="fa-brands fa-whatsapp mr-1.5"></i>Apply Now
             </a>
-          ))}
-          <a
-            href="https://wa.me/923064712919"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="ml-3 inline-flex items-center gap-2 bg-cta text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-teal-600 transition-colors shadow-lg"
-          >
-            <i className="fa-brands fa-whatsapp" />
-            Apply Now
-          </a>
-        </div>
+          </div>
 
-        {/* Mobile toggle */}
-        <button
-          className={`md:hidden p-2 rounded-lg transition-colors ${
-            scrolled ? 'text-ink' : 'text-ink'
-          }`}
-          onClick={() => setOpen(!open)}
-          aria-label="Toggle menu"
-        >
-          <i className={`fas ${open ? 'fa-xmark' : 'fa-bars'} text-xl`} />
-        </button>
+          {/* Hamburger */}
+          <button
+            className={`lg:hidden flex flex-col gap-1.5 p-2 ${open ? 'hamburger-open' : ''}`}
+            onClick={() => setOpen(!open)}
+            aria-label="Toggle menu"
+          >
+            <span className="hamburger-line"></span>
+            <span className="hamburger-line"></span>
+            <span className="hamburger-line"></span>
+          </button>
+        </div>
       </div>
 
-      {/* Mobile drawer */}
+      {/* Mobile menu */}
       <div
-        className={`md:hidden transition-all duration-300 overflow-hidden ${
+        className={`lg:hidden transition-all duration-300 overflow-hidden ${
           open ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <div className="bg-white/95 backdrop-blur-md border-t border-primary/10 px-4 py-4 space-y-1">
+        <div className="px-4 py-4 space-y-1 bg-white/95 backdrop-blur-md border-t border-[#E10600]/10">
           {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
+            <NavLink key={link.to} to={link.to} end={link.to === '/'}
               onClick={() => setOpen(false)}
-              className="block px-4 py-2.5 rounded-xl text-ink/70 hover:text-primary hover:bg-primary/5 font-medium transition-colors"
-            >
+              className={({ isActive }) =>
+                `block px-4 py-2.5 text-sm font-medium rounded-lg transition-colors ${
+                  isActive ? 'text-[#E10600] bg-[#E10600]/10' : 'text-[#141414]/70 hover:text-[#E10600] hover:bg-[#E10600]/5'
+                }`
+              }>
               {link.label}
-            </a>
+            </NavLink>
           ))}
           <a
-            href="https://wa.me/923064712919"
+            href="https://wa.me/923005096511"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 bg-cta text-white font-semibold px-5 py-3 rounded-full mt-3 hover:bg-teal-600 transition-colors"
+            className="block mt-3 bg-[#FFD500] text-[#141414] text-center text-sm font-bold px-5 py-3 rounded-full hover:bg-[#E10600] hover:text-white transition-all"
           >
-            <i className="fa-brands fa-whatsapp" />
-            Apply Now
+            <i className="fa-brands fa-whatsapp mr-1.5"></i>Apply Now
           </a>
         </div>
       </div>
     </nav>
-  )
+  );
 }

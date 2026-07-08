@@ -1,68 +1,157 @@
 @import "tailwindcss";
 
-@theme {
-  --color-primary: #E0218A;
-  --color-secondary: #FF6FB5;
-  --color-accent: #FFB6C1;
-  --color-cta: #00BFA6;
-  --color-highlight: #C2055E;
-  --color-background: #FFEFF6;
-  --color-ink: #3A0722;
-  --font-sans: 'Plus Jakarta Sans', 'Inter', sans-serif;
+:root {
+  --color-primary: #E10600;
+  --color-secondary: #FF4D4D;
+  --color-accent: #1C1C1C;
+  --color-cta: #FFD500;
+  --color-highlight: #A30000;
+  --color-background: #F5F5F5;
+  --color-ink: #141414;
+  --font-inter: 'Inter', sans-serif;
+  --font-poppins: 'Poppins', sans-serif;
 }
 
-@layer base {
-  html {
-    scroll-behavior: smooth;
-  }
-  body {
-    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-    color: var(--color-ink);
-    background: var(--color-background);
-  }
+html {
+  scroll-behavior: smooth;
 }
 
-@layer utilities {
-  .bg-dot-pattern {
-    background-image: radial-gradient(rgba(255,255,255,0.15) 1px, transparent 1px);
-    background-size: 20px 20px;
-  }
+body {
+  font-family: var(--font-inter);
+  background-color: var(--color-background);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Marquee animation */
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+/* Hero overlay — dark gradient */
+.hero-overlay {
+  background: linear-gradient(135deg, rgba(225,6,0,0.85), rgba(28,28,28,0.9));
 }
-.marquee-track {
-  animation: marquee 30s linear infinite;
+
+/* Tile overlay — for country cards */
+.tile-overlay {
+  background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+}
+
+/* Tachymeter-style stat ring */
+.tachymeter-ring {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.tachymeter-ring::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #FFD500;
+  animation: spin 3s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Speed-line motif */
+.speed-line {
+  height: 2px;
+  background: linear-gradient(90deg, #E10600, transparent);
+  margin: 6px 0;
+  border-radius: 2px;
 }
 
 /* Fade-up animation */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.animate-fade-up {
-  animation: fadeUp 0.6s ease-out forwards;
-}
-
-/* Scroll reveal */
-@keyframes scrollReveal {
-  from { opacity: 0; transform: translateY(40px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.reveal {
+.fade-up {
   opacity: 0;
-  transform: translateY(40px);
+  transform: translateY(30px);
   transition: opacity 0.7s ease-out, transform 0.7s ease-out;
 }
-.reveal.visible {
+.fade-up.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Pill shape */
-.pill {
-  border-radius: 9999px;
+.stagger-1 { transition-delay: 0.1s; }
+.stagger-2 { transition-delay: 0.2s; }
+.stagger-3 { transition-delay: 0.3s; }
+.stagger-4 { transition-delay: 0.4s; }
+.stagger-5 { transition-delay: 0.5s; }
+.stagger-6 { transition-delay: 0.6s; }
+.stagger-7 { transition-delay: 0.7s; }
+.stagger-8 { transition-delay: 0.8s; }
+
+.img-zoom {
+  overflow: hidden;
+}
+.img-zoom img {
+  transition: transform 0.5s ease;
+}
+.img-zoom:hover img {
+  transform: scale(1.08);
+}
+
+.wave-divider {
+  line-height: 0;
+  overflow: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 4px;
+}
+
+.quick-apply-form {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+}
+.quick-apply-form.active {
+  max-height: 400px;
+  opacity: 1;
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.35s ease;
+}
+.accordion-content.active {
+  max-height: 300px;
+}
+
+.map-container iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Hamburger menu */
+.hamburger-line {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--color-ink);
+  transition: all 0.3s ease;
+}
+.hamburger-open .hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translate(4px, 4px);
+}
+.hamburger-open .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+.hamburger-open .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translate(4px, -4px);
 }

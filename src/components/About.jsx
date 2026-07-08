@@ -1,82 +1,81 @@
-import { useState } from 'react'
-
-const ABOUT_IMAGE = 'https://images.unsplash.com/photo-1568992688065-536aad8a12f6?w=800&q=80'
-
-const CHIPS = [
-  'Govt. Licensed 2224/MTN',
-  '12+ Years Experience',
-  'Travel & Overseas',
-  'Fast Processing',
-  'Skilled & Unskilled',
-  'Air Ticketing',
-]
+import FadeUp from './FadeUp';
+import SectionBadge from './SectionBadge';
+import SafeImage from './SafeImage';
 
 export default function About() {
-  const [imgError, setImgError] = useState(false)
-
   return (
-    <section id="about" className="py-16 md:py-24 bg-background">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        {/* Section pill label */}
-        <div className="text-center mb-12">
-          <span className="inline-flex items-center gap-2 bg-primary/10 text-primary text-sm font-semibold px-5 py-2 rounded-full">
-            <i className="fas fa-info-circle" />
-            About Us
-          </span>
-        </div>
+    <section id="about" className="py-16 lg:py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <FadeUp className="text-center mb-12">
+          <SectionBadge text="ABOUT US" color="bg-[#7B2D8E]" />
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#3D0A1E]">
+            Trusted Gulf Recruitment Since Day One
+          </h2>
+          <p className="text-[#5C1A32]/70 mt-3 max-w-2xl mx-auto">
+            Learn more about who we are and what drives us.
+          </p>
+        </FadeUp>
 
-        <div className="grid md:grid-cols-2 gap-10 md:gap-14 items-center">
-          {/* Image */}
-          <div className="relative">
-            {!imgError ? (
-              <img
-                src={ABOUT_IMAGE}
-                alt="Abu Bakar Bilal Travel International office"
-                className="w-full h-80 sm:h-96 object-cover rounded-2xl shadow-xl"
-                onError={() => setImgError(true)}
+        <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-center">
+          {/* Left - Photo */}
+          <FadeUp className="w-full lg:w-1/2">
+            <div className="relative img-zoom rounded-2xl overflow-hidden">
+              <SafeImage
+                src="/images/office.jpg"
+                alt="Arabian Gulf International team office"
+                className="w-full h-[350px] sm:h-[420px] object-cover rounded-2xl"
+                type="office"
               />
-            ) : (
-              <div className="w-full h-80 sm:h-96 rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
-                <i className="fas fa-building text-5xl text-primary/40" />
+              <div className="absolute -bottom-3 -right-3 bg-[#7B2D8E] text-white font-extrabold text-sm px-5 py-2.5 rounded-full shadow-lg">
+                License 2175/RWP
               </div>
-            )}
-            {/* Floating badge */}
-            <div className="absolute -bottom-4 -right-4 bg-cta text-white text-sm font-semibold px-5 py-3 rounded-xl shadow-lg shadow-cta/30">
-              <i className="fas fa-id-card mr-2" />
-              License 2224/MTN
             </div>
-          </div>
+          </FadeUp>
 
-          {/* Content */}
-          <div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-ink mb-6">
-              Trusted Travel & Recruitment{' '}
-              <span className="text-primary">in Pakhi More, Vehari</span>
-            </h2>
-            <div className="space-y-4 text-ink/70 leading-relaxed">
-              <p>
-                Based at <strong>Flat #01, Pakhi More, Dhahdi Complex, Vehari, Punjab</strong>, Abu Bakar Bilal Travel International is a government-licensed travel and recruitment agency (License <strong>2224/MTN</strong>) dedicated to providing fast, reliable overseas employment and travel services.
-              </p>
-              <p>
-                With an experienced and qualified team, we handle everything from overseas job placement and visa processing to air ticketing, document attestation, medical coordination, and pre-departure orientation. Whether you&apos;re seeking employment abroad or need travel assistance, we are your trusted partner.
-              </p>
-            </div>
+          {/* Right - Content */}
+          <FadeUp delay={2} className="w-full lg:w-1/2">
+            <p className="text-[#5C1A32]/80 leading-relaxed mb-4">
+              <strong className="text-[#3D0A1E]">Arabian Gulf International</strong> is a
+              premier government-licensed overseas employment promoter (OEP) operating from
+              <strong className="text-[#3D0A1E]"> Office No. 51, 2nd Floor, Rehmat Centre, I-8 Markaz, Islamabad</strong>.
+              We specialize in connecting skilled and semi-skilled Pakistani professionals with
+              rewarding career opportunities across the Arabian Gulf region.
+            </p>
+            <p className="text-[#5C1A32]/80 leading-relaxed mb-8">
+              With our deep understanding of Gulf labor markets and strong employer networks in
+              UAE, Saudi Arabia, Qatar, Oman, Kuwait, and Bahrain, we ensure a seamless and
+              transparent recruitment process — from registration to departure. Our commitment
+              to ethical practices and candidate welfare has made us a trusted name in the
+              Islamabad capital region and beyond.
+            </p>
 
-            {/* Chips */}
-            <div className="flex flex-wrap gap-2.5 mt-6">
-              {CHIPS.map((chip) => (
-                <span
-                  key={chip}
-                  className="inline-flex items-center gap-1.5 bg-primary/10 text-primary text-xs font-medium px-3.5 py-1.5 rounded-full"
-                >
-                  <i className="fas fa-check-circle text-[10px]" />
-                  {chip}
-                </span>
-              ))}
+            {/* Fact sheet */}
+            <div className="border-2 border-[#E0115F]/20 rounded-2xl p-5 bg-[#FFF0F4]/50">
+              <h3 className="font-bold text-[#E0115F] text-sm mb-3 tracking-wider">
+                <i className="fa-solid fa-receipt mr-2"></i>QUICK FACTS
+              </h3>
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                {[
+                  { icon: 'fa-calendar', label: 'Founded', value: '2018' },
+                  { icon: 'fa-id-card', label: 'License No.', value: '2175 / RWP' },
+                  { icon: 'fa-location-dot', label: 'Head Office', value: 'I-8 Markaz, Islamabad' },
+                  { icon: 'fa-globe', label: 'Gulf Reach', value: '6 Countries' },
+                  { icon: 'fa-briefcase', label: 'Placements', value: '4000+' },
+                  { icon: 'fa-shield', label: 'Certification', value: 'Govt. Licensed' },
+                ].map((fact, i) => (
+                  <div key={i} className="flex items-start gap-2.5">
+                    <i className={`fa-solid ${fact.icon} text-[#E0115F] mt-0.5`}></i>
+                    <div>
+                      <span className="text-[#5C1A32]/60 text-xs">{fact.label}</span>
+                      <p className="font-semibold text-[#3D0A1E] text-sm">{fact.value}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          </FadeUp>
         </div>
       </div>
     </section>
-  )
+  );
 }

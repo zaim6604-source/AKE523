@@ -1,81 +1,55 @@
+import FadeUp from './FadeUp';
+import SectionBadge from './SectionBadge';
+
 const STEPS = [
-  {
-    step: 1,
-    title: 'Submit Inquiry',
-    desc: 'Contact us via WhatsApp, phone, or visit our office at Pakhi More, Vehari to discuss your travel or recruitment needs.',
-    icon: 'fa-pen-to-square',
-  },
-  {
-    step: 2,
-    title: 'Document Review',
-    desc: 'Our team reviews your documents and guides you through any requirements or corrections needed.',
-    icon: 'fa-file-circle-check',
-  },
-  {
-    step: 3,
-    title: 'Visa & Ticketing',
-    desc: 'We handle the entire visa application and flight booking process with speed and accuracy.',
-    icon: 'fa-passport',
-  },
-  {
-    step: 4,
-    title: 'Medical & Tests',
-    desc: 'We coordinate medical exams and trade tests required for your destination country.',
-    icon: 'fa-stethoscope',
-  },
-  {
-    step: 5,
-    title: 'Travel & Departure',
-    desc: 'Final travel coordination, flight booking, and pre-departure briefing before you leave.',
-    icon: 'fa-plane-departure',
-  },
-]
+  { icon: 'fa-handshake', label: 'Register & Consult', color: 'bg-[#E0115F]' },
+  { icon: 'fa-file-contract', label: 'Documents & Visa', color: 'bg-[#7B2D8E]' },
+  { icon: 'fa-stethoscope', label: 'Medical & Trade Test', color: 'bg-[#FFD700]' },
+  { icon: 'fa-check-circle', label: 'Employer Confirmation', color: 'bg-[#FF5C8A]' },
+  { icon: 'fa-plane-departure', label: 'Ticketing & Departure', color: 'bg-[#B8004F]' },
+];
 
 export default function Process() {
   return (
-    <section id="process" className="relative py-16 md:py-24 overflow-hidden">
-      {/* Diagonal background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-highlight -skew-y-2 origin-left scale-105" />
-      <div className="absolute inset-0 bg-dot-pattern opacity-30" />
-
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 skew-y-2 origin-left">
-        {/* Section pill */}
-        <div className="text-center mb-14">
-          <span className="inline-flex items-center gap-2 bg-white/20 text-white text-sm font-semibold px-5 py-2 rounded-full">
-            <i className="fas fa-arrow-right" />
-            How It Works
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white mt-4 mb-3">
-            From Application to Departure
+    <section id="process" className="py-16 lg:py-24 bg-gradient-to-r from-[#E0115F] to-[#7B2D8E]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <FadeUp className="text-center mb-14">
+          <SectionBadge text="HOW IT WORKS" color="bg-[#FFD700]" />
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+            Your Journey to the Gulf
           </h2>
-          <p className="text-white/80 max-w-xl mx-auto">
-            A simple, streamlined process to get you working abroad — fast.
+          <p className="text-white/80 mt-3 max-w-2xl mx-auto">
+            A streamlined 5-step process designed to get you from application to departure with confidence.
           </p>
-        </div>
+        </FadeUp>
 
-        {/* Steps */}
-        <div className="grid md:grid-cols-5 gap-5">
-          {STEPS.map((s) => (
-            <div key={s.step} className="relative flex flex-col items-center text-center">
-              {/* Connector line */}
-              {s.step < 5 && (
-                <div className="hidden md:block absolute top-8 left-[60%] w-[80%] h-0.5 border-t-2 border-dashed border-white/30" />
-              )}
-
-              {/* Circle */}
-              <div className="relative flex items-center justify-center w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white/40 text-white text-2xl mb-5 z-10">
-                <i className={`fas ${s.icon}`} />
-                <span className="absolute -top-2 -right-2 flex items-center justify-center w-7 h-7 rounded-full bg-accent text-ink text-xs font-extrabold">
-                  {s.step}
-                </span>
+        <div className="flex flex-col md:flex-row items-center justify-center md:gap-0 gap-8 relative">
+          {STEPS.map((step, i) => (
+            <FadeUp
+              key={i}
+              delay={(i % 5) + 1}
+              className="flex flex-col items-center md:w-1/5 relative"
+            >
+              {/* Diamond */}
+              <div className="relative flex flex-col items-center">
+                <div className={`diamond ${step.color} shadow-xl flex items-center justify-center`}>
+                  <div className="diamond-inner text-white text-center">
+                    <span className="text-xs font-bold block leading-none">{i + 1}</span>
+                    <i className={`fa-solid ${step.icon} text-lg`}></i>
+                  </div>
+                </div>
+                {/* Connector */}
+                {i < STEPS.length - 1 && (
+                  <div className="hidden md:block absolute top-[40px] left-[60%] w-[70%] h-0.5 border-t-2 border-dashed border-white/40"></div>
+                )}
               </div>
-
-              <h3 className="text-white font-bold text-base mb-2">{s.title}</h3>
-              <p className="text-white/70 text-sm leading-relaxed max-w-[220px]">{s.desc}</p>
-            </div>
+              <p className="text-white text-sm font-semibold mt-4 text-center max-w-28">
+                {step.label}
+              </p>
+            </FadeUp>
           ))}
         </div>
       </div>
     </section>
-  )
+  );
 }

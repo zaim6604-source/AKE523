@@ -1,7 +1,7 @@
 {
   "startupCommands": [
-    "npm install; npx vite --host 0.0.0.0 --port 5173"
+    "npm install; npm run dev"
   ],
-  "projectId": "57277201-0f73-4924-963a-0dae18b6742b",
+  "projectId": "8741f16f-6acd-4d68-a1d8-f026591f9866",
   "templateId": "any"
 }

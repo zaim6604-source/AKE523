@@ -1,63 +1,90 @@
-import SERVICES from '../data/services'
+import FadeUp from './FadeUp';
+import SectionBadge from './SectionBadge';
+
+const SERVICES = [
+  {
+    icon: 'fa-briefcase',
+    title: 'Overseas Job Placement',
+    desc: 'End-to-end recruitment and placement across Gulf countries for skilled and semi-skilled professionals.',
+    barColor: 'bg-[#E0115F]',
+  },
+  {
+    icon: 'fa-passport',
+    title: 'Visa Processing',
+    desc: 'Complete visa documentation and processing support for all Gulf destination countries.',
+    barColor: 'bg-[#7B2D8E]',
+  },
+  {
+    icon: 'fa-file-lines',
+    title: 'Document Attestation',
+    desc: 'Professional attestation and verification of educational, professional, and personal documents.',
+    barColor: 'bg-[#FFD700]',
+  },
+  {
+    icon: 'fa-stethoscope',
+    title: 'Medical & Trade Test Coordination',
+    desc: 'Arrangement of mandatory medical examinations and trade test certifications for Gulf employment.',
+    barColor: 'bg-[#FF5C8A]',
+  },
+  {
+    icon: 'fa-plane-departure',
+    title: 'Pre-Departure Orientation',
+    desc: 'Comprehensive orientation sessions covering cultural adaptation, labor laws, and workplace expectations.',
+    barColor: 'bg-[#B8004F]',
+  },
+  {
+    icon: 'fa-ticket',
+    title: 'Air Ticketing & Travel Support',
+    desc: 'Flight bookings, airport transfers, and travel coordination for a smooth departure experience.',
+    barColor: 'bg-[#E0115F]',
+  },
+  {
+    icon: 'fa-shield-halved',
+    title: 'Employer Verification',
+    desc: 'Thorough vetting of Gulf employers to ensure legitimate, safe, and fair working conditions.',
+    barColor: 'bg-[#7B2D8E]',
+  },
+  {
+    icon: 'fa-people-group',
+    title: 'Skilled & Unskilled Manpower Supply',
+    desc: 'Reliable supply of qualified manpower across construction, hospitality, retail, and service sectors.',
+    barColor: 'bg-[#FF5C8A]',
+  },
+];
 
 export default function Services() {
   return (
-    <section id="services" className="py-16 md:py-24 bg-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        {/* Section pill */}
-        <div className="text-center mb-12">
-          <span className="inline-flex items-center gap-2 bg-primary/10 text-primary text-sm font-semibold px-5 py-2 rounded-full">
-            <i className="fas fa-briefcase" />
-            Our Services
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-ink mt-4 mb-3">
-            What We Offer
+    <section id="services" className="py-16 lg:py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <FadeUp className="text-center mb-12">
+          <SectionBadge text="OUR SERVICES" color="bg-[#E0115F]" />
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#3D0A1E]">
+            Comprehensive Gulf Recruitment Services
           </h2>
-          <p className="text-ink/60 max-w-xl mx-auto">
-            End-to-end travel and recruitment services tailored to get you working abroad — fast.
+          <p className="text-[#5C1A32]/70 mt-3 max-w-2xl mx-auto">
+            From registration to departure — we handle every step of your Gulf employment journey.
           </p>
-        </div>
+        </FadeUp>
 
-        {/* Masonry grid */}
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-5 space-y-5">
-          {SERVICES.map((svc) => (
-            <div key={svc.id} className="break-inside-avoid">
-              <div
-                className={`bg-gradient-to-br ${svc.color} text-white rounded-2xl p-6 sm:p-7 h-full transition-transform hover:-translate-y-1 hover:shadow-xl`}
-              >
-                <div className="flex items-center justify-center w-12 h-12 bg-white/20 rounded-xl mb-5 text-xl">
-                  <i className={`fas ${svc.icon}`} />
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {SERVICES.map((svc, i) => (
+            <FadeUp
+              key={i}
+              delay={(i % 4) + 1}
+              className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+            >
+              <div className={`${svc.barColor} h-2 w-full`}></div>
+              <div className="p-6">
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center text-xl text-white mb-4" style={{ backgroundColor: svc.barColor.replace('bg-[', '').replace(']', '') }}>
+                  <i className={`fa-solid ${svc.icon}`}></i>
                 </div>
-                <h3 className="text-lg font-bold mb-3">{svc.title}</h3>
-                <p className="text-white/80 text-sm leading-relaxed">{svc.desc}</p>
+                <h3 className="font-bold text-[#3D0A1E] text-base mb-2">{svc.title}</h3>
+                <p className="text-[#5C1A32]/70 text-sm leading-relaxed">{svc.desc}</p>
               </div>
-            </div>
+            </FadeUp>
           ))}
-        </div>
-
-        {/* Highlight banner */}
-        <div className="mt-10 bg-gradient-to-r from-primary to-cta rounded-2xl p-6 sm:p-8 text-white text-center">
-          <div className="inline-flex items-center gap-2 bg-white/20 px-4 py-1.5 rounded-full text-sm font-medium mb-4">
-            <i className="fas fa-star text-accent" />
-            Trusted Service
-          </div>
-          <h3 className="text-2xl sm:text-3xl font-extrabold mb-2">
-            Overseas Recruitment & Travel Services
-          </h3>
-          <p className="text-white/85 max-w-2xl mx-auto mb-4">
-            From job placement to air ticketing, we handle everything for your journey abroad. Licensed and reliable.
-          </p>
-          <a
-            href="https://wa.me/923064712919"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-white text-primary font-bold px-6 py-3 rounded-full hover:bg-accent hover:text-ink transition-colors"
-          >
-            <i className="fa-brands fa-whatsapp" />
-            Start Your Application
-          </a>
         </div>
       </div>
     </section>
-  )
+  );
 }

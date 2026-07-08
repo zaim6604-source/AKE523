@@ -1,37 +1,27 @@
-import Navbar from './components/Navbar'
-import MarqueeBar from './components/MarqueeBar'
-import Hero from './components/Hero'
-import StatBand from './components/StatBand'
-import About from './components/About'
-import Services from './components/Services'
-import CountryGuide from './components/CountryGuide'
-import Process from './components/Process'
-import Testimonials from './components/Testimonials'
-import Gallery from './components/Gallery'
-import CtaBand from './components/CtaBand'
-import Contact from './components/Contact'
-import Faq from './components/Faq'
-import Footer from './components/Footer'
-import QuickApply from './components/QuickApply'
+import { Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+import Home from './pages/Home';
+import About from './pages/About';
+import Services from './pages/Services';
+import Countries from './pages/Countries';
+import CountryDetail from './pages/CountryDetail';
+import Process from './pages/Process';
+import Contact from './pages/Contact';
+import NotFound from './pages/NotFound';
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-background text-ink">
-      <Navbar />
-      <MarqueeBar />
-      <Hero />
-      <StatBand />
-      <About />
-      <Services />
-      <CountryGuide />
-      <Process />
-      <Testimonials />
-      <Gallery />
-      <CtaBand />
-      <Contact />
-      <Faq />
-      <Footer />
-      <QuickApply />
-    </div>
-  )
+    <Routes>
+      <Route element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="about" element={<About />} />
+        <Route path="services" element={<Services />} />
+        <Route path="countries" element={<Countries />} />
+        <Route path="countries/:slug" element={<CountryDetail />} />
+        <Route path="process" element={<Process />} />
+        <Route path="contact" element={<Contact />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
+  );
 }
