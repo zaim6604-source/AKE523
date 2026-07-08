@@ -1,0 +1,159 @@
+@import "tailwindcss";
+
+:root {
+  --color-primary: #0496FF;
+  --color-secondary: #5FB8FF;
+  --color-accent: #FFBE0B;
+  --color-cta: #FB5607;
+  --color-highlight: #0077CC;
+  --color-background: #E8F5FF;
+  --color-ink: #062A45;
+}
+
+@theme {
+  --color-primary: #0496FF;
+  --color-secondary: #5FB8FF;
+  --color-accent: #FFBE0B;
+  --color-cta: #FB5607;
+  --color-highlight: #0077CC;
+  --color-background: #E8F5FF;
+  --color-ink: #062A45;
+  --font-heading: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: var(--color-ink);
+  background: #fff;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Marquee */
+.marquee-track {
+  display: flex;
+  animation: marquee 30s linear infinite;
+  min-width: max-content;
+}
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Service card masonry */
+.masonry-grid {
+  columns: 1;
+  column-gap: 1.5rem;
+}
+@media (min-width: 640px) {
+  .masonry-grid { columns: 2; }
+}
+@media (min-width: 1024px) {
+  .masonry-grid { columns: 3; }
+}
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 1.5rem;
+}
+
+/* Gallery strip */
+.gallery-scroll {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0.5rem;
+}
+.gallery-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+.gallery-scroll::-webkit-scrollbar-track {
+  background: #d4edff;
+  border-radius: 3px;
+}
+.gallery-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 3px;
+}
+.gallery-scroll > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* FAQ accordion */
+.faq-answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+.faq-answer.open {
+  grid-template-rows: 1fr;
+}
+.faq-answer > div {
+  overflow: hidden;
+}
+
+/* Chip */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.875rem;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  background: white;
+  color: var(--color-ink);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+/* Pill badge */
+.pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Arc panel */
+.arc-panel {
+  border-radius: 2rem 2rem 2rem 6rem;
+}
+
+/* Image fallback */
+.img-fallback {
+  background: linear-gradient(135deg, #d4edff, #b3dfff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  font-size: 2rem;
+}

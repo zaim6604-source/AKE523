@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" fill="none">
+  <rect width="300" height="200" fill="#FFF0F5"/>
+  <rect x="40" y="30" width="220" height="120" rx="8" fill="#FF3366" opacity="0.12"/>
+  <rect x="55" y="45" width="65" height="55" rx="4" fill="#FF3366" opacity="0.25"/>
+  <rect x="130" y="45" width="65" height="55" rx="4" fill="#FF3366" opacity="0.18"/>
+  <rect x="55" y="110" width="140" height="25" rx="4" fill="#FF3366" opacity="0.15"/>
+  <text x="150" y="175" text-anchor="middle" font-family="Poppins, sans-serif" font-size="11" fill="#FF3366" opacity="0.5" font-weight="600">GUL CITY OFFICE</text>
+</svg>

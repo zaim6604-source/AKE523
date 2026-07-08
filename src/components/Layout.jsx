@@ -1,0 +1,19 @@
+import { Outlet } from 'react-router-dom';
+import Navbar from './Navbar';
+import Footer from './Footer';
+import ScrollToTop from './ScrollToTop';
+import QuickApply from './QuickApply';
+
+export default function Layout() {
+  return (
+    <>
+      <ScrollToTop />
+      <Navbar />
+      <main className="min-h-screen pt-16 sm:pt-20">
+        <Outlet />
+      </main>
+      <QuickApply />
+      <Footer />
+    </>
+  );
+}
