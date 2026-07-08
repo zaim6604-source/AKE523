@@ -1,54 +1,81 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import SectionWrapper from './SectionWrapper';
+import FadeUp from './FadeUp';
+import SectionBadge from './SectionBadge';
+import SafeImage from './SafeImage';
 
 export default function About() {
-  const [imgError, setImgError] = useState(false);
-
   return (
-    <SectionWrapper id="about" badge="ABOUT US" badgeColor="secondary">
-      <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-        <div className="relative w-full max-w-md flex-shrink-0">
-          <div className="rounded-2xl overflow-hidden shadow-xl">
-            <img
-              src={imgError ? '/images/hero-team.jpg' : '/images/about-office.jpg'}
-              alt="Rolla Corporation team"
-              className="w-full h-72 md:h-80 object-cover transition-transform duration-500 hover:scale-105"
-              onError={() => setImgError(true)}
-              loading="lazy"
-            />
-          </div>
-          <div className="absolute -bottom-4 -left-4 bg-cta text-white px-4 py-2 rounded-xl shadow-lg">
-            <p className="text-lg font-extrabold">2266/LHR</p>
-          </div>
-        </div>
-
-        <div className="flex-1">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-ink font-heading mb-4">
-            Who We Are
+    <section id="about" className="py-16 lg:py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <FadeUp className="text-center mb-12">
+          <SectionBadge text="ABOUT US" color="bg-[#7B2D8E]" />
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#3D0A1E]">
+            Trusted Gulf Recruitment Since Day One
           </h2>
-          <p className="text-ink/70 mb-4 leading-relaxed">
-            <strong className="text-primary">Rolla Corporation</strong>, based on Davis Road, Lahore,
-            is a government-licensed Overseas Employment Promoter (<strong>OEP License No. 2266/LHR</strong>)
-            dedicated to connecting Pakistan's talented workforce with premier international employers.
-            From our office in Davis Heights, we serve candidates across Lahore, Punjab, and beyond.
+          <p className="text-[#5C1A32]/70 mt-3 max-w-2xl mx-auto">
+            Learn more about who we are and what drives us.
           </p>
-          <p className="text-ink/70 mb-6 leading-relaxed">
-            We believe every worker deserves a pathway to a brighter future. Whether you're a skilled
-            professional, a tradesperson, or a first-time jobseeker, we provide end-to-end recruitment
-            support — from document preparation and visa processing to medical coordination and departure
-            logistics. With over <strong className="text-accent">3,000 successful placements</strong>
-            across more than <strong className="text-cta">10 countries</strong>, we are your trusted
-            partner in overseas employment.
-          </p>
-          <Link
-            to="/about"
-            className="inline-flex items-center gap-2 bg-secondary text-white px-6 py-3 rounded-full font-bold hover:brightness-110 transition-all"
-          >
-            <i className="fas fa-info-circle" /> Learn More
-          </Link>
+        </FadeUp>
+
+        <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-center">
+          {/* Left - Photo */}
+          <FadeUp className="w-full lg:w-1/2">
+            <div className="relative img-zoom rounded-2xl overflow-hidden">
+              <SafeImage
+                src="/images/office.jpg"
+                alt="Arabian Gulf International team office"
+                className="w-full h-[350px] sm:h-[420px] object-cover rounded-2xl"
+                type="office"
+              />
+              <div className="absolute -bottom-3 -right-3 bg-[#7B2D8E] text-white font-extrabold text-sm px-5 py-2.5 rounded-full shadow-lg">
+                License 2175/RWP
+              </div>
+            </div>
+          </FadeUp>
+
+          {/* Right - Content */}
+          <FadeUp delay={2} className="w-full lg:w-1/2">
+            <p className="text-[#5C1A32]/80 leading-relaxed mb-4">
+              <strong className="text-[#3D0A1E]">Arabian Gulf International</strong> is a
+              premier government-licensed overseas employment promoter (OEP) operating from
+              <strong className="text-[#3D0A1E]"> Office No. 51, 2nd Floor, Rehmat Centre, I-8 Markaz, Islamabad</strong>.
+              We specialize in connecting skilled and semi-skilled Pakistani professionals with
+              rewarding career opportunities across the Arabian Gulf region.
+            </p>
+            <p className="text-[#5C1A32]/80 leading-relaxed mb-8">
+              With our deep understanding of Gulf labor markets and strong employer networks in
+              UAE, Saudi Arabia, Qatar, Oman, Kuwait, and Bahrain, we ensure a seamless and
+              transparent recruitment process — from registration to departure. Our commitment
+              to ethical practices and candidate welfare has made us a trusted name in the
+              Islamabad capital region and beyond.
+            </p>
+
+            {/* Fact sheet */}
+            <div className="border-2 border-[#E0115F]/20 rounded-2xl p-5 bg-[#FFF0F4]/50">
+              <h3 className="font-bold text-[#E0115F] text-sm mb-3 tracking-wider">
+                <i className="fa-solid fa-receipt mr-2"></i>QUICK FACTS
+              </h3>
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                {[
+                  { icon: 'fa-calendar', label: 'Founded', value: '2018' },
+                  { icon: 'fa-id-card', label: 'License No.', value: '2175 / RWP' },
+                  { icon: 'fa-location-dot', label: 'Head Office', value: 'I-8 Markaz, Islamabad' },
+                  { icon: 'fa-globe', label: 'Gulf Reach', value: '6 Countries' },
+                  { icon: 'fa-briefcase', label: 'Placements', value: '4000+' },
+                  { icon: 'fa-shield', label: 'Certification', value: 'Govt. Licensed' },
+                ].map((fact, i) => (
+                  <div key={i} className="flex items-start gap-2.5">
+                    <i className={`fa-solid ${fact.icon} text-[#E0115F] mt-0.5`}></i>
+                    <div>
+                      <span className="text-[#5C1A32]/60 text-xs">{fact.label}</span>
+                      <p className="font-semibold text-[#3D0A1E] text-sm">{fact.value}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </FadeUp>
         </div>
       </div>
-    </SectionWrapper>
+    </section>
   );
 }

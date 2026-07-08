@@ -1,14 +1,28 @@
 export default function MarqueeBar() {
-  const text = "✦ Govt. Licensed OEP 2266/LHR ✦ Rolla Corporation — Davis Road, Lahore ✦ Hiring for Saudi Arabia • UAE • Qatar • Oman • Germany • Poland • Romania • Greece • Malaysia ✦";
-
   return (
-    <div className="mt-[60px] bg-primary text-white overflow-hidden py-2.5 border-y border-accent/20">
-      <div className="flex whitespace-nowrap animate-marquee">
-        <span className="inline-flex gap-8 mx-4 text-sm md:text-base font-medium tracking-wide">
-          {text}
+    <div className="bg-[#E10600] text-white py-2.5 overflow-hidden">
+      <div className="flex marquee-track whitespace-nowrap">
+        <span className="flex items-center gap-6 mx-4 text-sm md:text-base font-medium font-inter">
+          <span className="text-[#FFD500]">🏁</span>
+          <span className="text-[#FFD500] font-bold">Consulting-Grade Recruitment</span>
+          <span className="text-[#FFD500]">🏁</span>
+          <span>Hiring for Saudi Arabia • UAE • Qatar • Kuwait • Oman • Germany • Poland • South Korea • Turkey</span>
+          <span className="text-[#FFD500]">🏁</span>
+          <span className="font-bold">Govt. Licensed OEP 2263/RWP</span>
+          <span className="text-[#FFD500]">🏁</span>
+          <span>Chandni Chowk, Satellite Town, Rawalpindi</span>
+          <span className="text-[#FFD500]">🏁</span>
         </span>
-        <span className="inline-flex gap-8 mx-4 text-sm md:text-base font-medium tracking-wide">
-          {text}
+        <span className="flex items-center gap-6 mx-4 text-sm md:text-base font-medium font-inter">
+          <span className="text-[#FFD500]">🏁</span>
+          <span className="text-[#FFD500] font-bold">Consulting-Grade Recruitment</span>
+          <span className="text-[#FFD500]">🏁</span>
+          <span>Hiring for Saudi Arabia • UAE • Qatar • Kuwait • Oman • Germany • Poland • South Korea • Turkey</span>
+          <span className="text-[#FFD500]">🏁</span>
+          <span className="font-bold">Govt. Licensed OEP 2263/RWP</span>
+          <span className="text-[#FFD500]">🏁</span>
+          <span>Chandni Chowk, Satellite Town, Rawalpindi</span>
+          <span className="text-[#FFD500]">🏁</span>
         </span>
       </div>
     </div>

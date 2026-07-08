@@ -1,75 +1,55 @@
-import SectionWrapper from './SectionWrapper';
+import FadeUp from './FadeUp';
+import SectionBadge from './SectionBadge';
 
-const steps = [
-  { icon: 'fa-clipboard-list', label: 'Register & Consult', desc: 'Walk in or WhatsApp us for a free career consultation.' },
-  { icon: 'fa-file-alt', label: 'Documents & Visa', desc: 'We prepare your documents and handle visa applications.' },
-  { icon: 'fa-stethoscope', label: 'Medical & Trade Test', desc: 'Coordinated medical exams and skill assessments.' },
-  { icon: 'fa-handshake', label: 'Employer Confirmation', desc: 'Receive your formal offer and employment contract.' },
-  { icon: 'fa-plane-departure', label: 'Ticketing & Departure', desc: 'We book your flight and brief you before departure.' },
+const STEPS = [
+  { icon: 'fa-handshake', label: 'Register & Consult', color: 'bg-[#E0115F]' },
+  { icon: 'fa-file-contract', label: 'Documents & Visa', color: 'bg-[#7B2D8E]' },
+  { icon: 'fa-stethoscope', label: 'Medical & Trade Test', color: 'bg-[#FFD700]' },
+  { icon: 'fa-check-circle', label: 'Employer Confirmation', color: 'bg-[#FF5C8A]' },
+  { icon: 'fa-plane-departure', label: 'Ticketing & Departure', color: 'bg-[#B8004F]' },
 ];
 
 export default function Process() {
   return (
-    <SectionWrapper id="process" badge="HOW IT WORKS" badgeColor="cta">
-      <h2 className="text-3xl md:text-4xl font-extrabold text-ink font-heading mb-2">
-        Your Journey, Simplified
-      </h2>
-      <p className="text-ink/60 mb-10 max-w-2xl">
-        Five simple steps from registration to departure.
-      </p>
+    <section id="process" className="py-16 lg:py-24 bg-gradient-to-r from-[#E0115F] to-[#7B2D8E]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <FadeUp className="text-center mb-14">
+          <SectionBadge text="HOW IT WORKS" color="bg-[#FFD700]" />
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+            Your Journey to the Gulf
+          </h2>
+          <p className="text-white/80 mt-3 max-w-2xl mx-auto">
+            A streamlined 5-step process designed to get you from application to departure with confidence.
+          </p>
+        </FadeUp>
 
-      <div className="hidden md:flex items-center justify-center py-12">
-        <div className="relative w-[500px] h-[500px] lg:w-[600px] lg:h-[600px]">
-          <div className="absolute inset-0 rounded-full border-2 border-dashed border-secondary/40" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white shadow-xl z-10">
-            <i className="fas fa-rocket text-2xl" />
-          </div>
-
-          {steps.map((step, i) => {
-            const angle = (i * 360) / steps.length - 90;
-            const rad = (angle * Math.PI) / 180;
-            const radius = 220;
-            const x = Math.cos(rad) * radius;
-            const y = Math.sin(rad) * radius;
-
-            return (
-              <div
-                key={step.label}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                style={{ transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))` }}
-              >
-                <div className="flex flex-col items-center text-center">
-                  <div className="w-16 h-16 rounded-full bg-white shadow-lg border-2 border-secondary flex items-center justify-center text-secondary text-xl mb-2 hover:scale-110 transition-transform">
-                    <i className={`fas ${step.icon}`} />
+        <div className="flex flex-col md:flex-row items-center justify-center md:gap-0 gap-8 relative">
+          {STEPS.map((step, i) => (
+            <FadeUp
+              key={i}
+              delay={(i % 5) + 1}
+              className="flex flex-col items-center md:w-1/5 relative"
+            >
+              {/* Diamond */}
+              <div className="relative flex flex-col items-center">
+                <div className={`diamond ${step.color} shadow-xl flex items-center justify-center`}>
+                  <div className="diamond-inner text-white text-center">
+                    <span className="text-xs font-bold block leading-none">{i + 1}</span>
+                    <i className={`fa-solid ${step.icon} text-lg`}></i>
                   </div>
-                  <span className="text-xs font-bold text-primary bg-cta/20 px-3 py-0.5 rounded-full mb-1">
-                    Step {i + 1}
-                  </span>
-                  <span className="text-sm font-bold text-ink max-w-[120px] leading-tight">{step.label}</span>
                 </div>
+                {/* Connector */}
+                {i < STEPS.length - 1 && (
+                  <div className="hidden md:block absolute top-[40px] left-[60%] w-[70%] h-0.5 border-t-2 border-dashed border-white/40"></div>
+                )}
               </div>
-            );
-          })}
+              <p className="text-white text-sm font-semibold mt-4 text-center max-w-28">
+                {step.label}
+              </p>
+            </FadeUp>
+          ))}
         </div>
       </div>
-
-      <div className="md:hidden space-y-6">
-        {steps.map((step, i) => (
-          <div key={step.label} className="flex gap-5 items-start">
-            <div className="flex flex-col items-center">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white shadow-lg flex-shrink-0">
-                <i className={`fas ${step.icon}`} />
-              </div>
-              {i < steps.length - 1 && <div className="w-0.5 h-10 bg-secondary/30" />}
-            </div>
-            <div className="pt-1">
-              <span className="text-xs font-bold text-accent">Step {i + 1}</span>
-              <h3 className="text-lg font-bold text-ink">{step.label}</h3>
-              <p className="text-ink/60 text-sm">{step.desc}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </SectionWrapper>
+    </section>
   );
 }

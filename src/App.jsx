@@ -1,25 +1,29 @@
-import { Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
-import HomePage from './pages/HomePage';
-import JobsPage from './pages/JobsPage';
-import JobDetailPage from './pages/JobDetailPage';
-import AboutPage from './pages/AboutPage';
-import ContactPage from './pages/ContactPage';
+import Home from './pages/Home';
+import About from './pages/About';
+import ServicesPage from './pages/Services';
+import Countries from './pages/Countries';
+import CountryDetail from './pages/CountryDetail';
+import Process from './pages/Process';
+import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
 
-function App() {
+export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<HomePage />} />
-        <Route path="jobs" element={<JobsPage />} />
-        <Route path="jobs/:id" element={<JobDetailPage />} />
-        <Route path="about" element={<AboutPage />} />
-        <Route path="contact" element={<ContactPage />} />
-        <Route path="*" element={<NotFound />} />
-      </Route>
-    </Routes>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/countries" element={<Countries />} />
+          <Route path="/countries/:slug" element={<CountryDetail />} />
+          <Route path="/process" element={<Process />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-export default App;

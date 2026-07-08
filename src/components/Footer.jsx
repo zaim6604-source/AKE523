@@ -1,45 +1,58 @@
 import { Link } from 'react-router-dom';
 
+const destinations = [
+  { name: 'Saudi Arabia', slug: 'saudi-arabia' },
+  { name: 'UAE', slug: 'uae' },
+  { name: 'Qatar', slug: 'qatar' },
+  { name: 'Kuwait', slug: 'kuwait' },
+  { name: 'Oman', slug: 'oman' },
+  { name: 'Germany', slug: 'germany' },
+  { name: 'Poland', slug: 'poland' },
+  { name: 'South Korea', slug: 'south-korea' },
+  { name: 'Turkey', slug: 'turkey' },
+];
+
 export default function Footer() {
-  const quickLinks = [
-    { label: 'Home', path: '/' },
-    { label: 'Jobs', path: '/jobs' },
-    { label: 'About', path: '/about' },
-    { label: 'Contact', path: '/contact' },
-  ];
-
-  const destinations = [
-    'Saudi Arabia', 'UAE', 'Qatar', 'Oman', 'Kuwait',
-    'Germany', 'Poland', 'Romania', 'Greece', 'Malaysia',
-  ];
-
   return (
-    <footer className="bg-highlight text-white">
-      <div className="max-w-7xl mx-auto px-4 py-14">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+    <footer className="bg-[#1C1C1C] text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand */}
           <div>
-            <h3 className="text-2xl font-extrabold font-heading mb-2">
-              Rolla <span className="text-accent">Corporation</span>
-            </h3>
-            <p className="text-white/70 text-sm leading-relaxed mb-4">
-              Govt. Licensed OEP — License No. 2266/LHR<br />
-              Lahore, Punjab, Pakistan
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-[#FFD500] text-xl">
+                <i className="fa-solid fa-flag-checkered"></i>
+              </span>
+              <div className="flex flex-col leading-tight">
+                <span className="font-bold text-white text-lg font-poppins">Gul Shahzad</span>
+                <span className="font-bold text-white text-lg -mt-1 font-poppins">Corporation</span>
+              </div>
+            </div>
+            <p className="text-white/60 text-sm leading-relaxed mb-4 font-inter">
+              Govt. Licensed OEP — License No. 2263/RWP. Trusted overseas recruitment
+              from Chandni Chowk, Satellite Town, Rawalpindi to the world.
             </p>
-            <span className="inline-block bg-accent/20 text-accent text-xs font-bold px-3 py-1 rounded-full">
-              OEP 2266/LHR
+            <span className="inline-block bg-[#FFD500]/20 text-[#FFD500] text-xs font-bold px-3 py-1.5 rounded-full font-inter">
+              <i className="fa-solid fa-certificate mr-1"></i>License 2263/RWP
             </span>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-lg font-bold text-accent mb-4">Quick Links</h4>
+            <h4 className="font-bold text-[#FFD500] text-sm uppercase tracking-wider mb-4 font-poppins">Quick Links</h4>
             <ul className="space-y-2">
-              {quickLinks.map((link) => (
+              {[
+                { label: 'Home', path: '/' },
+                { label: 'About', path: '/about' },
+                { label: 'Services', path: '/services' },
+                { label: 'Countries', path: '/countries' },
+                { label: 'Process', path: '/process' },
+                { label: 'Contact', path: '/contact' },
+              ].map((link) => (
                 <li key={link.label}>
                   <Link
                     to={link.path}
-                    className="text-white/70 hover:text-accent transition-colors text-sm"
+                    className="text-white/60 hover:text-[#FFD500] text-sm transition-colors font-inter"
                   >
                     {link.label}
                   </Link>
@@ -50,67 +63,53 @@ export default function Footer() {
 
           {/* Destinations */}
           <div>
-            <h4 className="text-lg font-bold text-accent mb-4">Destinations</h4>
+            <h4 className="font-bold text-[#FFD500] text-sm uppercase tracking-wider mb-4 font-poppins">Destinations</h4>
             <ul className="space-y-2">
               {destinations.map((d) => (
-                <li key={d} className="text-white/70 text-sm">{d}</li>
+                <li key={d.name}>
+                  <Link
+                    to={`/countries/${d.slug}`}
+                    className="text-white/60 hover:text-[#FFD500] text-sm transition-colors font-inter"
+                  >
+                    <i className="fa-solid fa-location-dot text-[#FF4D4D] mr-2 text-xs"></i>
+                    {d.name}
+                  </Link>
+                </li>
               ))}
             </ul>
           </div>
 
           {/* Contact */}
           <div>
-            <h4 className="text-lg font-bold text-accent mb-4">Contact Us</h4>
+            <h4 className="font-bold text-[#FFD500] text-sm uppercase tracking-wider mb-4 font-poppins">Contact</h4>
             <ul className="space-y-3">
-              <li>
-                <a
-                  href="https://wa.me/923008477507"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-white/70 hover:text-accent transition-colors text-sm"
-                >
-                  <i className="fab fa-whatsapp text-green-400" />
-                  0300-8477507
-                </a>
+              <li className="flex items-start gap-3 text-white/60 text-sm font-inter">
+                <i className="fa-solid fa-phone text-[#FF4D4D] mt-0.5"></i>
+                <a href="tel:0514933684" className="hover:text-[#FFD500] transition-colors">051-4933684</a>
               </li>
-              <li className="flex items-start gap-2 text-white/70 text-sm">
-                <i className="fas fa-map-marker-alt text-accent mt-1" />
-                <span>
-                  Office No. 5, 1st Floor, Davis Heights,<br />
-                  38-Davis Road, Lahore, Punjab
-                </span>
+              <li className="flex items-start gap-3 text-white/60 text-sm font-inter">
+                <i className="fa-brands fa-whatsapp text-[#FF4D4D] mt-0.5"></i>
+                <a href="https://wa.me/92311509987" target="_blank" rel="noopener noreferrer" className="hover:text-[#FFD500] transition-colors">0311-509987</a>
               </li>
-              <li>
-                <a
-                  href="mailto:info@rollacorp.pk"
-                  className="flex items-center gap-2 text-white/70 hover:text-accent transition-colors text-sm"
-                >
-                  <i className="fas fa-envelope" />
-                  info@rollacorp.pk
-                </a>
+              <li className="flex items-start gap-3 text-white/60 text-sm font-inter">
+                <i className="fa-solid fa-location-dot text-[#FF4D4D] mt-0.5"></i>
+                <span>Office No. 2, B-214, Basement, Al Fateh Plaza, Chandni Chowk, Satellite Town, Rawalpindi, Punjab</span>
               </li>
-              <li>
-                <a
-                  href="tel:042363003089"
-                  className="flex items-center gap-2 text-white/70 hover:text-accent transition-colors text-sm"
-                >
-                  <i className="fas fa-phone" />
-                  042-36300308-9
-                </a>
+              <li className="flex items-start gap-3 text-white/60 text-sm font-inter">
+                <i className="fa-solid fa-envelope text-[#FF4D4D] mt-0.5"></i>
+                <span>info@gulshahzad.pk</span>
               </li>
             </ul>
           </div>
         </div>
-      </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-white/10 py-5">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-white/50 text-xs">
-            &copy; {new Date().getFullYear()} Rolla Corporation. All rights reserved.
+        {/* Bottom bar */}
+        <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-3">
+          <p className="text-white/40 text-xs font-inter">
+            &copy; {new Date().getFullYear()} Gul Shahzad Corporation & Manpower Consultants. All rights reserved.
           </p>
-          <p className="text-white/50 text-xs">
-            Govt. Licensed OEP — License No. 2266/LHR | Davis Road, Lahore
+          <p className="text-white/40 text-xs font-inter">
+            Govt. Licensed OEP — License No. 2263/RWP
           </p>
         </div>
       </div>
