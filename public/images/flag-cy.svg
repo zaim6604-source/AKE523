@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 60" fill="none">
-  <rect width="80" height="60" fill="white"/>
-  <polygon points="40,15 48,22 45,32 40,28 35,32 32,22" fill="#D57800" opacity="0.8"/>
-  <rect x="36" y="28" width="8" height="15" fill="#4A7C3F" opacity="0.6"/>
-  <!-- Island shape underneath -->
-  <ellipse cx="40" cy="42" rx="18" ry="5" fill="#4A7C3F" opacity="0.3"/>
-</svg>

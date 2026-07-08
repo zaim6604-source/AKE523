@@ -1,90 +1,127 @@
-import { useState } from 'react';
+import { useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import { COMPANY } from '../data/siteData'
+
+const NAV_LINKS = [
+  { label: 'Home', path: '/' },
+  { label: 'Services', path: '/services' },
+  { label: 'Destinations', path: '/destinations' },
+  { label: 'Journey', path: '/journey' },
+  { label: 'Contact', path: '/contact' },
+]
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
+  const { pathname } = useLocation()
 
-  const links = [
-    { label: 'Home', href: '#hero' },
-    { label: 'About', href: '#about' },
-    { label: 'Services', href: '#services' },
-    { label: 'Countries', href: '#countries' },
-    { label: 'Process', href: '#process' },
-    { label: 'Contact', href: '#contact' },
-  ];
+  const isActive = (path) => pathname === path
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-blue-100">
+    <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-primary/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-20">
-          <a href="#hero" className="flex items-center gap-2 no-underline">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br from-[#0496FF] to-[#0077CC] flex items-center justify-center text-white font-bold text-sm sm:text-base font-[Plus_Jakarta_Sans] shadow-md">
-              SI
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-3 shrink-0">
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-extrabold text-sm shadow-md">
+              AO
             </div>
-            <div className="flex flex-col">
-              <span className="text-sm sm:text-base font-bold font-[Plus_Jakarta_Sans] text-[#062A45] leading-tight">Shafay</span>
-              <span className="text-[10px] sm:text-xs font-medium text-[#0496FF] tracking-wide leading-tight">International</span>
+            <div className="hidden sm:block">
+              <span className="font-bold text-sm text-ink">Afaq Overseas</span>
+              <span className="block text-[10px] text-primary font-semibold tracking-wider uppercase">License {COMPANY.license}</span>
             </div>
-          </a>
+          </Link>
 
+          {/* Desktop nav */}
           <div className="hidden lg:flex items-center gap-1">
-            {links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                className="px-3 xl:px-4 py-2 text-sm font-medium text-[#062A45]/80 hover:text-[#0496FF] rounded-lg hover:bg-blue-50 transition-colors no-underline"
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`relative px-3 py-2 text-sm font-medium transition-colors group ${
+                  isActive(link.path) ? 'text-accent' : 'text-ink/70 hover:text-primary'
+                }`}
               >
-                {l.label}
-              </a>
+                {link.label}
+                <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-accent transition-all duration-300 ${
+                  isActive(link.path) ? 'w-full' : 'w-0 group-hover:w-full'
+                }`} />
+              </Link>
             ))}
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3">
+          {/* CTA + social */}
+          <div className="flex items-center gap-2">
             <a
-              href="https://www.facebook.com/p/Shafay-International-100089781998994/"
+              href={COMPANY.facebook}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-[#1877F2] bg-blue-50 border border-blue-200 rounded-full hover:bg-blue-100 transition-colors no-underline"
+              className="hidden sm:flex w-9 h-9 rounded-full bg-primary/10 items-center justify-center text-primary hover:bg-primary hover:text-white transition-all"
               aria-label="Facebook"
             >
-              <i className="fab fa-facebook" />
-              <span className="hidden md:inline">Facebook</span>
+              <i className="fab fa-facebook-f text-sm" />
             </a>
             <a
-              href="https://wa.me/923002141262"
+              href={COMPANY.whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 sm:py-2.5 text-sm font-bold text-white bg-[#FB5607] rounded-full hover:bg-[#e04e06] hover:shadow-lg hover:shadow-[#FB5607]/30 transition-all no-underline"
+              className="hidden sm:inline-flex items-center gap-2 bg-cta text-white px-4 py-2 rounded-full text-sm font-bold hover:brightness-110 transition-all shadow-lg shadow-cta/30"
             >
-              <i className="fab fa-whatsapp text-xs" />
+              <i className="fab fa-whatsapp" />
               Apply Now
             </a>
+            {/* Mobile menu button */}
             <button
               onClick={() => setOpen(!open)}
-              className="lg:hidden ml-1 p-2 rounded-lg text-[#062A45] hover:bg-blue-50 transition-colors"
+              className="lg:hidden p-2 rounded-lg text-ink/70 hover:text-accent hover:bg-accent/5 transition-colors"
               aria-label="Toggle menu"
             >
-              <i className={`fas ${open ? 'fa-times' : 'fa-bars'} text-lg`} />
+              <i className={`fas ${open ? 'fa-times' : 'fa-bars'} text-xl`} />
             </button>
           </div>
         </div>
-      </div>
 
-      {open && (
-        <div className="lg:hidden border-t border-blue-100 bg-white/98 backdrop-blur-md">
-          <div className="px-4 py-3 space-y-1">
-            {links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className="block px-3 py-2.5 text-sm font-medium text-[#062A45]/80 hover:text-[#0496FF] hover:bg-blue-50 rounded-lg transition-colors no-underline"
-              >
-                {l.label}
-              </a>
-            ))}
+        {/* Mobile drawer */}
+        {open && (
+          <div className="lg:hidden pb-4 border-t border-primary/10 pt-4 animate-fade-in">
+            <div className="flex flex-col gap-2">
+              {NAV_LINKS.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  onClick={() => setOpen(false)}
+                  className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                    isActive(link.path)
+                      ? 'text-accent bg-accent/5'
+                      : 'text-ink/70 hover:text-primary hover:bg-primary/5'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <div className="flex items-center gap-3 mt-3 px-3">
+                <a
+                  href={COMPANY.whatsappLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 flex items-center justify-center gap-2 bg-cta text-white px-4 py-2.5 rounded-full text-sm font-bold hover:brightness-110 transition-all"
+                >
+                  <i className="fab fa-whatsapp" />
+                  Apply Now
+                </a>
+                <a
+                  href={COMPANY.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all"
+                  aria-label="Facebook"
+                >
+                  <i className="fab fa-facebook-f" />
+                </a>
+              </div>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </nav>
-  );
+  )
 }
