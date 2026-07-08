@@ -1,29 +1,35 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Layout from './components/Layout'
-import Landing from './pages/Landing'
-import Services from './pages/Services'
-import Destinations from './pages/Destinations'
-import DestinationDetail from './pages/DestinationDetail'
-import Journey from './pages/Journey'
-import Contact from './pages/Contact'
-import NotFound from './pages/NotFound'
+import Navbar from './components/Navbar'
+import MarqueeBar from './components/MarqueeBar'
+import Hero from './components/Hero'
+import StatBand from './components/StatBand'
+import About from './components/About'
+import Services from './components/Services'
+import CountryGuide from './components/CountryGuide'
+import Process from './components/Process'
+import Testimonials from './components/Testimonials'
+import Gallery from './components/Gallery'
+import CtaBand from './components/CtaBand'
+import Contact from './components/Contact'
+import Faq from './components/Faq'
+import Footer from './components/Footer'
 
-function App() {
+export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route index element={<Landing />} />
-          <Route path="services" element={<Services />} />
-          <Route path="destinations" element={<Destinations />} />
-          <Route path="destinations/:slug" element={<DestinationDetail />} />
-          <Route path="journey" element={<Journey />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <div className="min-h-screen bg-background text-ink">
+      <Navbar />
+      <MarqueeBar />
+      <Hero />
+      <StatBand />
+      <About />
+      <Services />
+      <CountryGuide />
+      <Process />
+      <Testimonials />
+      <Gallery />
+      <CtaBand />
+      <Contact />
+      <Faq />
+      <Footer />
+    </div>
   )
 }
-
-export default App

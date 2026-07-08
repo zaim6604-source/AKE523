@@ -1,47 +1,117 @@
-import ScrollReveal from './ScrollReveal'
-
 const SERVICES = [
-  { icon: 'fa-passport', title: 'Visa Processing', desc: 'End-to-end visa application handling for Gulf and European destinations.', color: 'from-primary to-secondary' },
-  { icon: 'fa-file-contract', title: 'Job Placement', desc: 'Connecting skilled workers with verified employers abroad.', color: 'from-secondary to-accent' },
-  { icon: 'fa-plane-departure', title: 'Travel Arrangements', desc: 'Flight bookings and travel coordination for deployed workers.', color: 'from-cta to-blue-400' },
-  { icon: 'fa-gavel', title: 'Legal Assistance', desc: 'Guidance on employment contracts, labor laws, and overseas regulations.', color: 'from-primary to-highlight' },
-  { icon: 'fa-chalkboard-user', title: 'Pre-Departure Training', desc: 'Orientation programs covering language, culture, and job readiness.', color: 'from-secondary to-primary' },
-  { icon: 'fa-handshake', title: 'Employer Liaison', desc: 'Direct coordination with reputable employers across multiple industries.', color: 'from-accent to-primary' },
-  { icon: 'fa-language', title: 'Language Support', desc: 'Basic language training for destination countries.', color: 'from-cta to-cyan-500' },
-  { icon: 'fa-headset', title: 'Post-Placement Support', desc: 'Ongoing assistance after deployment to ensure smooth transition.', color: 'from-secondary to-cta' },
+  {
+    title: 'Work Visa Processing',
+    subtitle: 'Gulf &amp; Europe',
+    desc: 'Full-service work visa processing for Saudi Arabia, UAE, Qatar, Oman, and European destinations — fast, accurate, and hassle-free.',
+    icon: 'fa-passport',
+    color: 'bg-primary',
+  },
+  {
+    title: 'Overseas Job Placement',
+    subtitle: 'Global Opportunities',
+    desc: 'Connect with verified employers in the Gulf, Europe, and Asia. We match your skills to the right opportunity abroad.',
+    icon: 'fa-briefcase',
+    color: 'bg-cyan-600',
+  },
+  {
+    title: 'Document Attestation',
+    subtitle: 'Authentication',
+    desc: 'Complete document legalization and attestation services including MOFA, embassy attestation, and board verifications.',
+    icon: 'fa-file-shield',
+    color: 'bg-secondary',
+  },
+  {
+    title: 'Medical &amp; Trade Test',
+    subtitle: 'Coordination',
+    desc: 'We coordinate medical examinations and trade tests required for overseas employment with approved centers.',
+    icon: 'fa-stethoscope',
+    color: 'bg-amber-600',
+  },
+  {
+    title: 'Pre-Departure Orientation',
+    subtitle: 'Guidance',
+    desc: 'Comprehensive orientation covering culture, laws, workplace expectations, and travel tips for your destination country.',
+    icon: 'fa-graduation-cap',
+    color: 'bg-purple-600',
+  },
+  {
+    title: 'Air Ticketing &amp; Travel',
+    subtitle: 'Support',
+    desc: 'Hassle-free flight bookings and travel coordination for your journey abroad at competitive fares.',
+    icon: 'fa-ticket',
+    color: 'bg-rose-600',
+  },
+  {
+    title: 'Employer Verification',
+    subtitle: 'Due Diligence',
+    desc: 'We thoroughly vet employers to ensure legitimate, safe, and fair working conditions for every candidate.',
+    icon: 'fa-shield-halved',
+    color: 'bg-indigo-600',
+  },
+  {
+    title: 'Manpower Supply',
+    subtitle: 'Skilled &amp; Unskilled',
+    desc: 'Reliable supply of skilled and unskilled manpower for international employers across all industries.',
+    icon: 'fa-people-group',
+    color: 'bg-teal-600',
+  },
 ]
 
 export default function Services() {
   return (
-    <section id="services" className="py-16 lg:py-24 bg-background">
+    <section id="services" className="py-16 md:py-24 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <ScrollReveal>
-          <div className="text-center mb-12">
-            <span className="inline-flex items-center gap-2 bg-primary/10 text-primary font-bold text-xs px-4 py-1.5 rounded-full">
-              <i className="fas fa-briefcase" />
-              Our Services
-            </span>
-            <h2 className="text-3xl lg:text-4xl font-extrabold text-ink mt-4 mb-3">
-              Comprehensive Recruitment Services
-            </h2>
-            <p className="text-ink/60 max-w-2xl mx-auto">
-              From visa processing to post-placement care — we handle everything.
-            </p>
-          </div>
-        </ScrollReveal>
+        {/* Section pill */}
+        <div className="text-center mb-12">
+          <span className="inline-flex items-center gap-2 bg-primary/10 text-primary text-sm font-semibold px-5 py-2 rounded-full">
+            <i className="fas fa-briefcase" />
+            Our Services
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-ink mt-4 mb-3">
+            What We Offer
+          </h2>
+          <p className="text-ink/60 max-w-xl mx-auto">
+            End-to-end recruitment and visa services tailored to get you working abroad — from Pir Mahal to the world.
+          </p>
+        </div>
 
-        <div className="masonry-grid">
-          {SERVICES.map((svc, i) => (
-            <ScrollReveal key={svc.title} delay={i * 50}>
-              <div className={`bg-gradient-to-br ${svc.color} rounded-2xl p-6 text-white shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300`}>
-                <div className="w-14 h-14 rounded-xl bg-white/20 flex items-center justify-center text-2xl mb-4">
+        {/* Masonry grid */}
+        <div className="columns-1 sm:columns-2 lg:columns-3 gap-5 space-y-5">
+          {SERVICES.map((svc, idx) => (
+            <div key={idx} className="break-inside-avoid">
+              <div className={`${svc.color} text-white rounded-2xl p-6 sm:p-7 h-full transition-transform hover:-translate-y-1 hover:shadow-xl`}>
+                <div className="flex items-center justify-center w-12 h-12 bg-white/20 rounded-xl mb-5 text-xl">
                   <i className={`fas ${svc.icon}`} />
                 </div>
-                <h3 className="text-lg font-bold mb-2">{svc.title}</h3>
-                <p className="text-sm text-white/80 leading-relaxed">{svc.desc}</p>
+                <h3 className="text-lg font-bold mb-1">{svc.title}</h3>
+                <p className="text-white/70 text-sm font-medium mb-3">{svc.subtitle}</p>
+                <p className="text-white/80 text-sm leading-relaxed">{svc.desc}</p>
               </div>
-            </ScrollReveal>
+            </div>
           ))}
+        </div>
+
+        {/* Highlight banner */}
+        <div className="mt-10 bg-gradient-to-r from-primary to-cta rounded-2xl p-6 sm:p-8 text-white text-center">
+          <div className="inline-flex items-center gap-2 bg-white/20 px-4 py-1.5 rounded-full text-sm font-medium mb-4">
+            <i className="fas fa-star text-accent" />
+            Premium Service
+          </div>
+          <h3 className="text-2xl sm:text-3xl font-extrabold mb-2">
+            Gulf &amp; Europe Work Visas
+          </h3>
+          <p className="text-white/85 max-w-2xl mx-auto mb-4">
+            From Saudi Arabia to Croatia, we process work visas for top destinations. Fast, reliable, and government licensed.
+          </p>
+          <a
+            href="https://wa.me/923256561112"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-white text-primary font-bold px-6 py-3 rounded-full hover:bg-accent hover:text-ink transition-colors"
+          >
+            <i className="fa-brands fa-whatsapp" />
+            Start Your Application
+          </a>
         </div>
       </div>
     </section>
