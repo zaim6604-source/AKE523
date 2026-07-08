@@ -1,53 +1,76 @@
-import useInView from '../hooks/useInView'
+import ScrollReveal from '../components/ScrollReveal'
+import { SERVICES } from '../data/siteData'
 
-const services = [
-  { icon: 'fa-briefcase', title: 'Overseas Job Placement', desc: 'Connecting candidates with verified employers across multiple countries, matching skills to the right opportunities.', color: 'bg-primary' },
-  { icon: 'fa-passport', title: 'Visa Processing', desc: 'End-to-end visa application support, from document preparation to submission and follow-up.', color: 'bg-secondary' },
-  { icon: 'fa-file-alt', title: 'Document Attestation', desc: 'Complete attestation and legalization of certificates and documents through relevant departments and embassies.', color: 'bg-accent' },
-  { icon: 'fa-stethoscope', title: 'Medical & Trade Tests', desc: 'Coordination of mandatory medical exams and trade tests at authorized centers.', color: 'bg-cta' },
-  { icon: 'fa-chalkboard-teacher', title: 'Pre-Departure Orientation', desc: 'Orientation sessions on cultural awareness, contract terms, worker rights, and practical tips.', color: 'bg-highlight' },
-  { icon: 'fa-plane', title: 'Air Ticketing & Travel', desc: 'Flight bookings, airport transfers, and travel documentation assistance.', color: 'bg-primary' },
-  { icon: 'fa-search', title: 'Employer Verification', desc: 'Thorough verification of employers and job offers to ensure legitimate, safe employment.', color: 'bg-secondary' },
-  { icon: 'fa-hard-hat', title: 'Manpower Supply', desc: 'Skilled and unskilled manpower supply for construction, hospitality, manufacturing, and more.', color: 'bg-accent' },
+const SERVICE_IMAGES = [
+  'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&h=400&fit=crop&auto=format',
+  'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=600&h=400&fit=crop&auto=format',
+  'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&h=400&fit=crop&auto=format',
+  'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&h=400&fit=crop&auto=format',
+  'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600&h=400&fit=crop&auto=format',
+  'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop&auto=format',
+  'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop&auto=format',
+  'https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=600&h=400&fit=crop&auto=format',
 ]
-
-function AnimateOnView({ children, delay = 0, className = '' }) {
-  const [ref, inView] = useInView({ threshold: 0.1 })
-  return (
-    <div ref={ref} className={`transition-all duration-700 ease-out ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}>
-      {children}
-    </div>
-  )
-}
 
 export default function Services() {
   return (
-    <div className="max-w-5xl mx-auto">
-      <AnimateOnView>
-        <div className="mb-8">
-          <span className="inline-block bg-primary text-white text-xs font-bold px-3 py-1 rounded-full mb-3">OUR SERVICES</span>
-          <h1 className="text-2xl md:text-4xl font-extrabold text-primary">What We Offer</h1>
-          <p className="text-ink/60 mt-2 text-sm md:text-base">Complete overseas employment services under one roof</p>
-        </div>
-      </AnimateOnView>
-
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {services.map((s, i) => (
-          <AnimateOnView key={s.title} delay={i * 60}>
-            <div className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-all group">
-              <div className={`h-2 ${s.color}`} />
-              <div className="p-5">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                  <i className={`fas ${s.icon} text-primary text-lg`} />
-                </div>
-                <h3 className="font-bold text-ink text-base mb-2">{s.title}</h3>
-                <p className="text-ink/60 text-sm leading-relaxed">{s.desc}</p>
-              </div>
-            </div>
-          </AnimateOnView>
-        ))}
+    <section className="relative">
+      <div className="wavy-divider -mb-1">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" className="text-background fill-current">
+          <path d="M0,30 C360,60 720,0 1440,30 L1440,60 L0,60 Z" />
+        </svg>
       </div>
-    </div>
+
+      <div className="bg-white py-16 lg:py-24">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <ScrollReveal>
+            <div className="text-center mb-12">
+              <span className="inline-flex items-center gap-2 bg-primary/10 text-primary font-bold text-xs px-4 py-1.5 rounded-full">
+                <i className="fas fa-briefcase" />
+                Our Services
+              </span>
+              <h2 className="text-3xl lg:text-4xl font-extrabold text-ink mt-4 mb-3">
+                Everything You Need for Overseas Employment
+              </h2>
+              <p className="text-ink/60 max-w-2xl mx-auto">
+                End-to-end recruitment services designed to make your journey abroad seamless.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {SERVICES.map((svc, i) => (
+              <ScrollReveal key={svc.title} delay={i * 50}>
+                <div className="group rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-background parallax-card">
+                  <div className="relative h-40 overflow-hidden bg-gradient-to-br from-primary/60 to-accent/60">
+                    <img
+                      src={SERVICE_IMAGES[i]}
+                      alt={svc.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      onError={(e) => { e.target.style.display = 'none' }}
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary/70 to-transparent z-10 pointer-events-none" />
+                    <div className="absolute bottom-3 left-4 text-white z-20">
+                      <i className={`fas ${svc.icon} text-2xl`} />
+                    </div>
+                  </div>
+                  <div className="p-5">
+                    <h3 className="text-lg font-bold text-ink mb-2">{svc.title}</h3>
+                    <p className="text-sm text-ink/60 leading-relaxed">{svc.desc}</p>
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="wavy-divider -mt-1 rotate-180">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" className="text-background fill-current">
+          <path d="M0,30 C360,60 720,0 1440,30 L1440,60 L0,60 Z" />
+        </svg>
+      </div>
+    </section>
   )
 }
