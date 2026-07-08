@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #E0218A;
-  --color-secondary: #FF6FB5;
-  --color-accent: #FFB6C1;
-  --color-cta: #00BFA6;
-  --color-highlight: #C2055E;
-  --color-background: #FFEFF6;
-  --color-ink: #3A0722;
-  --font-sans: 'Poppins', 'Inter', sans-serif;
+  --color-primary: #FF6F3C;
+  --color-secondary: #FFAB73;
+  --color-accent: #9D4EDD;
+  --color-cta: #06D6A0;
+  --color-highlight: #FF4500;
+  --color-background: #FFF2EA;
+  --color-ink: #2B1400;
+  --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
 }
 
 @layer base {
@@ -16,57 +16,114 @@
     scroll-behavior: smooth;
   }
   body {
-    font-family: 'Poppins', 'Inter', sans-serif;
+    background-color: var(--color-background);
     color: var(--color-ink);
-    background: var(--color-background);
+    font-family: var(--font-sans);
+    margin: 0;
+  }
+  #root {
+    overflow-x: hidden;
   }
 }
 
-@layer utilities {
-  .bg-dot-pattern {
-    background-image: radial-gradient(rgba(255,255,255,0.15) 1px, transparent 1px);
-    background-size: 20px 20px;
-  }
-}
-
-/* Marquee animation */
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
-.marquee-track {
-  animation: marquee 30s linear infinite;
-}
-
-/* Fade-up animation */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(30px); }
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(40px); }
   to { opacity: 1; transform: translateY(0); }
 }
-.animate-fade-up {
-  animation: fadeUp 0.6s ease-out forwards;
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-marquee { animation: marquee 30s linear infinite; }
+.animate-fade-up { animation: fade-up 0.8s ease-out forwards; }
+.animate-fade-in { animation: fade-in 0.6s ease-out forwards; }
+.animate-count-up { animation: count-up 0.6s ease-out forwards; }
+.animate-slide-in-left { animation: slide-in-left 0.6s ease-out forwards; }
+.animate-slide-in-right { animation: slide-in-right 0.6s ease-out forwards; }
+.animate-pulse-soft { animation: pulse-soft 2s ease-in-out infinite; }
+.animate-page-enter { animation: page-enter 0.5s ease-out forwards; }
 
-/* Scroll reveal */
-.reveal {
+.scroll-fade-up {
   opacity: 0;
   transform: translateY(40px);
-  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
-.reveal.visible {
+.scroll-fade-up.revealed {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Parallax hover effect */
-.parallax-tilt {
-  transition: transform 0.3s ease;
+/* Gradient border cards */
+.gradient-border-card {
+  position: relative;
+  background: white;
+  border-radius: 1rem;
+  z-index: 0;
 }
-.parallax-tilt:hover {
-  transform: perspective(800px) rotateX(2deg) rotateY(2deg) scale(1.02);
+.gradient-border-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  padding: 2px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: -1;
 }
 
-/* Pill shape */
-.pill {
-  border-radius: 9999px;
+/* Marquee container */
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
 }
+
+/* Process step connector */
+.process-step::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -1.5rem;
+  width: 3rem;
+  height: 2px;
+  background: currentColor;
+  opacity: 0.4;
+}
+.process-step:last-child::after {
+  display: none;
+}
+
+/* Image fallback base */
+img {
+  object-fit: cover;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--color-background); }
+::-webkit-scrollbar-thumb { background: var(--color-secondary); border-radius: 4px; }

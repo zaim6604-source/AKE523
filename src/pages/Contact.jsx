@@ -1,316 +1,277 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import RevealOnScroll from '../components/RevealOnScroll'
-
-const WHATSAPP_NUMBER = '923467223031'
-const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=`
-
-const FORM_FIELDS = [
-  { name: 'name', label: 'Full Name', icon: 'fa-user', type: 'text' },
-  { name: 'phone', label: 'Phone Number', icon: 'fa-phone', type: 'tel' },
-  { name: 'country', label: 'Destination Country', icon: 'fa-globe', type: 'text' },
-  { name: 'message', label: 'Your Message', icon: 'fa-message', type: 'textarea' },
-]
-
-const FAQS = [
-  {
-    q: 'What documents do I need for a work visa?',
-    a: 'Typically you need a valid passport, passport-sized photographs, educational certificates, work experience letters, and a job offer letter. Our team will guide you through exact requirements for your destination.',
-  },
-  {
-    q: 'How long does the visa processing take?',
-    a: 'Processing times vary by country. For Gulf countries, it typically takes 2–4 weeks. For European countries, it may take 6–10 weeks. We aim for the fastest possible processing.',
-  },
-  {
-    q: 'Is Al-Imran International government licensed?',
-    a: 'Yes, we are fully licensed by the Government of Pakistan. Our license number is 2206/MLK, issued by the Bureau of Immigration & Overseas Employment.',
-  },
-  {
-    q: 'Which countries do you provide work visas for?',
-    a: 'We cover Saudi Arabia, UAE, Qatar, Oman, Germany, Romania, Poland, Greece, Malaysia, and many more. Contact us for a specific country not listed.',
-  },
-  {
-    q: 'Do you help with both skilled and unskilled jobs?',
-    a: 'Absolutely. We place candidates for skilled positions (IT, healthcare, engineering) and unskilled/general labour roles (drivers, construction, factory workers, cleaners).',
-  },
-  {
-    q: 'What are your service charges?',
-    a: 'Our fees are competitive and transparent. We provide a clear breakdown of all charges before starting any process. Contact us for a free consultation.',
-  },
-]
+import ScrollReveal from '../components/ScrollReveal'
+import { COMPANY, FAQS } from '../data/siteData'
 
 export default function Contact() {
-  const [form, setForm] = useState({ name: '', phone: '', country: '', message: '' })
-  const [openFaq, setOpenFaq] = useState(null)
+  const [form, setForm] = useState({ name: '', phone: '', message: '' })
+  const [openIndex, setOpenIndex] = useState(null)
 
   const handleChange = (e) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+    setForm({ ...form, [e.target.name]: e.target.value })
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const text = `Hello Al-Imran International!%0A%0AName: ${encodeURIComponent(form.name)}%0APhone: ${encodeURIComponent(form.phone)}%0ADestination: ${encodeURIComponent(form.country)}%0AMessage: ${encodeURIComponent(form.message)}`
-    window.open(WHATSAPP_LINK + text, '_blank')
+    const text = encodeURIComponent(
+      `Hello ${COMPANY.name}! I am ${form.name} (${form.phone}). ${form.message}`
+    )
+    window.open(`${COMPANY.whatsappLink}?text=${text}`, '_blank', 'noopener')
   }
 
-  const toggleFaq = (idx) => {
-    setOpenFaq(openFaq === idx ? null : idx)
+  const toggleFaq = (i) => {
+    setOpenIndex(openIndex === i ? null : i)
   }
 
   return (
-    <>
-      {/* Page Hero */}
-      <section className="relative pt-24 pb-16 md:pt-32 md:pb-20 bg-gradient-to-br from-primary via-primary to-cta overflow-hidden">
-        <div className="absolute inset-0 bg-dot-pattern opacity-20" />
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 text-center">
-          <span className="inline-flex items-center gap-2 bg-white/20 text-white text-sm font-semibold px-5 py-2 rounded-full mb-4">
-            <i className="fas fa-address-card" />
-            Contact Us
-          </span>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-4">
-            Get in Touch
-          </h1>
-          <p className="text-white/85 text-lg max-w-2xl mx-auto">
-            Visit our office, send a message, or reach out on WhatsApp — we are here to help.
-          </p>
-        </div>
-      </section>
+    <section className="relative animate-page-enter">
+      <div className="wavy-divider -mb-1">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" className="text-background fill-current">
+          <path d="M0,30 C360,60 720,0 1440,30 L1440,60 L0,60 Z" />
+        </svg>
+      </div>
 
-      {/* Contact + Form */}
-      <section className="py-16 md:py-24 bg-white">
+      {/* Contact Form + Info */}
+      <div className="bg-white py-16 lg:py-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="grid lg:grid-cols-2 gap-10">
-            {/* Form */}
-            <RevealOnScroll>
-              <div className="bg-background rounded-2xl p-6 sm:p-8 border border-primary/10">
-                <h3 className="text-xl font-bold text-ink mb-6">Send Us a Message</h3>
+          <ScrollReveal>
+            <div className="text-center mb-12">
+              <span className="inline-flex items-center gap-2 bg-primary/10 text-primary font-bold text-xs px-4 py-1.5 rounded-full">
+                <i className="fas fa-address-card" />
+                Contact Us
+              </span>
+              <h2 className="text-3xl lg:text-4xl font-extrabold text-ink mt-4 mb-3">
+                Get In Touch
+              </h2>
+              <p className="text-ink/60 max-w-2xl mx-auto">
+                Visit our office at Usmania Plaza, Pindi Road, Chakwal or reach out through any channel below.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+            {/* Contact Form */}
+            <ScrollReveal delay={100}>
+              <div className="bg-background rounded-2xl p-8 shadow-lg border border-primary/5">
+                <h3 className="text-xl font-bold text-ink mb-6 flex items-center gap-2">
+                  <i className="fas fa-paper-plane text-primary" />
+                  Send Us a Message
+                </h3>
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  {FORM_FIELDS.map((field) => (
-                    <div key={field.name}>
-                      <label className="flex items-center gap-2 text-sm font-medium text-ink/70 mb-1.5">
-                        <i className={`fas ${field.icon} text-primary text-xs`} />
-                        {field.label}
-                      </label>
-                      {field.type === 'textarea' ? (
-                        <textarea
-                          name={field.name}
-                          value={form[field.name]}
-                          onChange={handleChange}
-                          rows={4}
-                          required
-                          className="w-full px-4 py-3 rounded-xl border border-primary/20 bg-white text-ink placeholder:text-ink/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary resize-none"
-                          placeholder="I need a work visa for..."
-                        />
-                      ) : (
-                        <input
-                          type={field.type}
-                          name={field.name}
-                          value={form[field.name]}
-                          onChange={handleChange}
-                          required
-                          className="w-full px-4 py-3 rounded-xl border border-primary/20 bg-white text-ink placeholder:text-ink/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary"
-                          placeholder={`Your ${field.label.toLowerCase()}`}
-                        />
-                      )}
-                    </div>
-                  ))}
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-semibold text-ink/70 mb-1">
+                      Your Name
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      required
+                      value={form.name}
+                      onChange={handleChange}
+                      placeholder="e.g., Muhammad Khan"
+                      className="w-full px-4 py-3 rounded-xl border border-primary/20 bg-white text-ink placeholder:text-ink/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-semibold text-ink/70 mb-1">
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      required
+                      value={form.phone}
+                      onChange={handleChange}
+                      placeholder="e.g., 0543-601272"
+                      className="w-full px-4 py-3 rounded-xl border border-primary/20 bg-white text-ink placeholder:text-ink/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-semibold text-ink/70 mb-1">
+                      Your Message
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      required
+                      rows={4}
+                      value={form.message}
+                      onChange={handleChange}
+                      placeholder="Tell us about your requirements..."
+                      className="w-full px-4 py-3 rounded-xl border border-primary/20 bg-white text-ink placeholder:text-ink/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all resize-none"
+                    />
+                  </div>
                   <button
                     type="submit"
-                    className="w-full inline-flex items-center justify-center gap-2 bg-cta text-white px-6 py-3.5 rounded-xl font-semibold hover:bg-teal-600 transition-colors shadow-lg shadow-cta/30"
+                    className="w-full bg-cta text-white py-3.5 rounded-full font-bold text-base hover:brightness-110 transition-all shadow-lg shadow-cta/30 flex items-center justify-center gap-2"
                   >
-                    <i className="fa-brands fa-whatsapp" />
+                    <i className="fab fa-whatsapp" />
                     Send via WhatsApp
                   </button>
                 </form>
-                <p className="text-xs text-ink/40 text-center mt-3">
-                  Your information will be sent securely via WhatsApp.
+                <p className="text-xs text-ink/40 text-center mt-4">
+                  <i className="fas fa-shield-alt mr-1" />
+                  Your information is kept confidential. Messages sent via WhatsApp.
                 </p>
+                <div className="mt-4 pt-4 border-t border-primary/10">
+                  <a
+                    href={`mailto:${COMPANY.email}`}
+                    className="text-xs text-ink/50 hover:text-primary transition-colors flex items-center justify-center gap-1"
+                  >
+                    <i className="fas fa-envelope" />
+                    {COMPANY.email}
+                  </a>
+                </div>
               </div>
-            </RevealOnScroll>
+            </ScrollReveal>
 
             {/* Contact Info + Map */}
-            <div className="space-y-6">
-              <RevealOnScroll>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <ContactCard
-                    icon="fa-location-dot"
-                    label="Office Address"
-                    value={
-                      <>
-                        Office B/6-7, First Floor
-                        <br />
-                        Swat Market, G.T Road
-                        <br />
-                        Mingora, Swat, KPK
-                      </>
-                    }
-                  />
-                  <ContactCard
-                    icon="fa-whatsapp"
-                    iconBrand
-                    label="WhatsApp"
-                    value={
-                      <>
-                        <a
-                          href="https://wa.me/923467223031"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="hover:text-primary transition-colors"
-                        >
-                          0346-7223031 (Primary)
-                        </a>
-                        <br />
-                        <a
-                          href="https://wa.me/923139905002"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="hover:text-primary transition-colors"
-                        >
-                          0313-9905002
-                        </a>
-                      </>
-                    }
-                  />
-                  <ContactCard
-                    icon="fa-envelope"
-                    label="Email"
-                    value={
-                      <a
-                        href="mailto:info@alimranintl.pk"
-                        className="hover:text-primary transition-colors"
-                      >
-                        info@alimranintl.pk
-                      </a>
-                    }
-                  />
-                  <ContactCard
-                    icon="fa-phone"
-                    label="Phone"
-                    value={
-                      <span>
-                        Call or WhatsApp for
-                        <br />
-                        fastest response
-                      </span>
-                    }
-                  />
-                </div>
-              </RevealOnScroll>
+            <ScrollReveal delay={200}>
+              <div className="space-y-6">
+                <div className="bg-background rounded-2xl p-6 shadow-lg border border-primary/5">
+                  <h3 className="text-xl font-bold text-ink mb-4">Visit or Call Us</h3>
+                  <div className="space-y-4">
+                    <a
+                      href={COMPANY.mapUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-start gap-3 p-3 rounded-xl bg-white hover:bg-primary/5 transition-colors"
+                    >
+                      <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                        <i className="fas fa-location-dot" />
+                      </div>
+                      <div>
+                        <div className="font-bold text-sm text-ink">Office Address</div>
+                        <div className="text-sm text-ink/60">{COMPANY.address}</div>
+                      </div>
+                    </a>
 
-              {/* Map */}
-              <RevealOnScroll>
-                <div className="rounded-2xl overflow-hidden shadow-md border border-primary/10 h-64">
+                    <a
+                      href={`tel:${COMPANY.phone}`}
+                      className="flex items-start gap-3 p-3 rounded-xl bg-white hover:bg-primary/5 transition-colors"
+                    >
+                      <div className="w-10 h-10 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary shrink-0">
+                        <i className="fas fa-phone" />
+                      </div>
+                      <div>
+                        <div className="font-bold text-sm text-ink">Phone</div>
+                        <div className="text-sm text-ink/60">{COMPANY.phone}</div>
+                      </div>
+                    </a>
+
+                    <a
+                      href={COMPANY.whatsappLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-start gap-3 p-3 rounded-xl bg-white hover:bg-primary/5 transition-colors"
+                    >
+                      <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center text-green-600 shrink-0">
+                        <i className="fab fa-whatsapp" />
+                      </div>
+                      <div>
+                        <div className="font-bold text-sm text-ink">WhatsApp</div>
+                        <div className="text-sm text-ink/60">{COMPANY.whatsapp}</div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+
+                {/* Google Maps address-query */}
+                <div className="rounded-2xl overflow-hidden shadow-lg border border-primary/5">
                   <iframe
-                    title="Al-Imran International Location"
-                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=Swat+Market+GT+Road+Mingora+Swat&zoom=16"
-                    className="w-full h-full border-0"
+                    title="Usmania Plaza Chakwal Location"
+                    src={`https://www.google.com/maps?q=${COMPANY.addressQuery}&output=embed`}
+                    width="100%"
+                    height="280"
+                    style={{ border: 0 }}
                     allowFullScreen=""
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
+                    className="w-full"
+                    onError={(e) => {
+                      e.target.style.display = 'none'
+                    }}
                   />
+                  <div className="bg-white p-3 text-center">
+                    <a
+                      href={COMPANY.mapUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm font-semibold text-primary hover:underline"
+                    >
+                      <i className="fas fa-map-pin mr-1" />
+                      Open in Google Maps
+                    </a>
+                  </div>
                 </div>
-              </RevealOnScroll>
 
-              {/* Facebook */}
-              <RevealOnScroll>
                 <a
-                  href="https://www.facebook.com/alimraninternatioanl/"
+                  href={COMPANY.whatsappLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2.5 bg-[#1877F2] text-white px-5 py-3 rounded-xl font-semibold hover:bg-[#1664d9] transition-colors"
+                  className="block w-full bg-cta text-white py-4 rounded-full font-bold text-center hover:brightness-110 transition-all shadow-lg shadow-cta/30"
                 >
-                  <i className="fa-brands fa-facebook text-lg" />
-                  Follow us on Facebook
+                  <i className="fab fa-whatsapp mr-2" />
+                  Quick Apply — Start Now
                 </a>
-              </RevealOnScroll>
-            </div>
+              </div>
+            </ScrollReveal>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* FAQ */}
-      <section className="py-16 md:py-24 bg-background">
+      <div className="bg-background py-16 lg:py-24">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <RevealOnScroll>
+          <ScrollReveal>
             <div className="text-center mb-12">
-              <span className="inline-flex items-center gap-2 bg-primary/10 text-primary text-sm font-semibold px-5 py-2 rounded-full">
-                <i className="fas fa-circle-question" />
+              <span className="inline-flex items-center gap-2 bg-primary/10 text-primary font-bold text-xs px-4 py-1.5 rounded-full">
+                <i className="fas fa-question-circle" />
                 FAQs
               </span>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-ink mt-4 mb-3">
+              <h2 className="text-3xl lg:text-4xl font-extrabold text-ink mt-4 mb-3">
                 Frequently Asked Questions
               </h2>
+              <p className="text-ink/60 max-w-2xl mx-auto">
+                Everything you need to know about working with {COMPANY.name}.
+              </p>
             </div>
-          </RevealOnScroll>
+          </ScrollReveal>
 
           <div className="space-y-3">
-            {FAQS.map((faq, idx) => (
-              <RevealOnScroll key={idx}>
-                <div className="bg-white rounded-xl border border-primary/10 overflow-hidden transition-shadow hover:shadow-sm">
+            {FAQS.map((faq, i) => (
+              <ScrollReveal key={i} delay={i * 50}>
+                <div className={`rounded-xl border ${openIndex === i ? 'border-primary/30 bg-primary/[0.02]' : 'border-primary/10 bg-white'} transition-all`}>
                   <button
-                    onClick={() => toggleFaq(idx)}
-                    className="w-full flex items-center justify-between px-5 py-4 text-left"
+                    onClick={() => toggleFaq(i)}
+                    className="w-full flex items-center justify-between p-4 text-left"
+                    aria-expanded={openIndex === i}
                   >
-                    <span className="font-semibold text-ink text-sm sm:text-base pr-4">
-                      {faq.q}
-                    </span>
+                    <span className="font-semibold text-sm sm:text-base text-ink pr-4">{faq.q}</span>
                     <i
-                      className={`fas fa-chevron-down text-primary text-sm transition-transform duration-300 ${
-                        openFaq === idx ? 'rotate-180' : ''
-                      }`}
+                      className={`fas fa-chevron-down text-primary shrink-0 transition-transform duration-300 ${openIndex === i ? 'rotate-180' : ''}`}
                     />
                   </button>
                   <div
-                    className={`transition-all duration-300 overflow-hidden ${
-                      openFaq === idx ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0'
-                    }`}
+                    className={`overflow-hidden transition-all duration-300 ${openIndex === i ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0'}`}
                   >
-                    <p className="px-5 pb-4 text-ink/60 text-sm leading-relaxed">
+                    <p className="px-4 pb-4 text-sm text-ink/60 leading-relaxed">
                       {faq.a}
                     </p>
                   </div>
                 </div>
-              </RevealOnScroll>
+              </ScrollReveal>
             ))}
           </div>
         </div>
-      </section>
-
-      {/* CTA */}
-      <section className="relative py-16 md:py-20 bg-gradient-to-r from-primary via-primary to-cta overflow-hidden">
-        <div className="absolute inset-0 bg-dot-pattern opacity-20" />
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
-            Ready to Start?
-          </h2>
-          <p className="text-white/85 text-lg max-w-2xl mx-auto mb-8">
-            Contact us today and take the first step toward your overseas career.
-          </p>
-          <a
-            href="https://wa.me/923467223031"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2.5 bg-white text-primary px-8 py-4 rounded-full text-lg font-bold hover:bg-accent hover:text-ink transition-all shadow-xl"
-          >
-            <i className="fa-brands fa-whatsapp text-xl" />
-            Message Us on WhatsApp
-          </a>
-        </div>
-      </section>
-    </>
-  )
-}
-
-function ContactCard({ icon, label, value, iconBrand }) {
-  return (
-    <div className="bg-background rounded-xl p-5 border border-primary/10">
-      <div className="flex items-center gap-2.5 mb-2">
-        <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-          <i className={`${iconBrand ? 'fa-brands' : 'fas'} ${icon}`} />
-        </div>
-        <span className="text-sm font-semibold text-ink/60">{label}</span>
       </div>
-      <p className="text-ink text-sm font-medium leading-relaxed">{value}</p>
-    </div>
+
+      <div className="wavy-divider -mt-1 rotate-180">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" className="text-background fill-current">
+          <path d="M0,30 C360,60 720,0 1440,30 L1440,60 L0,60 Z" />
+        </svg>
+      </div>
+    </section>
   )
 }

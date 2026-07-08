@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
-export default function RevealOnScroll({ children, className = '' }) {
+export default function ScrollReveal({ children, className = '', delay = 0 }) {
   const ref = useRef(null)
-  const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     const el = ref.current
@@ -10,18 +9,18 @@ export default function RevealOnScroll({ children, className = '' }) {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setVisible(true)
-          observer.disconnect()
+          setTimeout(() => el.classList.add('revealed'), delay)
+          observer.unobserve(el)
         }
       },
       { threshold: 0.1 }
     )
     observer.observe(el)
     return () => observer.disconnect()
-  }, [])
+  }, [delay])
 
   return (
-    <div ref={ref} className={`reveal ${visible ? 'visible' : ''} ${className}`}>
+    <div ref={ref} className={`scroll-fade-up ${className}`}>
       {children}
     </div>
   )
