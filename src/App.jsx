@@ -1,23 +1,24 @@
-import Navbar from './components/Navbar'
-import MarqueeBar from './components/MarqueeBar'
-import Hero from './components/Hero'
-import StatBand from './components/StatBand'
-import About from './components/About'
-import Services from './components/Services'
-import CountryGuide from './components/CountryGuide'
-import Process from './components/Process'
-import Testimonials from './components/Testimonials'
-import Gallery from './components/Gallery'
-import CtaBand from './components/CtaBand'
-import Contact from './components/Contact'
-import Faq from './components/Faq'
-import Footer from './components/Footer'
+import Navbar from './Navbar';
+import MarqueeTicker from './MarqueeTicker';
+import Hero from './Hero';
+import StatBand from './StatBand';
+import About from './About';
+import Services from './Services';
+import CountryGuide from './CountryGuide';
+import Process from './Process';
+import Testimonials from './Testimonials';
+import GalleryStrip from './GalleryStrip';
+import CTABand from './CTABand';
+import Contact from './Contact';
+import FAQs from './FAQs';
+import Footer from './Footer';
+import QuickApply from './QuickApply';
 
-export default function App() {
+function App() {
   return (
-    <div className="min-h-screen bg-background text-ink">
+    <div className="min-h-screen bg-[#F8EEFF]">
       <Navbar />
-      <MarqueeBar />
+      <MarqueeTicker />
       <Hero />
       <StatBand />
       <About />
@@ -25,11 +26,14 @@ export default function App() {
       <CountryGuide />
       <Process />
       <Testimonials />
-      <Gallery />
-      <CtaBand />
+      <GalleryStrip />
+      <CTABand />
       <Contact />
-      <Faq />
+      <FAQs />
       <Footer />
+      <QuickApply />
     </div>
-  )
+  );
 }
+
+export default App;
