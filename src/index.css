@@ -1,82 +1,117 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-html {
-  scroll-behavior: smooth;
-}
+@theme {
+  --color-primary: #FF1654;
+  --color-secondary: #FFD400;
+  --color-accent: #247BA0;
+  --color-cta: #70C1B3;
+  --color-highlight: #D60046;
+  --color-background: #FFF3E0;
+  --color-ink: #152935;
 
-/* Custom scrollbar */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: #FFF0F3; }
-::-webkit-scrollbar-thumb { background: #D7263D; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #B3001B; }
-
-/* Marquee */
-@keyframes marquee-scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-.animate-marquee {
-  animation: marquee-scroll 30s linear infinite;
-  width: max-content;
-}
-.animate-marquee:hover {
-  animation-play-state: paused;
+  --font-sans: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
 }
 
-/* Fade-in */
-@keyframes fade-in {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.animate-fade-in {
-  animation: fade-in 0.3s ease-out;
-}
-
-/* Bounce subtle */
-@keyframes bounce-subtle {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-}
-.animate-bounce-subtle {
-  animation: bounce-subtle 2s ease-in-out infinite;
+/* ── Base ── */
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Blob shape */
-.blob-morph {
-  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-  animation: blob 8s ease-in-out infinite;
+/* ── Page transitions ── */
+.page-enter {
+  opacity: 0;
+  transform: translateY(12px);
 }
-@keyframes blob {
-  0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
-  25% { border-radius: 40% 60% 70% 30% / 40% 60% 30% 70%; }
-  50% { border-radius: 30% 70% 50% 50% / 70% 40% 60% 30%; }
-  75% { border-radius: 70% 30% 40% 60% / 30% 70% 40% 60%; }
-}
-
-/* Diagonal band */
-.diagonal-band {
-  background: linear-gradient(135deg, #D7263D 0%, #7768AE 100%);
-  transform: skewY(-2deg);
-}
-.diagonal-band > * {
-  transform: skewY(2deg);
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.45s ease-out, transform 0.45s ease-out;
 }
 
-/* Hover card lift */
-.card-lift {
+/* ── Fade-up animation ── */
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Pill badge ── */
+.pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 18px;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── Pull quote ── */
+.pull-quote {
+  border-left: 4px solid var(--color-primary);
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.6;
+  color: var(--color-ink);
+  background: var(--color-background);
+  border-radius: 0 12px 12px 0;
+  font-style: italic;
+}
+
+/* ── Editorial body ── */
+.editorial-body p,
+.editorial-body li {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--color-ink);
+  opacity: 0.82;
+}
+.editorial-body strong {
+  opacity: 1;
+}
+
+/* ── Article card hover ── */
+.article-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.card-lift:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 24px -8px rgba(215, 38, 61, 0.2);
+.article-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.08);
 }
 
-/* Gradient text */
-.gradient-text {
-  background: linear-gradient(135deg, #D7263D, #F46197);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* ── Accordion ── */
+.accordion-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease;
+}
+.accordion-content.open {
+  grid-template-rows: 1fr;
+}
+.accordion-content > div {
+  overflow: hidden;
+}
+
+/* ── Image placeholder fallback ── */
+.img-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-highlight));
+  color: #fff;
+  font-size: 2rem;
+  border-radius: inherit;
 }
