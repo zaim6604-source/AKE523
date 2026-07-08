@@ -5,12 +5,7 @@ export default function ScrollToTop() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const rightPane = document.querySelector('.right-pane');
-    if (rightPane) {
-      rightPane.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    window.scrollTo(0, 0);
   }, [pathname]);
 
   return null;

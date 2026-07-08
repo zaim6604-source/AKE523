@@ -1,176 +1,159 @@
 import { Link } from 'react-router-dom';
+import useInView from '../hooks/useInView';
+import PillBadge from '../components/PillBadge';
 
-const stats = [
-  { value: '500+', label: 'Workers Placed' },
-  { value: '9', label: 'Countries' },
-  { value: '98%', label: 'Success Rate' },
-  { value: '8+', label: 'Years Experience' },
-];
+const FALLBACK_IMG = 'data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 width%3D%22800%22 height%3D%22600%22%3E%3Crect width%3D%22800%22 height%3D%22600%22 fill%3D%22%23F2F6F9%22%2F%3E%3Ccircle cx%3D%22400%22 cy%3D%22300%22 r%3D%2280%22 fill%3D%22%23C9CCD5%22%2F%3E%3C%2Fsvg%3E';
 
 const trustChips = [
-  'Govt. Licensed OEP 2214/MLK',
-  'Transparent Fee Structure',
-  'Verified Employer Partners',
-  'End-to-End Support',
-  'Pre-Departure Training',
-  'Post-Placement Assistance',
+  { icon: 'fa-certificate', text: 'Govt. Licensed OEP' },
+  { icon: 'fa-handshake', text: 'Verified Employers' },
+  { icon: 'fa-passport', text: 'Visa Assistance' },
+  { icon: 'fa-plane-departure', text: 'Pre-Departure Support' },
+  { icon: 'fa-shield-alt', text: 'No Hidden Fees' },
+  { icon: 'fa-headset', text: '24/7 Support' },
 ];
 
-const whyUs = [
-  {
-    icon: 'fa-certificate',
-    title: 'Government Licensed',
-    desc: 'We are a fully licensed Overseas Employment Promoter (OEP 2214/MLK), regulated by the Government of Pakistan.',
-  },
-  {
-    icon: 'fa-handshake',
-    title: 'Trusted Partnerships',
-    desc: 'We work only with verified employers who offer fair wages, safe working conditions, and legal contracts.',
-  },
-  {
-    icon: 'fa-users-gear',
-    title: 'Personalized Guidance',
-    desc: 'Every applicant receives one-on-one counseling to find the best role matching their skills and preferences.',
-  },
-  {
-    icon: 'fa-globe',
-    title: 'Global Reach',
-    desc: 'From the Gulf to Europe to Asia, we have placement opportunities across 9+ countries.',
-  },
-  {
-    icon: 'fa-shield-halved',
-    title: 'Ethical Recruitment',
-    desc: 'We adhere to the highest ethical standards — no hidden fees, no misleading promises.',
-  },
-  {
-    icon: 'fa-headset',
-    title: 'Lifetime Support',
-    desc: 'Our relationship doesn\'t end at deployment. We stay connected with you throughout your employment journey.',
-  },
+const stats = [
+  { icon: 'fa-calendar-check', number: '8+', label: 'Years Experience' },
+  { icon: 'fa-building', number: '150+', label: 'Partner Employers' },
+  { icon: 'fa-globe', number: '9', label: 'Active Countries' },
+  { icon: 'fa-star', number: '97%', label: 'Success Rate' },
 ];
 
 export default function About() {
+  const [ref, inView] = useInView({ threshold: 0.1 });
+  const [statsRef, statsInView] = useInView({ threshold: 0.2 });
+
   return (
-    <div className="animate-fade-in">
-      {/* HEADER */}
-      <section className="bg-gradient-to-br from-primary via-highlight to-ink px-6 py-16 md:py-20 text-white">
-        <div className="max-w-4xl mx-auto text-center">
-          <span className="text-secondary font-bold text-sm tracking-widest uppercase">About Us</span>
-          <h1 className="text-3xl md:text-5xl font-extrabold mt-2 mb-4">
-            Your Trusted Partner in <span className="text-secondary">Overseas Employment</span>
+    <div className="page-enter">
+      {/* ─── Header ─── */}
+      <section className="bg-gradient-to-br from-[#1B4965] to-[#0B3954] py-12 sm:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <PillBadge text="ABOUT US" index={2} />
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mt-4 leading-tight">
+            Your Trusted Partner in{' '}
+            <span className="text-[#FF6B35]">Global Employment</span>
           </h1>
-          <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            Warda International is a Government-Licensed Overseas Employment Promoter (OEP 2214/MLK) based in Timergara, Lower Dir.
-          </p>
         </div>
       </section>
 
-      {/* STORY */}
-      <section className="px-6 py-16 md:py-20 max-w-4xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-          <div>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-ink mb-4">
-              Our <span className="text-primary">Story</span>
-            </h2>
-            <div className="text-ink/60 leading-relaxed space-y-4">
-              <p>
-                Founded with a mission to bridge the gap between skilled Pakistani workers and international employers,
-                Warda International has grown into a trusted name in overseas employment from Timergara, Lower Dir.
-              </p>
-              <p>
-                With our government license (OEP 2214/MLK), we are authorized to recruit and place workers in countries
-                across the Gulf, Europe, and Asia. Our team brings decades of combined experience in international recruitment,
-                visa processing, and workforce management.
-              </p>
-              <p>
-                We believe in transparent, ethical recruitment — every candidate is treated with respect, given clear
-                information about their options, and supported at every step of their journey.
-              </p>
+      {/* ─── Story ─── */}
+      <section className="py-16 sm:py-20" ref={ref}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            {/* Image */}
+            <div className="relative">
+              <div className="relative overflow-hidden rounded-2xl shadow-xl">
+                <img
+                  src="https://images.unsplash.com/photo-1577415124269-fc1140a69e91?w=700&q=80"
+                  alt="Gulalai Overseas Employment"
+                  className="w-full h-[320px] sm:h-[400px] lg:h-[460px] object-cover"
+                  onError={(e) => { e.target.src = FALLBACK_IMG; }}
+                />
+              </div>
+              {/* Floating License Badge */}
+              <div className={`absolute -bottom-4 -right-4 bg-[#FF6B35] text-white font-bold px-5 py-3 rounded-2xl shadow-xl rotate-3 transition-all duration-700 ${inView ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
+                <div className="text-xs opacity-80 font-medium">License No.</div>
+                <div className="text-lg">FF-227</div>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className={`space-y-6 transition-all duration-700 delay-200 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B2436] leading-tight">
+                From <span className="text-[#1B4965]">Peshawar</span> to the World
+              </h2>
+              <div className="space-y-4 text-[#0B2436]/70 leading-relaxed text-base sm:text-lg">
+                <p>
+                  <strong className="text-[#0B2436]">Gulalai Overseas Employment Promoter</strong> is a government-licensed Overseas Employment Promoter (OEP) based at the prestigious <strong className="text-[#0B2436]">Deans Trade Center</strong> in Peshawar Cantonment, Khyber Pakhtunkhwa. We are dedicated to connecting the skilled workforce of KPK and across Pakistan with reputable employers around the world.
+                </p>
+                <p>
+                  From construction and healthcare to IT and hospitality, we handle every step of the recruitment journey — from documentation and visa processing to pre-departure orientation and travel coordination. Our mission is simple: turn your ambition into opportunity and help you build a brighter future abroad.
+                </p>
+                <p>
+                  With 8+ years of experience and a network spanning 9 countries across the Gulf, Europe, and Asia, we've successfully placed thousands of workers in rewarding positions. Our commitment to transparency, integrity, and excellence sets us apart.
+                </p>
+              </div>
             </div>
           </div>
-          <div className="bg-ink/5 rounded-2xl p-6">
-            <div className="bg-ink/10 rounded-xl p-5 text-center">
-              <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white text-2xl mx-auto mb-3">
-                <i className="fas fa-building" />
+        </div>
+      </section>
+
+      {/* ─── Stats Band ─── */}
+      <section className="bg-[#1B4965] py-10 sm:py-14" ref={statsRef}>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            {stats.map((stat, i) => (
+              <div
+                key={stat.label}
+                className={`text-center transition-all duration-700 ${
+                  statsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                }`}
+                style={{ transitionDelay: `${i * 150}ms` }}
+              >
+                <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#5FA8D3]/20 backdrop-blur-sm mb-3">
+                  <i className={`fas ${stat.icon} text-xl sm:text-2xl text-[#FF6B35]`} />
+                </div>
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-white">
+                  {stat.number}
+                </div>
+                <div className="text-xs sm:text-sm font-semibold text-[#C9CCD5] mt-1">
+                  {stat.label}
+                </div>
               </div>
-              <h3 className="font-bold text-ink text-lg">Birmingham Plaza</h3>
-              <p className="text-ink/50 text-sm mt-1">Office No. 10, First Floor</p>
-              <p className="text-ink/50 text-sm">Rest House Road, Timergara</p>
-              <p className="text-ink/50 text-sm">Lower Dir, KPK</p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* STATS */}
-      <section className="bg-ink px-6 py-12">
-        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
-          {stats.map((stat) => (
-            <div key={stat.label} className="text-center">
-              <div className="text-3xl md:text-4xl font-extrabold text-primary">{stat.value}</div>
-              <div className="text-white/50 text-sm font-medium">{stat.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* WHY US */}
-      <section className="px-6 py-16 md:py-20 max-w-6xl mx-auto">
-        <div className="text-center mb-10">
-          <h2 className="text-2xl md:text-4xl font-extrabold text-ink mb-2">
-            Why Choose <span className="text-primary">Warda International</span>
+      {/* ─── Trust Chips ─── */}
+      <section className="py-14 sm:py-18">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <PillBadge text="WHY CHOOSE US" index={1} />
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B2436] mt-4 mb-10">
+            Built on <span className="text-[#1B4965]">Trust</span> & Transparency
           </h2>
-          <p className="text-ink/60">What sets us apart from the rest</p>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {whyUs.map((item) => (
-            <div key={item.title} className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all p-5">
-              <div className="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center text-primary mb-3">
-                <i className={`fas ${item.icon} text-lg`} />
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {trustChips.map((chip) => (
+              <div key={chip.text} className="bg-white rounded-2xl shadow-md p-6 flex items-center gap-4 card-lift">
+                <div className="w-12 h-12 rounded-xl bg-[#1B4965]/10 flex items-center justify-center shrink-0">
+                  <i className={`fas ${chip.icon} text-[#1B4965] text-lg`} />
+                </div>
+                <span className="font-semibold text-[#0B2436] text-sm text-left">{chip.text}</span>
               </div>
-              <h3 className="font-bold text-ink text-sm mb-2">{item.title}</h3>
-              <p className="text-ink/50 text-sm leading-relaxed">{item.desc}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* TRUST CHIPS */}
-      <section className="bg-white px-6 py-10 border-t border-ink/5">
-        <div className="max-w-4xl mx-auto flex flex-wrap justify-center gap-3">
-          {trustChips.map((chip) => (
-            <span key={chip} className="px-4 py-2 bg-background rounded-full text-sm font-semibold text-ink/70 border border-ink/5">
-              <i className="fas fa-check-circle text-primary mr-1.5" />
-              {chip}
-            </span>
-          ))}
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="bg-gradient-to-r from-accent to-accent/80 px-6 py-14">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl font-extrabold text-ink mb-3">
-            Let&apos;s Start Your Journey
+      {/* ─── Office / CTA ─── */}
+      <section className="bg-gradient-to-r from-[#0B3954] to-[#1B4965] py-14 sm:py-18">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+          <div className="inline-flex items-center gap-2 bg-white/10 text-white text-xs font-bold px-4 py-2 rounded-full mb-6">
+            <i className="fas fa-location-dot text-[#FF6B35]" />
+            FF-227, Deans Trade Center, Peshawar Cantonment, KPK
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-4">
+            Ready to Start Your Journey?
           </h2>
-          <p className="text-ink/70 mb-6">
-            Browse our latest openings or reach out to us directly on WhatsApp.
+          <p className="text-[#C9CCD5] text-base sm:text-lg mb-8 max-w-xl mx-auto">
+            Browse our open positions and apply today. We're here to guide you every step of the way.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link
               to="/jobs"
-              className="inline-flex items-center gap-2 bg-ink text-white font-bold px-6 py-3.5 rounded-xl hover:brightness-150 transition-all shadow-lg"
+              className="inline-flex items-center gap-2 bg-[#FF6B35] hover:bg-[#e85d2a] text-white font-bold px-8 py-3.5 rounded-full text-sm transition-all shadow-lg"
             >
-              <i className="fas fa-briefcase" /> Browse Jobs
+              <i className="fas fa-search" />
+              Browse Jobs
             </Link>
-            <a
-              href="https://wa.me/923038799996?text=Hi%20Warda%20International!%20I%20would%20like%20to%20know%20more%20about%20your%20services."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-white text-ink font-bold px-6 py-3.5 rounded-xl hover:brightness-110 transition-all"
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2 border-2 border-white/30 hover:border-white text-white font-semibold px-8 py-3.5 rounded-full text-sm transition-all"
             >
-              <i className="fab fa-whatsapp" /> Chat with Us
-            </a>
+              <i className="fas fa-paper-plane" />
+              Contact Us
+            </Link>
           </div>
         </div>
       </section>
