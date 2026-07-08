@@ -1,216 +1,191 @@
 import { Link } from 'react-router-dom';
-import useInView from '../hooks/useInView';
-import PillBadge from '../components/PillBadge';
-import JOBS, { COUNTRIES } from '../data/jobs';
-
-const FALLBACK_IMG = 'data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 width%3D%22800%22 height%3D%22600%22%3E%3Crect width%3D%22800%22 height%3D%22600%22 fill%3D%22%23F2F6F9%22%2F%3E%3Ccircle cx%3D%22400%22 cy%3D%22300%22 r%3D%2280%22 fill%3D%22%23C9CCD5%22%2F%3E%3C%2Fsvg%3E';
-
-const featuredJobs = JOBS.slice(0, 6);
+import FadeIn from '../components/FadeIn';
 
 const stats = [
-  { icon: 'fa-briefcase', end: '200+', label: 'Open Positions' },
-  { icon: 'fa-globe', end: '9', label: 'Countries' },
-  { icon: 'fa-certificate', end: '100%', label: 'Govt. Licensed' },
-  { icon: 'fa-users', end: '5000+', label: 'Workers Placed' },
+  { value: '500+', label: 'Placed' },
+  { value: '9', label: 'Countries' },
+  { value: '8+', label: 'Years' },
+  { value: '1', label: 'Licensed' },
+];
+
+const services = [
+  { title: 'Overseas Job Placement', icon: 'fa-briefcase', color: 'bg-[var(--color-primary)]' },
+  { title: 'Visa Processing', icon: 'fa-passport', color: 'bg-[var(--color-secondary)]' },
+  { title: 'Document Attestation', icon: 'fa-file-contract', color: 'bg-[var(--color-cta)]' },
+  { title: 'Medical & Trade Test', icon: 'fa-stethoscope', color: 'bg-[var(--color-highlight)]' },
+  { title: 'Pre-Departure Orientation', icon: 'fa-graduation-cap', color: 'bg-[var(--color-primary)]' },
+  { title: 'Air Ticketing & Travel', icon: 'fa-plane', color: 'bg-[var(--color-secondary)]' },
+  { title: 'Employer Verification', icon: 'fa-shield-halved', color: 'bg-[var(--color-cta)]' },
+  { title: 'Manpower Supply', icon: 'fa-users', color: 'bg-[var(--color-highlight)]' },
+];
+
+const destinations = [
+  { name: 'Saudi Arabia', flag: '🇸🇦' },
+  { name: 'UAE', flag: '🇦🇪' },
+  { name: 'Qatar', flag: '🇶🇦' },
+  { name: 'Oman', flag: '🇴🇲' },
+  { name: 'Germany', flag: '🇩🇪' },
+  { name: 'Poland', flag: '🇵🇱' },
+  { name: 'Romania', flag: '🇷🇴' },
+  { name: 'Greece', flag: '🇬🇷' },
+  { name: 'Malaysia', flag: '🇲🇾' },
 ];
 
 export default function Home() {
-  const [heroRef, heroInView] = useInView({ threshold: 0.1 });
-  const [statsRef, statsInView] = useInView({ threshold: 0.2 });
-  const [jobsRef, jobsInView] = useInView({ threshold: 0.1 });
-
   return (
-    <div className="page-enter">
-      {/* ─── HERO ─── */}
-      <section className="relative min-h-[90vh] bg-gradient-to-br from-[#1B4965] to-[#0B3954] overflow-hidden flex items-center">
-        {/* Background pattern */}
-        <div className="absolute inset-0 opacity-[0.07]">
-          <div className="absolute top-10 left-10 w-72 h-72 rounded-full bg-[#5FA8D3]" />
-          <div className="absolute bottom-10 right-10 w-96 h-96 rounded-full bg-[#FF6B35]" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[#5FA8D3]" />
+    <div>
+      {/* Hero */}
+      <section className="relative bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-highlight)] text-white overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 left-10 w-72 h-72 rounded-full bg-[var(--color-accent)] blur-3xl" />
+          <div className="absolute bottom-10 right-10 w-96 h-96 rounded-full bg-[var(--color-secondary)] blur-3xl" />
         </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-12 w-full" ref={heroRef}>
-          <div className="max-w-3xl">
-            <div className={`mb-6 transition-all duration-700 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <PillBadge text="Govt. Licensed OEP — FF-227" index={2} />
-            </div>
-
-            <h1 className={`text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-white leading-[1.1] mb-6 transition-all duration-700 delay-100 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <span className="block">Find the Job.</span>
-              <span className="block text-[#5FA8D3]">Pick the Country.</span>
-              <span className="block text-[#FF6B35]">We Handle the Rest.</span>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-36">
+          <FadeIn>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight max-w-3xl">
+              Your Trusted Route from <span className="text-[var(--color-accent)]">Shergarh</span> to the World
             </h1>
-
-            <p className={`text-base sm:text-lg lg:text-xl text-[#C9CCD5] leading-relaxed mb-8 max-w-xl transition-all duration-700 delay-200 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              Based at <strong className="text-white">Deans Trade Center, Peshawar</strong> — we connect skilled workers from KPK and across Pakistan with trusted employers worldwide.
+          </FadeIn>
+          <FadeIn delay={1}>
+            <p className="mt-6 text-lg md:text-xl text-[var(--color-secondary)] max-w-2xl leading-relaxed">
+              Connecting skilled workers from Khyber Pakhtunkhwa to employment opportunities
+              across the Gulf and Europe. Licensed, trusted, and committed to your success.
             </p>
-
-            <div className={`flex flex-wrap gap-3 sm:gap-4 transition-all duration-700 delay-300 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          </FadeIn>
+          <FadeIn delay={2}>
+            <div className="mt-8 flex flex-wrap gap-4">
               <Link
-                to="/jobs"
-                className="inline-flex items-center gap-2 bg-[#FF6B35] hover:bg-[#e85d2a] text-white font-bold px-6 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base transition-all shadow-lg hover:shadow-xl"
+                to="/contact"
+                className="inline-flex items-center gap-2 bg-[var(--color-cta)] text-white font-semibold px-6 py-3 rounded-lg hover:brightness-110 transition-all"
               >
-                <i className="fas fa-search" />
-                Browse Openings
+                <i className="fas fa-paper-plane" />
+                Apply Now
               </Link>
               <a
-                href="https://wa.me/923341999588"
+                href="https://wa.me/923469358431"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 border-2 border-white/30 hover:border-[#5FA8D3] text-white hover:text-[#5FA8D3] font-semibold px-6 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base transition-all"
+                className="inline-flex items-center gap-2 border-2 border-white/40 text-white font-semibold px-6 py-3 rounded-lg hover:bg-white/10 transition-all"
               >
                 <i className="fab fa-whatsapp" />
                 WhatsApp Us
               </a>
             </div>
-
-            {/* Trust Row */}
-            <div className={`flex items-center gap-6 mt-10 pt-8 border-t border-white/10 transition-all duration-700 delay-400 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <div className="flex items-center gap-2">
-                <i className="fas fa-building text-[#5FA8D3] text-sm" />
-                <span className="text-xs text-[#C9CCD5]">Deans Trade Center, Peshawar</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <i className="fas fa-globe text-[#FF6B35] text-sm" />
-                <span className="text-xs text-[#C9CCD5]">9+ Countries</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <i className="fas fa-check-circle text-[#5FA8D3] text-sm" />
-                <span className="text-xs text-[#C9CCD5]">Govt. Licensed</span>
-              </div>
-            </div>
-          </div>
+          </FadeIn>
         </div>
       </section>
 
-      {/* ─── STATS BAND ─── */}
-      <section className="bg-[#1B4965] py-10 sm:py-14" ref={statsRef}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-            {stats.map((stat, i) => (
-              <div
-                key={stat.label}
-                className={`text-center transition-all duration-700 ${
-                  statsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                }`}
-                style={{ transitionDelay: `${i * 150}ms` }}
-              >
-                <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#5FA8D3]/20 backdrop-blur-sm mb-3">
-                  <i className={`fas ${stat.icon} text-xl sm:text-2xl text-[#FF6B35]`} />
+      {/* Stats Band */}
+      <section className="bg-white border-y border-[var(--color-secondary)]/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {stats.map((s, i) => (
+              <FadeIn key={s.label} delay={i + 1}>
+                <div className="text-center">
+                  <div className="text-3xl md:text-4xl font-extrabold text-[var(--color-primary)]">
+                    {s.value}
+                  </div>
+                  <div className="text-sm text-[var(--color-ink)]/70 mt-1 font-medium uppercase tracking-wider">
+                    {s.label}
+                  </div>
                 </div>
-                <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-white">
-                  {stat.end}
-                </div>
-                <div className="text-xs sm:text-sm font-semibold text-[#C9CCD5] mt-1">
-                  {stat.label}
-                </div>
-              </div>
+              </FadeIn>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ─── FEATURED JOBS ─── */}
-      <section className="py-16 sm:py-20 lg:py-24" ref={jobsRef}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <PillBadge text="OPEN POSITIONS" index={1} />
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B2436] mt-4 leading-tight">
-              Featured{' '}
-              <span className="text-[#1B4965]">Opportunities</span>
-            </h2>
-            <p className="text-[#0B2436]/60 mt-3 max-w-2xl mx-auto text-base sm:text-lg">
-              Explore roles across the Gulf, Europe, and Asia. Apply directly via WhatsApp.
-            </p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredJobs.map((job) => {
-              const country = COUNTRIES[job.countryKey];
-              return (
-                <Link
-                  key={job.id}
-                  to={`/jobs/${job.id}`}
-                  className="card-lift bg-white rounded-2xl shadow-md overflow-hidden group"
-                >
-                  <div className="relative h-40 overflow-hidden">
-                    <img
-                      src={country.image}
-                      alt={country.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      onError={(e) => { e.target.src = FALLBACK_IMG; }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-                      <span className="text-white text-xs font-semibold bg-black/40 px-2.5 py-1 rounded-full backdrop-blur-sm">
-                        {country.flag} {country.name}
-                      </span>
-                      <span className="text-white text-xs font-semibold bg-[#FF6B35]/90 px-2.5 py-1 rounded-full">
-                        {job.category}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="p-5">
-                    <h3 className="font-bold text-[#0B2436] text-base mb-1 line-clamp-1">
-                      {job.role}
-                    </h3>
-                    <p className="text-sm text-[#1B4965] font-semibold mb-3">
-                      {job.salary}{job.salaryInterval}
-                    </p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-[#0B2436]/50">
-                        {job.requirements.length} requirements
-                      </span>
-                      <span className="text-xs font-semibold text-[#FF6B35] group-hover:underline">
-                        View & Apply &rarr;
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-
-          <div className="text-center mt-10">
+      {/* Services Teaser */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+        <FadeIn>
+          <h2 className="text-3xl md:text-4xl font-bold text-[var(--color-ink)] text-center">
+            Our Services
+          </h2>
+          <p className="mt-3 text-[var(--color-ink)]/70 text-center max-w-xl mx-auto">
+            Comprehensive recruitment and manpower solutions from application to departure.
+          </p>
+        </FadeIn>
+        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {services.slice(0, 8).map((s, i) => (
+            <FadeIn key={s.title} delay={Math.min(i + 1, 6)}>
+              <div
+                className={`${s.color} rounded-xl p-6 text-white hover:scale-[1.02] transition-transform cursor-default`}
+              >
+                <i className={`fas ${s.icon} text-2xl mb-3`} />
+                <h3 className="font-bold text-sm leading-snug">{s.title}</h3>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+        <FadeIn delay={3}>
+          <div className="text-center mt-8">
             <Link
-              to="/jobs"
-              className="inline-flex items-center gap-2 bg-[#1B4965] hover:bg-[#0B3954] text-white font-bold px-8 py-3.5 rounded-full text-sm transition-all shadow-md hover:shadow-lg"
+              to="/services"
+              className="inline-flex items-center gap-2 text-[var(--color-primary)] font-semibold hover:underline"
             >
-              <i className="fas fa-search" />
-              View All Jobs
+              View All Services <i className="fas fa-arrow-right text-sm" />
             </Link>
+          </div>
+        </FadeIn>
+      </section>
+
+      {/* Featured Destinations */}
+      <section className="bg-[var(--color-background)] py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <FadeIn>
+            <h2 className="text-3xl md:text-4xl font-bold text-[var(--color-ink)] text-center">
+              Featured Destinations
+            </h2>
+            <p className="mt-3 text-[var(--color-ink)]/70 text-center max-w-xl mx-auto">
+              Explore opportunities in our partner countries across the Gulf and Europe.
+            </p>
+          </FadeIn>
+          <div className="mt-10 flex flex-wrap justify-center gap-3">
+            {destinations.map((d, i) => (
+              <FadeIn key={d.name} delay={Math.min(i + 1, 6)}>
+                <Link
+                  to={`/countries/${d.name.toLowerCase().replace(/\s+/g, '-')}`}
+                  className="inline-flex items-center gap-2 px-5 py-3 bg-white rounded-full shadow-sm border border-[var(--color-secondary)]/20 hover:border-[var(--color-primary)] hover:shadow-md transition-all text-[var(--color-ink)] font-medium"
+                >
+                  <span className="text-lg">{d.flag}</span>
+                  {d.name}
+                </Link>
+              </FadeIn>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ─── CTA BAND ─── */}
-      <section className="bg-gradient-to-r from-[#0B3954] to-[#1B4965] py-14 sm:py-18">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white mb-4">
-            Ready to Work Abroad?
-          </h2>
-          <p className="text-[#C9CCD5] text-base sm:text-lg mb-8 max-w-xl mx-auto">
-            Send us your details and we'll match you with the best opportunities in your field.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 bg-[#FF6B35] hover:bg-[#e85d2a] text-white font-bold px-8 py-3.5 rounded-full text-sm transition-all shadow-lg"
-            >
-              <i className="fas fa-paper-plane" />
-              Apply Now
-            </Link>
-            <a
-              href="https://wa.me/923341999588"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 border-2 border-white/30 hover:border-white text-white font-semibold px-8 py-3.5 rounded-full text-sm transition-all"
-            >
-              <i className="fab fa-whatsapp" />
-              Chat on WhatsApp
-            </a>
-          </div>
+      {/* CTA Band */}
+      <section className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-highlight)] text-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 text-center">
+          <FadeIn>
+            <h2 className="text-3xl md:text-4xl font-bold">
+              Ready to Start Your Journey?
+            </h2>
+            <p className="mt-4 text-[var(--color-secondary)] text-lg max-w-2xl mx-auto">
+              Take the first step toward your international career. Contact us today for a
+              free consultation.
+            </p>
+          </FadeIn>
+          <FadeIn delay={2}>
+            <div className="mt-8 flex flex-wrap justify-center gap-4">
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 bg-[var(--color-cta)] text-white font-semibold px-8 py-3 rounded-lg hover:brightness-110 transition-all"
+              >
+                <i className="fas fa-paper-plane" />
+                Get Started
+              </Link>
+              <Link
+                to="/process"
+                className="inline-flex items-center gap-2 border-2 border-white/40 text-white font-semibold px-8 py-3 rounded-lg hover:bg-white/10 transition-all"
+              >
+                <i className="fas fa-list" />
+                Our Process
+              </Link>
+            </div>
+          </FadeIn>
         </div>
       </section>
     </div>

@@ -1,170 +1,261 @@
 import { useState } from 'react';
 import useInView from '../hooks/useInView';
-import PillBadge from './PillBadge';
 
-const JOB_CATEGORIES = [
+const jobCategories = [
   'Construction Worker',
   'Driver',
-  'Electrician',
-  'Factory Worker',
-  'Healthcare Worker',
-  'Hospitality Staff',
-  'IT Professional',
-  'Plumber',
-  'Security Guard',
   'Technician',
+  'Hospitality Staff',
+  'Factory Worker',
+  'Security Guard',
+  'Healthcare Professional',
+  'IT Professional',
   'Other',
 ];
 
 export default function Contact() {
-  const [ref, inView] = useInView({ threshold: 0.1 });
+  const [ref, visible] = useInView(0.1);
   const [form, setForm] = useState({ name: '', phone: '', email: '', category: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
 
-  const handleChange = (e) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { name, phone, email, category, message } = form;
-    const text = `Hello Ithmanzi Recruiting Agency! I'd like to get in touch.%0A%0AName: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0AEmail: ${encodeURIComponent(email)}%0AJob Category: ${encodeURIComponent(category)}%0AMessage: ${encodeURIComponent(message)}`;
-    const waUrl = `https://wa.me/923465320238?text=${text}`;
-    const mailUrl = `mailto:info@ithmanzi.pk?subject=Inquiry from ${encodeURIComponent(name)}&body=${encodeURIComponent(`Name: ${name}\nPhone: ${phone}\nEmail: ${email}\nCategory: ${category}\n\n${message}`)}`;
-
-    // Try WhatsApp first, fallback to mailto
-    const win = window.open(waUrl, '_blank');
-    if (!win) {
-      window.location.href = mailUrl;
-    }
+    const text = encodeURIComponent(
+      `Name: ${form.name}%0APhone: ${form.phone}%0AEmail: ${form.email}%0AJob Category: ${form.category}%0AMessage: ${form.message}`
+    );
+    window.location.href = `https://wa.me/923335520190?text=${text}`;
     setSubmitted(true);
-    setForm({ name: '', phone: '', email: '', category: '', message: '' });
-    setTimeout(() => setSubmitted(false), 5000);
   };
 
   return (
-    <section id="contact" className="bg-[#FFF3E6] py-16 sm:py-20 lg:py-24 overflow-hidden" ref={ref}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <PillBadge text="GET IN TOUCH" index={1} />
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#2B1200] mt-4 leading-tight">
-            Let's Start Your{' '}
-            <span className="text-[#00B4D8]">Journey</span>
-          </h2>
-          <p className="text-[#2B1200]/60 mt-3 max-w-2xl mx-auto text-base sm:text-lg">
-            Ready to take the leap? Reach out to us and we'll guide you every step of the way.
-          </p>
+    <section id="contact" className="relative">
+      {/* Wavy divider */}
+      <div className="wavy-divider">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+          <path d="M0,20 C240,60 480,0 720,20 C960,40 1200,0 1440,20 L1440,0 L0,0 Z" fill="#EDF6F9" />
+        </svg>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
+        {/* Pill Badge */}
+        <div className="flex justify-center mb-4">
+          <span className="pill-4 px-5 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider">
+            GET IN TOUCH
+          </span>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
-          {/* Left - Contact Form */}
-          <div className={`bg-white rounded-3xl shadow-xl p-6 sm:p-8 border border-[#FFD23F]/20 transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            {submitted ? (
-              <div className="text-center py-12">
-                <div className="w-16 h-16 bg-[#FFD23F] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <i className="fas fa-check text-2xl text-[#2B1200]" />
-                </div>
-                <h3 className="text-xl font-black text-[#2B1200] mb-2">Thank You!</h3>
-                <p className="text-[#2B1200]/60">Your inquiry has been submitted. We'll reach out to you shortly on WhatsApp.</p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
+        <p className="text-center text-base sm:text-lg mb-10 sm:mb-12 max-w-2xl mx-auto text-[#006D77]">
+          Ready to start your journey? Reach out to us today.
+        </p>
+
+        <div ref={ref} className="grid lg:grid-cols-2 gap-10 lg:gap-12">
+          {/* Left — Form */}
+          <div className={`fade-up ${visible ? 'visible' : ''}`}>
+            {!submitted ? (
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
                 <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs sm:text-sm font-semibold mb-1.5 text-[#003844]">
+                      Full Name <span className="text-[#E29578]">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={form.name}
+                      onChange={handleChange}
+                      required
+                      placeholder="Your full name"
+                      className="w-full px-4 py-3 rounded-xl border-2 text-sm outline-none transition-all duration-200"
+                      style={{ borderColor: '#83C5BE', backgroundColor: 'white', color: '#003844' }}
+                      onFocus={(e) => e.target.style.borderColor = '#006D77'}
+                      onBlur={(e) => e.target.style.borderColor = '#83C5BE'}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs sm:text-sm font-semibold mb-1.5 text-[#003844]">
+                      Phone Number <span className="text-[#E29578]">*</span>
+                    </label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={form.phone}
+                      onChange={handleChange}
+                      required
+                      placeholder="03XX-XXXXXXX"
+                      className="w-full px-4 py-3 rounded-xl border-2 text-sm outline-none transition-all duration-200"
+                      style={{ borderColor: '#83C5BE', backgroundColor: 'white', color: '#003844' }}
+                      onFocus={(e) => e.target.style.borderColor = '#006D77'}
+                      onBlur={(e) => e.target.style.borderColor = '#83C5BE'}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs sm:text-sm font-semibold mb-1.5 text-[#003844]">
+                    Email Address
+                  </label>
                   <input
-                    type="text"
-                    name="name"
-                    placeholder="Full Name"
-                    value={form.name}
+                    type="email"
+                    name="email"
+                    value={form.email}
                     onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 text-sm border border-gray-200 rounded-xl focus:border-[#00B4D8] focus:ring-2 focus:ring-[#00B4D8]/20 outline-none bg-gray-50 text-[#2B1200]"
-                  />
-                  <input
-                    type="tel"
-                    name="phone"
-                    placeholder="Phone Number"
-                    value={form.phone}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 text-sm border border-gray-200 rounded-xl focus:border-[#00B4D8] focus:ring-2 focus:ring-[#00B4D8]/20 outline-none bg-gray-50 text-[#2B1200]"
+                    placeholder="your@email.com"
+                    className="w-full px-4 py-3 rounded-xl border-2 text-sm outline-none transition-all duration-200"
+                    style={{ borderColor: '#83C5BE', backgroundColor: 'white', color: '#003844' }}
+                    onFocus={(e) => e.target.style.borderColor = '#006D77'}
+                    onBlur={(e) => e.target.style.borderColor = '#83C5BE'}
                   />
                 </div>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email Address (optional)"
-                  value={form.email}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 text-sm border border-gray-200 rounded-xl focus:border-[#00B4D8] focus:ring-2 focus:ring-[#00B4D8]/20 outline-none bg-gray-50 text-[#2B1200]"
-                />
-                <select
-                  name="category"
-                  value={form.category}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 text-sm border border-gray-200 rounded-xl focus:border-[#00B4D8] focus:ring-2 focus:ring-[#00B4D8]/20 outline-none bg-gray-50 text-[#2B1200]"
-                >
-                  <option value="">Select Job Category</option>
-                  {JOB_CATEGORIES.map((cat) => (
-                    <option key={cat} value={cat}>{cat}</option>
-                  ))}
-                </select>
-                <textarea
-                  name="message"
-                  placeholder="Your Message"
-                  value={form.message}
-                  onChange={handleChange}
-                  required
-                  rows={4}
-                  className="w-full px-4 py-3 text-sm border border-gray-200 rounded-xl focus:border-[#00B4D8] focus:ring-2 focus:ring-[#00B4D8]/20 outline-none bg-gray-50 text-[#2B1200] resize-none"
-                />
+
+                <div>
+                  <label className="block text-xs sm:text-sm font-semibold mb-1.5 text-[#003844]">
+                    Job Category <span className="text-[#E29578]">*</span>
+                  </label>
+                  <select
+                    name="category"
+                    value={form.category}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 rounded-xl border-2 text-sm outline-none transition-all duration-200"
+                    style={{ borderColor: '#83C5BE', backgroundColor: 'white', color: '#003844' }}
+                    onFocus={(e) => e.target.style.borderColor = '#006D77'}
+                    onBlur={(e) => e.target.style.borderColor = '#83C5BE'}
+                  >
+                    <option value="">Select a category</option>
+                    {jobCategories.map((cat) => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs sm:text-sm font-semibold mb-1.5 text-[#003844]">
+                    Message
+                  </label>
+                  <textarea
+                    name="message"
+                    value={form.message}
+                    onChange={handleChange}
+                    rows={4}
+                    placeholder="Tell us about your experience and the role you're looking for..."
+                    className="w-full px-4 py-3 rounded-xl border-2 text-sm outline-none transition-all duration-200 resize-none"
+                    style={{ borderColor: '#83C5BE', backgroundColor: 'white', color: '#003844' }}
+                    onFocus={(e) => e.target.style.borderColor = '#006D77'}
+                    onBlur={(e) => e.target.style.borderColor = '#83C5BE'}
+                  />
+                </div>
+
                 <button
                   type="submit"
-                  className="w-full bg-[#00B4D8] hover:bg-[#0098b8] text-white font-bold py-3.5 rounded-xl text-sm transition-all shadow-md flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-7 py-3.5 rounded-full text-base font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
+                  style={{ backgroundColor: '#E29578', border: 'none' }}
                 >
-                  <i className="fab fa-whatsapp" />
+                  <i className="fa-brands fa-whatsapp" />
                   Send via WhatsApp
                 </button>
-                <p className="text-[10px] text-[#2B1200]/40 text-center">
-                  By submitting, you agree to be contacted via WhatsApp. We'll respond within 24 hours.
-                </p>
               </form>
+            ) : (
+              <div className="text-center py-10 sm:py-14 space-y-5 rounded-2xl" style={{ backgroundColor: '#F0F9F8' }}>
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto shadow-md" style={{ backgroundColor: '#006D77' }}>
+                  <i className="fa-solid fa-check text-white text-2xl" />
+                </div>
+                <h3 className="text-xl sm:text-2xl font-bold m-0 text-[#003844]">
+                  Inquiry Sent!
+                </h3>
+                <p className="text-sm sm:text-base max-w-md mx-auto text-[#006D77]/70">
+                  Your message has been sent via WhatsApp. We'll get back to you promptly.
+                </p>
+                <div className="flex flex-wrap justify-center gap-3 pt-2">
+                  <a href="tel:0514442289"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold shadow-md transition-all duration-300 hover:scale-105 text-white"
+                    style={{ backgroundColor: '#006D77' }}>
+                    <i className="fa-solid fa-phone" />
+                    Call Us Instead
+                  </a>
+                  <button
+                    onClick={() => { setSubmitted(false); setForm({ name: '', phone: '', email: '', category: '', message: '' }); }}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold border-2 transition-all duration-300 hover:scale-105 cursor-pointer"
+                    style={{ borderColor: '#E29578', color: '#E29578', backgroundColor: 'white' }}
+                  >
+                    <i className="fa-solid fa-rotate-left" />
+                    Submit Again
+                  </button>
+                </div>
+              </div>
             )}
 
             {/* Contact Info Rows */}
-            <div className="mt-6 pt-6 border-t border-gray-100 space-y-3">
-              <a href="tel:0515110610" className="flex items-center gap-3 text-sm text-[#2B1200]/70 hover:text-[#FF4500] transition-colors">
-                <div className="w-9 h-9 rounded-full bg-[#FFD23F]/20 flex items-center justify-center shrink-0">
-                  <i className="fas fa-phone text-[#FF7F11] text-xs" />
+            <div className="mt-6 space-y-3">
+              <a href="tel:0514442289"
+                className="flex items-center gap-3 p-3.5 rounded-xl transition-all duration-200 hover:shadow-sm"
+                style={{ backgroundColor: '#EDF6F9' }}>
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: '#006D77' }}>
+                  <i className="fa-solid fa-phone text-white text-sm" />
                 </div>
-                <span>051-5110610</span>
+                <div>
+                  <div className="text-xs font-semibold text-[#006D77]">Phone</div>
+                  <div className="text-sm font-bold text-[#003844]">051-4442289</div>
+                </div>
               </a>
-              <a href="https://wa.me/923465320238" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-[#2B1200]/70 hover:text-[#FF4500] transition-colors">
-                <div className="w-9 h-9 rounded-full bg-[#00B4D8]/10 flex items-center justify-center shrink-0">
-                  <i className="fab fa-whatsapp text-[#00B4D8] text-xs" />
+              <a
+                href="https://wa.me/923335520190"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 p-3.5 rounded-xl transition-all duration-200 hover:shadow-sm"
+                style={{ backgroundColor: '#EDF6F9' }}
+              >
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: '#25D366' }}>
+                  <i className="fa-brands fa-whatsapp text-white text-sm" />
                 </div>
-                <span>+92-346-5320238</span>
+                <div>
+                  <div className="text-xs font-semibold text-[#006D77]">WhatsApp</div>
+                  <div className="text-sm font-bold text-[#003844]">0333-5520190</div>
+                </div>
               </a>
-              <div className="flex items-center gap-3 text-sm text-[#2B1200]/70">
-                <div className="w-9 h-9 rounded-full bg-[#FF4500]/10 flex items-center justify-center shrink-0">
-                  <i className="fas fa-location-dot text-[#FF4500] text-xs" />
+              <a
+                href="https://www.facebook.com/shahzamanmanpower/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 p-3.5 rounded-xl transition-all duration-200 hover:shadow-sm"
+                style={{ backgroundColor: '#EDF6F9' }}
+              >
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: '#1877F2' }}>
+                  <i className="fa-brands fa-facebook-f text-white text-sm" />
                 </div>
-                <span className="text-xs sm:text-sm">Office # 10, Al-Riaz Plaza, Attalian Shoes, Street Bank Road, Saddar, Rawalpindi, Punjab</span>
+                <div>
+                  <div className="text-xs font-semibold text-[#006D77]">Facebook</div>
+                  <div className="text-sm font-bold text-[#003844]">/shahzamanmanpower</div>
+                </div>
+              </a>
+              <div className="flex items-start gap-3 p-3.5 rounded-xl" style={{ backgroundColor: '#EDF6F9' }}>
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: '#E29578' }}>
+                  <i className="fa-solid fa-location-dot text-white text-sm" />
+                </div>
+                <div>
+                  <div className="text-xs font-semibold text-[#006D77]">Address</div>
+                  <div className="text-sm font-medium leading-relaxed text-[#003844]">
+                    Flat No. 14, Rehmat Plaza, I-10 Markaz, Islamabad, ICT
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Right - Google Maps */}
-          <div className={`rounded-3xl overflow-hidden shadow-xl h-[300px] sm:h-[400px] lg:h-full min-h-[400px] border border-[#FFD23F]/20 transition-all duration-700 delay-200 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            <iframe
-              title="Ithmanzi Recruiting Agency Location"
-              src="https://www.google.com/maps?q=Al-Riaz+Plaza+Bank+Road+Saddar+Rawalpindi+Punjab&hl=en&z=16&output=embed"
-              className="w-full h-full"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
+          {/* Right — Google Maps */}
+          <div className={`fade-up ${visible ? 'visible' : ''} fade-up-delay-2`}>
+            <div className="rounded-2xl overflow-hidden shadow-lg h-full min-h-[350px] sm:min-h-[400px] lg:min-h-[500px]">
+              <iframe
+                title="Shah Zaman Manpower Location"
+                src="https://www.google.com/maps?q=33.646740448615795,73.03695689999999&hl=en&z=16&output=embed"
+                width="100%"
+                height="100%"
+                style={{ border: 0, minHeight: '400px' }}
+                loading="lazy"
+                allowFullScreen
+              />
+            </div>
           </div>
         </div>
       </div>

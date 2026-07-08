@@ -6,14 +6,14 @@ import ScrollToTop from './ScrollToTop';
 
 export default function Layout() {
   return (
-    <div className="min-h-screen bg-[#F2F6F9] font-sans">
+    <>
       <ScrollToTop />
       <Navbar />
-      <QuickApply />
-      <main className="pt-16 lg:pt-20">
+      <main className="min-h-screen">
         <Outlet />
       </main>
       <Footer />
-    </div>
+      <QuickApply />
+    </>
   );
 }

@@ -1,135 +1,127 @@
-import { useState, useEffect } from 'react';
 import useInView from '../hooks/useInView';
-import PillBadge from './PillBadge';
-import LazyImage from './LazyImage';
 
-const TESTIMONIALS = [
+const FALLBACK = 'https://placehold.co/100x100/83C5BE/83C5BE';
+const handleImgError = (e) => {
+  if (e.target.src !== FALLBACK) e.target.src = FALLBACK;
+};
+
+const testimonials = [
   {
+    quote: 'Shah Zaman Manpower made the entire process so simple. From registration to departure, everything was handled professionally. I\'m now working in Dubai and supporting my family back in Islamabad.',
     name: 'Ahmed Raza',
-    destination: 'Saudi Arabia',
+    dest: 'Dubai, UAE',
     role: 'Construction Supervisor',
-    quote: 'Ithmanzi turned my life around. Within weeks of registering, I was placed with a top construction firm in Riyadh. The team guided me through every document, every test, and every step. I\'m now earning three times what I was in Pakistan. This agency is the real deal.',
-    rating: 5,
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80',
+    avatar: 'https://picsum.photos/seed/avatar-1/100/100',
+    bg: '#E8F4F5',
   },
   {
-    name: 'Fatima Noreen',
-    destination: 'Germany',
-    role: 'Healthcare Assistant',
-    quote: 'I never thought I\'d make it to Europe. Ithmanzi made it happen. From visa processing to pre-departure orientation, they were with me at every step. The team in Saddar is incredibly professional and supportive. I\'ve already recommended them to three of my cousins!',
-    rating: 5,
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80',
+    quote: 'I was nervous about finding legitimate work abroad, but the team at Shah Zaman put all my worries to rest. Transparent fees, honest guidance, and a job I love in Saudi Arabia. Highly recommended!',
+    name: 'Imran Khan',
+    dest: 'Riyadh, Saudi Arabia',
+    role: 'Heavy Equipment Operator',
+    avatar: 'https://picsum.photos/seed/avatar-2/100/100',
+    bg: '#F0F9F8',
   },
   {
-    name: 'Usman Khalid',
-    destination: 'UAE',
-    role: 'Heavy Driver',
-    quote: 'I\'d been trying to go to the UAE for years with no luck. Ithmanzi got me there in under two months. They handled everything — my visa, attestation, medical tests, even my flight. If you\'re in Rawalpindi and looking to work abroad, just go to Al-Riaz Plaza. Trust me.',
-    rating: 5,
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80',
+    quote: 'From I-10 Markaz to Kuala Lumpur — Shah Zaman Manpower made it happen. They took care of my visa, documents, and even my flight. A truly hassle-free experience.',
+    name: 'Sajid Mehmood',
+    dest: 'Kuala Lumpur, Malaysia',
+    role: 'Factory Technician',
+    avatar: 'https://picsum.photos/seed/avatar-3/100/100',
+    bg: '#FDF4F1',
   },
   {
-    name: 'Saima Bibi',
-    destination: 'Qatar',
-    role: 'Hospitality Staff',
-    quote: 'As a woman looking to work abroad, I was nervous about the process. Ithmanzi made me feel safe and confident. They connected me with a reputable hotel in Doha, and I\'ve been thriving there for over a year now. Forever grateful to the team at Ithmanzi!',
-    rating: 5,
-    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80',
+    quote: 'What I appreciated most was the honesty. They told me exactly what to expect, what the costs were, and kept me updated through every step. Now I\'m in Doha with a great contract.',
+    name: 'Bilal Ahmed',
+    dest: 'Doha, Qatar',
+    role: 'Security Officer',
+    avatar: 'https://picsum.photos/seed/avatar-4/100/100',
+    bg: '#FFF8E8',
+  },
+  {
+    quote: 'I went from Islamabad to Berlin thanks to Shah Zaman Manpower. Their pre-departure orientation was incredibly helpful — I felt prepared from day one. Thank you for changing my life!',
+    name: 'Usman Ali',
+    dest: 'Berlin, Germany',
+    role: 'Skilled Technician',
+    avatar: 'https://picsum.photos/seed/avatar-5/100/100',
+    bg: '#E8F0F1',
+  },
+  {
+    quote: 'Finding a legitimate recruiter in Islamabad is not easy, but Shah Zaman Manpower stood out. Licensed, professional, and they genuinely care. I\'ve already recommended them to my cousins.',
+    name: 'Tariq Javed',
+    dest: 'Muscat, Oman',
+    role: 'Driver',
+    avatar: 'https://picsum.photos/seed/avatar-6/100/100',
+    bg: '#F0F9F8',
   },
 ];
 
 export default function Testimonials() {
-  const [current, setCurrent] = useState(0);
-  const [fading, setFading] = useState(false);
-  const [ref, inView] = useInView({ threshold: 0.1 });
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setFading(true);
-      setTimeout(() => {
-        setCurrent((prev) => (prev + 1) % TESTIMONIALS.length);
-        setFading(false);
-      }, 400);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const t = TESTIMONIALS[current];
-
-  const goTo = (index) => {
-    if (index === current) return;
-    setFading(true);
-    setTimeout(() => {
-      setCurrent(index);
-      setFading(false);
-    }, 400);
-  };
+  const [ref, visible] = useInView(0.05);
 
   return (
-    <section id="testimonials" className="bg-[#FFF3E6] py-16 sm:py-20 lg:py-24 overflow-hidden" ref={ref}>
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <PillBadge text="SUCCESS STORIES" index={0} />
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#2B1200] mt-4 leading-tight">
-            Real Stories from{' '}
-            <span className="text-[#FF4500]">Real People</span>
-          </h2>
+    <section id="testimonials" className="relative">
+      {/* Wavy divider */}
+      <div className="wavy-divider">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+          <path d="M0,20 C240,60 480,0 720,20 C960,40 1200,0 1440,20 L1440,0 L0,0 Z" fill="#EDF6F9" />
+        </svg>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
+        {/* Pill Badge */}
+        <div className="flex justify-center mb-4">
+          <span className="pill-1 px-5 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider">
+            SUCCESS STORIES
+          </span>
         </div>
 
-        {/* Giant Quotation Spotlight */}
-        <div className="relative text-center" ref={ref}>
-          {/* Decorative quotation mark */}
-          <div className="text-6xl sm:text-8xl lg:text-9xl text-[#FFD23F]/40 font-serif leading-none mb-4 select-none">
-            &ldquo;
-          </div>
+        <p className="text-center text-base sm:text-lg mb-10 sm:mb-12 max-w-2xl mx-auto text-[#006D77]">
+          Real stories from real people — our candidates share their experience.
+        </p>
 
-          {/* Quote Content */}
-          <div className={`transition-all duration-500 ${fading ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
-            <blockquote className="text-lg sm:text-xl lg:text-2xl text-[#2B1200]/80 leading-relaxed font-medium max-w-2xl mx-auto mb-8">
-              &ldquo;{t.quote}&rdquo;
-            </blockquote>
+        <div ref={ref} className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+          {testimonials.map((t, i) => (
+            <div
+              key={t.name}
+              className={`fade-up ${visible ? 'visible' : ''} fade-up-delay-${(i % 3) + 1} relative rounded-2xl p-6 sm:p-7 shadow-md transition-transform duration-300 hover:-translate-y-2`}
+              style={{ backgroundColor: t.bg }}
+            >
+              {/* Decorative quote mark */}
+              <div className="absolute top-3 right-4 text-5xl sm:text-6xl font-serif opacity-20 leading-none text-[#006D77]">
+                &quot;
+              </div>
 
-            {/* Avatar & Info */}
-            <div className="flex items-center justify-center gap-4 mb-4">
-              <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#FFD23F] shadow-md shrink-0">
-                <LazyImage
+              {/* Yellow stars */}
+              <div className="flex gap-1 mb-3">
+                {[1, 2, 3, 4, 5].map((s) => (
+                  <i key={s} className="fa-solid fa-star text-xs text-[#FFDD00]" />
+                ))}
+              </div>
+
+              {/* Quote */}
+              <p className="text-sm sm:text-base leading-relaxed mb-5 relative z-10 text-[#003844]">
+                &ldquo;{t.quote}&rdquo;
+              </p>
+
+              {/* Avatar + Name */}
+              <div className="flex items-center gap-3 mt-auto">
+                <img
                   src={t.avatar}
                   alt={t.name}
-                  className="w-full h-full object-cover"
-                  containerClass="w-full h-full"
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover shadow-sm border-2 border-white"
+                  loading="lazy"
+                  onError={handleImgError}
                 />
-              </div>
-              <div className="text-left">
-                <div className="font-bold text-[#2B1200]">{t.name}</div>
-                <div className="text-sm text-[#2B1200]/60">
-                  {t.role} — {t.destination}
+                <div>
+                  <div className="text-sm font-bold text-[#003844]">{t.name}</div>
+                  <div className="text-xs text-[#006D77]/70">
+                    {t.dest} — {t.role}
+                  </div>
                 </div>
               </div>
             </div>
-
-            {/* Stars */}
-            <div className="flex items-center justify-center gap-1 text-[#FF7F11]">
-              {[...Array(5)].map((_, i) => (
-                <i key={i} className={`fas fa-star ${i < t.rating ? 'opacity-100' : 'opacity-20'}`} />
-              ))}
-            </div>
-          </div>
-
-          {/* Dot Navigation */}
-          <div className="flex items-center justify-center gap-2.5 mt-8">
-            {TESTIMONIALS.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => goTo(i)}
-                className={`transition-all duration-300 rounded-full ${
-                  i === current
-                    ? 'w-8 h-2.5 bg-[#FF4500]'
-                    : 'w-2.5 h-2.5 bg-[#FFD23F] hover:bg-[#FF7F11]'
-                }`}
-                aria-label={`Go to testimonial ${i + 1}`}
-              />
-            ))}
-          </div>
+          ))}
         </div>
       </div>
     </section>

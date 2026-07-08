@@ -2,6 +2,6 @@
   "startupCommands": [
     "npm install; npm run dev -- --host 0.0.0.0"
   ],
-  "projectId": "141d553f-804d-451b-a15a-1be0f3f79b04",
+  "projectId": "953c635d-cd19-4809-b9e5-78647f5d4b62",
   "templateId": "any"
 }
