@@ -1,41 +1,38 @@
+import { Routes, Route, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Layout from './components/Layout'
-import Landing from './pages/Landing'
+import Sidebar from './components/Sidebar'
+import Home from './pages/Home'
+import About from './pages/About'
 import Services from './pages/Services'
-import Destinations from './pages/Destinations'
-import DestinationDetail from './pages/DestinationDetail'
-import Journey from './pages/Journey'
+import Countries from './pages/Countries'
+import CountryDetail from './pages/CountryDetail'
 import Contact from './pages/Contact'
 import NotFound from './pages/NotFound'
 
-function App() {
-  useEffect(() => {
-    // Load Font Awesome 6
-    const link = document.createElement('link')
-    link.rel = 'stylesheet'
-    link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'
-    link.integrity = 'sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=='
-    link.crossOrigin = 'anonymous'
-    link.referrerPolicy = 'no-referrer'
-    document.head.appendChild(link)
-  }, [])
-
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<Landing />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/destinations" element={<Destinations />} />
-          <Route path="/destinations/:slug" element={<DestinationDetail />} />
-          <Route path="/journey" element={<Journey />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  )
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  return null
 }
 
-export default App
+export default function App() {
+  return (
+    <div className="flex min-h-screen bg-background text-ink">
+      <ScrollToTop />
+      <Sidebar />
+      <main className="flex-1 lg:ml-80 min-h-screen">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 py-8 lg:py-10">
+          <Routes>
+            <Route index element={<Home />} />
+            <Route path="about" element={<About />} />
+            <Route path="services" element={<Services />} />
+            <Route path="countries" element={<Countries />} />
+            <Route path="countries/:slug" element={<CountryDetail />} />
+            <Route path="contact" element={<Contact />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
+      </main>
+    </div>
+  )
+}

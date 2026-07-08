@@ -1,76 +1,46 @@
-import ScrollReveal from '../components/ScrollReveal'
-import { SERVICES } from '../data/siteData'
-
-const SERVICE_IMAGES = [
-  'https://picsum.photos/seed/job-placement/600/400',
-  'https://picsum.photos/seed/visa-processing/600/400',
-  'https://picsum.photos/seed/documentation/600/400',
-  'https://picsum.photos/seed/language/600/400',
-  'https://picsum.photos/seed/departure/600/400',
-  'https://picsum.photos/seed/employer/600/400',
-  'https://picsum.photos/seed/legal/600/400',
-  'https://picsum.photos/seed/support/600/400',
-]
+import SERVICES from '../data/services'
 
 export default function Services() {
   return (
-    <section className="relative animate-page-enter">
-      <div className="wavy-divider -mb-1">
-        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" className="text-background fill-current">
-          <path d="M0,30 C360,60 720,0 1440,30 L1440,60 L0,60 Z" />
-        </svg>
+    <div className="space-y-10 animate-fade-up pt-6 lg:pt-10">
+      <div>
+        <span className="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-semibold rounded-full mb-3 border border-primary/10">
+          Our Services
+        </span>
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-ink mb-4">
+          What We Offer
+        </h1>
+        <p className="text-ink/60 leading-relaxed max-w-3xl">
+          Comprehensive recruitment and support services designed to make your
+          overseas employment journey smooth, transparent, and successful.
+        </p>
       </div>
 
-      <div className="bg-white py-16 lg:py-24">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <ScrollReveal>
-            <div className="text-center mb-12">
-              <span className="inline-flex items-center gap-2 bg-primary/10 text-primary font-bold text-xs px-4 py-1.5 rounded-full">
-                <i className="fas fa-briefcase" />
-                Our Services
-              </span>
-              <h2 className="text-3xl lg:text-4xl font-extrabold text-ink mt-4 mb-3">
-                Everything You Need for Overseas Employment
-              </h2>
-              <p className="text-ink/60 max-w-2xl mx-auto">
-                End-to-end recruitment services designed to make your journey abroad seamless.
-              </p>
+      <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-6">
+        {SERVICES.map(({ id, title, desc, icon, color }) => (
+          <div key={id} className="flip-card h-64 group">
+            <div className="flip-card-inner h-full">
+              {/* Front */}
+              <div
+                className="flip-card-front rounded-2xl p-6 flex flex-col justify-center items-center text-center border"
+                style={{ backgroundColor: color, borderColor: color }}
+              >
+                <i className={`fas ${icon} text-4xl text-white mb-4`} />
+                <h3 className="text-lg font-bold text-white">{title}</h3>
+                <p className="text-xs text-white/70 mt-2">Hover to learn more</p>
+              </div>
+              {/* Back */}
+              <div
+                className="flip-card-back rounded-2xl p-6 flex flex-col justify-center items-center text-center text-white border"
+                style={{ backgroundColor: color, borderColor: color }}
+              >
+                <i className={`fas ${icon} text-2xl text-white/40 mb-3`} />
+                <p className="text-sm leading-relaxed">{desc}</p>
+              </div>
             </div>
-          </ScrollReveal>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {SERVICES.map((svc, i) => (
-              <ScrollReveal key={svc.title} delay={i * 50}>
-                <div className="group rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-background">
-                  <div className="relative h-40 overflow-hidden bg-gradient-to-br from-primary/60 to-accent/60">
-                    <img
-                      src={SERVICE_IMAGES[i]}
-                      alt={svc.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      onError={(e) => { e.target.style.display = 'none' }}
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-primary/70 to-transparent z-10 pointer-events-none" />
-                    <div className="absolute bottom-3 left-4 text-white z-20">
-                      <i className={`fas ${svc.icon} text-2xl`} />
-                    </div>
-                  </div>
-                  <div className="p-5">
-                    <h3 className="text-lg font-bold text-ink mb-2">{svc.title}</h3>
-                    <p className="text-sm text-ink/60 leading-relaxed">{svc.desc}</p>
-                  </div>
-                </div>
-              </ScrollReveal>
-            ))}
           </div>
-        </div>
+        ))}
       </div>
-
-      <div className="wavy-divider -mt-1 rotate-180">
-        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" className="text-background fill-current">
-          <path d="M0,30 C360,60 720,0 1440,30 L1440,60 L0,60 Z" />
-        </svg>
-      </div>
-    </section>
+    </div>
   )
 }

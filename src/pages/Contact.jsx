@@ -1,208 +1,172 @@
 import { useState } from 'react'
-import ScrollReveal from '../components/ScrollReveal'
-import { COMPANY, FAQS } from '../data/siteData'
+
+const WHATSAPP = 'https://wa.me/923215344448'
+const WHATSAPP_SECONDARY = 'https://wa.me/923125227211'
+const PHONE_1 = '0321-5344448'
+const PHONE_2 = '0312-5227211'
+const PHONE_3 = '0333-5227211'
+const FACEBOOK = 'https://www.facebook.com/AlBassamiRecruitingAgency/'
+const EMAIL = 'info@albassami.pk'
+
+const FAQS = [
+  { q: 'What documents do I need to apply?', a: 'A valid passport (6+ months validity), educational certificates, experience letters, passport photographs, and a medical fitness certificate. Requirements vary by country and role.' },
+  { q: 'How long does the visa process take?', a: 'Processing times range from 2–3 weeks for Gulf countries to 6–12 weeks for European destinations, depending on the role and employer.' },
+  { q: 'Is Al-Bassami a licensed agency?', a: 'Yes, we are fully licensed by the Government of Pakistan under license number 2251/RWP.' },
+  { q: 'What countries do you recruit for?', a: 'We recruit for Saudi Arabia, UAE, Qatar, Oman, Kuwait, Germany, Poland, Italy, and Malaysia.' },
+  { q: 'How do I apply for a job?', a: 'You can apply directly through our WhatsApp Quick Apply button, or visit our office in Chandni Chowk, Satellite Town, Rawalpindi.' },
+  { q: 'Do you charge any fees?', a: 'Our service fees are transparent and communicated upfront. We believe in ethical recruitment practices with no hidden charges.' },
+]
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', phone: '', message: '' })
-  const [openIndex, setOpenIndex] = useState(null)
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
     const text = encodeURIComponent(
-      `Hello ${COMPANY.name}! I am ${form.name} (${form.phone}). ${form.message}`
+      `Hello Al-Bassami! I'm ${form.name} (${form.phone}). ${form.message}`
     )
-    window.open(`${COMPANY.whatsappLink}?text=${text}`, '_blank', 'noopener')
-  }
-
-  const toggleFaq = (i) => {
-    setOpenIndex(openIndex === i ? null : i)
+    window.open(`${WHATSAPP}?text=${text}`, '_blank')
   }
 
   return (
-    <section className="relative animate-page-enter">
-      <div className="wavy-divider -mb-1">
-        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" className="text-background fill-current">
-          <path d="M0,30 C360,60 720,0 1440,30 L1440,60 L0,60 Z" />
-        </svg>
+    <div className="space-y-12 animate-fade-up pt-6 lg:pt-10">
+      <div>
+        <span className="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-semibold rounded-full mb-3 border border-primary/10">
+          Contact Us
+        </span>
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-ink mb-4">
+          Get in Touch
+        </h1>
+        <p className="text-ink/60 leading-relaxed max-w-3xl">
+          Ready to take the next step? Reach out to us — we're here to help you
+          find the right opportunity.
+        </p>
       </div>
 
-      <div className="bg-white py-16 lg:py-24">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <ScrollReveal>
-            <div className="text-center mb-12">
-              <span className="inline-flex items-center gap-2 bg-primary/10 text-primary font-bold text-xs px-4 py-1.5 rounded-full">
-                <i className="fas fa-address-card" />
-                Contact Us
-              </span>
-              <h2 className="text-3xl lg:text-4xl font-extrabold text-ink mt-4 mb-3">
-                Get In Touch
-              </h2>
-              <p className="text-ink/60 max-w-2xl mx-auto">
-                Visit our office at Red Crescent Building, Dabgari Garden, Peshawar or reach out through any channel below.
-              </p>
+      <div className="grid sm:grid-cols-2 gap-8">
+        {/* Contact Form */}
+        <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-6 sm:p-8 border border-ink/5 shadow-sm space-y-4">
+          <h2 className="text-lg font-bold text-ink mb-1">Send us a Message</h2>
+          <div>
+            <label className="block text-xs font-medium text-ink/50 mb-1.5">Your Name</label>
+            <input
+              type="text"
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2.5 rounded-xl border border-ink/10 bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+              placeholder="John Doe"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-ink/50 mb-1.5">Phone Number</label>
+            <input
+              type="tel"
+              name="phone"
+              value={form.phone}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2.5 rounded-xl border border-ink/10 bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+              placeholder="03XX-XXXXXXX"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-ink/50 mb-1.5">Message</label>
+            <textarea
+              name="message"
+              value={form.message}
+              onChange={handleChange}
+              rows={4}
+              required
+              className="w-full px-4 py-2.5 rounded-xl border border-ink/10 bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all resize-none"
+              placeholder="Tell us about the position you're looking for..."
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-cta hover:bg-cta/90 text-white text-sm font-semibold transition-all shadow-md shadow-cta/20"
+          >
+            <i className="fab fa-whatsapp" />
+            Send via WhatsApp
+          </button>
+        </form>
+
+        {/* Contact Info */}
+        <div className="space-y-5">
+          <div className="bg-white rounded-2xl p-6 border border-ink/5 shadow-sm">
+            <h2 className="font-bold text-ink mb-4">Contact Details</h2>
+            <div className="space-y-3 text-sm">
+              <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-ink/70 hover:text-primary transition-colors">
+                <i className="fab fa-whatsapp text-primary text-lg w-5 text-center" />
+                <span>{PHONE_1} <span className="text-ink/40 text-xs">(Primary)</span></span>
+              </a>
+              <a href={WHATSAPP_SECONDARY} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-ink/70 hover:text-primary transition-colors pl-8">
+                <span>{PHONE_2}</span>
+              </a>
+              <a href={`tel:${PHONE_1}`} className="flex items-center gap-3 text-ink/70 hover:text-primary transition-colors">
+                <i className="fas fa-phone text-lg w-5 text-center" />
+                <span>{PHONE_1}</span>
+              </a>
+              <a href={`tel:${PHONE_2}`} className="flex items-center gap-3 text-ink/70 hover:text-primary transition-colors pl-8">
+                <span>{PHONE_2}</span>
+              </a>
+              <a href={`tel:${PHONE_3}`} className="flex items-center gap-3 text-ink/70 hover:text-primary transition-colors pl-8">
+                <span>{PHONE_3}</span>
+              </a>
+              <a href={`mailto:${EMAIL}`} className="flex items-center gap-3 text-ink/70 hover:text-primary transition-colors">
+                <i className="fas fa-envelope text-lg w-5 text-center" />
+                <span>{EMAIL}</span>
+              </a>
+              <a href={FACEBOOK} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-ink/70 hover:text-primary transition-colors">
+                <i className="fab fa-facebook text-[#1877F2] text-lg w-5 text-center" />
+                <span>Facebook</span>
+              </a>
             </div>
-          </ScrollReveal>
+          </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-            <ScrollReveal delay={100}>
-              <div className="bg-background rounded-2xl p-8 shadow-lg border border-primary/5">
-                <h3 className="text-xl font-bold text-ink mb-6 flex items-center gap-2">
-                  <i className="fas fa-paper-plane text-primary" />
-                  Send Us a Message
-                </h3>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-semibold text-ink/70 mb-1">Your Name</label>
-                    <input type="text" id="name" name="name" required value={form.name} onChange={handleChange}
-                      placeholder="e.g., Muhammad Khan"
-                      className="w-full px-4 py-3 rounded-xl border border-primary/20 bg-white text-ink placeholder:text-ink/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all" />
-                  </div>
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-semibold text-ink/70 mb-1">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" required value={form.phone} onChange={handleChange}
-                      placeholder="e.g., 0300-8581500"
-                      className="w-full px-4 py-3 rounded-xl border border-primary/20 bg-white text-ink placeholder:text-ink/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all" />
-                  </div>
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-semibold text-ink/70 mb-1">Your Message</label>
-                    <textarea id="message" name="message" required rows={4} value={form.message} onChange={handleChange}
-                      placeholder="Tell us about your requirements..."
-                      className="w-full px-4 py-3 rounded-xl border border-primary/20 bg-white text-ink placeholder:text-ink/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all resize-none" />
-                  </div>
-                  <button type="submit"
-                    className="w-full bg-cta text-white py-3.5 rounded-full font-bold text-base hover:brightness-110 transition-all shadow-lg shadow-cta/30 flex items-center justify-center gap-2">
-                    <i className="fab fa-whatsapp" /> Send via WhatsApp
-                  </button>
-                </form>
-                <p className="text-xs text-ink/40 text-center mt-4">
-                  <i className="fas fa-shield-alt mr-1" /> Your information is kept confidential. Messages sent via WhatsApp.
-                </p>
-                <div className="mt-4 pt-4 border-t border-primary/10">
-                  <a href={`mailto:${COMPANY.email}`} className="text-xs text-ink/50 hover:text-primary transition-colors flex items-center justify-center gap-1">
-                    <i className="fas fa-envelope" /> {COMPANY.email}
-                  </a>
-                </div>
-              </div>
-            </ScrollReveal>
-
-            <ScrollReveal delay={200}>
-              <div className="space-y-6">
-                <div className="bg-background rounded-2xl p-6 shadow-lg border border-primary/5">
-                  <h3 className="text-xl font-bold text-ink mb-4">Visit or Call Us</h3>
-                  <div className="space-y-4">
-                    <a href={COMPANY.mapUrl} target="_blank" rel="noopener noreferrer"
-                      className="flex items-start gap-3 p-3 rounded-xl bg-white hover:bg-primary/5 transition-colors">
-                      <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                        <i className="fas fa-location-dot" />
-                      </div>
-                      <div>
-                        <div className="font-bold text-sm text-ink">Office Address</div>
-                        <div className="text-sm text-ink/60">{COMPANY.address}</div>
-                      </div>
-                    </a>
-                    <a href={`tel:${COMPANY.phone}`}
-                      className="flex items-start gap-3 p-3 rounded-xl bg-white hover:bg-primary/5 transition-colors">
-                      <div className="w-10 h-10 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary shrink-0">
-                        <i className="fas fa-phone" />
-                      </div>
-                      <div>
-                        <div className="font-bold text-sm text-ink">Phone</div>
-                        <div className="text-sm text-ink/60">{COMPANY.phone}</div>
-                      </div>
-                    </a>
-                    <a href={COMPANY.whatsappLink} target="_blank" rel="noopener noreferrer"
-                      className="flex items-start gap-3 p-3 rounded-xl bg-white hover:bg-primary/5 transition-colors">
-                      <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center text-green-600 shrink-0">
-                        <i className="fab fa-whatsapp" />
-                      </div>
-                      <div>
-                        <div className="font-bold text-sm text-ink">WhatsApp</div>
-                        <div className="text-sm text-ink/60">{COMPANY.whatsapp}</div>
-                      </div>
-                    </a>
-                    <a href={COMPANY.facebook} target="_blank" rel="noopener noreferrer"
-                      className="flex items-start gap-3 p-3 rounded-xl bg-white hover:bg-primary/5 transition-colors">
-                      <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
-                        <i className="fab fa-facebook-f" />
-                      </div>
-                      <div>
-                        <div className="font-bold text-sm text-ink">Facebook</div>
-                        <div className="text-sm text-ink/60">Follow us on Facebook</div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-
-                <div className="rounded-2xl overflow-hidden shadow-lg border border-primary/5">
-                  <iframe title="Red Crescent Building Dabgari Garden Peshawar Location"
-                    src={`https://www.google.com/maps?q=${COMPANY.addressQuery}&output=embed`}
-                    width="100%" height="280" style={{ border: 0 }} allowFullScreen="" loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade" className="w-full"
-                    onError={(e) => { e.target.style.display = 'none' }} />
-                  <div className="bg-white p-3 text-center">
-                    <a href={COMPANY.mapUrl} target="_blank" rel="noopener noreferrer"
-                      className="text-sm font-semibold text-primary hover:underline">
-                      <i className="fas fa-map-pin mr-1" /> Open in Google Maps
-                    </a>
-                  </div>
-                </div>
-
-                <a href={COMPANY.whatsappLink} target="_blank" rel="noopener noreferrer"
-                  className="block w-full bg-cta text-white py-4 rounded-full font-bold text-center hover:brightness-110 transition-all shadow-lg shadow-cta/30">
-                  <i className="fab fa-whatsapp mr-2" /> Quick Apply — Start Now
-                </a>
-              </div>
-            </ScrollReveal>
+          {/* Address */}
+          <div className="bg-white rounded-2xl p-6 border border-ink/5 shadow-sm">
+            <h2 className="font-bold text-ink mb-3">Head Office</h2>
+            <p className="text-sm text-ink/60 leading-relaxed mb-3">
+              Office No. 16, 2nd Floor, Resham Plaza,<br />
+              Chandni Chowk, Satellite Town,<br />
+              Rawalpindi, Punjab
+            </p>
+            <a
+              href="https://www.google.com/maps?q=33.63223406174258,73.07174944232855"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm text-primary font-semibold hover:underline"
+            >
+              <i className="fas fa-map-pin" />
+              View on Google Maps
+            </a>
           </div>
         </div>
       </div>
 
       {/* FAQ */}
-      <div className="bg-background py-16 lg:py-24">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <ScrollReveal>
-            <div className="text-center mb-12">
-              <span className="inline-flex items-center gap-2 bg-primary/10 text-primary font-bold text-xs px-4 py-1.5 rounded-full">
-                <i className="fas fa-question-circle" /> FAQs
-              </span>
-              <h2 className="text-3xl lg:text-4xl font-extrabold text-ink mt-4 mb-3">
-                Frequently Asked Questions
-              </h2>
-              <p className="text-ink/60 max-w-2xl mx-auto">
-                Everything you need to know about working with {COMPANY.name}.
-              </p>
-            </div>
-          </ScrollReveal>
-
-          <div className="space-y-3">
-            {FAQS.map((faq, i) => (
-              <ScrollReveal key={i} delay={i * 50}>
-                <div className={`rounded-xl border ${openIndex === i ? 'border-primary/30 bg-primary/[0.02]' : 'border-primary/10 bg-white'} transition-all`}>
-                  <button onClick={() => toggleFaq(i)}
-                    className="w-full flex items-center justify-between p-4 text-left"
-                    aria-expanded={openIndex === i}>
-                    <span className="font-semibold text-sm sm:text-base text-ink pr-4">{faq.q}</span>
-                    <i className={`fas fa-chevron-down text-primary shrink-0 transition-transform duration-300 ${openIndex === i ? 'rotate-180' : ''}`} />
-                  </button>
-                  <div className={`overflow-hidden transition-all duration-300 ${openIndex === i ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0'}`}>
-                    <p className="px-4 pb-4 text-sm text-ink/60 leading-relaxed">{faq.a}</p>
-                  </div>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
+      <div>
+        <h2 className="text-2xl font-bold text-ink mb-6">Frequently Asked Questions</h2>
+        <div className="space-y-3">
+          {FAQS.map(({ q, a }) => (
+            <details key={q} className="bg-white rounded-2xl border border-ink/5 shadow-sm group open:shadow-md transition-shadow">
+              <summary className="px-6 py-4 cursor-pointer text-sm font-semibold text-ink flex items-center justify-between list-none">
+                {q}
+                <i className="fas fa-chevron-down text-xs text-ink/30 group-open:rotate-180 transition-transform" />
+              </summary>
+              <div className="px-6 pb-4 text-sm text-ink/60 leading-relaxed border-t border-ink/5 pt-3">
+                {a}
+              </div>
+            </details>
+          ))}
         </div>
       </div>
-
-      <div className="wavy-divider -mt-1 rotate-180">
-        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" className="text-background fill-current">
-          <path d="M0,30 C360,60 720,0 1440,30 L1440,60 L0,60 Z" />
-        </svg>
-      </div>
-    </section>
+    </div>
   )
 }
