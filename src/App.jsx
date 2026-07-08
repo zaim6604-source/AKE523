@@ -1,33 +1,27 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Shell from './components/Shell';
-import ScrollToTop from './components/ScrollToTop';
-import QuickApply from './components/QuickApply';
-import Overview from './pages/Overview';
-import ServicesPage from './pages/Services';
-import Destinations from './pages/Destinations';
-import DestinationDetail from './pages/DestinationDetail';
-import ProcessPage from './pages/Process';
-import ApplyPage from './pages/Apply';
+import { Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+import Home from './pages/Home';
+import About from './pages/About';
+import Services from './pages/Services';
+import Countries from './pages/Countries';
+import CountryDetail from './pages/CountryDetail';
+import Process from './pages/Process';
+import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
 
-function App() {
+export default function App() {
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <Routes>
-        <Route element={<Shell />}>
-          <Route path="/" element={<Overview />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/destinations" element={<Destinations />} />
-          <Route path="/destinations/:slug" element={<DestinationDetail />} />
-          <Route path="/process" element={<ProcessPage />} />
-          <Route path="/apply" element={<ApplyPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
-      <QuickApply />
-    </BrowserRouter>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="about" element={<About />} />
+        <Route path="services" element={<Services />} />
+        <Route path="countries" element={<Countries />} />
+        <Route path="countries/:slug" element={<CountryDetail />} />
+        <Route path="process" element={<Process />} />
+        <Route path="contact" element={<Contact />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
   );
 }
-
-export default App;
