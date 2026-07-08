@@ -1,124 +1,171 @@
-import { useParams, Link } from 'react-router-dom';
-import destinations from '../data/destinations';
+import { useState } from 'react'
+import { useParams, Link } from 'react-router-dom'
+import COUNTRIES from '../data/countries'
+import RevealOnScroll from '../components/RevealOnScroll'
 
 export default function DestinationDetail() {
-  const { slug } = useParams();
-  const dest = destinations.find((d) => d.slug === slug);
+  const { slug } = useParams()
+  const country = COUNTRIES.find((c) => c.slug === slug)
+  const [heroError, setHeroError] = useState(false)
 
-  if (!dest) {
+  if (!country) {
     return (
-      <div className="text-center py-20">
-        <i className="fas fa-map-marked-alt text-5xl text-ink/20 mb-4" />
-        <h2 className="text-2xl font-bold text-ink mb-2">Destination Not Found</h2>
-        <p className="text-ink/50 mb-6">The destination you're looking for doesn't exist.</p>
-        <Link
-          to="/destinations"
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold bg-primary text-white hover:bg-highlight transition-all"
-        >
-          <i className="fas fa-arrow-left" />
-          View All Destinations
-        </Link>
-      </div>
-    );
-  }
-
-  return (
-    <div className="space-y-8">
-      {/* Back link */}
-      <Link
-        to="/destinations"
-        className="inline-flex items-center gap-2 text-sm font-medium text-ink/50 hover:text-primary transition-colors"
-      >
-        <i className="fas fa-arrow-left" />
-        Back to Destinations
-      </Link>
-
-      {/* Hero section */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-ink to-primary h-56 sm:h-72 flex items-end">
-        <img
-          src={dest.image}
-          alt={dest.name}
-          className="absolute inset-0 w-full h-full object-cover opacity-30"
-          onError={(e) => {
-            e.target.style.display = 'none';
-          }}
-        />
-        <div className="relative z-10 p-8 sm:p-10">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white flex items-center gap-3">
-            <span>{dest.flag}</span>
-            {dest.name}
-          </h1>
-        </div>
-      </div>
-
-      {/* Description */}
-      <div className="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-secondary/10">
-        <h2 className="text-lg font-bold text-ink mb-3">About {dest.name}</h2>
-        <p className="text-ink/70 leading-relaxed">{dest.description}</p>
-      </div>
-
-      {/* Roles */}
-      <div className="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-secondary/10">
-        <h2 className="text-lg font-bold text-ink mb-4 flex items-center gap-2">
-          <i className="fas fa-briefcase text-primary" />
-          Available Roles
-        </h2>
-        <div className="grid sm:grid-cols-2 gap-3">
-          {dest.roles.map((role) => (
-            <div
-              key={role}
-              className="flex items-center gap-3 px-4 py-3 rounded-lg bg-background border border-secondary/10"
-            >
-              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                <i className="fas fa-user-check text-primary text-sm" />
-              </div>
-              <span className="text-sm font-medium text-ink">{role}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Requirements */}
-      <div className="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-secondary/10">
-        <h2 className="text-lg font-bold text-ink mb-4 flex items-center gap-2">
-          <i className="fas fa-clipboard-check text-primary" />
-          Requirements
-        </h2>
-        <ul className="space-y-3">
-          {dest.requirements.map((req) => (
-            <li key={req} className="flex items-start gap-3">
-              <i className="fas fa-check-circle text-primary mt-0.5 shrink-0" />
-              <span className="text-ink/70 text-sm">{req}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Call to action */}
-      <div className="bg-gradient-to-r from-cta to-primary rounded-xl p-6 sm:p-8 text-center text-white">
-        <h2 className="text-xl sm:text-2xl font-bold mb-2">
-          Interested in {dest.name}?
-        </h2>
-        <p className="text-white/85 text-sm mb-6">
-          Call us now to apply for positions in {dest.name}. Our team will guide you through the process.
-        </p>
-        <div className="flex flex-wrap justify-center gap-4">
-          <a
-            href="tel:+920514410484"
-            className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl text-base font-bold bg-accent text-ink hover:bg-accent/90 transition-all shadow-lg"
-          >
-            <i className="fas fa-phone-alt" />
-            Call to Apply — 051-4410484
-          </a>
+      <div className="min-h-screen flex items-center justify-center pt-20">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-ink mb-4">Destination Not Found</h1>
+          <p className="text-ink/60 mb-6">The country you&apos;re looking for doesn&apos;t exist in our list.</p>
           <Link
-            to="/apply"
-            className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl text-base font-semibold bg-white/20 text-white border border-white/30 hover:bg-white/30 transition-all"
+            to="/destinations"
+            className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-full font-semibold hover:bg-highlight transition-colors"
           >
-            <i className="fas fa-paper-plane" />
-            Submit Application
+            <i className="fas fa-arrow-left" />
+            Back to Destinations
           </Link>
         </div>
       </div>
-    </div>
-  );
+    )
+  }
+
+  const c = country
+  const whatsappText = `Hello%20Al-Imran%20International!%20I%20am%20interested%20in%20working%20in%20${encodeURIComponent(c.name)}.%20Please%20guide%20me%20about%20the%20process.`
+
+  return (
+    <>
+      {/* Hero */}
+      <section className="relative min-h-[50vh] md:min-h-[60vh] flex items-center pt-20 overflow-hidden">
+        <div className="absolute inset-0">
+          {!heroError ? (
+            <img
+              src={c.heroImage}
+              alt={c.name}
+              className="w-full h-full object-cover"
+              onError={() => setHeroError(true)}
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-primary to-highlight" />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/85 via-primary/70 to-cta/60" />
+          <div className="absolute inset-0 bg-dot-pattern" />
+        </div>
+
+        <div className="relative w-full max-w-6xl mx-auto px-4 sm:px-6 py-16">
+          <Link
+            to="/destinations"
+            className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm font-medium mb-6 transition-colors"
+          >
+            <i className="fas fa-arrow-left" />
+            Back to Destinations
+          </Link>
+
+          <div className="max-w-3xl">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-4xl">{c.flag}</span>
+              <div>
+                <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">
+                  {c.name}
+                </h1>
+                <p className="text-white/70 text-sm">
+                  Processing time: <strong className="text-white">{c.processingTime}</strong>
+                </p>
+              </div>
+            </div>
+
+            <p className="text-white/85 text-lg leading-relaxed mb-8 max-w-2xl">
+              {c.description}
+            </p>
+
+            <a
+              href={`https://wa.me/923467223031?text=${whatsappText}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2.5 bg-cta text-white px-7 py-3.5 rounded-full text-base font-semibold hover:bg-teal-600 transition-all shadow-xl shadow-cta/40 hover:shadow-cta/60 hover:-translate-y-0.5"
+            >
+              <i className="fa-brands fa-whatsapp text-lg" />
+              Apply for {c.name}
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Content */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="grid md:grid-cols-2 gap-12">
+            {/* Job Roles */}
+            <RevealOnScroll>
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-ink mb-6">
+                  Available Roles in{' '}
+                  <span className="text-primary">{c.name}</span>
+                </h2>
+                <div className="space-y-3">
+                  {c.roles.map((role) => (
+                    <div
+                      key={role}
+                      className="flex items-center gap-3 bg-background rounded-xl p-4 border border-primary/10"
+                    >
+                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                        <i className="fas fa-briefcase" />
+                      </div>
+                      <span className="font-medium text-ink">{role}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </RevealOnScroll>
+
+            {/* Requirements */}
+            <RevealOnScroll>
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-ink mb-6">
+                  Requirements for{' '}
+                  <span className="text-primary">{c.name}</span>
+                </h2>
+                <div className="bg-background rounded-2xl p-6 border border-primary/10">
+                  <ul className="space-y-3">
+                    {c.requirements.map((req) => (
+                      <li key={req} className="flex items-start gap-3 text-ink/70 text-sm">
+                        <i className="fas fa-check-circle text-cta mt-0.5 shrink-0" />
+                        <span>{req}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="mt-6 p-4 bg-cta/10 rounded-xl border border-cta/20">
+                  <p className="text-sm text-ink/70">
+                    <strong className="text-cta">Processing time:</strong> Typically{' '}
+                    {c.processingTime}. Actual time may vary based on documentation and
+                    employer processing.
+                  </p>
+                </div>
+              </div>
+            </RevealOnScroll>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="relative py-16 md:py-20 bg-gradient-to-r from-primary via-primary to-cta overflow-hidden">
+        <div className="absolute inset-0 bg-dot-pattern opacity-20" />
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 text-center">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+            Ready to Work in {c.name}?
+          </h2>
+          <p className="text-white/85 text-lg max-w-2xl mx-auto mb-8">
+            Start your application today. Our team will guide you through every step.
+          </p>
+          <a
+            href={`https://wa.me/923467223031?text=${whatsappText}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2.5 bg-white text-primary px-8 py-4 rounded-full text-lg font-bold hover:bg-accent hover:text-ink transition-all shadow-xl"
+          >
+            <i className="fa-brands fa-whatsapp text-xl" />
+            Apply Now for {c.name}
+          </a>
+        </div>
+      </section>
+    </>
+  )
 }

@@ -1,72 +1,120 @@
-import { Link } from 'react-router-dom';
-import destinations from '../data/destinations';
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import RevealOnScroll from '../components/RevealOnScroll'
+import COUNTRIES from '../data/countries'
 
 export default function Destinations() {
   return (
-    <div className="space-y-8">
-      <div className="text-center sm:text-left">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/20 mb-3">
-          <i className="fas fa-globe-asia" />
-          DESTINATIONS
-        </span>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-ink mt-2">
-          Countries We Serve
-        </h1>
-        <p className="text-ink/60 mt-2 max-w-2xl">
-          We connect workers with reputable employers across the Gulf, Europe, and Asia.
-        </p>
+    <>
+      {/* Page Hero */}
+      <section className="relative pt-24 pb-16 md:pt-32 md:pb-20 bg-gradient-to-br from-primary via-primary to-cta overflow-hidden">
+        <div className="absolute inset-0 bg-dot-pattern opacity-20" />
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 text-center">
+          <span className="inline-flex items-center gap-2 bg-white/20 text-white text-sm font-semibold px-5 py-2 rounded-full mb-4">
+            <i className="fas fa-globe" />
+            Destinations
+          </span>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-4">
+            Countries We Cover
+          </h1>
+          <p className="text-white/85 text-lg max-w-2xl mx-auto">
+            Work visas processed for top destinations across the Middle East, Europe, and Asia.
+          </p>
+        </div>
+      </section>
+
+      {/* Country Grid */}
+      <section className="py-16 md:py-24 bg-background">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {COUNTRIES.map((c, idx) => (
+              <RevealOnScroll key={c.slug}>
+                <CountryCard country={c} />
+              </RevealOnScroll>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="relative py-16 md:py-20 bg-gradient-to-r from-primary via-primary to-cta overflow-hidden">
+        <div className="absolute inset-0 bg-dot-pattern opacity-20" />
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 text-center">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+            Country Not Listed?
+          </h2>
+          <p className="text-white/85 text-lg max-w-2xl mx-auto mb-8">
+            We process visas for many more countries. Contact us for your specific destination.
+          </p>
+          <a
+            href="https://wa.me/923467223031"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2.5 bg-white text-primary px-8 py-4 rounded-full text-lg font-bold hover:bg-accent hover:text-ink transition-all shadow-xl"
+          >
+            <i className="fa-brands fa-whatsapp text-xl" />
+            Ask About Your Country
+          </a>
+        </div>
+      </section>
+    </>
+  )
+}
+
+function CountryCard({ country: c }) {
+  const [imgError, setImgError] = useState(false)
+
+  return (
+    <Link
+      to={`/destinations/${c.slug}`}
+      className="group relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white block"
+    >
+      {/* Image */}
+      <div className="relative h-48 overflow-hidden">
+        {!imgError ? (
+          <img
+            src={c.image}
+            alt={c.name}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            loading="lazy"
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-br from-primary/40 to-secondary/40" />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+        <div className="absolute bottom-3 left-4 flex items-center gap-2">
+          <span className="text-2xl">{c.flag}</span>
+          <h3 className="text-white font-bold text-lg">{c.name}</h3>
+        </div>
       </div>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {destinations.map((dest) => (
-          <Link
-            key={dest.slug}
-            to={`/destinations/${dest.slug}`}
-            className="group bg-white rounded-xl overflow-hidden shadow-sm border border-secondary/10 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
-          >
-            <div className="relative h-44 overflow-hidden">
-              <img
-                src={dest.image}
-                alt={dest.name}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                loading="lazy"
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                  e.target.parentElement.innerHTML = `<div class="flex items-center justify-center h-full bg-gradient-to-br from-primary/10 to-accent/10"><span class="text-5xl">${dest.flag}</span></div>`;
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-              <div className="absolute bottom-3 left-4 right-4">
-                <h3 className="text-white font-bold text-lg flex items-center gap-2">
-                  <span>{dest.flag}</span>
-                  {dest.name}
-                </h3>
-              </div>
-            </div>
-            <div className="p-4">
-              <div className="flex flex-wrap gap-1.5 mb-2">
-                {dest.roles.slice(0, 3).map((role) => (
-                  <span
-                    key={role}
-                    className="px-2.5 py-1 rounded-full text-[11px] font-medium bg-background text-primary border border-secondary/20"
-                  >
-                    {role}
-                  </span>
-                ))}
-                {dest.roles.length > 3 && (
-                  <span className="px-2.5 py-1 rounded-full text-[11px] font-medium bg-ink/5 text-ink/50 border border-ink/10">
-                    +{dest.roles.length - 3} more
-                  </span>
-                )}
-              </div>
-              <p className="text-xs text-ink/50 flex items-center gap-1">
-                <i className="fas fa-arrow-right text-primary" />
-                View details & requirements
-              </p>
-            </div>
-          </Link>
-        ))}
+      {/* Body */}
+      <div className="p-4">
+        <div className="flex flex-wrap gap-1.5 mb-3">
+          {c.roles.slice(0, 3).map((role) => (
+            <span
+              key={role}
+              className="inline-flex items-center gap-1 bg-primary/10 text-primary text-xs font-medium px-2.5 py-1 rounded-full"
+            >
+              {role}
+            </span>
+          ))}
+          {c.roles.length > 3 && (
+            <span className="text-xs text-ink/40 font-medium">+{c.roles.length - 3} more</span>
+          )}
+        </div>
+        <div className="flex items-center justify-between">
+          <span className="text-xs text-ink/50">
+            <i className="fas fa-clock mr-1" />
+            {c.processingTime}
+          </span>
+          <span className="inline-flex items-center gap-1 text-sm font-semibold text-primary group-hover:gap-2 transition-all">
+            View Details
+            <i className="fas fa-arrow-right text-xs" />
+          </span>
+        </div>
       </div>
-    </div>
-  );
+    </Link>
+  )
 }

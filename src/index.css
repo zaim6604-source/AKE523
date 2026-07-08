@@ -1,111 +1,72 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-:root {
-  --color-primary: #E0115F;
-  --color-secondary: #FF5C8A;
-  --color-accent: #FFD700;
-  --color-cta: #7B2D8E;
-  --color-highlight: #B8004F;
-  --color-background: #FFF0F4;
-  --color-ink: #2E0A1C;
+@theme {
+  --color-primary: #E0218A;
+  --color-secondary: #FF6FB5;
+  --color-accent: #FFB6C1;
+  --color-cta: #00BFA6;
+  --color-highlight: #C2055E;
+  --color-background: #FFEFF6;
+  --color-ink: #3A0722;
+  --font-sans: 'Poppins', 'Inter', sans-serif;
 }
 
-html {
-  scroll-behavior: smooth;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: 'Poppins', 'Inter', sans-serif;
+    color: var(--color-ink);
+    background: var(--color-background);
+  }
 }
 
-body {
-  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
-  color: var(--color-ink);
-  background-color: #ffffff;
+@layer utilities {
+  .bg-dot-pattern {
+    background-image: radial-gradient(rgba(255,255,255,0.15) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
 }
 
-/* Marquee Animation */
+/* Marquee animation */
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
-
-.animate-marquee {
-  animation: marquee 40s linear infinite;
+.marquee-track {
+  animation: marquee 30s linear infinite;
 }
 
-.animate-marquee:hover {
-  animation-play-state: paused;
-}
-
-/* Smooth fade-up animation */
+/* Fade-up animation */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
 .animate-fade-up {
   animation: fadeUp 0.6s ease-out forwards;
 }
 
-/* Wavy SVG divider */
-.wavy-divider {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  line-height: 0;
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.wavy-divider svg {
-  position: relative;
-  display: block;
-  width: calc(100% + 1.3px);
-  height: 60px;
+/* Parallax hover effect */
+.parallax-tilt {
+  transition: transform 0.3s ease;
+}
+.parallax-tilt:hover {
+  transform: perspective(800px) rotateX(2deg) rotateY(2deg) scale(1.02);
 }
 
-/* Pill badge */
-.pill-badge {
-  @apply inline-block px-4 py-1.5 rounded-full text-sm font-semibold uppercase tracking-wider;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--color-background); }
-::-webkit-scrollbar-thumb { background: var(--color-secondary); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }
-
-/* Gallery hover zoom */
-.gallery-img {
-  @apply object-cover rounded-lg transition-transform duration-500;
-}
-
-.gallery-img:hover {
-  transform: scale(1.05);
-}
-
-/* Masonry grid */
-.masonry-grid {
-  column-count: 3;
-  column-gap: 1.5rem;
-}
-
-@media (max-width: 1024px) {
-  .masonry-grid { column-count: 2; }
-}
-
-@media (max-width: 640px) {
-  .masonry-grid { column-count: 1; }
-}
-
-.masonry-item {
-  break-inside: avoid;
-  margin-bottom: 1.5rem;
-}
-
-/* Route fade transition */
-@keyframes routeFadeIn {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-main > div {
-  animation: routeFadeIn 0.4s ease-out forwards;
+/* Pill shape */
+.pill {
+  border-radius: 9999px;
 }

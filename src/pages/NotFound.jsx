@@ -1,23 +1,33 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 
 export default function NotFound() {
   return (
-    <div className="flex flex-col items-center justify-center py-20 text-center">
-      <div className="w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-        <i className="fas fa-map-signs text-4xl text-primary" />
+    <div className="min-h-screen flex items-center justify-center pt-20 bg-background">
+      <div className="text-center px-4">
+        <div className="text-8xl sm:text-9xl font-extrabold text-primary/20 mb-4">404</div>
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-ink mb-3">
+          Page Not Found
+        </h1>
+        <p className="text-ink/60 max-w-md mx-auto mb-8">
+          The page you&apos;re looking for doesn&apos;t exist or has been moved. Let&apos;s get you back on track.
+        </p>
+        <div className="flex flex-wrap justify-center gap-4">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-full font-semibold hover:bg-highlight transition-colors shadow-lg shadow-primary/30"
+          >
+            <i className="fas fa-home" />
+            Back to Home
+          </Link>
+          <Link
+            to="/contact"
+            className="inline-flex items-center gap-2 border-2 border-primary/30 text-primary px-6 py-3 rounded-full font-semibold hover:bg-primary/10 transition-colors"
+          >
+            <i className="fas fa-envelope" />
+            Contact Us
+          </Link>
+        </div>
       </div>
-      <h1 className="text-6xl sm:text-7xl font-extrabold text-ink mb-2">404</h1>
-      <h2 className="text-xl sm:text-2xl font-bold text-ink mb-3">Page Not Found</h2>
-      <p className="text-ink/50 max-w-md mb-8">
-        The page you're looking for doesn't exist or has been moved. Let's get you back on track.
-      </p>
-      <Link
-        to="/"
-        className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl text-base font-bold bg-primary text-white hover:bg-highlight transition-all shadow-lg hover:shadow-xl"
-      >
-        <i className="fas fa-home" />
-        Back to Overview
-      </Link>
     </div>
-  );
+  )
 }
