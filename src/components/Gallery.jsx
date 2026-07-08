@@ -1,70 +1,51 @@
-import useInView from '../hooks/useInView';
+import FadeUp from './FadeUp';
+import SafeImage from './SafeImage';
 
-const FALLBACK = 'https://placehold.co/500x350/FFB6C1/FFB6C1';
-const handleImgError = (e) => {
-  if (e.target.src !== FALLBACK) e.target.src = FALLBACK;
-};
-
-const images = [
+const PHOTOS = [
   {
-    src: 'https://picsum.photos/seed/gallery-building/500/350',
-    alt: 'Office building exterior',
+    src: '/images/gallery-1.jpg',
+    alt: 'Office interior',
   },
   {
-    src: 'https://picsum.photos/seed/gallery-interior/500/350',
-    alt: 'Modern office interior',
+    src: '/images/gallery-2.jpg',
+    alt: 'Professional team meeting',
   },
   {
-    src: 'https://picsum.photos/seed/gallery-team/500/350',
-    alt: 'Team collaboration',
+    src: '/images/gallery-3.jpg',
+    alt: 'Business handshake',
   },
   {
-    src: 'https://picsum.photos/seed/gallery-travel/500/350',
-    alt: 'Travel documents and passports',
+    src: '/images/gallery-4.jpg',
+    alt: 'Document processing',
   },
 ];
 
 export default function Gallery() {
-  const [ref, visible] = useInView(0.1);
-
   return (
-    <section id="gallery" className="relative">
-      {/* Wavy divider */}
-      <div className="wavy-divider">
-        <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
-          <path d="M0,40 C240,0 480,60 720,40 C960,20 1200,60 1440,40 L1440,60 L0,60 Z" fill="#FF6FB5" />
-        </svg>
-      </div>
-
-      <div style={{ backgroundColor: '#FF6FB5' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-          {/* Pill Badge */}
-          <div className="flex justify-center mb-4">
-            <span className="pill-3 px-5 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider">
-              OUR OFFICE
-            </span>
-          </div>
-
-          <p className="text-center text-base sm:text-lg mb-10 max-w-2xl mx-auto" style={{ color: '#3D0A22' }}>
-            A glimpse into our workspace and team.
+    <section className="py-16 lg:py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <FadeUp className="text-center mb-10">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#3D0A1E]">
+            Our Office & Team
+          </h2>
+          <p className="text-[#5C1A32]/70 mt-3">
+            A glimpse into our workspace and the team behind your Gulf journey.
           </p>
+        </FadeUp>
 
-          <div ref={ref} className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-            {images.map((img, i) => (
-              <div
-                key={img.alt}
-                className={`fade-up ${visible ? 'visible' : ''} fade-up-delay-${i + 1} img-hover-zoom rounded-2xl overflow-hidden shadow-lg`}
-              >
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  className="w-full h-44 sm:h-52 object-cover"
-                  loading="lazy"
-                  onError={handleImgError}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {PHOTOS.map((photo, i) => (
+            <FadeUp key={i} delay={(i % 4) + 1}>
+              <div className="rounded-xl overflow-hidden img-zoom shadow-md">
+                <SafeImage
+                  src={photo.src}
+                  alt={photo.alt}
+                  className="w-full h-48 sm:h-56 object-cover"
+                  type="default"
                 />
               </div>
-            ))}
-          </div>
+            </FadeUp>
+          ))}
         </div>
       </div>
     </section>

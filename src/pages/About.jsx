@@ -1,165 +1,113 @@
-import FadeIn from '../components/FadeIn';
+import { Link } from 'react-router-dom';
+import FadeUp from '../components/FadeUp';
+import SafeImage from '../components/SafeImage';
 
-const whyUs = [
-  { icon: 'fa-shield-halved', title: 'Licensed & Registered', desc: 'Fully authorized overseas employment promoter with verified credentials.' },
-  { icon: 'fa-handshake', title: 'Personalized Guidance', desc: 'End-to-end support tailored to your skills and destination preferences.' },
-  { icon: 'fa-globe', title: 'Global Network', desc: 'Strong partnerships with employers across the Gulf and Europe.' },
-  { icon: 'fa-clock', title: 'Timely Processing', desc: 'Efficient visa, documentation, and travel coordination.' },
-  { icon: 'fa-star', title: 'Proven Track Record', desc: 'Hundreds of successful placements with satisfied workers.' },
-  { icon: 'fa-heart', title: 'Community Focused', desc: 'Rooted in Shergarh, serving the KPK community with integrity.' },
+const WHY_US = [
+  { icon: 'fa-certificate', title: 'Govt. Licensed', desc: 'We hold a valid government license (2210/ABT) issued by the Bureau of Emigration & Overseas Employment, ensuring full regulatory compliance.' },
+  { icon: 'fa-handshake', title: 'Trusted Network', desc: 'With years of experience serving the Batagram community, we have built strong relationships with verified employers across the globe.' },
+  { icon: 'fa-users-gear', title: 'End-to-End Support', desc: 'From initial consultation to departure, we guide you through every step — documentation, medical, visa, and travel arrangements.' },
+  { icon: 'fa-shield-halved', title: 'Transparent Process', desc: 'No hidden fees, no false promises. We believe in clear communication and honest dealings with every candidate.' },
 ];
 
 export default function About() {
   return (
-    <div>
-      {/* Hero */}
-      <section className="bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-highlight)] text-white py-16 md:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <FadeIn>
-            <h1 className="text-4xl md:text-5xl font-extrabold">About Us</h1>
-            <p className="mt-4 text-[var(--color-secondary)] text-lg max-w-2xl mx-auto">
-              Learn about our mission, our story, and why we are the trusted choice for overseas employment.
+    <>
+      {/* Page Hero */}
+      <section className="relative py-20 lg:py-28 bg-[#1C1C1C] overflow-hidden">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <FadeUp>
+            <span className="inline-block bg-[#FFD500]/20 text-[#FFD500] text-xs font-bold tracking-wider px-4 py-1.5 rounded-full mb-4">
+              <i className="fa-solid fa-certificate mr-1.5"></i>ABOUT US
+            </span>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white font-[Poppins] mb-4">
+              About Pak. Arsalan Corporation
+            </h1>
+            <p className="text-white/70 max-w-2xl mx-auto">
+              Alamgir Chowk, Batagram's trusted gateway to overseas employment since establishment.
             </p>
-          </FadeIn>
+          </FadeUp>
         </div>
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#FFD500] via-[#E10600] to-transparent"></div>
       </section>
 
       {/* Story */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <FadeIn>
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-[var(--color-ink)]">Our Story</h2>
-              <div className="w-16 h-1 bg-[var(--color-accent)] mt-4 mb-6" />
-              <p className="text-[var(--color-ink)]/80 leading-relaxed mb-4">
-                Talab Overseas Employment Promoter was founded with a singular mission: to create
-                legitimate, safe, and rewarding overseas employment opportunities for the skilled
-                workforce of Khyber Pakhtunkhwa.
-              </p>
-              <p className="text-[var(--color-ink)]/80 leading-relaxed mb-4">
-                Based in Shergarh, Mardan district, we understand the aspirations of our community.
-                Our team brings decades of combined experience in international recruitment, visa
-                processing, and manpower placement.
-              </p>
-              <p className="text-[var(--color-ink)]/80 leading-relaxed">
-                From the Gulf countries to Europe, we have helped hundreds of workers find
-                meaningful employment, ensuring fair treatment, proper documentation, and safe
-                travel every step of the way.
-              </p>
-            </div>
-          </FadeIn>
-          <FadeIn delay={1}>
-            <div className="rounded-2xl overflow-hidden shadow-xl">
-              <img
-                src="/images/community.jpg"
-                alt="Talab Overseas office"
-                className="w-full h-80 object-cover"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = '/images/hero.jpg';
-                }}
-              />
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* Mission */}
-      <section className="bg-[var(--color-background)] py-16 md:py-24">
+      <section className="py-16 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-8">
-            <FadeIn>
-              <div className="bg-white rounded-2xl p-8 shadow-sm border border-[var(--color-secondary)]/20 text-center">
-                <div className="w-14 h-14 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center mx-auto mb-4">
-                  <i className="fas fa-bullseye text-2xl text-[var(--color-primary)]" />
-                </div>
-                <h3 className="font-bold text-lg text-[var(--color-ink)]">Our Mission</h3>
-                <p className="text-[var(--color-ink)]/70 text-sm mt-2 leading-relaxed">
-                  To connect the skilled workforce of KPK with legitimate overseas employment
-                  opportunities, ensuring dignity, fairness, and success.
+          <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-center">
+            <FadeUp className="w-full lg:w-1/2">
+              <div className="rounded-2xl overflow-hidden shadow-lg">
+                <SafeImage src="/images/office.jpg" alt="Pak. Arsalan Corporation Office" className="w-full h-80 lg:h-96 object-cover" type="office" />
+              </div>
+            </FadeUp>
+            <FadeUp delay={2} className="w-full lg:w-1/2">
+              <span className="inline-block bg-[#E10600]/10 text-[#E10600] text-xs font-bold tracking-wider px-4 py-1.5 rounded-full mb-4">
+                OUR STORY
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#141414] mb-6 font-[Poppins]">
+                Batagram's Bridge to the World
+              </h2>
+              <div className="space-y-4 text-[#141414]/70 leading-relaxed">
+                <p>
+                  Pak. Arsalan Corporation is a government-licensed overseas employment promoter (OEP License No. 2210/ABT),
+                  headquartered at Gul Market, near Bus Stand, Alamgir Chowk, Batagram, KPK.
+                </p>
+                <p>
+                  Founded with a mission to provide legitimate and rewarding overseas employment
+                  opportunities to the skilled workforce of Batagram and surrounding regions, we have
+                  helped hundreds of individuals secure jobs across the Gulf, Europe, and Asia.
+                </p>
+                <p>
+                  Our deep roots in the Batagram community, combined with strong partnerships with
+                  verified international employers, make us the preferred choice for overseas recruitment
+                  in the region.
                 </p>
               </div>
-            </FadeIn>
-            <FadeIn delay={1}>
-              <div className="bg-white rounded-2xl p-8 shadow-sm border border-[var(--color-secondary)]/20 text-center">
-                <div className="w-14 h-14 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center mx-auto mb-4">
-                  <i className="fas fa-eye text-2xl text-[var(--color-primary)]" />
-                </div>
-                <h3 className="font-bold text-lg text-[var(--color-ink)]">Our Vision</h3>
-                <p className="text-[var(--color-ink)]/70 text-sm mt-2 leading-relaxed">
-                  To be the most trusted overseas employment bridge between KPK and the world,
-                  transforming lives through legitimate international careers.
-                </p>
+              <div className="mt-6 flex flex-wrap gap-4">
+                <a href="https://wa.me/923005096511" target="_blank" rel="noopener noreferrer"
+                  className="bg-[#E10600] text-white font-semibold px-6 py-3 rounded-full hover:bg-[#1C1C1C] transition-all shadow-md">
+                  <i className="fa-brands fa-whatsapp mr-2"></i>Apply Now
+                </a>
+                <Link to="/contact"
+                  className="border-2 border-[#E10600] text-[#E10600] font-semibold px-6 py-3 rounded-full hover:bg-[#E10600] hover:text-white transition-all">
+                  Contact Us
+                </Link>
               </div>
-            </FadeIn>
-            <FadeIn delay={2}>
-              <div className="bg-white rounded-2xl p-8 shadow-sm border border-[var(--color-secondary)]/20 text-center">
-                <div className="w-14 h-14 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center mx-auto mb-4">
-                  <i className="fas fa-heart text-2xl text-[var(--color-primary)]" />
-                </div>
-                <h3 className="font-bold text-lg text-[var(--color-ink)]">Our Values</h3>
-                <p className="text-[var(--color-ink)]/70 text-sm mt-2 leading-relaxed">
-                  Integrity, transparency, community commitment, and a relentless focus on worker
-                  welfare and successful outcomes.
-                </p>
-              </div>
-            </FadeIn>
+            </FadeUp>
           </div>
         </div>
       </section>
 
       {/* Why Us */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-        <FadeIn>
-          <h2 className="text-3xl md:text-4xl font-bold text-[var(--color-ink)] text-center">
-            Why Choose Talab Overseas?
-          </h2>
-          <p className="mt-3 text-[var(--color-ink)]/70 text-center max-w-xl mx-auto">
-            What sets us apart in the overseas employment industry.
-          </p>
-        </FadeIn>
-        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {whyUs.map((item, i) => (
-            <FadeIn key={item.title} delay={Math.min(i + 1, 6)}>
-              <div className="flex gap-4 p-5 rounded-xl bg-white border border-[var(--color-secondary)]/20 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-11 h-11 rounded-lg bg-[var(--color-primary)]/10 flex items-center justify-center shrink-0">
-                  <i className={`fas ${item.icon} text-[var(--color-primary)]`} />
-                </div>
-                <div>
-                  <h3 className="font-bold text-[var(--color-ink)]">{item.title}</h3>
-                  <p className="text-sm text-[var(--color-ink)]/70 mt-1">{item.desc}</p>
-                </div>
-              </div>
-            </FadeIn>
-          ))}
-        </div>
-      </section>
-
-      {/* Trust Chips */}
-      <section className="bg-[var(--color-highlight)] text-white py-12">
+      <section className="py-16 lg:py-24 bg-[#F5F5F5]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <FadeIn>
-            <h3 className="text-xl font-bold text-center mb-6">Trust & Credentials</h3>
-          </FadeIn>
-          <div className="flex flex-wrap justify-center gap-3">
-            {[
-              'Government Licensed',
-              '100% Transparent',
-              'No Hidden Fees',
-              'Verified Employers',
-              'Safe & Legal',
-              'Community Trusted',
-            ].map((chip, i) => (
-              <FadeIn key={chip} delay={Math.min(i + 1, 4)}>
-                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/15 text-sm font-medium">
-                  <i className="fas fa-check-circle text-[var(--color-accent)]" />
-                  {chip}
-                </span>
-              </FadeIn>
+          <FadeUp className="text-center mb-12">
+            <span className="inline-block bg-[#E10600]/10 text-[#E10600] text-xs font-bold tracking-wider px-4 py-1.5 rounded-full mb-4">
+              WHY CHOOSE US
+            </span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#141414] font-[Poppins]">
+              Why Pak. Arsalan Corporation?
+            </h2>
+            <p className="text-[#141414]/60 mt-3 max-w-2xl mx-auto">
+              We are committed to providing ethical, transparent, and results-driven overseas employment services.
+            </p>
+          </FadeUp>
+          <div className="grid sm:grid-cols-2 gap-6">
+            {WHY_US.map((item, i) => (
+              <FadeUp key={i} delay={(i % 4) + 1}>
+                <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 flex gap-4">
+                  <div className="w-14 h-14 rounded-xl bg-[#E10600] flex items-center justify-center text-2xl text-white shrink-0">
+                    <i className={`fa-solid ${item.icon}`}></i>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-[#141414] text-lg mb-1 font-[Poppins]">{item.title}</h3>
+                    <p className="text-[#141414]/60 text-sm leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              </FadeUp>
             ))}
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }

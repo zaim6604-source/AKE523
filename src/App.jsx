@@ -1,29 +1,47 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout';
-import Home from './pages/Home';
-import Story from './pages/Story';
-import Services from './pages/Services';
-import Guides from './pages/Guides';
-import GuideDetail from './pages/GuideDetail';
-import Process from './pages/Process';
-import Contact from './pages/Contact';
-import NotFound from './pages/NotFound';
+import Navbar from './components/Navbar';
+import MarqueeBar from './components/MarqueeBar';
+import Hero from './components/Hero';
+import StatBand from './components/StatBand';
+import WaveDivider from './components/WaveDivider';
+import About from './components/About';
+import Services from './components/Services';
+import Countries from './components/Countries';
+import Process from './components/Process';
+import Testimonials from './components/Testimonials';
+import Gallery from './components/Gallery';
+import CTABand from './components/CTABand';
+import Contact from './components/Contact';
+import FAQ from './components/FAQ';
+import Footer from './components/Footer';
+import QuickApply from './components/QuickApply';
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="story" element={<Story />} />
-          <Route path="services" element={<Services />} />
-          <Route path="guides" element={<Guides />} />
-          <Route path="guides/:slug" element={<GuideDetail />} />
-          <Route path="process" element={<Process />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <>
+      <Navbar />
+      <MarqueeBar />
+      <Hero />
+      <StatBand />
+      <WaveDivider color="#F2F6F9" flip />
+      <About />
+      <WaveDivider color="#1B4965" />
+      <Services />
+      <WaveDivider color="#F2F6F9" flip />
+      <Countries />
+      <WaveDivider color="#0B3954" />
+      <Process />
+      <WaveDivider color="#F2F6F9" flip />
+      <Testimonials />
+      <WaveDivider color="#1B4965" />
+      <Gallery />
+      <WaveDivider color="#F2F6F9" flip />
+      <CTABand />
+      <WaveDivider color="#F2F6F9" flip />
+      <Contact />
+      <WaveDivider color="#F2F6F9" flip />
+      <FAQ />
+      <Footer />
+      <QuickApply />
+    </>
   );
 }

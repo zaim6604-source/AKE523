@@ -1,170 +1,95 @@
-import useInView from '../hooks/useInView';
+import FadeUp from './FadeUp';
+import SafeImage from './SafeImage';
 
-const FALLBACK = 'https://placehold.co/800x1000/FFB6C1/FFB6C1';
-
-const handleImgError = (e) => {
-  if (e.target.src !== FALLBACK) e.target.src = FALLBACK;
+const IMAGES = {
+  skyline: '/images/skyline.jpg',
+  departures: '/images/departures.jpg',
+  worker: '/images/worker.jpg',
 };
 
-const statCards = [
-  { icon: 'fa-solid fa-users', value: '3000+', label: 'Workers Placed' },
-  { icon: 'fa-solid fa-flag', value: '10+', label: 'Countries' },
-  { icon: 'fa-solid fa-certificate', value: '100%', label: 'Govt. Licensed' },
-  { icon: 'fa-solid fa-handshake', value: '15+', label: 'Years Experience' },
-];
-
 export default function Hero() {
-  const [ref, visible] = useInView(0.1);
-
   return (
-    <section id="hero">
-      {/* Hero Main */}
-      <div className="relative pt-28 sm:pt-40 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto" ref={ref}>
-        <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-          {/* Left Content */}
-          <div className="lg:col-span-7 space-y-6 sm:space-y-7">
-            {/* Kicker Pill */}
-            <div className={`fade-up ${visible ? 'visible' : ''}`}>
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide shadow-sm"
-                style={{ backgroundColor: '#E0218A', color: 'white' }}>
-                <i className="fa-solid fa-check-circle text-[10px]" />
-                Govt. Licensed OEP 2178/RWP
+    <section id="home" className="pt-8 pb-16 lg:pt-12 lg:pb-24 overflow-hidden bg-[#F2F6F9]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+          {/* Left - Text */}
+          <FadeUp className="flex-1 text-center lg:text-left">
+            <span className="inline-block bg-[#FF6B35]/15 text-[#FF6B35] text-xs font-bold tracking-wider px-4 py-1.5 rounded-full mb-4 border border-[#FF6B35]/30">
+              <i className="fa-solid fa-certificate mr-1.5 text-[#FF6B35]"></i>
+              Govt. Licensed OEP 2235/RWP
+            </span>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#0B2436] leading-tight mb-4 font-jakarta">
+              Reaching New Heights in{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1B4965] to-[#5FA8D3]">
+                Overseas Recruitment
+              </span>
+            </h1>
+            <p className="text-base sm:text-lg text-[#2A4A62]/80 max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed">
+              Highland International places Rawalpindi&apos;s workers with trusted Gulf and European employers — licensed and precise.
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+              <a
+                href="https://wa.me/923335243790"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-[#FF6B35] text-white font-semibold px-7 py-3.5 rounded-full hover:bg-[#e55a2b] transition-all shadow-lg hover:shadow-xl text-sm sm:text-base"
+              >
+                <i className="fa-brands fa-whatsapp mr-2"></i>Apply via WhatsApp
+              </a>
+              <a
+                href="https://wa.me/923335243790"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border-2 border-[#1B4965] text-[#1B4965] font-semibold px-7 py-3.5 rounded-full hover:bg-[#1B4965] hover:text-white transition-all text-sm sm:text-base"
+              >
+                <i className="fa-brands fa-whatsapp mr-2"></i>Chat with Us
+              </a>
+            </div>
+
+            {/* Stat chips */}
+            <div className="flex flex-wrap gap-3 mt-8 justify-center lg:justify-start">
+              <span className="bg-white text-[#0B2436] text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm border border-[#C9CCD5]/30">
+                <i className="fa-solid fa-check-circle text-[#5FA8D3] mr-1"></i>License 2235/RWP
+              </span>
+              <span className="bg-white text-[#0B2436] text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm border border-[#C9CCD5]/30">
+                <i className="fa-solid fa-globe text-[#5FA8D3] mr-1"></i>Gulf &amp; Europe
+              </span>
+              <span className="bg-white text-[#0B2436] text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm border border-[#C9CCD5]/30">
+                <i className="fa-solid fa-users text-[#5FA8D3] mr-1"></i>5000+ Placed
               </span>
             </div>
+          </FadeUp>
 
-            {/* Headline */}
-            <h1 className={`fade-up ${visible ? 'visible' : ''} fade-up-delay-1 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight m-0`}
-              style={{ color: '#3D0A22' }}>
-              A{' '}
-              <span style={{ color: '#E0218A' }}>Simpler</span>
-              {' '}Way Abroad
-            </h1>
-
-            {/* Subhead */}
-            <p className={`fade-up ${visible ? 'visible' : ''} fade-up-delay-2 text-base sm:text-lg lg:text-xl leading-relaxed max-w-xl`}
-              style={{ color: '#6B3A52' }}>
-              Connecting Rawalpindi's skilled workforce with trusted employers across the globe —
-              a refreshingly simple, transparent path to overseas employment.
-            </p>
-
-            {/* Buttons */}
-            <div className={`fade-up ${visible ? 'visible' : ''} fade-up-delay-3 flex flex-wrap gap-4 pt-1`}>
-              <a href="#contact"
-                onClick={(e) => { e.preventDefault(); document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' }); }}
-                className="inline-flex items-center gap-3 px-7 py-3.5 rounded-full text-base font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-                style={{ backgroundColor: '#00BFA6' }}>
-                <i className="fa-regular fa-paper-plane" />
-                Apply Now
-              </a>
-              <a href="tel:0514419415"
-                className="inline-flex items-center gap-3 px-7 py-3.5 rounded-full text-base font-semibold transition-all duration-300 hover:scale-105 border-2 shadow-sm"
-                style={{ borderColor: '#E0218A', color: '#E0218A' }}>
-                <i className="fa-solid fa-phone" />
-                Call Now
-              </a>
-            </div>
-
-            {/* Trust badges */}
-            <div className={`fade-up ${visible ? 'visible' : ''} fade-up-delay-4 flex flex-wrap items-center gap-5 pt-3`}>
-              <div className="flex items-center gap-2">
-                <i className="fa-solid fa-building-columns text-sm" style={{ color: '#00BFA6' }} />
-                <span className="text-xs sm:text-sm font-medium" style={{ color: '#5A1E3A' }}>Govt. Licensed</span>
+          {/* Right - Geometric shape collage */}
+          <FadeUp delay={2} className="flex-1 relative w-full max-w-md mx-auto lg:max-w-none">
+            <div className="relative h-[320px] sm:h-[380px] lg:h-[420px] w-full">
+              {/* Large circle - skyline photo */}
+              <div className="absolute top-0 right-0 w-40 h-40 sm:w-48 sm:h-48 rounded-full overflow-hidden border-4 border-white shadow-lg float-anim img-zoom">
+                <SafeImage src={IMAGES.skyline} alt="Dubai skyline" className="w-full h-full object-cover" type="hero" />
               </div>
-              <div className="flex items-center gap-2">
-                <i className="fa-solid fa-globe text-sm" style={{ color: '#E0218A' }} />
-                <span className="text-xs sm:text-sm font-medium" style={{ color: '#5A1E3A' }}>10+ Countries</span>
+
+              {/* Rounded square - departures */}
+              <div className="absolute top-20 left-0 w-36 h-36 sm:w-44 sm:h-44 rounded-2xl overflow-hidden border-4 border-white shadow-lg float-anim img-zoom" style={{ animationDelay: '0.5s' }}>
+                <SafeImage src={IMAGES.departures} alt="Airport departures" className="w-full h-full object-cover" type="hero" />
               </div>
-              <div className="flex items-center gap-2">
-                <i className="fa-solid fa-shield-halved text-sm" style={{ color: '#00BFA6' }} />
-                <span className="text-xs sm:text-sm font-medium" style={{ color: '#5A1E3A' }}>Trusted Since 2010</span>
+
+              {/* Pill shape - worker */}
+              <div className="absolute bottom-0 right-10 w-36 h-28 sm:w-40 sm:h-32 rounded-full overflow-hidden border-4 border-white shadow-lg float-anim img-zoom" style={{ animationDelay: '1s' }}>
+                <SafeImage src={IMAGES.worker} alt="Professional worker" className="w-full h-full object-cover" type="hero" />
+              </div>
+
+              {/* Solid color shapes */}
+              <div className="absolute bottom-10 left-10 w-16 h-16 rounded-xl bg-[#1B4965] shadow-lg float-anim" style={{ animationDelay: '1.5s' }}></div>
+              <div className="absolute top-0 left-1/3 w-12 h-12 rounded-full bg-[#FF6B35] shadow-lg float-anim" style={{ animationDelay: '2s' }}></div>
+
+              {/* Floating badge */}
+              <div className="absolute -top-3 -right-3 bg-[#FF6B35] text-white font-extrabold text-sm px-4 py-2 rounded-full shadow-lg rotate-12">
+                2235/RWP
               </div>
             </div>
-          </div>
-
-          {/* Right — Triple Photo Strips */}
-          <div className="lg:col-span-5 relative">
-            <div className="flex gap-2 sm:gap-3 h-[340px] sm:h-[420px] lg:h-[480px]">
-              {/* Strip 1 */}
-              <div className="flex-1 rounded-2xl overflow-hidden img-hover-zoom shadow-lg relative"
-                style={{ backgroundColor: '#FFB6C1' }}>
-                <img
-                  src="https://picsum.photos/seed/departures/400/800"
-                  alt="Departures"
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                  onError={handleImgError}
-                />
-              </div>
-              {/* Strip 2 */}
-              <div className="flex-1 rounded-2xl overflow-hidden img-hover-zoom shadow-lg relative mt-6 lg:mt-8"
-                style={{ backgroundColor: '#FF6FB5' }}>
-                <img
-                  src="https://picsum.photos/seed/worker/400/800"
-                  alt="Professional"
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                  onError={handleImgError}
-                />
-              </div>
-              {/* Strip 3 */}
-              <div className="flex-1 rounded-2xl overflow-hidden img-hover-zoom shadow-lg relative"
-                style={{ backgroundColor: '#E0218A' }}>
-                <img
-                  src="https://picsum.photos/seed/office/400/800"
-                  alt="Office"
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                  onError={handleImgError}
-                />
-              </div>
-            </div>
-
-            {/* Floating stat chip */}
-            <div className="absolute -top-3 -right-2 sm:-top-4 sm:-right-4 bg-white rounded-xl shadow-lg px-3 sm:px-4 py-2 sm:py-2.5 flex items-center gap-2 sm:gap-3 border border-[#FFB6C1]/50">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-white text-sm sm:text-base font-bold"
-                style={{ backgroundColor: '#E0218A' }}>
-                N
-              </div>
-              <div>
-                <div className="text-[10px] sm:text-xs font-semibold" style={{ color: '#E0218A' }}>License</div>
-                <div className="text-xs sm:text-sm font-bold" style={{ color: '#3D0A22' }}>2178/RWP</div>
-              </div>
-            </div>
-
-            {/* Floating stat 1 */}
-            <div className="absolute bottom-6 -left-3 sm:bottom-8 sm:-left-4 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg px-3 sm:px-4 py-2 sm:py-2.5 border border-[#00BFA6]/30">
-              <div className="text-xs sm:text-sm font-bold" style={{ color: '#00BFA6' }}>3000+</div>
-              <div className="text-[10px] sm:text-xs font-medium" style={{ color: '#5A1E3A' }}>Workers Placed</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Stats Band */}
-      <div style={{ backgroundColor: '#E0218A' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 lg:py-14">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
-            {statCards.map((stat, i) => (
-              <StatCounter key={stat.label} stat={stat} delay={i} />
-            ))}
-          </div>
+          </FadeUp>
         </div>
       </div>
     </section>
-  );
-}
-
-function StatCounter({ stat, delay }) {
-  const [ref, visible] = useInView(0.3);
-  return (
-    <div ref={ref} className={`text-center fade-up ${visible ? 'visible' : ''} fade-up-delay-${delay + 1}`}>
-      <i className={`${stat.icon} text-2xl sm:text-3xl mb-2 sm:mb-3`} style={{ color: '#00BFA6' }} />
-      <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-1">
-        {visible ? stat.value : '0'}
-      </div>
-      <div className="text-sm sm:text-base font-medium tracking-wide" style={{ color: '#FFB6C1' }}>
-        {stat.label}
-      </div>
-    </div>
   );
 }

@@ -1,37 +1,30 @@
 export default function MarqueeBar() {
   return (
-    <div className="relative top-16 sm:top-18 w-full overflow-hidden py-2.5 sm:py-3" style={{ backgroundColor: '#FF6FB5' }}>
-      <div className="flex whitespace-nowrap animate-marquee" style={{ animation: 'marquee 28s linear infinite' }}>
-        <span className="mx-4 text-sm sm:text-base font-medium tracking-wide" style={{ color: '#3D0A22' }}>
-          <i className="fa-solid fa-star text-[11px] mr-2" style={{ color: '#00BFA6' }} />
-          A Refreshingly Simple Path Abroad
-          <i className="fa-solid fa-circle mx-3 text-[6px] align-middle" style={{ color: '#00BFA6' }} />
-          Hiring for Saudi Arabia • UAE • Qatar • Malaysia • South Korea
-          <i className="fa-solid fa-circle mx-3 text-[6px] align-middle" style={{ color: '#00BFA6' }} />
-          Govt. Licensed OEP 2178/RWP
-          <i className="fa-solid fa-circle mx-3 text-[6px] align-middle" style={{ color: '#00BFA6' }} />
-          Commercial Market, Rawalpindi
-          <i className="fa-solid fa-star text-[11px] ml-2" style={{ color: '#00BFA6' }} />
+    <div className="bg-[#1B4965] text-white py-2.5 overflow-hidden mt-16 lg:mt-20">
+      <div className="flex marquee-track whitespace-nowrap">
+        <span className="flex items-center gap-6 mx-4 text-sm md:text-base font-medium">
+          <span className="text-[#FF6B35]">✦</span>
+          <span className="text-[#FF6B35] font-bold">Reaching New Heights</span>
+          <span className="text-[#FF6B35]">✦</span>
+          <span>Hiring for UAE • Saudi Arabia • Qatar • Oman • Germany • Poland</span>
+          <span className="text-[#FF6B35]">✦</span>
+          <span className="font-bold">Govt. Licensed OEP 2235/RWP</span>
+          <span className="text-[#FF6B35]">✦</span>
+          <span>Satellite Town, Rawalpindi</span>
+          <span className="text-[#FF6B35]">✦</span>
         </span>
-        {/* Duplicate for seamless loop */}
-        <span className="mx-4 text-sm sm:text-base font-medium tracking-wide" style={{ color: '#3D0A22' }}>
-          <i className="fa-solid fa-star text-[11px] mr-2" style={{ color: '#00BFA6' }} />
-          A Refreshingly Simple Path Abroad
-          <i className="fa-solid fa-circle mx-3 text-[6px] align-middle" style={{ color: '#00BFA6' }} />
-          Hiring for Saudi Arabia • UAE • Qatar • Malaysia • South Korea
-          <i className="fa-solid fa-circle mx-3 text-[6px] align-middle" style={{ color: '#00BFA6' }} />
-          Govt. Licensed OEP 2178/RWP
-          <i className="fa-solid fa-circle mx-3 text-[6px] align-middle" style={{ color: '#00BFA6' }} />
-          Commercial Market, Rawalpindi
-          <i className="fa-solid fa-star text-[11px] ml-2" style={{ color: '#00BFA6' }} />
+        <span className="flex items-center gap-6 mx-4 text-sm md:text-base font-medium">
+          <span className="text-[#FF6B35]">✦</span>
+          <span className="text-[#FF6B35] font-bold">Reaching New Heights</span>
+          <span className="text-[#FF6B35]">✦</span>
+          <span>Hiring for UAE • Saudi Arabia • Qatar • Oman • Germany • Poland</span>
+          <span className="text-[#FF6B35]">✦</span>
+          <span className="font-bold">Govt. Licensed OEP 2235/RWP</span>
+          <span className="text-[#FF6B35]">✦</span>
+          <span>Satellite Town, Rawalpindi</span>
+          <span className="text-[#FF6B35]">✦</span>
         </span>
       </div>
-      <style>{`
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-      `}</style>
     </div>
   );
 }
