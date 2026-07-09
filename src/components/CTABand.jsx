@@ -1,33 +1,33 @@
+import FadeUp from './FadeUp';
+
 export default function CTABand() {
   return (
-    <section className="py-20 px-4 bg-gradient-to-r from-primary via-highlight to-primary relative overflow-hidden">
-      <div className="absolute top-6 left-10 text-white/20 text-3xl"><i className="fas fa-star" /></div>
-      <div className="absolute bottom-6 right-10 text-white/20 text-2xl"><i className="fas fa-sparkle" /></div>
-      <div className="absolute top-1/2 right-1/4 text-white/10 text-4xl"><i className="fas fa-star" /></div>
-
-      <div className="max-w-3xl mx-auto text-center relative z-10">
-        <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-4 font-display">
-          Your Bright Future Starts Here
-        </h2>
-        <p className="text-white/80 text-lg md:text-xl mb-8 max-w-xl mx-auto">
-          One conversation with Zanib can change your life. Let's get started today.
-        </p>
-        <div className="flex flex-wrap gap-4 justify-center">
-          <a
-            href="https://wa.me/923335020040"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-accent text-ink px-8 py-3.5 rounded-full text-lg font-bold hover:brightness-110 transition-all shadow-xl shadow-accent/40"
-          >
-            <i className="fab fa-whatsapp mr-2" />Apply on WhatsApp
-          </a>
-          <a
-            href="tel:+92514846430"
-            className="bg-white/20 backdrop-blur-sm text-white border-2 border-white px-8 py-3.5 rounded-full text-lg font-bold hover:bg-white hover:text-primary transition-all"
-          >
-            <i className="fas fa-phone mr-2" />Call 051-4846430
-          </a>
-        </div>
+    <section className="py-16 lg:py-20 bg-gradient-to-r from-[#E10600] via-[#A30000] to-[#1C1C1C]">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+        <FadeUp>
+          <h2 className="font-poppins text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-4">
+            Your Future Starts Here.
+          </h2>
+          <p className="text-white/70 text-lg mb-8 max-w-2xl mx-auto">
+            Take the first step toward a rewarding international career. Barkha International is your precise route to jobs abroad.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <a
+              href="https://wa.me/923009050416"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#FFD500] text-[#141414] font-bold px-8 py-4 rounded-full hover:bg-white transition-all shadow-lg text-sm sm:text-base pulse-cta"
+            >
+              <i className="fa-brands fa-whatsapp mr-2"></i>Apply Now
+            </a>
+            <a
+              href="tel:0512806263"
+              className="border-2 border-white text-white font-semibold px-8 py-4 rounded-full hover:bg-white hover:text-[#E10600] transition-all text-sm sm:text-base"
+            >
+              <i className="fa-solid fa-phone mr-2"></i>Call 051-2806263
+            </a>
+          </div>
+        </FadeUp>
       </div>
     </section>
   );

@@ -1,65 +1,60 @@
-import SectionWrapper from './SectionWrapper';
+import FadeUp from './FadeUp';
+import SectionBadge from './SectionBadge';
 
-const steps = [
-  { icon: 'fa-clipboard-list', label: 'Register & Consult', desc: 'Walk in or WhatsApp us for a free career consultation.' },
-  { icon: 'fa-file-alt', label: 'Documents & Visa', desc: 'We prepare your documents and handle visa applications.' },
-  { icon: 'fa-stethoscope', label: 'Medical & Trade Test', desc: 'Coordinated medical exams and skill assessments.' },
-  { icon: 'fa-handshake', label: 'Employer Confirmation', desc: 'Receive your formal offer and employment contract.' },
-  { icon: 'fa-plane-departure', label: 'Ticketing & Departure', desc: 'We book your flight and brief you before departure.' },
+const STEPS = [
+  { icon: 'fa-handshake', label: 'Register & Consult', desc: 'Walk in or WhatsApp us for a free consultation about your career goals.' },
+  { icon: 'fa-file-contract', label: 'Documents & Visa', desc: 'We handle all paperwork, attestation, and visa application.' },
+  { icon: 'fa-stethoscope', label: 'Medical & Trade Test', desc: 'Coordinated medical checkups and skill verification.' },
+  { icon: 'fa-check-circle', label: 'Employer Confirmation', desc: 'Vetted employer match with offer letter and contract.' },
+  { icon: 'fa-plane-departure', label: 'Ticketing & Departure', desc: 'Flight booking, orientation, and airport assistance.' },
 ];
 
 export default function Process() {
   return (
-    <section id="process" className="relative py-24 px-4 bg-primary overflow-hidden">
-      <div className="diagonal-band absolute inset-0 bg-primary opacity-100" />
-      <div className="relative z-10 max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider bg-accent text-ink mb-6">
-            HOW IT WORKS
-          </span>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-2 font-display">
-            Your Journey, Simplified
+    <section id="process" className="py-16 lg:py-24 relative overflow-hidden">
+      {/* Diagonal band background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#1C1C1C] via-[#E10600] to-[#A30000]">
+        <div className="absolute inset-0" style={{
+          backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.03) 20px, rgba(255,255,255,0.03) 40px)',
+        }}></div>
+      </div>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <FadeUp className="text-center mb-14">
+          <SectionBadge text="HOW IT WORKS" color="bg-[#FFD500]" />
+          <h2 className="font-poppins text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+            Your 5-Step Journey Abroad
           </h2>
-          <p className="text-white/70 max-w-2xl mx-auto">
-            Five simple steps from registration to departure.
+          <p className="text-white/70 mt-3 max-w-2xl mx-auto">
+            A streamlined process designed to get you from application to departure with confidence.
           </p>
-        </div>
+        </FadeUp>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-4">
-          {steps.map((step, i) => (
-            <div key={step.label} className="text-center">
-              <div className="relative flex items-center justify-center mb-4">
-                <div className="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center text-white text-3xl border-2 border-accent/50 group-hover:bg-accent transition-all">
-                  <i className={`fas ${step.icon}`} />
-                </div>
-                <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-accent text-ink text-xs font-bold flex items-center justify-center shadow-lg">
-                  {i + 1}
-                </div>
-              </div>
-              {i < steps.length - 1 && (
-                <div className="hidden md:block absolute top-10 left-[60%] w-[calc(100%-80px)] h-0.5 border-t-2 border-dashed border-accent/40" />
-              )}
-              <h3 className="text-lg font-bold text-white mb-1">{step.label}</h3>
-              <p className="text-white/70 text-sm max-w-[160px] mx-auto">{step.desc}</p>
-            </div>
-          ))}
-        </div>
+        {/* Diagonal layout */}
+        <div className="space-y-6 md:space-y-0 md:grid md:grid-cols-5 md:gap-4 relative">
+          {/* Connector line */}
+          <div className="hidden md:block absolute top-12 left-[10%] right-[10%] h-0.5 bg-gradient-to-r from-[#FFD500]/60 via-[#FFD500]/30 to-transparent"></div>
 
-        <div className="md:hidden mt-8 space-y-6">
-          {steps.map((step, i) => (
-            <div key={step.label} className="flex gap-5 items-start">
-              <div className="flex flex-col items-center">
-                <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center text-white shadow-lg flex-shrink-0 border border-accent/50">
-                  <i className={`fas ${step.icon}`} />
+          {STEPS.map((step, i) => (
+            <FadeUp
+              key={i}
+              delay={(i % 5) + 1}
+              className="relative"
+            >
+              <div
+                className="bg-white/10 backdrop-blur-sm rounded-2xl p-5 md:p-6 text-center border border-white/10 hover:bg-white/15 transition-all h-full"
+                style={{ marginTop: i % 2 === 1 ? '2rem' : '0' }}
+              >
+                {/* Number circle */}
+                <div className="w-12 h-12 rounded-full bg-[#FFD500] flex items-center justify-center mx-auto mb-4 shadow-lg">
+                  <span className="text-[#141414] font-poppins font-bold text-lg">{i + 1}</span>
                 </div>
-                {i < steps.length - 1 && <div className="w-0.5 h-10 bg-accent/30" />}
+                <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center text-xl text-[#FFD500] mx-auto mb-3">
+                  <i className={`fa-solid ${step.icon}`}></i>
+                </div>
+                <h3 className="text-white font-poppins font-bold text-sm mb-2">{step.label}</h3>
+                <p className="text-white/60 text-xs leading-relaxed">{step.desc}</p>
               </div>
-              <div className="pt-1">
-                <span className="text-xs font-bold text-accent">Step {i + 1}</span>
-                <h3 className="text-lg font-bold text-white">{step.label}</h3>
-                <p className="text-white/70 text-sm">{step.desc}</p>
-              </div>
-            </div>
+            </FadeUp>
           ))}
         </div>
       </div>

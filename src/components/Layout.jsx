@@ -6,14 +6,14 @@ import QuickApply from './QuickApply';
 
 export default function Layout() {
   return (
-    <div className="min-h-screen bg-background font-sans">
+    <>
       <ScrollToTop />
       <Navbar />
-      <main className="pt-[60px]">
+      <main className="pt-16 lg:pt-20 min-h-screen">
         <Outlet />
       </main>
       <Footer />
       <QuickApply />
-    </div>
+    </>
   );
 }

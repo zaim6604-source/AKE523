@@ -2,21 +2,20 @@ import { Link } from 'react-router-dom';
 
 export default function NotFound() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
-      <div className="w-24 h-24 rounded-3xl bg-primary/10 flex items-center justify-center text-primary text-5xl mb-6">
-        <i className="fas fa-map-pin" />
+    <div className="min-h-[80vh] flex items-center justify-center px-4">
+      <div className="text-center max-w-md">
+        <div className="text-8xl font-black text-[#E10600]/20 mb-4 font-poppins">404</div>
+        <h1 className="text-2xl font-bold text-[#141414] mb-2 font-poppins">Page Not Found</h1>
+        <p className="text-[#444]/70 mb-8 font-inter">
+          The page you're looking for doesn't exist or has been moved.
+        </p>
+        <Link
+          to="/"
+          className="inline-block bg-[#E10600] text-white font-semibold px-7 py-3.5 rounded-full hover:bg-[#1C1C1C] transition-all shadow-md text-sm font-poppins"
+        >
+          <i className="fa-solid fa-arrow-left mr-2"></i>Back to Home
+        </Link>
       </div>
-      <h1 className="text-6xl font-extrabold text-primary mb-2">404</h1>
-      <h2 className="text-2xl font-bold text-ink mb-2">Page Not Found</h2>
-      <p className="text-ink/50 max-w-md mb-8">
-        The page you're looking for doesn't exist or has been moved.
-      </p>
-      <Link
-        to="/"
-        className="inline-flex items-center gap-2 bg-cta text-white px-6 py-3 rounded-xl font-bold text-sm hover:brightness-110 transition-all shadow-lg"
-      >
-        <i className="fas fa-home" /> Back to Home
-      </Link>
     </div>
   );
 }

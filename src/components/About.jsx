@@ -1,125 +1,131 @@
 import { useState } from 'react';
-import SectionWrapper from './SectionWrapper';
+import FadeUp from './FadeUp';
+import SectionBadge from './SectionBadge';
+import SafeImage from './SafeImage';
 
-const tabs = [
-  { id: 'story', label: 'Our Story' },
-  { id: 'mission', label: 'Mission & Vision' },
-  { id: 'values', label: 'Our Values' },
-];
-
-const tabContent = {
-  story: (
-    <div>
-      <p className="text-ink/70 mb-4 leading-relaxed">
-        <strong className="text-primary">Zanib Recruiting Agency</strong>, based at 6th Road, Rawalpindi,
-        is a government-licensed Overseas Employment Promoter (<strong>License No. 2315/RWP</strong>)
-        dedicated to connecting Pakistan's talented workforce with premier international employers.
-      </p>
-      <p className="text-ink/70 leading-relaxed">
-        From our office at Al-Mustafa Plaza, we serve candidates across Rawalpindi, Islamabad, and
-        beyond. With over <strong className="text-primary">5,000 successful placements</strong>
-        across more than <strong className="text-accent">9 countries</strong>, we are your trusted
-        partner in overseas employment.
-      </p>
-    </div>
-  ),
-  mission: (
-    <div>
-      <p className="text-ink/70 mb-4 leading-relaxed">
-        Our mission is to provide <strong className="text-primary">ethical, transparent, and complete</strong> recruitment
-        services that open doors to life-changing career opportunities for Pakistani workers.
-      </p>
-      <p className="text-ink/70 leading-relaxed">
-        We envision a future where every Pakistani worker can access dignified, well-paying
-        employment abroad — with full legal protection, fair contracts, and comprehensive support
-        from registration to departure and beyond.
-      </p>
-    </div>
-  ),
-  values: (
-    <div>
-      <ul className="space-y-3 text-ink/70">
-        {[
-          { icon: 'fa-shield-alt', label: 'Integrity', desc: 'Honest, transparent dealings with no hidden fees' },
-          { icon: 'fa-handshake', label: 'Trust', desc: 'Building long-term relationships with candidates and employers' },
-          { icon: 'fa-star', label: 'Excellence', desc: 'End-to-end service with the highest professional standards' },
-          { icon: 'fa-heart', label: 'Care', desc: 'Genuine concern for every candidate\'s wellbeing and success' },
-        ].map((v) => (
-          <li key={v.label} className="flex items-start gap-3">
-            <span className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-sm flex-shrink-0 mt-0.5">
-              <i className={`fas ${v.icon}`} />
-            </span>
-            <div>
-              <span className="font-bold text-ink">{v.label}</span>
-              <p className="text-sm">{v.desc}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
-  ),
-};
+const TABS = ['Overview', 'Mission', 'Values'];
 
 export default function About() {
-  const [activeTab, setActiveTab] = useState('story');
-  const [imgError, setImgError] = useState(false);
+  const [activeTab, setActiveTab] = useState(0);
+
+  const tabContent = [
+    {
+      text: 'Barkha International (Pvt) Ltd. stands as a premier government-licensed overseas employment promoter (OEP License 2312/RWP) operating from the heart of Islamabad\'s prestigious Blue Area. We specialize in connecting skilled and semi-skilled Pakistani professionals with rewarding career opportunities across the Gulf, Europe, and Asia.',
+      facts: [
+        { icon: 'fa-calendar', label: 'Founded', value: '2012' },
+        { icon: 'fa-id-card', label: 'License No.', value: '2312 / RWP' },
+        { icon: 'fa-location-dot', label: 'Head Office', value: 'Blue Area, Islamabad' },
+        { icon: 'fa-globe', label: 'Global Reach', value: '9 Countries' },
+        { icon: 'fa-briefcase', label: 'Placements', value: '5000+' },
+        { icon: 'fa-shield', label: 'Certification', value: 'Govt. Licensed' },
+      ],
+    },
+    {
+      text: 'Our mission is to provide a transparent, ethical, and high-performance pathway for Pakistani workers to access vetted international employment opportunities. We believe in precision matching — aligning the right talent with the right employer for sustainable, mutually beneficial outcomes.',
+      facts: [
+        { icon: 'fa-bullseye', label: 'Focus', value: 'Ethical Recruitment' },
+        { icon: 'fa-handshake', label: 'Approach', value: 'Transparent Process' },
+        { icon: 'fa-chart-line', label: 'Goal', value: 'Sustainable Careers' },
+        { icon: 'fa-scale-balanced', label: 'Standard', value: 'Fair Treatment' },
+      ],
+    },
+    {
+      text: 'Integrity, precision, and respect form the foundation of everything we do at Barkha International. We are committed to maintaining the highest standards of professional conduct, ensuring every candidate is treated with dignity, and every employer partnership is built on trust and verified credibility.',
+      facts: [
+        { icon: 'fa-gem', label: 'Integrity', value: 'Uncompromising' },
+        { icon: 'fa-microscope', label: 'Precision', value: 'Vetted Placements' },
+        { icon: 'fa-hand-holding-heart', label: 'Respect', value: 'Candidate First' },
+        { icon: 'fa-link', label: 'Partnership', value: 'Trusted Network' },
+      ],
+    },
+  ];
+
+  const current = tabContent[activeTab];
 
   return (
-    <SectionWrapper id="about" badge="ABOUT US" badgeColor="primary">
-      <div className="flex flex-col lg:flex-row items-start gap-10 lg:gap-16">
-        <div className="relative w-full max-w-md mx-auto lg:mx-0 flex-shrink-0">
-          <div className="relative rounded-2xl overflow-hidden border-4 border-primary/20 shadow-xl group">
-            <img
-              src={imgError ? 'https://images.unsplash.com/photo-1573497620053-ea5300f94f21?w=500&h=600&fit=crop' : 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=500&h=600&fit=crop'}
-              alt="Zanib Recruiting Agency team"
-              className="w-full h-80 md:h-96 object-cover transition-transform duration-500 group-hover:scale-110"
-              onError={() => setImgError(true)}
-              loading="lazy"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink/40 to-transparent" />
-            <div className="absolute bottom-4 left-4 right-4">
-              <span className="inline-block bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
-                Govt. Licensed 2315/RWP
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex-1 w-full">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-ink mb-4 font-display">
-            Who We Are
+    <section id="about" className="py-16 lg:py-24 bg-[#F5F5F5]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <FadeUp className="text-center mb-12">
+          <SectionBadge text="ABOUT US" color="bg-[#E10600]" />
+          <h2 className="font-poppins text-2xl sm:text-3xl md:text-4xl font-bold text-[#1C1C1C]">
+            Precision Recruitment Since 2012
           </h2>
+          <p className="text-[#1C1C1C]/60 mt-3 max-w-2xl mx-auto">
+            Blue Area's trusted partner for international employment.
+          </p>
+        </FadeUp>
 
-          <div className="flex gap-1 mb-6 bg-ink/5 rounded-xl p-1">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all ${
-                  activeTab === tab.id
-                    ? 'bg-primary text-white shadow-md'
-                    : 'text-ink/60 hover:text-ink'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
+        <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
+          {/* Left - Photo */}
+          <FadeUp className="w-full lg:w-1/2 lg:sticky lg:top-28">
+            <div className="relative img-zoom rounded-2xl overflow-hidden">
+              <SafeImage
+                src="/images/office.jpg"
+                alt="Barkha International office"
+                className="w-full h-[350px] sm:h-[420px] object-cover rounded-2xl"
+                type="office"
+              />
+              <div className="absolute -bottom-3 -right-3 bg-[#E10600] text-white font-extrabold text-sm px-5 py-2.5 rounded-full shadow-lg">
+                License 2312/RWP
+              </div>
+            </div>
+          </FadeUp>
 
-          <div className="min-h-[180px]">
-            {tabContent[activeTab]}
-          </div>
+          {/* Right - Content */}
+          <FadeUp delay={2} className="w-full lg:w-1/2">
+            {/* Tabs */}
+            <div className="flex gap-1 mb-6 bg-[#1C1C1C]/5 rounded-xl p-1">
+              {TABS.map((tab, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveTab(i)}
+                  className={`flex-1 text-sm font-semibold py-2.5 px-4 rounded-lg transition-all ${
+                    activeTab === i
+                      ? 'bg-[#E10600] text-white shadow-md'
+                      : 'text-[#1C1C1C]/60 hover:text-[#1C1C1C]'
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
 
-          <a
-            href="https://wa.me/923335020040"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-6 inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-full font-bold hover:brightness-110 transition-all"
-          >
-            <i className="fab fa-whatsapp" /> Chat with Us
-          </a>
+            <p className="text-[#1C1C1C]/70 leading-relaxed mb-6">
+              <strong className="text-[#1C1C1C]">Barkha International (Pvt) Ltd.</strong> is a
+              premier government-licensed overseas employment promoter (OEP) operating from
+              <strong className="text-[#1C1C1C]"> Office #102, 1st Floor, Royal Centre, Fazal-e-Haq Road, Blue Area, Islamabad</strong>.
+              {activeTab === 0 ? (
+                <> We specialize in connecting skilled and semi-skilled Pakistani professionals with
+                rewarding career opportunities across the Gulf, Europe, and Asia.</>
+              ) : activeTab === 1 ? (
+                <> Our mission is to provide a transparent, ethical, and high-performance pathway
+                for Pakistani workers to access vetted international employment opportunities.</>
+              ) : (
+                <> Integrity, precision, and respect form the foundation of everything we do at
+                Barkha International, with every employer partnership built on trust and verified credibility.</>
+              )}
+            </p>
+
+            {/* Fact sheet */}
+            <div className="border-2 border-[#E10600]/15 rounded-2xl p-5 bg-white">
+              <h3 className="font-bold text-[#E10600] text-sm mb-3 tracking-wider">
+                <i className="fa-solid fa-receipt mr-2"></i>{activeTab === 0 ? 'QUICK FACTS' : activeTab === 1 ? 'MISSION FOCUS' : 'CORE VALUES'}
+              </h3>
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                {current.facts.map((fact, i) => (
+                  <div key={i} className="flex items-start gap-2.5">
+                    <i className={`fa-solid ${fact.icon} text-[#E10600] mt-0.5`}></i>
+                    <div>
+                      <span className="text-[#1C1C1C]/50 text-xs">{fact.label}</span>
+                      <p className="font-semibold text-[#1C1C1C] text-sm">{fact.value}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </FadeUp>
         </div>
       </div>
-    </SectionWrapper>
+    </section>
   );
 }

@@ -1,7 +1,7 @@
 import Navbar from './components/Navbar';
 import MarqueeBar from './components/MarqueeBar';
 import Hero from './components/Hero';
-import StatsBar from './components/StatsBar';
+import StatBand from './components/StatBand';
 import About from './components/About';
 import Services from './components/Services';
 import Countries from './components/Countries';
@@ -12,18 +12,18 @@ import Testimonials from './components/Testimonials';
 import Gallery from './components/Gallery';
 import CTABand from './components/CTABand';
 import Contact from './components/Contact';
-import FAQs from './components/FAQs';
+import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import QuickApply from './components/QuickApply';
-import ScrollToTop from './components/ScrollToTop';
+import BackToTop from './components/BackToTop';
 
-function App() {
+export default function App() {
   return (
-    <div className="min-h-screen bg-background font-sans">
+    <>
       <Navbar />
       <MarqueeBar />
       <Hero />
-      <StatsBar />
+      <StatBand />
       <About />
       <Services />
       <Countries />
@@ -34,12 +34,10 @@ function App() {
       <Gallery />
       <CTABand />
       <Contact />
-      <FAQs />
+      <FAQ />
       <Footer />
       <QuickApply />
-      <ScrollToTop />
-    </div>
+      <BackToTop />
+    </>
   );
 }
-
-export default App;

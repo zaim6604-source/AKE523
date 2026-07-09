@@ -1,106 +1,124 @@
 import { useState } from 'react';
-import SectionWrapper from './SectionWrapper';
+import FadeUp from './FadeUp';
+import SectionBadge from './SectionBadge';
+import SafeImage from './SafeImage';
 
-const testimonials = [
+const TESTIMONIALS = [
   {
-    quote: "Zanib Recruiting Agency made my dream of working in Saudi Arabia a reality. From documentation to departure, they handled everything professionally. I'm now earning 3x what I was making locally.",
+    quote: "Barkha International made my dream of working abroad a reality. From documentation to departure, their team guided me at every step. I've been working as a site supervisor in Dubai for over two years now, and I couldn't be more grateful.",
     name: 'Ahmed Raza',
-    role: 'Construction Supervisor',
-    destination: 'Saudi Arabia',
-    img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop',
+    destination: 'Dubai, UAE',
+    role: 'Site Supervisor',
+    img: '/images/testimonial-1.jpg',
+    color: 'bg-[#E10600]',
   },
   {
-    quote: "I was nervous about moving abroad for work, but the team at Zanib guided me at every step. The pre-departure orientation was incredibly helpful. Highly recommended!",
-    name: 'Bilal Khan',
-    role: 'Factory Worker',
-    destination: 'Poland',
-    img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop',
+    quote: "The team at Barkha International is truly professional. They helped me secure a position in Riyadh within weeks of registration. The pre-departure orientation was incredibly helpful in settling into my new role.",
+    name: 'Farhan Ali',
+    destination: 'Riyadh, Saudi Arabia',
+    role: 'Heavy Equipment Operator',
+    img: '/images/testimonial-2.jpg',
+    color: 'bg-[#1C1C1C]',
   },
   {
-    quote: "Thanks to Zanib, I secured a great position in Dubai within weeks of registering. They are honest, transparent, and truly care about their candidates. A blessing for Rawalpindi's youth.",
-    name: 'Usman Ghani',
-    role: 'Logistics Coordinator',
-    destination: 'UAE',
-    img: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop',
-  },
-  {
-    quote: "I was hesitant about overseas employment, but Zanib's team made the process so smooth. They verified my employer, handled my visa, and I was in Doha within 6 weeks!",
-    name: 'Tariq Mehmood',
-    role: 'HVAC Technician',
-    destination: 'Qatar',
-    img: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=500&fit=crop',
+    quote: "I was hesitant about working overseas, but the Barkha team patiently answered all my questions and connected me with a verified employer. Now I earn three times what I did locally. Highly recommended for anyone in Islamabad!",
+    name: 'Sajid Mehmood',
+    destination: 'Doha, Qatar',
+    role: 'Electrician',
+    img: '/images/testimonial-3.jpg',
+    color: 'bg-[#A30000]',
   },
 ];
 
 export default function Testimonials() {
-  const [popup, setPopup] = useState(null);
-  const [imgErrors, setImgErrors] = useState({});
+  const [popupIndex, setPopupIndex] = useState(null);
 
   return (
-    <SectionWrapper id="testimonials" badge="SUCCESS STORIES" badgeColor="primary">
-      <h2 className="text-3xl md:text-4xl font-extrabold text-ink mb-2 font-display">
-        Real Stories, Real Impact
-      </h2>
-      <p className="text-ink/60 mb-10 max-w-2xl">
-        Hear from the candidates we've helped place across the globe.
-      </p>
+    <section id="testimonials" className="py-16 lg:py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <FadeUp className="text-center mb-12">
+          <SectionBadge text="SUCCESS STORIES" color="bg-[#E10600]" />
+          <h2 className="font-poppins text-2xl sm:text-3xl md:text-4xl font-bold text-[#1C1C1C]">
+            Real Stories from Our Candidates
+          </h2>
+          <p className="text-[#1C1C1C]/60 mt-3 max-w-2xl mx-auto">
+            Hear from the professionals we've placed worldwide.
+          </p>
+        </FadeUp>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-        {testimonials.map((t) => (
-          <button
-            key={t.name}
-            onClick={() => setPopup(t)}
-            className="relative rounded-2xl overflow-hidden shadow-xl h-[380px] group cursor-pointer text-left"
-          >
-            <img
-              src={imgErrors[t.name] ? 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&h=500&fit=crop' : t.img}
-              alt={t.name}
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              onError={() => setImgErrors((p) => ({ ...p, [t.name]: true }))}
-              loading="lazy"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/30 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-              <div className="flex text-accent mb-2">
-                {[1, 2, 3, 4, 5].map((s) => (
-                  <i key={s} className="fas fa-star text-xs" />
-                ))}
-              </div>
-              <p className="text-xs leading-relaxed mb-3 italic line-clamp-3">"{t.quote}"</p>
-              <div className="font-bold text-sm">{t.name}</div>
-              <div className="text-[10px] text-white/60">
-                {t.role} &middot; {t.destination}
-              </div>
-            </div>
-          </button>
-        ))}
+        <div className="grid sm:grid-cols-3 gap-5">
+          {TESTIMONIALS.map((t, i) => (
+            <FadeUp key={i} delay={(i % 3) + 1}>
+              <button
+                onClick={() => setPopupIndex(i)}
+                className={`${t.color} rounded-2xl p-6 text-white shadow-lg text-left w-full h-full transition-all hover:scale-[1.02] cursor-pointer`}
+              >
+                <div className="shrink-0 mb-4">
+                  <SafeImage
+                    src={t.img}
+                    alt={t.name}
+                    className="w-16 h-16 rounded-full object-cover border-3 border-white/50 shadow-md"
+                    type="avatar"
+                  />
+                </div>
+                <div className="flex gap-1 text-[#FFD500] mb-3">
+                  {[1, 2, 3, 4, 5].map((s) => (
+                    <i key={s} className="fa-solid fa-star text-xs"></i>
+                  ))}
+                </div>
+                <p className="text-white/90 leading-relaxed mb-4 italic text-sm line-clamp-4">
+                  &ldquo;{t.quote}&rdquo;
+                </p>
+                <div>
+                  <p className="font-bold text-white text-sm">{t.name}</p>
+                  <p className="text-white/70 text-xs">{t.role} &mdash; {t.destination}</p>
+                </div>
+              </button>
+            </FadeUp>
+          ))}
+        </div>
       </div>
 
-      {popup && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay" onClick={() => setPopup(null)}>
-          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 animate-scale-in text-center" onClick={(e) => e.stopPropagation()}>
-            <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 border-4 border-primary/20">
-              <img
-                src={popup.img}
-                alt={popup.name}
-                className="w-full h-full object-cover"
-                onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=200&h=200&fit=crop'; }}
+      {/* Testimonial Popup */}
+      {popupIndex !== null && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop"
+          onClick={() => setPopupIndex(null)}
+        >
+          <div className="absolute inset-0 bg-black/60"></div>
+          <div
+            className="relative bg-white rounded-2xl max-w-lg w-full shadow-2xl modal-content p-6"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center gap-4 mb-4">
+              <SafeImage
+                src={TESTIMONIALS[popupIndex].img}
+                alt={TESTIMONIALS[popupIndex].name}
+                className="w-16 h-16 rounded-full object-cover"
+                type="avatar"
               />
+              <div>
+                <h3 className="font-bold text-[#1C1C1C]">{TESTIMONIALS[popupIndex].name}</h3>
+                <p className="text-sm text-[#1C1C1C]/60">{TESTIMONIALS[popupIndex].role} &mdash; {TESTIMONIALS[popupIndex].destination}</p>
+              </div>
             </div>
-            <div className="flex justify-center text-accent mb-3">
+            <div className="flex gap-1 text-[#FFD500] mb-3">
               {[1, 2, 3, 4, 5].map((s) => (
-                <i key={s} className="fas fa-star" />
+                <i key={s} className="fa-solid fa-star"></i>
               ))}
             </div>
-            <p className="text-ink/70 leading-relaxed mb-4 italic">"{popup.quote}"</p>
-            <div className="font-bold text-ink text-lg">{popup.name}</div>
-            <div className="text-sm text-ink/50">{popup.role} &middot; {popup.destination}</div>
-            <button onClick={() => setPopup(null)} className="mt-5 text-ink/40 hover:text-primary text-sm font-semibold">
+            <p className="text-[#1C1C1C]/70 leading-relaxed italic">
+              &ldquo;{TESTIMONIALS[popupIndex].quote}&rdquo;
+            </p>
+            <button
+              onClick={() => setPopupIndex(null)}
+              className="mt-6 text-sm text-[#1C1C1C]/50 hover:text-[#1C1C1C]"
+            >
               Close
             </button>
           </div>
         </div>
       )}
-    </SectionWrapper>
+    </section>
   );
 }

@@ -1,74 +1,156 @@
 import { useState } from 'react';
-import SectionWrapper from './SectionWrapper';
+import FadeUp from './FadeUp';
+import SectionBadge from './SectionBadge';
 
-const services = [
-  { icon: 'fa-briefcase', title: 'Overseas Job Placement', desc: 'Connecting skilled workers with top international employers across the Gulf and Europe.', details: 'We match your skills and experience with trusted overseas employers. From application to offer letter, our team handles the entire placement process, ensuring you secure the best possible position.', color: 'bg-primary' },
-  { icon: 'fa-passport', title: 'Visa Processing', desc: 'End-to-end visa application and documentation support.', details: 'Our experts manage the complete visa application process — from form filling to embassy submission. We track your application status and keep you informed at every stage.', color: 'bg-highlight' },
-  { icon: 'fa-file-signature', title: 'Document Attestation', desc: 'Professional attestation and verification of credentials.', details: 'We handle the attestation of your educational degrees, professional certificates, and personal documents from all relevant Pakistani authorities and foreign embassies.', color: 'bg-primary' },
-  { icon: 'fa-stethoscope', title: 'Medical & Trade Tests', desc: 'Coordination of medical exams and skill assessments.', details: 'We coordinate with authorized medical centers for your fitness examination and arrange trade tests to verify your skills for overseas employment requirements.', color: 'bg-highlight' },
-  { icon: 'fa-plane-departure', title: 'Pre-Departure Orientation', desc: 'Comprehensive briefings before you travel.', details: 'Get thorough orientation covering language basics, cultural norms, workplace expectations, safety guidelines, and travel tips for your destination country.', color: 'bg-primary' },
-  { icon: 'fa-ticket-alt', title: 'Air Ticketing & Travel', desc: 'Affordable flight bookings and travel coordination.', details: 'We book your flight at the best available rates and coordinate your travel itinerary, including airport transfers and arrival assistance at your destination.', color: 'bg-highlight' },
-  { icon: 'fa-shield-check', title: 'Employer Verification', desc: 'Thorough vetting of overseas employers and contracts.', details: 'We verify the legitimacy of overseas employers, review employment contracts for fair terms, and ensure your rights and benefits are fully protected before you sign.', color: 'bg-primary' },
-  { icon: 'fa-hard-hat', title: 'Manpower Supply', desc: 'Skilled and unskilled manpower for global industries.', details: 'We supply qualified, vetted manpower to international employers across construction, hospitality, manufacturing, healthcare, and logistics sectors.', color: 'bg-highlight' },
+const SERVICES = [
+  {
+    icon: 'fa-briefcase',
+    title: 'Overseas Job Placement',
+    desc: 'End-to-end recruitment and placement across Gulf and European countries for skilled and semi-skilled professionals.',
+    detail: 'We provide complete job placement services including job matching, employer interviews, offer letter processing, and post-placement support. Our extensive network spans construction, hospitality, healthcare, logistics, manufacturing, and oil & gas sectors.',
+    bg: 'bg-[#E10600]',
+    textColor: 'text-white',
+  },
+  {
+    icon: 'fa-passport',
+    title: 'Visa Processing',
+    desc: 'Complete visa documentation and processing support for all destination countries.',
+    detail: 'Our visa experts handle the entire visa application process — from document collection and form submission to follow-up with embassies and foreign missions. We ensure accuracy and timeliness for work, visit, and family visas.',
+    bg: 'bg-[#1C1C1C]',
+    textColor: 'text-white',
+  },
+  {
+    icon: 'fa-file-lines',
+    title: 'Document Attestation',
+    desc: 'Professional attestation and verification of educational, professional, and personal documents.',
+    detail: 'We handle the complete attestation chain including HEC, MOFA, and embassy attestations for educational documents, experience certificates, and personal documents required for international employment.',
+    bg: 'bg-[#A30000]',
+    textColor: 'text-white',
+  },
+  {
+    icon: 'fa-stethoscope',
+    title: 'Medical & Trade Tests',
+    desc: 'Arrangement of mandatory medical examinations and trade test certifications.',
+    detail: 'We coordinate with approved medical centers for mandatory health screenings and arrange trade test certifications to verify your skills meet international employer standards.',
+    bg: 'bg-[#FFD500]',
+    textColor: 'text-[#141414]',
+  },
+  {
+    icon: 'fa-plane-departure',
+    title: 'Pre-Departure Orientation',
+    desc: 'Comprehensive orientation covering cultural adaptation, labor laws, and workplace expectations.',
+    detail: 'Our orientation sessions prepare candidates for their new work environment including cultural norms, labor rights, safety practices, and practical tips for living and working abroad.',
+    bg: 'bg-[#FF4D4D]',
+    textColor: 'text-white',
+  },
+  {
+    icon: 'fa-ticket',
+    title: 'Air Ticketing & Travel',
+    desc: 'Flight bookings, airport transfers, and travel coordination for a smooth departure.',
+    detail: 'We arrange competitive airfare, coordinate airport transfers, provide travel documentation packs, and ensure our candidates have a smooth and stress-free departure experience.',
+    bg: 'bg-[#1C1C1C]',
+    textColor: 'text-white',
+  },
+  {
+    icon: 'fa-shield-halved',
+    title: 'Employer Verification',
+    desc: 'Thorough vetting of international employers to ensure legitimate and safe working conditions.',
+    detail: 'Every employer in our network undergoes rigorous verification including license validation, site inspections, and reference checks to ensure they offer safe, fair, and legal working conditions.',
+    bg: 'bg-[#E10600]',
+    textColor: 'text-white',
+  },
+  {
+    icon: 'fa-people-group',
+    title: 'Manpower Supply',
+    desc: 'Reliable supply of qualified manpower across construction, hospitality, retail, and service sectors.',
+    detail: 'We maintain a large database of pre-screened, qualified candidates across multiple trades and professions, enabling us to fulfill bulk manpower requirements quickly and efficiently.',
+    bg: 'bg-[#A30000]',
+    textColor: 'text-white',
+  },
 ];
 
 export default function Services() {
-  const [modal, setModal] = useState(null);
+  const [modalIndex, setModalIndex] = useState(null);
 
   return (
-    <SectionWrapper id="services" badge="OUR SERVICES" badgeColor="primary">
-      <h2 className="text-3xl md:text-4xl font-extrabold text-ink mb-2 font-display">
-        What We Offer
-      </h2>
-      <p className="text-ink/60 mb-10 max-w-2xl">
-        Comprehensive recruitment services tailored to your international career goals.
-      </p>
+    <section id="services" className="py-16 lg:py-24 bg-[#F5F5F5]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <FadeUp className="text-center mb-12">
+          <SectionBadge text="OUR SERVICES" color="bg-[#E10600]" />
+          <h2 className="font-poppins text-2xl sm:text-3xl md:text-4xl font-bold text-[#1C1C1C]">
+            Precision Recruitment Services
+          </h2>
+          <p className="text-[#1C1C1C]/60 mt-3 max-w-2xl mx-auto">
+            From registration to departure — we handle every step of your international employment journey.
+          </p>
+        </FadeUp>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        {services.map((svc) => (
-          <button
-            key={svc.title}
-            onClick={() => setModal(svc)}
-            className={`${svc.color} text-white rounded-2xl p-6 text-left hover:brightness-110 transition-all duration-300 shadow-xl cursor-pointer group`}
-          >
-            <div className="w-14 h-14 rounded-xl bg-white/20 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
-              <i className={`fas ${svc.icon}`} />
-            </div>
-            <h3 className="text-xl font-bold mb-2">{svc.title}</h3>
-            <p className="text-white/80 text-sm leading-relaxed">{svc.desc}</p>
-            <span className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-white/60 group-hover:text-white transition-colors">
-              Learn More <i className="fas fa-arrow-right text-xs" />
-            </span>
-          </button>
-        ))}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {SERVICES.map((svc, i) => (
+            <FadeUp
+              key={i}
+              delay={(i % 4) + 1}
+            >
+              <button
+                onClick={() => setModalIndex(i)}
+                className={`${svc.bg} ${svc.textColor} rounded-xl p-6 text-left w-full h-full shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer`}
+              >
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center text-xl bg-white/20 mb-4">
+                  <i className={`fa-solid ${svc.icon}`}></i>
+                </div>
+                <h3 className="font-poppins font-bold text-base mb-2">{svc.title}</h3>
+                <p className={`text-sm leading-relaxed ${svc.textColor === 'text-white' ? 'text-white/80' : 'text-[#141414]/70'}`}>
+                  {svc.desc}
+                </p>
+                <span className={`inline-flex items-center gap-1 text-xs font-semibold mt-4 ${svc.textColor === 'text-white' ? 'text-white/60' : 'text-[#141414]/60'}`}>
+                  Learn more <i className="fa-solid fa-arrow-right text-xs"></i>
+                </span>
+              </button>
+            </FadeUp>
+          ))}
+        </div>
       </div>
 
-      {modal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay" onClick={() => setModal(null)}>
-          <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8 animate-scale-in" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-white text-xl">
-                  <i className={`fas ${modal.icon}`} />
-                </div>
-                <h3 className="text-2xl font-bold text-ink">{modal.title}</h3>
+      {/* Service Detail Modal */}
+      {modalIndex !== null && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop"
+          onClick={() => setModalIndex(null)}
+        >
+          <div className="absolute inset-0 bg-black/60"></div>
+          <div
+            className="relative bg-white rounded-2xl max-w-lg w-full shadow-2xl modal-content overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className={`${SERVICES[modalIndex].bg} px-6 py-8 ${SERVICES[modalIndex].textColor}`}>
+              <div className="w-14 h-14 rounded-lg flex items-center justify-center text-2xl bg-white/20 mb-4">
+                <i className={`fa-solid ${SERVICES[modalIndex].icon}`}></i>
               </div>
-              <button onClick={() => setModal(null)} className="text-ink/40 hover:text-primary text-2xl">
-                <i className="fas fa-times" />
+              <h3 className="font-poppins font-bold text-xl">{SERVICES[modalIndex].title}</h3>
+            </div>
+            <div className="p-6">
+              <p className="text-[#1C1C1C]/70 leading-relaxed mb-6">
+                {SERVICES[modalIndex].detail}
+              </p>
+              <a
+                href="https://wa.me/923009050416"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-[#FFD500] text-[#141414] font-bold px-6 py-3 rounded-full hover:bg-[#E10600] hover:text-white transition-all"
+              >
+                <i className="fa-brands fa-whatsapp"></i>
+                Inquire on WhatsApp
+              </a>
+              <button
+                onClick={() => setModalIndex(null)}
+                className="block mt-3 text-sm text-[#1C1C1C]/50 hover:text-[#1C1C1C]"
+              >
+                Close
               </button>
             </div>
-            <p className="text-ink/70 leading-relaxed mb-6">{modal.details}</p>
-            <a
-              href="https://wa.me/923335020040"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-full font-bold hover:brightness-110 transition-all"
-            >
-              <i className="fab fa-whatsapp" /> Inquire About This Service
-            </a>
           </div>
         </div>
       )}
-    </SectionWrapper>
+    </section>
   );
 }

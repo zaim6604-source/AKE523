@@ -1,113 +1,204 @@
 import { useState } from 'react';
-import SectionWrapper from './SectionWrapper';
+import FadeUp from './FadeUp';
+import SectionBadge from './SectionBadge';
 
-const questions = [
-  { id: 'age', label: 'What is your age range?', options: ['18–24', '25–35', '36–45', '46+'] },
-  { id: 'education', label: 'What is your education level?', options: ['Matric or below', 'Intermediate', 'Graduate', 'Post-Graduate', 'Technical/Vocational'] },
-  { id: 'experience', label: 'Years of work experience?', options: ['None / Fresher', '1–2 years', '3–5 years', '6–10 years', '10+ years'] },
-  { id: 'preference', label: 'Which region do you prefer?', options: ['Gulf (Saudi Arabia, UAE, Qatar)', 'Europe (Germany, Poland, etc.)', 'Asia (Malaysia)', 'Any'] },
+const TRADES = [
+  'Construction Worker', 'Electrician', 'Plumber', 'Welder', 'Driver',
+  'Security Guard', 'Hotel Staff', 'Chef', 'Nurse', 'AC Technician',
+  'Heavy Equipment Operator', 'Mason', 'Painter', 'Steel Fixer',
+  'Carpenter', 'Warehouse Worker', 'Textile Worker', 'Other',
+];
+
+const COUNTRIES = [
+  'Saudi Arabia', 'UAE', 'Qatar', 'Kuwait', 'Oman',
+  'Germany', 'Poland', 'South Korea', 'Turkey',
 ];
 
 export default function EligibilityWizard() {
   const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState({});
-  const [showResult, setShowResult] = useState(false);
+  const [trade, setTrade] = useState('');
+  const [country, setCountry] = useState('');
+  const [details, setDetails] = useState({ name: '', phone: '', age: '', experience: '' });
 
-  const handleAnswer = (answer) => {
-    const newAnswers = { ...answers, [questions[step].id]: answer };
-    setAnswers(newAnswers);
-    if (step < questions.length - 1) {
-      setStep(step + 1);
-    } else {
-      setAnswers(newAnswers);
-      setShowResult(true);
-    }
+  const handleNext = () => {
+    if (step < 2) setStep(step + 1);
   };
 
-  const reset = () => {
-    setStep(0);
-    setAnswers({});
-    setShowResult(false);
+  const handleBack = () => {
+    if (step > 0) setStep(step - 1);
   };
 
-  if (showResult) {
-    const eligible = answers.preference?.includes('Gulf') || answers.experience?.includes('3');
-    return (
-      <SectionWrapper id="eligibility" badge="ELIGIBILITY CHECK" badgeColor="accent">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-ink mb-2 font-display">
-          Your Results
-        </h2>
-        <div className="max-w-xl mx-auto bg-white rounded-2xl shadow-xl p-8 text-center">
-          <div className="w-20 h-20 rounded-full bg-accent/20 flex items-center justify-center text-4xl mx-auto mb-4">
-            <i className={`fas ${eligible ? 'fa-check-circle text-accent' : 'fa-info-circle text-primary'}`} />
-          </div>
-          <h3 className="text-2xl font-bold text-ink mb-3">
-            {eligible ? 'You May Be Eligible!' : 'Let Us Help You Find the Right Fit'}
-          </h3>
-          <p className="text-ink/60 mb-6">
-            Based on your profile, we have opportunities that may match your background.
-            Contact us for a personalized consultation.
-          </p>
-          <div className="bg-ink/5 rounded-xl p-4 mb-6 text-left text-sm text-ink/70 space-y-1">
-            {Object.entries(answers).map(([key, val]) => (
-              <div key={key} className="flex justify-between">
-                <span className="font-medium capitalize">{key}:</span>
-                <span>{val}</span>
-              </div>
-            ))}
-          </div>
-          <div className="flex gap-3 justify-center">
-            <button onClick={reset} className="border border-ink/20 text-ink px-6 py-2.5 rounded-full font-semibold hover:bg-ink/5 transition-all">
-              Retake Quiz
-            </button>
-            <a
-              href="https://wa.me/923335020040"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-primary text-white px-6 py-2.5 rounded-full font-bold hover:brightness-110 transition-all inline-flex items-center gap-2"
-            >
-              <i className="fab fa-whatsapp" /> Apply Now
-            </a>
-          </div>
-        </div>
-      </SectionWrapper>
-    );
-  }
+  const handleSubmit = () => {
+    const msg = `Eligibility Check:%0A%0AName: ${details.name}%0APhone: ${details.phone}%0AAge: ${details.age}%0AExperience: ${details.experience} years%0ATrade: ${trade}%0ACountry: ${country}`;
+    window.open(`https://wa.me/923009050416?text=${msg}`, '_blank');
+  };
+
+  const canProceed = step === 0 ? trade : step === 1 ? country : details.name && details.phone;
 
   return (
-    <SectionWrapper id="eligibility" badge="ELIGIBILITY CHECK" badgeColor="accent">
-      <h2 className="text-3xl md:text-4xl font-extrabold text-ink mb-2 font-display">
-        Are You Eligible?
-      </h2>
-      <p className="text-ink/60 mb-8 max-w-2xl">
-        Answer a few quick questions to find out which overseas opportunities match your profile.
-      </p>
+    <section className="py-16 lg:py-24 bg-white">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <FadeUp className="text-center mb-10">
+          <SectionBadge text="ELIGIBILITY CHECK" color="bg-[#E10600]" />
+          <h2 className="font-poppins text-2xl sm:text-3xl md:text-4xl font-bold text-[#1C1C1C]">
+            Check Your Eligibility
+          </h2>
+          <p className="text-[#1C1C1C]/60 mt-3">
+            Find out if you qualify for overseas employment in 3 quick steps.
+          </p>
+        </FadeUp>
 
-      <div className="max-w-xl mx-auto">
-        <div className="flex gap-2 mb-8">
-          {questions.map((q, i) => (
-            <div key={q.id} className={`flex-1 h-2 rounded-full transition-all ${i <= step ? 'bg-primary' : 'bg-ink/10'}`} />
-          ))}
-        </div>
+        <FadeUp>
+          <div className="bg-[#F5F5F5] rounded-2xl p-6 sm:p-8 shadow-md">
+            {/* Steps indicator */}
+            <div className="flex items-center justify-center gap-2 mb-8">
+              {[0, 1, 2].map((s) => (
+                <div key={s} className="flex items-center">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
+                    step >= s ? 'bg-[#E10600] text-white' : 'bg-[#1C1C1C]/10 text-[#1C1C1C]/40'
+                  }`}>
+                    {s + 1}
+                  </div>
+                  {s < 2 && <div className={`w-8 sm:w-16 h-1 mx-1 rounded transition-all ${
+                    step > s ? 'bg-[#E10600]' : 'bg-[#1C1C1C]/10'
+                  }`}></div>}
+                </div>
+              ))}
+            </div>
 
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          <span className="text-xs font-bold text-primary bg-primary/10 px-3 py-1 rounded-full">
-            Step {step + 1} of {questions.length}
-          </span>
-          <h3 className="text-xl font-bold text-ink mt-4 mb-6">{questions[step].label}</h3>
-          <div className="space-y-3">
-            {questions[step].options.map((opt) => (
+            {/* Step 0: Trade */}
+            {step === 0 && (
+              <div>
+                <h3 className="font-poppins font-bold text-[#1C1C1C] text-lg mb-4">Select Your Trade</h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                  {TRADES.map((t) => (
+                    <button
+                      key={t}
+                      onClick={() => setTrade(t)}
+                      className={`text-sm font-medium py-2.5 px-3 rounded-xl border-2 transition-all ${
+                        trade === t
+                          ? 'border-[#E10600] bg-[#E10600]/10 text-[#E10600]'
+                          : 'border-[#1C1C1C]/10 bg-white text-[#1C1C1C]/70 hover:border-[#E10600]/30'
+                      }`}
+                    >
+                      {t}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Step 1: Country */}
+            {step === 1 && (
+              <div>
+                <h3 className="font-poppins font-bold text-[#1C1C1C] text-lg mb-4">Select Your Preferred Country</h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                  {COUNTRIES.map((c) => (
+                    <button
+                      key={c}
+                      onClick={() => setCountry(c)}
+                      className={`text-sm font-medium py-2.5 px-3 rounded-xl border-2 transition-all ${
+                        country === c
+                          ? 'border-[#E10600] bg-[#E10600]/10 text-[#E10600]'
+                          : 'border-[#1C1C1C]/10 bg-white text-[#1C1C1C]/70 hover:border-[#E10600]/30'
+                      }`}
+                    >
+                      {c}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Step 2: Details */}
+            {step === 2 && (
+              <div>
+                <h3 className="font-poppins font-bold text-[#1C1C1C] text-lg mb-4">Your Details</h3>
+                <div className="space-y-4 max-w-md mx-auto">
+                  <div>
+                    <label className="block text-sm font-medium text-[#1C1C1C]/70 mb-1">Full Name *</label>
+                    <input
+                      type="text"
+                      value={details.name}
+                      onChange={(e) => setDetails({ ...details, name: e.target.value })}
+                      className="w-full px-4 py-3 bg-white border border-[#E10600]/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E10600]/30 text-sm"
+                      placeholder="Your full name"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-[#1C1C1C]/70 mb-1">Phone Number *</label>
+                    <input
+                      type="tel"
+                      value={details.phone}
+                      onChange={(e) => setDetails({ ...details, phone: e.target.value })}
+                      className="w-full px-4 py-3 bg-white border border-[#E10600]/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E10600]/30 text-sm"
+                      placeholder="03XX-XXXXXXX"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-[#1C1C1C]/70 mb-1">Age</label>
+                      <input
+                        type="number"
+                        value={details.age}
+                        onChange={(e) => setDetails({ ...details, age: e.target.value })}
+                        className="w-full px-4 py-3 bg-white border border-[#E10600]/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E10600]/30 text-sm"
+                        placeholder="25"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-[#1C1C1C]/70 mb-1">Experience (years)</label>
+                      <input
+                        type="number"
+                        value={details.experience}
+                        onChange={(e) => setDetails({ ...details, experience: e.target.value })}
+                        className="w-full px-4 py-3 bg-white border border-[#E10600]/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E10600]/30 text-sm"
+                        placeholder="3"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Navigation */}
+            <div className="flex justify-between mt-8">
               <button
-                key={opt}
-                onClick={() => handleAnswer(opt)}
-                className="w-full text-left px-5 py-4 rounded-xl border border-ink/10 hover:border-primary hover:bg-primary/5 transition-all font-medium text-ink/80 hover:text-primary"
+                onClick={handleBack}
+                className={`text-sm font-semibold px-6 py-3 rounded-full transition-all ${
+                  step === 0
+                    ? 'text-[#1C1C1C]/30 cursor-not-allowed'
+                    : 'text-[#1C1C1C]/60 hover:text-[#1C1C1C] border border-[#1C1C1C]/20 hover:border-[#1C1C1C]/40'
+                }`}
+                disabled={step === 0}
               >
-                {opt}
+                <i className="fa-solid fa-arrow-left mr-1.5"></i>Back
               </button>
-            ))}
+              {step < 2 ? (
+                <button
+                  onClick={handleNext}
+                  disabled={!canProceed}
+                  className={`text-sm font-bold px-8 py-3 rounded-full transition-all ${
+                    canProceed
+                      ? 'bg-[#E10600] text-white hover:bg-[#A30000]'
+                      : 'bg-[#1C1C1C]/10 text-[#1C1C1C]/30 cursor-not-allowed'
+                  }`}
+                >
+                  Next <i className="fa-solid fa-arrow-right ml-1.5"></i>
+                </button>
+              ) : (
+                <button
+                  onClick={handleSubmit}
+                  disabled={!canProceed}
+                  className="text-sm font-bold px-8 py-3 rounded-full bg-[#FFD500] text-[#141414] hover:bg-[#E10600] hover:text-white transition-all"
+                >
+                  <i className="fa-brands fa-whatsapp mr-1.5"></i>Check on WhatsApp
+                </button>
+              )}
+            </div>
           </div>
-        </div>
+        </FadeUp>
       </div>
-    </SectionWrapper>
+    </section>
   );
 }

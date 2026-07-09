@@ -1,43 +1,57 @@
-const quickLinks = [
-  { label: 'Home', href: '#hero' },
-  { label: 'About', href: '#about' },
-  { label: 'Services', href: '#services' },
-  { label: 'Destinations', href: '#countries' },
-  { label: 'Jobs', href: '#jobs' },
-  { label: 'Process', href: '#process' },
-  { label: 'FAQs', href: '#faqs' },
-  { label: 'Contact', href: '#contact' },
-];
-
-const destinations = [
-  'Saudi Arabia', 'UAE', 'Qatar', 'Oman',
-  'Germany', 'Poland', 'Romania', 'Cyprus', 'Malaysia',
-];
-
 export default function Footer() {
+  const destinations = ['Saudi Arabia', 'UAE', 'Qatar', 'Kuwait', 'Oman', 'Germany', 'Poland', 'South Korea', 'Turkey'];
+  const quickLinks = [
+    { label: 'Home', href: '#home' },
+    { label: 'About', href: '#about' },
+    { label: 'Services', href: '#services' },
+    { label: 'Countries', href: '#countries' },
+    { label: 'Jobs', href: '#jobs' },
+    { label: 'Process', href: '#process' },
+    { label: 'FAQs', href: '#faqs' },
+    { label: 'Contact', href: '#contact' },
+  ];
+
+  const handleNav = (e, href) => {
+    e.preventDefault();
+    const el = document.querySelector(href);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <footer className="bg-highlight text-white">
-      <div className="max-w-7xl mx-auto px-4 py-14">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+    <footer className="bg-[#1C1C1C] text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+          {/* Brand */}
           <div>
-            <h3 className="text-2xl font-extrabold mb-2 font-display">
-              Zanib <span className="text-accent">Recruiting</span>
-            </h3>
-            <p className="text-white/70 text-sm leading-relaxed mb-4">
-              Govt. Licensed OEP — License No. 2315/RWP<br />
-              6th Road, Rawalpindi
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-[#FFD500] text-xl">
+                <i className="fa-regular fa-building"></i>
+              </span>
+              <div className="flex flex-col leading-tight">
+                <span className="font-poppins font-bold text-white text-lg">Barkha</span>
+                <span className="font-poppins font-bold text-white text-lg -mt-1">International</span>
+              </div>
+            </div>
+            <p className="text-white/50 text-sm leading-relaxed mb-4">
+              Govt. Licensed OEP — License No. 2312/RWP. Trusted overseas recruitment
+              from Blue Area, Islamabad to destinations worldwide.
             </p>
-            <span className="inline-block bg-accent/20 text-accent text-xs font-bold px-3 py-1 rounded-full">
-              OEP 2315/RWP
+            <span className="inline-block bg-[#FFD500]/20 text-[#FFD500] text-xs font-bold px-3 py-1.5 rounded-full">
+              <i className="fa-solid fa-certificate mr-1"></i>License 2312/RWP
             </span>
           </div>
 
+          {/* Quick Links */}
           <div>
-            <h4 className="text-lg font-bold text-accent mb-4">Quick Links</h4>
+            <h4 className="font-bold text-[#FFD500] text-sm uppercase tracking-wider mb-4">Quick Links</h4>
             <ul className="space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.label}>
-                  <a href={link.href} className="text-white/70 hover:text-accent transition-colors text-sm">
+                  <a
+                    href={link.href}
+                    onClick={(e) => handleNav(e, link.href)}
+                    className="text-white/50 hover:text-[#FFD500] text-sm transition-colors"
+                  >
                     {link.label}
                   </a>
                 </li>
@@ -45,58 +59,58 @@ export default function Footer() {
             </ul>
           </div>
 
+          {/* Destinations */}
           <div>
-            <h4 className="text-lg font-bold text-accent mb-4">Destinations</h4>
+            <h4 className="font-bold text-[#FFD500] text-sm uppercase tracking-wider mb-4">Destinations</h4>
             <ul className="space-y-2">
               {destinations.map((d) => (
-                <li key={d} className="text-white/70 text-sm">{d}</li>
+                <li key={d} className="text-white/50 text-sm">
+                  <i className="fa-solid fa-location-dot text-[#FF4D4D] mr-2 text-xs"></i>
+                  {d}
+                </li>
               ))}
             </ul>
           </div>
 
+          {/* Contact */}
           <div>
-            <h4 className="text-lg font-bold text-accent mb-4">Contact Us</h4>
+            <h4 className="font-bold text-[#FFD500] text-sm uppercase tracking-wider mb-4">Contact</h4>
             <ul className="space-y-3">
-              <li>
-                <a href="https://wa.me/923335020040" target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-white/70 hover:text-accent transition-colors text-sm">
-                  <i className="fab fa-whatsapp text-green-400" />
-                  0333-5020040
-                </a>
+              <li className="flex items-start gap-3 text-white/50 text-sm">
+                <i className="fa-solid fa-phone text-[#FF4D4D] mt-0.5"></i>
+                <div>
+                  <a href="tel:0512806263" className="hover:text-[#FFD500] transition-colors block">051-2806263</a>
+                  <a href="tel:0512806264" className="hover:text-[#FFD500] transition-colors block">051-2806264</a>
+                  <a href="tel:03005132100" className="hover:text-[#FFD500] transition-colors block">0300-5132100</a>
+                </div>
               </li>
-              <li>
-                <a href="tel:+92514846430"
-                  className="flex items-center gap-2 text-white/70 hover:text-accent transition-colors text-sm">
-                  <i className="fas fa-phone text-accent" />
-                  051-4846430
-                </a>
+              <li className="flex items-start gap-3 text-white/50 text-sm">
+                <i className="fa-brands fa-whatsapp text-[#FF4D4D] mt-0.5"></i>
+                <a href="https://wa.me/923009050416" target="_blank" rel="noopener noreferrer" className="hover:text-[#FFD500] transition-colors">0300-9050416</a>
               </li>
-              <li className="flex items-start gap-2 text-white/70 text-sm">
-                <i className="fas fa-map-marker-alt text-accent mt-1" />
-                <span>
-                  Flat No. 5, 1st Floor, Al-Mustafa Plaza,<br />
-                  6th Road, Rawalpindi, Punjab
-                </span>
+              <li className="flex items-start gap-3 text-white/50 text-sm">
+                <i className="fa-solid fa-envelope text-[#FF4D4D] mt-0.5"></i>
+                <a href="mailto:info@barkha.com.pk" className="hover:text-[#FFD500] transition-colors">info@barkha.com.pk</a>
               </li>
-              <li>
-                <a href="mailto:info@zanibra.pk"
-                  className="flex items-center gap-2 text-white/70 hover:text-accent transition-colors text-sm">
-                  <i className="fas fa-envelope" />
-                  info@zanibra.pk
-                </a>
+              <li className="flex items-start gap-3 text-white/50 text-sm">
+                <i className="fa-brands fa-facebook-f text-[#FF4D4D] mt-0.5"></i>
+                <a href="https://facebook.com/barkha.international2312" target="_blank" rel="noopener noreferrer" className="hover:text-[#FFD500] transition-colors">/barkha.international2312</a>
+              </li>
+              <li className="flex items-start gap-3 text-white/50 text-sm">
+                <i className="fa-solid fa-location-dot text-[#FF4D4D] mt-0.5"></i>
+                <span>Office #102, 1st Floor, Royal Centre, Fazal-e-Haq Road, Blue Area, Islamabad</span>
               </li>
             </ul>
           </div>
         </div>
-      </div>
 
-      <div className="border-t border-white/10 py-5">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-white/50 text-xs">
-            &copy; {new Date().getFullYear()} Zanib Recruiting Agency. All rights reserved.
+        {/* Bottom bar */}
+        <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-3">
+          <p className="text-white/30 text-xs">
+            &copy; {new Date().getFullYear()} Barkha International (Pvt) Ltd. All rights reserved.
           </p>
-          <p className="text-white/50 text-xs">
-            Govt. Licensed OEP — License No. 2315/RWP | 6th Road, Rawalpindi
+          <p className="text-white/30 text-xs">
+            Govt. Licensed OEP — License No. 2312/RWP
           </p>
         </div>
       </div>
