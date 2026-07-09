@@ -1,131 +1,118 @@
 import { useState } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 
-const NAV_LINKS = [
-  { label: 'Home', href: '#home' },
-  { label: 'About', href: '#about' },
-  { label: 'Services', href: '#services' },
-  { label: 'Countries', href: '#countries' },
-  { label: 'Process', href: '#process' },
-  { label: 'FAQs', href: '#faqs' },
-  { label: 'Contact', href: '#contact' },
+const links = [
+  { label: 'Home', to: '/' },
+  { label: 'About', to: '/about' },
+  { label: 'Services', to: '/services' },
+  { label: 'Jobs', to: '/jobs' },
+  { label: 'Countries', to: '/countries' },
+  { label: 'Process', to: '/process' },
+  { label: 'Contact', to: '/contact' },
 ];
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
-
-  const handleNav = (e, href) => {
-    e.preventDefault();
-    setOpen(false);
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  };
+  const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-[#F5F5F5]/90 backdrop-blur-md border-b border-[#E10600]/10">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#EDF6F9]/80 backdrop-blur-md border-b border-[#83C5BE]/40 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 lg:h-20">
+        <div className="flex items-center justify-between h-16 sm:h-18">
           {/* Logo */}
-          <a
-            href="#home"
-            onClick={(e) => handleNav(e, '#home')}
-            className="flex items-center gap-2 shrink-0"
-          >
-            <span className="text-[#E10600] text-xl lg:text-2xl">
-              <i className="fa-regular fa-building"></i>
-            </span>
-            <div className="flex flex-col leading-tight">
-              <span className="font-poppins font-bold text-[#1C1C1C] text-sm lg:text-base hidden sm:block">
-                Barkha International
+          <Link to="/" className="flex items-center gap-3 shrink-0">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-[#006D77] flex items-center justify-center text-white font-bold text-sm sm:text-base shadow-md">
+              F
+            </div>
+            <div className="flex flex-col">
+              <span className="font-semibold text-[15px] sm:text-[17px] leading-tight text-[#003844]">
+                Fowzan Traders
               </span>
-              <span className="font-poppins font-bold text-[#1C1C1C] text-sm lg:text-base sm:hidden">
-                Barkha
-              </span>
-              <span className="bg-[#FFD500] text-[#141414] text-[10px] font-bold px-2 py-0.5 rounded-full mt-0.5 inline-block w-fit">
-                License 2312/RWP
+              <span className="text-[10px] sm:text-[11px] font-medium tracking-wide text-[#E29578]">
+                Global Employment
               </span>
             </div>
-          </a>
+          </Link>
 
-          {/* Desktop links */}
+          {/* License Pill */}
+          <div className="hidden md:flex items-center">
+            <span className="text-[11px] font-semibold px-3 py-1 rounded-full bg-[#006D77]/10 text-[#006D77] border border-[#006D77]/30 tracking-wide">
+              License 2309/SKT
+            </span>
+          </div>
+
+          {/* Desktop Links */}
           <div className="hidden lg:flex items-center gap-1">
-            <a
-              href="https://facebook.com/barkha.international2312"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-3 py-2 text-[#E10600] hover:text-[#A30000] transition-colors"
-              aria-label="Facebook"
-            >
-              <i className="fa-brands fa-facebook-f text-lg"></i>
-            </a>
-            <div className="w-px h-5 bg-[#E10600]/20 mx-1"></div>
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={(e) => handleNav(e, link.href)}
-                className="px-3 py-2 text-sm font-medium text-[#1C1C1C]/80 hover:text-[#E10600] transition-colors rounded-lg hover:bg-[#E10600]/5"
+            {links.map((link) => (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                className={({ isActive }) =>
+                  `px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
+                    isActive ? 'text-[#006D77] bg-[#006D77]/10' : 'text-[#003844] hover:text-[#006D77]'
+                  }`
+                }
               >
                 {link.label}
-              </a>
+              </NavLink>
             ))}
-            <a
-              href="https://wa.me/923009050416"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ml-3 bg-[#FFD500] text-[#141414] text-sm font-bold px-5 py-2.5 rounded-full hover:bg-[#E10600] hover:text-white transition-all shadow-md hover:shadow-lg"
-            >
-              <i className="fa-brands fa-whatsapp mr-1.5"></i>Apply Now
-            </a>
           </div>
 
+          {/* Desktop CTA */}
+          <a
+            href="https://wa.me/923006162506"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden lg:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+            style={{ backgroundColor: '#E29578' }}
+          >
+            <i className="fab fa-whatsapp text-xs" />
+            Apply Now
+          </a>
+
           {/* Hamburger */}
-          <div className="flex items-center gap-2 lg:hidden">
-            <a
-              href="https://facebook.com/barkha.international2312"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 text-[#E10600]"
-              aria-label="Facebook"
-            >
-              <i className="fa-brands fa-facebook-f text-lg"></i>
-            </a>
-            <button
-              className={`flex flex-col gap-1.5 p-2 ${open ? 'hamburger-open' : ''}`}
-              onClick={() => setOpen(!open)}
-              aria-label="Toggle menu"
-            >
-              <span className="hamburger-line"></span>
-              <span className="hamburger-line"></span>
-              <span className="hamburger-line"></span>
-            </button>
-          </div>
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="lg:hidden p-2 rounded-lg transition-colors text-[#003844]"
+            aria-label="Toggle menu"
+          >
+            <i className={`fa-solid ${menuOpen ? 'fa-xmark' : 'fa-bars'} text-xl`} />
+          </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile Menu */}
       <div
-        className={`lg:hidden transition-all duration-300 overflow-hidden ${
-          open ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+          menuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
         }`}
+        style={{ backgroundColor: '#EDF6F9' }}
       >
-        <div className="px-4 py-4 space-y-1 bg-[#F5F5F5]/95 backdrop-blur-md border-t border-[#E10600]/10">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={(e) => handleNav(e, link.href)}
-              className="block px-4 py-2.5 text-sm font-medium text-[#1C1C1C]/80 hover:text-[#E10600] hover:bg-[#E10600]/5 rounded-lg transition-colors"
+        <div className="px-4 py-3 space-y-1 border-t border-[#83C5BE]/30">
+          {links.map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              onClick={() => setMenuOpen(false)}
+              className={({ isActive }) =>
+                `block px-4 py-2.5 text-sm font-medium rounded-lg transition-colors ${
+                  isActive ? 'text-[#006D77] bg-[#006D77]/10' : 'text-[#003844]'
+                }`
+              }
             >
               {link.label}
-            </a>
+            </NavLink>
           ))}
           <a
-            href="https://wa.me/923009050416"
+            href="https://wa.me/923006162506"
             target="_blank"
             rel="noopener noreferrer"
-            className="block mt-3 bg-[#FFD500] text-[#141414] text-center text-sm font-bold px-5 py-3 rounded-full hover:bg-[#E10600] hover:text-white transition-all"
+            className="block w-full text-center px-4 py-2.5 rounded-full text-sm font-semibold text-white shadow-md mt-2"
+            style={{ backgroundColor: '#E29578' }}
+            onClick={() => setMenuOpen(false)}
           >
-            <i className="fa-brands fa-whatsapp mr-1.5"></i>Apply Now
+            <i className="fab fa-whatsapp mr-2" />
+            Apply via WhatsApp
           </a>
         </div>
       </div>
