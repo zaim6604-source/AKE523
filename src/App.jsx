@@ -169,7 +169,7 @@ export default function App() {
       {/* ===== HERO ===== */}
       <section id="home" className="relative min-h-[85vh] flex items-center overflow-hidden" style={{ backgroundColor: '#FFF0F4' }}>
         <div className="absolute inset-0">
-          <img src="/src/assets/images/hero.jpg" alt="Global opportunities" className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
+          <img src="./images/hero.jpg" alt="Global opportunities" className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(224,17,95,0.92) 0%, rgba(123,45,142,0.88) 50%, rgba(184,0,79,0.85) 100%)' }} />
         </div>
 
@@ -233,7 +233,7 @@ export default function App() {
               <div className="relative w-80 h-80 mx-auto">
                 <div className="absolute inset-0 rounded-full" style={{ background: 'radial-gradient(circle at 30% 30%, rgba(255,92,138,0.3), rgba(224,17,95,0.1))' }} />
                 <div className="absolute inset-6 rounded-full overflow-hidden shadow-2xl border-4" style={{ borderColor: 'rgba(255,215,0,0.3)' }}>
-                  <img src="/src/assets/images/workspace.jpg" alt="Global employment" className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
+                  <img src="./images/workspace.jpg" alt="Global employment" className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
                 </div>
                 <div className="absolute -top-2 -right-2 bg-white rounded-xl shadow-lg px-3 py-2 z-10 border" style={{ borderColor: 'rgba(224,17,95,0.15)' }}>
                   <div className="text-[10px] font-bold" style={{ color: '#E0115F' }}>License</div>
@@ -274,7 +274,7 @@ export default function App() {
         <div className="grid md:grid-cols-2 gap-12 items-center mt-2">
           <FadeIn delay={1}>
             <div className="rounded-2xl overflow-hidden shadow-xl group">
-              <img src="/src/assets/images/office.jpg" alt="Al Khaliq Enterprises office" className="w-full h-72 sm:h-80 object-cover transition-transform duration-500 group-hover:scale-105" onError={(e) => { e.target.style.display = 'none'; }} />
+              <img src="./images/office.jpg" alt="Al Khaliq Enterprises office" className="w-full h-72 sm:h-80 object-cover transition-transform duration-500 group-hover:scale-105" onError={(e) => { e.target.style.display = 'none'; }} />
             </div>
           </FadeIn>
           <FadeIn delay={2}>
