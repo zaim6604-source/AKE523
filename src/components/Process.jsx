@@ -1,49 +1,48 @@
-import FadeUp from './FadeUp';
+import useScrollReveal from '../hooks/useScrollReveal';
 
 const steps = [
-  { num: '01', title: 'Inquiry & Registration', desc: 'Reach out via phone, WhatsApp, or visit our office at Kutchery Road. We register your profile.', icon: 'fa-clipboard-list' },
-  { num: '02', title: 'Documentation', desc: 'We help you compile passports, certificates, and all required paperwork.', icon: 'fa-file-alt' },
-  { num: '03', title: 'Visa & Medical', desc: 'Visa application, medical screening, and attestation handled end-to-end.', icon: 'fa-passport' },
-  { num: '04', title: 'Final Selection', desc: 'Employer interview coordination and final job offer confirmation.', icon: 'fa-handshake' },
-  { num: '05', title: 'Departure', desc: 'Pre-departure briefing, travel booking, and airport support for a smooth journey.', icon: 'fa-plane-up' },
+  { num: 1, title: 'Inquiry & Registration', desc: 'Contact us via WhatsApp, phone, or visit our office in Peshawar. We register your profile.', icon: 'fas fa-clipboard-list' },
+  { num: 2, title: 'Documentation & Verification', desc: 'Submit your documents. We verify, attest, and prepare your complete application package.', icon: 'fas fa-file-alt' },
+  { num: 3, title: 'Employer Matching', desc: 'We match your profile with verified overseas employers. You review and approve the offer.', icon: 'fas fa-handshake' },
+  { num: 4, title: 'Visa & Medical Processing', desc: 'We process your visa, schedule medical tests, and handle all travel arrangements.', icon: 'fas fa-passport' },
+  { num: 5, title: 'Departure & Settlement', desc: 'Fly to your destination with full orientation. We stay in touch for post-arrival support.', icon: 'fas fa-plane' },
 ];
 
 export default function Process() {
+  const revealRef = useScrollReveal();
+
   return (
-    <section id="process" className="relative py-16 md:py-24 overflow-hidden">
-      <div className="absolute inset-0 bg-primary" style={{ clipPath: 'polygon(0 5%, 100% 0, 100% 95%, 0 100%)' }} />
-      <div className="absolute inset-0 bg-accent opacity-10" style={{ clipPath: 'polygon(0 5%, 100% 0, 100% 95%, 0 100%)' }} />
+    <section id="process" className="relative py-16 sm:py-24 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-[#FF3CAC] to-[#784BA0]" style={{ clipPath: 'polygon(0 0, 100% 0, 100% 85%, 0 100%)' }} />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <FadeUp className='flex flex-col justify-center items-center'>
-          <div className="pill-badge bg-cta text-ink mb-4 mx-auto" style={{ width: 'fit-content' }}>
+        <div className="text-center mb-10 sm:mb-14">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 text-white rounded-full text-xs font-semibold mb-4 backdrop-blur-sm">
             <i className="fas fa-arrow-right" />
             How It Works
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white text-center leading-tight">
-            Your Journey to a Job Abroad
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3">
+            Your Journey in 5 Steps
           </h2>
-          <p className="text-white/80 text-center mt-3 max-w-2xl mx-auto">
-            Five simple steps from registration to departure
+          <p className="text-sm sm:text-base text-white/80 max-w-xl mx-auto">
+            Simple, transparent process from inquiry to departure.
           </p>
-        </FadeUp>
+        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 mt-10 relative">
-          <div className="hidden lg:block absolute top-16 left-[10%] right-[10%] h-0.5 bg-white/20" />
-
-          {steps.map((s, i) => (
-            <FadeUp key={s.num} delay={i * 100}>
-              <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center text-white border border-white/10 hover:bg-white/20 transition-colors">
-                <div className="w-12 h-12 rounded-full bg-cta text-ink font-extrabold text-lg flex items-center justify-center mx-auto mb-4 shadow-lg relative z-10">
-                  {s.num}
-                </div>
-                <div className="w-12 h-12 bg-white/15 rounded-xl flex items-center justify-center text-xl mx-auto mb-3">
-                  <i className={`fas ${s.icon}`} />
-                </div>
-                <h3 className="text-base font-extrabold mb-1">{s.title}</h3>
-                <p className="text-xs leading-relaxed text-white/80">{s.desc}</p>
+        <div ref={revealRef} className="reveal max-w-4xl mx-auto space-y-6">
+          {steps.map((step, i) => (
+            <div key={i} className="flex items-start gap-4 sm:gap-6 bg-white/95 backdrop-blur-sm rounded-2xl p-5 sm:p-6 shadow-lg hover:shadow-xl transition-shadow">
+              <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#FF3CAC] flex items-center justify-center text-white font-bold text-lg sm:text-xl font-[Plus Jakarta Sans] shadow-md">
+                {step.num}
               </div>
-            </FadeUp>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <i className={`${step.icon} text-[#FF3CAC] text-sm`} />
+                  <h3 className="text-base sm:text-lg font-bold font-[Plus Jakarta Sans] text-[#1A0A1E]">{step.title}</h3>
+                </div>
+                <p className="text-sm text-[#1A0A1E]/60 leading-relaxed">{step.desc}</p>
+              </div>
+            </div>
           ))}
         </div>
       </div>

@@ -1,72 +1,102 @@
-import FadeUp from '../components/FadeUp'
-
-const services = [
-  { icon: 'fa-user-plus', title: 'Manpower Supply', desc: 'Skilled & semi-skilled workers for Gulf & European employers across construction, hospitality, manufacturing, healthcare, and logistics sectors.', color: 'bg-primary' },
-  { icon: 'fa-passport', title: 'Visa Processing', desc: 'Complete work visa management including application, document verification, embassy submissions, and follow-up for all destination countries.', color: 'bg-secondary' },
-  { icon: 'fa-file-contract', title: 'Documentation & Attestation', desc: 'Comprehensive document services: passport copies, educational certificate attestation, experience letters, police clearance, and all required paperwork.', color: 'bg-accent' },
-  { icon: 'fa-plane-departure', title: 'Travel & Logistics', desc: 'Flight booking, airport transfers, accommodation coordination, and travel insurance. We handle all logistics so you can focus on your new job.', color: 'bg-primary' },
-  { icon: 'fa-hospital', title: 'Medical Screening', desc: 'Coordination with authorized medical centers for fitness certificates, vaccinations, and health screenings required by destination countries.', color: 'bg-highlight' },
-  { icon: 'fa-language', title: 'Training & Orientation', desc: 'Pre-departure orientation covering cultural awareness, basic language skills, workplace safety, and what to expect in your host country.', color: 'bg-secondary' },
-  { icon: 'fa-handshake', title: 'Employer Liaison', desc: 'Direct coordination with international employers to ensure clear job descriptions, fair contracts, and timely salary payments for all workers.', color: 'bg-accent' },
-  { icon: 'fa-headset', title: 'Post-Placement Support', desc: 'Ongoing assistance after deployment — helpline for workers and families, grievance handling, and support for contract renewals or family visits.', color: 'bg-highlight' },
-]
+import { Link } from 'react-router-dom';
+import useScrollReveal from '../hooks/useScrollReveal';
+import { services } from '../data/services';
 
 export default function Services() {
+  const revealRef = useScrollReveal();
+
   return (
-    <div className="space-y-6">
+    <div>
       {/* Header */}
-      <FadeUp>
-        <div className="dashboard-card">
-          <div className="pill-badge bg-primary text-white mb-4">
-            <i className="fas fa-briefcase" />
+      <section className="hero-gradient pt-12 pb-16 sm:pb-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#00F5D4] font-[Plus Jakarta Sans]">
+            What We Do
+          </span>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-[Plus Jakarta Sans] text-white mt-3 mb-3">
             Our Services
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-ink leading-tight">
-            Everything You Need for{' '}
-            <span className="text-primary">Overseas Employment</span>
           </h1>
-          <p className="text-ink/60 mt-2 max-w-2xl">
-            From registration to post-placement support — we provide end-to-end recruitment services
-            tailored to workers from Sialkot and across Punjab
+          <p className="text-sm sm:text-base text-white/80 max-w-xl mx-auto">
+            End-to-end recruitment solutions — from first contact to successful placement.
           </p>
         </div>
-      </FadeUp>
+      </section>
 
-      {/* Service Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {services.map((s, i) => (
-          <FadeUp key={s.title} delay={i * 60}>
-            <div className="dashboard-card p-0 overflow-hidden hover:shadow-lg transition-all group">
-              {/* Colored top bar */}
-              <div className={`${s.color} service-top-bar`} />
-              <div className="p-5">
-                <div className={`w-11 h-11 ${s.color} text-white rounded-xl flex items-center justify-center text-lg mb-3`}>
-                  <i className={`fas ${s.icon}`} />
+      {/* Services Grid */}
+      <section className="py-16 sm:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div ref={revealRef} className="reveal grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {services.map((svc) => (
+              <article
+                key={svc.id}
+                className="service-card group bg-white rounded-2xl p-6 sm:p-8 shadow-md hover:shadow-xl border border-pink-100 hover:border-[#FF3CAC]/20 transition-all"
+              >
+                <div
+                  className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
+                  style={{ backgroundColor: `${svc.color}15`, color: svc.color }}
+                >
+                  <i className={`${svc.icon} text-xl`} />
                 </div>
-                <h3 className="text-base font-extrabold text-ink mb-2">{s.title}</h3>
-                <p className="text-xs leading-relaxed text-ink/60">{s.desc}</p>
+                <h3 className="text-lg font-bold font-[Plus Jakarta Sans] text-[#1A0A1E] mb-1">
+                  {svc.title}
+                </h3>
+                <p className="text-xs font-semibold text-[#FF3CAC] uppercase tracking-wider mb-3">
+                  {svc.tagline}
+                </p>
+                <p className="text-sm text-[#1A0A1E]/60 leading-relaxed">
+                  {svc.description}
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Article-style feature */}
+      <section className="py-16 sm:py-24 bg-[#FFD6F0]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <div className="grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#FF3CAC] font-[Plus Jakarta Sans]">
+                Our Approach
+              </span>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold font-[Plus Jakarta Sans] text-[#1A0A1E] mt-2 mb-4">
+                More Than Just Recruitment
+              </h2>
+              <p className="text-sm sm:text-base text-[#1A0A1E]/70 leading-relaxed mb-4">
+                We believe that successful placement is about more than matching a CV to a job description. It&rsquo;s about understanding the candidate&rsquo;s aspirations, the employer&rsquo;s culture, and the realities of working in a foreign country.
+              </p>
+              <p className="text-sm sm:text-base text-[#1A0A1E]/70 leading-relaxed mb-4">
+                Our team personally interviews every candidate, verifies every employer, and provides ongoing support that extends well beyond the day of departure. We don&rsquo;t just send workers abroad — we prepare them for success.
+              </p>
+              <div className="pull-quote text-base sm:text-lg">
+                We don&rsquo;t just send workers abroad — we prepare them for success.
               </div>
             </div>
-          </FadeUp>
-        ))}
-      </div>
+            <div className="rounded-2xl overflow-hidden shadow-lg">
+              <img
+                src="/images/team.jpg"
+                alt="Team collaboration"
+                className="w-full aspect-[4/3] object-cover"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  e.target.parentElement.classList.add('img-fallback');
+                }}
+              />
+            </div>
+          </div>
 
-      {/* CTA */}
-      <FadeUp delay={500}>
-        <div className="dashboard-card bg-gradient-to-r from-primary via-secondary to-highlight text-white text-center p-8">
-          <h2 className="text-xl sm:text-2xl font-extrabold">Ready to Get Started?</h2>
-          <p className="text-white/85 mt-2 text-sm">Contact us on WhatsApp and we'll guide you through our services</p>
-          <a
-            href="https://wa.me/923338608944"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-cta text-ink font-extrabold px-7 py-3 rounded-full text-sm hover:brightness-110 transition-all shadow-lg mt-4"
-          >
-            <i className="fab fa-whatsapp" />
-            Apply Now
-          </a>
+          <div className="mt-12 text-center">
+            <Link
+              to="/guides"
+              className="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold text-white bg-[#2B86C5] rounded-full hover:bg-[#2470a5] transition-all no-underline"
+            >
+              <i className="fas fa-globe" />
+              Explore Destinations
+            </Link>
+          </div>
         </div>
-      </FadeUp>
+      </section>
     </div>
-  )
+  );
 }

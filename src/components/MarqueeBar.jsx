@@ -1,26 +1,28 @@
 export default function MarqueeBar() {
   const items = [
-    '🇸🇦 Saudi Arabia', '🇶🇦 Qatar', '🇴🇲 Oman', '🇦🇪 UAE',
-    '🇰🇼 Kuwait', '🇩🇪 Germany', '🇵🇱 Poland', '🇬🇷 Greece',
-    '🇲🇾 Malaysia (KL)',
-    '📜 License 2317/MTN',
-    '📍 Kutchery Road, Multan',
-    '🛩️  Gulf & Europe Recruitment',
-    '📞 061-4583813',
+    'Saudi Arabia', 'UAE', 'Qatar', 'Oman', 'Germany',
+    'Poland', 'Greece', 'Romania', 'Malaysia',
+    'License #2325/PWR',
+    'Baby Shopping Center, Peshawar',
+    ' Overseas Jobs ',
+    ' Licensed ',
+    ' Trusted ',
+    " Let's Soar ",
   ];
 
+  const repeated = [...items, ...items];
+
   return (
-    <div className="bg-primary text-white text-sm font-semibold py-2 overflow-hidden mt-16 md:mt-20">
-      <div className="marquee-track">
-        {[0, 1].map((dup) => (
-          <div key={dup} className="flex items-center gap-8 px-4">
-            {items.map((item, i) => (
-              <span key={`${dup}-${i}`} className="inline-flex items-center gap-1.5">
-                <i className="fas fa-circle text-[6px] text-accent opacity-70" />
-                {item}
-              </span>
-            ))}
-          </div>
+    <div className="relative mt-16 sm:mt-20 bg-gradient-to-r from-[#FF3CAC] to-[#784BA0] text-white py-3 overflow-hidden shadow-md">
+      <div className="marquee-track flex items-center gap-8">
+        {repeated.map((item, i) => (
+          <span key={i} className="flex items-center gap-2 text-sm sm:text-base font-medium whitespace-nowrap">
+            {item.includes('#') || item.includes('License') || item.includes('Baby') || item.includes('Overseas') || item.includes('Licensed') || item.includes('Trusted') || item.includes("Let's") ? (
+              <><i className="fas fa-star text-[#00F5D4] text-[10px]" /> {item}</>
+            ) : (
+              <><i className="fas fa-plane text-[#00F5D4] text-[10px]" /> {item}</>
+            )}
+          </span>
         ))}
       </div>
     </div>

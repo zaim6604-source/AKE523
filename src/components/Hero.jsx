@@ -1,100 +1,87 @@
-import FadeUp from './FadeUp';
-import SafeImage from './SafeImage';
+import useScrollReveal from '../hooks/useScrollReveal';
+import OptimizedImage from './OptimizedImage';
 
 export default function Hero() {
+  const revealRef = useScrollReveal();
+
   return (
-    <section id="home" className="relative bg-background pt-8 pb-16 md:pb-24 overflow-hidden">
-      <div className="absolute top-10 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
-      <div className="absolute -top-20 -right-20 w-80 h-80 bg-primary/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-80 h-80 bg-secondary/5 rounded-full blur-3xl" />
+    <section id="hero" className="relative pt-8 sm:pt-12 pb-16 sm:pb-24 overflow-hidden">
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-[#FFD6F0] rounded-bl-[6rem] -z-10" />
+      <div className="absolute top-20 right-20 w-72 h-72 rounded-full bg-[#FF3CAC]/5 blur-3xl -z-10" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div ref={revealRef} className="reveal grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <div className="order-2 lg:order-1">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#FF3CAC]/10 text-[#FF3CAC] rounded-full text-xs font-semibold mb-4 sm:mb-6 tracking-wide">
+              <i className="fas fa-check-circle text-[10px]" />
+              License #2325/PWR — Govt. Registered
+            </div>
 
-          <div className="flex-1 text-center lg:text-left">
-            <FadeUp>
-              <div className="inline-flex items-center gap-2 bg-primary text-white text-xs font-bold px-4 py-1.5 rounded-full mb-4 shadow-sm">
-                <i className="fas fa-certificate" />
-                GOVERNMENT LICENSED · 2317/MTN
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#1A0A1E] leading-tight mb-4 sm:mb-6">
+              From Peshawar&apos;s Heart to the World&apos;s Worksites
+            </h1>
+
+            <p className="text-base sm:text-lg text-[#1A0A1E]/70 mb-6 sm:mb-8 max-w-xl leading-relaxed">
+              Parwaz Recruiting Agency connects skilled workers to reliable overseas jobs —
+              licensed, clear, and caring.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-8">
+              <a
+                href="https://wa.me/923339319471"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 text-sm sm:text-base font-bold text-white bg-[#2B86C5] rounded-full hover:bg-[#2470a5] hover:shadow-xl hover:shadow-[#2B86C5]/30 transition-all no-underline"
+              >
+                <i className="fas fa-feather-alt" />
+                Apply Now
+              </a>
+              <a
+                href="https://wa.me/923339319471"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 text-sm sm:text-base font-semibold text-[#FF3CAC] border-2 border-[#FF3CAC] rounded-full hover:bg-[#FF3CAC] hover:text-white transition-all no-underline"
+              >
+                <i className="fab fa-whatsapp text-lg" />
+                WhatsApp
+              </a>
+            </div>
+
+            <div className="flex flex-wrap gap-2 sm:gap-3">
+              <div className="chip">
+                <i className="fas fa-users text-[#FF3CAC]" />
+                <span>5,000+ Placed</span>
               </div>
-
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-ink leading-[1.1] mt-4">
-                Mapping{' '}
-                <span className="text-primary">Multan&apos;s Workers</span><br />
-                onto the World&apos;s{' '}
-                <span className="text-primary">Jobs</span>
-              </h1>
-
-              <p className="text-base sm:text-lg text-ink/70 mt-5 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                New Geo Pak connects local talent to trusted Gulf and European employers — licensed, honest, complete.
-              </p>
-            </FadeUp>
-
-            <FadeUp delay={150}>
-              <div className="flex flex-wrap items-center gap-3 mt-7 justify-center lg:justify-start">
-                <a
-                  href="https://wa.me/923008638517"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-cta text-ink font-extrabold px-7 py-3.5 rounded-full text-base hover:brightness-110 transition-all shadow-lg"
-                >
-                  <i className="fas fa-paper-plane" />
-                  Apply Now
-                </a>
-                <a
-                  href="https://wa.me/923008638517"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 border-2 border-primary text-primary font-bold px-7 py-3.5 rounded-full text-base hover:bg-primary hover:text-white transition-all"
-                >
-                  <i className="fab fa-whatsapp" />
-                  WhatsApp
-                </a>
+              <div className="chip">
+                <i className="fas fa-globe-asia text-[#FF3CAC]" />
+                <span>9+ Countries</span>
               </div>
-            </FadeUp>
-
-            <FadeUp delay={300}>
-              <div className="flex flex-wrap gap-3 mt-8 justify-center lg:justify-start">
-                {[
-                  { icon: 'fa-briefcase', label: '1,000+ Placed' },
-                  { icon: 'fa-flag', label: '9 Countries' },
-                  { icon: 'fa-star', label: '4.9 Rating' },
-                  { icon: 'fa-calendar', label: '8+ Years' },
-                ].map((s) => (
-                  <span
-                    key={s.label}
-                    className="inline-flex items-center gap-1.5 bg-white text-ink text-xs font-bold px-3.5 py-2 rounded-full shadow-sm border border-gray-100"
-                  >
-                    <i className={`fas ${s.icon} text-primary`} />
-                    {s.label}
-                  </span>
-                ))}
-              </div>
-            </FadeUp>
-          </div>
-
-          <FadeUp delay={100}>
-            <div className="relative shrink-0">
-              <div className="w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 relative">
-                <div className="absolute inset-0 rounded-full overflow-hidden shadow-2xl border-4 border-white">
-                  <SafeImage
-                    src="/images/hero.jpg"
-                    alt="New Geo Pak — Global Recruitment"
-                    className="w-full h-full object-cover"
-                    fallbackType="hero"
-                  />
-                </div>
-                <div className="absolute -top-2 -right-2 bg-cta text-ink font-extrabold text-xs px-3 py-1.5 rounded-full shadow-lg rotate-6">
-                  <i className="fas fa-check-circle" /> Apply Now
-                </div>
-                <div className="absolute -bottom-1 -left-3 bg-white text-ink text-xs font-bold px-3 py-2 rounded-full shadow-md border border-gray-100">
-                  <i className="fas fa-certificate text-primary" /> 2317/MTN
-                </div>
-                <div className="absolute top-6 -right-6 w-4 h-4 bg-accent rounded-full animate-pulse" />
-                <div className="absolute bottom-12 -right-8 w-3 h-3 bg-cta rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
+              <div className="chip">
+                <i className="fas fa-building text-[#FF3CAC]" />
+                <span>Baby Shopping Center</span>
               </div>
             </div>
-          </FadeUp>
+          </div>
+
+          <div className="order-1 lg:order-2 relative">
+            <div className="arc-panel overflow-hidden shadow-2xl shadow-[#FF3CAC]/20">
+              <OptimizedImage
+                src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop&q=80"
+                alt="Modern professional office workspace"
+                className="aspect-[4/3]"
+                icon="fas fa-building"
+              />
+            </div>
+            <div className="absolute -bottom-12 -left-3 sm:-bottom-20 sm:-left-5 bg-white rounded-xl shadow-lg px-3 sm:px-4 py-2 sm:py-3 flex items-center gap-2 sm:gap-3">
+              <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-[#FF3CAC] to-[#784BA0] flex items-center justify-center text-white font-bold text-xs sm:text-sm font-[Plus Jakarta Sans]">
+                2325
+              </div>
+              <div>
+                <div className="text-[10px] sm:text-xs text-gray-500">License No.</div>
+                <div className="text-xs sm:text-sm font-bold text-[#1A0A1E]">2325/PWR</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

@@ -1,51 +1,29 @@
-import Navbar from './components/Navbar';
-import MarqueeBar from './components/MarqueeBar';
-import Hero from './components/Hero';
-import StatBand from './components/StatBand';
-import WavyDivider from './components/WavyDivider';
-import About from './components/About';
-import Services from './components/Services';
-import FilterableJobs from './components/FilterableJobs';
-import CountryGuide from './components/CountryGuide';
-import EligibilityWizard from './components/EligibilityWizard';
-import Process from './components/Process';
-import Testimonials from './components/Testimonials';
-import GalleryStrip from './components/GalleryStrip';
-import CTABand from './components/CTABand';
-import ContactMap from './components/ContactMap';
-import FAQs from './components/FAQs';
-import Footer from './components/Footer';
-import QuickApply from './components/QuickApply';
-import BackToTop from './components/BackToTop';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+import Home from './pages/Home';
+import About from './pages/About';
+import Services from './pages/Services';
+import Guides from './pages/Guides';
+import GuideDetail from './pages/GuideDetail';
+import Contact from './pages/Contact';
+import NotFound from './pages/NotFound';
+import './App.css';
 
 function App() {
   return (
-    <>
-      <Navbar />
-      <MarqueeBar />
-      <Hero />
-      <StatBand />
-      <WavyDivider color="#FFF3E0" />
-      <About />
-      <WavyDivider color="#FFF3E0" flip />
-      <Services />
-      <WavyDivider color="#fff" />
-      <FilterableJobs />
-      <WavyDivider color="#fff" flip />
-      <CountryGuide />
-      <WavyDivider color="#fff" />
-      <EligibilityWizard />
-      <WavyDivider color="#fff" flip />
-      <Process />
-      <Testimonials />
-      <GalleryStrip />
-      <CTABand />
-      <ContactMap />
-      <FAQs />
-      <Footer />
-      <QuickApply />
-      <BackToTop />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="story" element={<About />} />
+          <Route path="services" element={<Services />} />
+          <Route path="guides" element={<Guides />} />
+          <Route path="guides/:slug" element={<GuideDetail />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

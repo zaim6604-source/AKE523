@@ -1,46 +1,43 @@
-import FadeUp from './FadeUp';
+import useScrollReveal from '../hooks/useScrollReveal';
 
-export default function CTABand() {
+export default function CtaBand() {
+  const revealRef = useScrollReveal();
+
   return (
-    <section className="relative py-16 md:py-20 overflow-hidden">
-      <img
-        src="/images/cta-bg.jpg"
-        alt=""
-        className="absolute inset-0 w-full h-full object-cover"
-        loading="lazy"
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-secondary/85 to-accent/80" />
+    <section className="relative py-16 sm:py-24 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-[#FF3CAC] to-[#784BA0]" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#FF3CAC] to-[#784BA0]" style={{ clipPath: 'polygon(0 0, 100% 0, 100% 85%, 0 100%)' }} />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
-        <FadeUp>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight">
-            Ready to Start Your Journey?
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center">
+        <div ref={revealRef} className="reveal">
+          <i className="fas fa-feather-alt text-4xl sm:text-5xl text-[#00F5D4] mb-6" />
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4">
+            Ready to Take Flight?
           </h2>
-          <p className="text-white/90 text-base sm:text-lg mt-4 max-w-2xl mx-auto">
-            Take the first step toward a better job abroad. We're here to help — from Multan to
-            the world.
+          <p className="text-base sm:text-lg text-white/80 mb-8 max-w-xl mx-auto">
+            Take the first step toward a rewarding international career. We&apos;re here to help every step of the way.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
             <a
-              href="https://wa.me/923008638517"
+              href="https://wa.me/923339319471"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-cta text-ink font-extrabold px-8 py-4 rounded-full text-lg hover:brightness-110 transition-all shadow-xl"
+              className="inline-flex items-center gap-2 px-7 sm:px-10 py-3.5 sm:py-4 text-sm sm:text-base font-bold text-white bg-[#2B86C5] rounded-full hover:bg-[#2470a5] hover:shadow-xl hover:shadow-[#2B86C5]/30 transition-all no-underline"
             >
-              <i className="fas fa-paper-plane" />
+              <i className="fas fa-feather-alt" />
               Apply Now
             </a>
             <a
-              href="https://wa.me/923008638517"
+              href="https://wa.me/923339319471"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-white/15 text-white font-bold px-8 py-4 rounded-full text-lg border border-white/30 hover:bg-white/25 transition-all"
+              className="inline-flex items-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 text-sm sm:text-base font-semibold text-white border-2 border-white/40 rounded-full hover:bg-white/10 transition-all no-underline"
             >
-              <i className="fab fa-whatsapp" />
+              <i className="fab fa-whatsapp text-lg" />
               Chat on WhatsApp
             </a>
           </div>
-        </FadeUp>
+        </div>
       </div>
     </section>
   );
