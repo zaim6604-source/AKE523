@@ -1,75 +1,127 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-:root {
-  --color-primary: #E0115F;
-  --color-secondary: #FF5C8A;
-  --color-accent: #FFD700;
-  --color-cta: #7B2D8E;
-  --color-highlight: #B8004F;
-  --color-background: #FFF0F4;
-  --color-ink: #2E0A1C;
+@theme {
+  --color-primary: #FF206E;
+  --color-secondary: #FBFF12;
+  --color-accent: #41EAD4;
+  --color-cta: #41EAD4;
+  --color-highlight: #D4005A;
+  --color-background: #FFF8E0;
+  --color-ink: #1A1423;
+  --font-family-sans: "Inter", sans-serif;
+  --font-family-display: "Plus Jakarta Sans", sans-serif;
 }
 
+/* Smooth scroll */
 html {
   scroll-behavior: smooth;
 }
 
-body {
-  font-family: 'Poppins', 'Inter', system-ui, sans-serif;
-  color: var(--color-ink);
-  background-color: #ffffff;
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
-/* Slide transition for route changes */
-@keyframes slideInRight {
-  from { opacity: 0; transform: translateX(40px); }
-  to { opacity: 1; transform: translateX(0); }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
-.page-enter {
-  animation: slideInRight 0.4s ease-out forwards;
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(65, 234, 212, 0.4); }
+  50% { box-shadow: 0 0 24px rgba(65, 234, 212, 0.8); }
 }
 
-/* Fade up */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(30px); }
+@keyframes pulse-pink {
+  0%, 100% { box-shadow: 0 0 8px rgba(255, 32, 110, 0.4); }
+  50% { box-shadow: 0 0 24px rgba(255, 32, 110, 0.8); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.animate-fade-up {
-  animation: fadeUp 0.6s ease-out forwards;
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
 }
 
-/* Flip card */
-.flip-card {
-  perspective: 1000px;
-}
-.flip-card-inner {
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-}
-.flip-card:hover .flip-card-inner {
-  transform: rotateY(180deg);
-}
-.flip-card-front,
-.flip-card-back {
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  position: absolute;
-  inset: 0;
-}
-.flip-card-back {
-  transform: rotateY(180deg);
+.animate-marquee {
+  animation: marquee 30s linear infinite;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--color-background); }
-::-webkit-scrollbar-thumb { background: var(--color-secondary); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
 
-/* Sidebar scrollbar */
-.sidebar-scroll::-webkit-scrollbar { width: 3px; }
-.sidebar-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-pulse-pink {
+  animation: pulse-pink 2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background-size: 200% auto;
+  animation: shimmer 3s linear infinite;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.4s ease-out forwards;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.fade-up.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+.fade-up-stagger-1 { transition-delay: 0.1s; }
+.fade-up-stagger-2 { transition-delay: 0.2s; }
+.fade-up-stagger-3 { transition-delay: 0.3s; }
+.fade-up-stagger-4 { transition-delay: 0.4s; }
+.fade-up-stagger-5 { transition-delay: 0.5s; }
+.fade-up-stagger-6 { transition-delay: 0.6s; }
+
+/* Modal backdrop */
+.modal-overlay {
+  background: rgba(26, 20, 35, 0.7);
+  backdrop-filter: blur(4px);
+}
+
+/* Diagonal band clip */
+.diagonal-band {
+  clip-path: polygon(0 8%, 100% 0, 100% 92%, 0 100%);
+}
+
+/* Bento grid support */
+.bento-tile {
+  border-radius: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.bento-tile:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -12px rgba(255, 32, 110, 0.25);
+}

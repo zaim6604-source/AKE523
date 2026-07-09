@@ -1,29 +1,45 @@
-import { Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import MarqueeBar from './components/MarqueeBar';
+import Hero from './components/Hero';
+import StatsBar from './components/StatsBar';
+import About from './components/About';
+import Services from './components/Services';
+import Countries from './components/Countries';
+import JobsStrip from './components/JobsStrip';
+import EligibilityWizard from './components/EligibilityWizard';
+import Process from './components/Process';
+import Testimonials from './components/Testimonials';
+import Gallery from './components/Gallery';
+import CTABand from './components/CTABand';
+import Contact from './components/Contact';
+import FAQs from './components/FAQs';
+import Footer from './components/Footer';
+import QuickApply from './components/QuickApply';
 import ScrollToTop from './components/ScrollToTop';
-import SplitLayout from './layouts/SplitLayout';
-import Home from './pages/Home';
-import About from './pages/About';
-import Services from './pages/Services';
-import Countries from './pages/Countries';
-import CountryDetail from './pages/CountryDetail';
-import Contact from './pages/Contact';
-import NotFound from './pages/NotFound';
 
-export default function App() {
+function App() {
   return (
-    <div className="font-sans antialiased">
+    <div className="min-h-screen bg-background font-sans">
+      <Navbar />
+      <MarqueeBar />
+      <Hero />
+      <StatsBar />
+      <About />
+      <Services />
+      <Countries />
+      <JobsStrip />
+      <EligibilityWizard />
+      <Process />
+      <Testimonials />
+      <Gallery />
+      <CTABand />
+      <Contact />
+      <FAQs />
+      <Footer />
+      <QuickApply />
       <ScrollToTop />
-      <Routes>
-        <Route element={<SplitLayout />}>
-          <Route index element={<Home />} />
-          <Route path="about" element={<About />} />
-          <Route path="services" element={<Services />} />
-          <Route path="countries" element={<Countries />} />
-          <Route path="countries/:slug" element={<CountryDetail />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
     </div>
   );
 }
+
+export default App;
