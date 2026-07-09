@@ -1,175 +1,122 @@
-import { COMPANY } from '../data/siteData'
+import { Link } from 'react-router-dom';
 
-const QUICK_LINKS = [
-  { label: 'Home', href: '#hero' },
-  { label: 'About Us', href: '#about' },
-  { label: 'Services', href: '#services' },
-  { label: 'Countries', href: '#countries' },
-  { label: 'Jobs', href: '#jobs' },
-  { label: 'Process', href: '#process' },
-  { label: 'Contact', href: '#contact' },
-]
+const quickLinks = [
+  { label: 'Home', to: '/' },
+  { label: 'About', to: '/about' },
+  { label: 'Services', to: '/services' },
+  { label: 'Jobs', to: '/jobs' },
+  { label: 'Countries', to: '/countries' },
+  { label: 'Process', to: '/process' },
+  { label: 'Contact', to: '/contact' },
+];
 
-const DESTINATIONS = [
-  'Saudi Arabia', 'UAE', 'Qatar', 'Oman (Muscat)', 'Germany', 'Romania', 'Greece', 'Croatia (Dubrovnik)', 'Malaysia (KL)',
-]
+const destinations = [
+  'Saudi Arabia', 'UAE', 'Qatar', 'Oman',
+  'Germany', 'Poland', 'Romania', 'Greece', 'Malaysia'
+];
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden">
-      <div className="wavy-divider -mb-1">
-        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" className="text-highlight fill-current">
-          <path d="M0,30 C360,60 720,0 1440,30 L1440,60 L0,60 Z" />
+    <footer style={{ backgroundColor: '#003844' }}>
+      {/* Wavy divider */}
+      <div className="wavy-divider">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+          <path d="M0,40 C240,0 480,60 720,40 C960,20 1200,60 1440,40 L1440,60 L0,60 Z" fill="#006D77" />
         </svg>
       </div>
 
-      <div className="bg-highlight text-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 lg:py-16">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-            {/* Brand */}
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center text-white font-extrabold text-lg">
-                  SR
-                </div>
-                <div>
-                  <div className="font-bold">{COMPANY.name}</div>
-                  <div className="text-xs text-white/60">License {COMPANY.license}</div>
-                </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
+          {/* Brand */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <div className="w-9 h-9 rounded-lg bg-[#E29578] flex items-center justify-center text-white font-bold shadow-md">
+                F
               </div>
-              <p className="text-sm text-white/70 leading-relaxed mb-4">
-                Your trusted recruitment partner in Swat. Connecting skilled workers with employers in the Gulf and Europe since 2020.
-              </p>
-              <div className="flex items-center gap-2">
-                <a
-                  href={COMPANY.whatsappLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-colors"
-                  aria-label="WhatsApp"
-                >
-                  <i className="fab fa-whatsapp" />
-                </a>
-                <a
-                  href={`tel:${COMPANY.office.phone1.replace(/-/g, '')}`}
-                  className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-colors"
-                  aria-label="Phone"
-                >
-                  <i className="fas fa-phone" />
-                </a>
-                <a
-                  href={`mailto:${COMPANY.email}`}
-                  className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-colors"
-                  aria-label="Email"
-                >
-                  <i className="fas fa-envelope" />
-                </a>
-              </div>
+              <span className="font-bold text-lg text-white">Fowzan Traders</span>
             </div>
+            <p className="text-sm leading-relaxed" style={{ color: '#83C5BE' }}>
+              Govt. Licensed Overseas Employment Promoter — License No. 2309/SKT
+            </p>
+            <p className="text-sm leading-relaxed" style={{ color: '#83C5BE' }}>
+              Daska's trusted gateway to global employment. Connecting Pakistani workers with verified employers worldwide.
+            </p>
+            {/* Social */}
+            <div className="flex items-center gap-3 pt-1">
+              <a href="https://www.facebook.com/Fowzan-Global-Employment-Services" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-[#FFDD00] hover:text-[#003844] transition-all duration-300">
+                <i className="fab fa-facebook-f text-sm" />
+              </a>
+              <a href="https://wa.me/923006162506" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-[#25D366] hover:text-white transition-all duration-300">
+                <i className="fab fa-whatsapp text-sm" />
+              </a>
+            </div>
+          </div>
 
-            {/* Quick Links */}
-            <div>
-              <h3 className="font-bold text-base mb-4 flex items-center gap-2">
-                <i className="fas fa-link text-accent text-sm" />
-                Quick Links
-              </h3>
-              <ul className="space-y-2">
-                {QUICK_LINKS.map((link) => (
-                  <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-sm text-white/70 hover:text-white transition-colors flex items-center gap-2"
-                    >
-                      <i className="fas fa-chevron-right text-[8px] text-accent/60" />
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {/* Quick Links */}
+          <div>
+            <h4 className="text-sm font-bold mb-4" style={{ color: '#FFDD00' }}>Quick Links</h4>
+            <ul className="space-y-2.5">
+              {quickLinks.map((link) => (
+                <li key={link.label}>
+                  <Link to={link.to} className="text-sm transition-colors duration-200" style={{ color: '#83C5BE' }}>
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            {/* Destinations */}
-            <div>
-              <h3 className="font-bold text-base mb-4 flex items-center gap-2">
-                <i className="fas fa-globe text-accent text-sm" />
-                Destinations
-              </h3>
-              <ul className="space-y-2">
-                {DESTINATIONS.map((d) => (
-                  <li key={d}>
-                    <span className="text-sm text-white/70 flex items-center gap-2">
-                      <i className="fas fa-location-dot text-[10px] text-accent/60" />
-                      {d}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {/* Destinations */}
+          <div>
+            <h4 className="text-sm font-bold mb-4" style={{ color: '#FFDD00' }}>Destinations</h4>
+            <ul className="space-y-2.5">
+              {destinations.map((d) => (
+                <li key={d}>
+                  <span className="text-sm" style={{ color: '#83C5BE' }}>{d}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            {/* Contact */}
-            <div>
-              <h3 className="font-bold text-base mb-4 flex items-center gap-2">
-                <i className="fas fa-address-book text-accent text-sm" />
-                Contact Info
-              </h3>
-              <ul className="space-y-3">
-                <li>
-                  <a
-                    href={COMPANY.office.mapUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-white/70 hover:text-white transition-colors flex items-start gap-2"
-                  >
-                    <i className="fas fa-location-dot text-accent mt-1 shrink-0" />
-                    <span>{COMPANY.office.address}</span>
-                  </a>
-                </li>
-                <li>
-                  <a href={`tel:${COMPANY.office.phone1.replace(/-/g, '')}`} className="text-sm text-white/70 hover:text-white transition-colors flex items-center gap-2">
-                    <i className="fas fa-phone text-accent shrink-0" />
-                    {COMPANY.office.phone1}
-                  </a>
-                </li>
-                <li>
-                  <a href={`tel:${COMPANY.office.phone2.replace(/-/g, '')}`} className="text-sm text-white/70 hover:text-white transition-colors flex items-center gap-2">
-                    <i className="fas fa-phone text-accent shrink-0" />
-                    {COMPANY.office.phone2}
-                  </a>
-                </li>
-                <li>
-                  <a href={COMPANY.whatsappLink} target="_blank" rel="noopener noreferrer" className="text-sm text-white/70 hover:text-white transition-colors flex items-center gap-2">
-                    <i className="fab fa-whatsapp text-accent shrink-0" />
-                    {COMPANY.whatsapp}
-                  </a>
-                </li>
-                <li>
-                  <a href={`mailto:${COMPANY.email}`} className="text-sm text-white/70 hover:text-white transition-colors flex items-center gap-2">
-                    <i className="fas fa-envelope text-accent shrink-0" />
-                    {COMPANY.email}
-                  </a>
-                </li>
-              </ul>
-            </div>
+          {/* Contact */}
+          <div>
+            <h4 className="text-sm font-bold mb-4" style={{ color: '#FFDD00' }}>Contact Us</h4>
+            <ul className="space-y-3">
+              <li>
+                <a href="tel:0526615953" className="flex items-center gap-2 text-sm transition-colors" style={{ color: '#83C5BE' }}>
+                  <i className="fa-solid fa-phone text-xs" style={{ color: '#FFDD00' }} />
+                  052-6615953
+                </a>
+              </li>
+              <li>
+                <a href="https://wa.me/923006162506" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm transition-colors" style={{ color: '#83C5BE' }}>
+                  <i className="fab fa-whatsapp text-xs" style={{ color: '#25D366' }} />
+                  0300-6162506
+                </a>
+              </li>
+              <li>
+                <a href="mailto:fowzan_traders2012@yahoo.com" className="flex items-center gap-2 text-sm transition-colors" style={{ color: '#83C5BE' }}>
+                  <i className="fa-regular fa-envelope text-xs" style={{ color: '#FFDD00' }} />
+                  fowzan_traders@yahoo.com
+                </a>
+              </li>
+              <li>
+                <span className="flex items-start gap-2 text-sm" style={{ color: '#83C5BE' }}>
+                  <i className="fa-solid fa-location-dot text-xs mt-1" style={{ color: '#FFDD00' }} />
+                  Circular Road, Daska, Sialkot, Punjab
+                </span>
+              </li>
+            </ul>
           </div>
         </div>
 
-        <div className="border-t border-white/10 py-4">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-white/60 text-center sm:text-left">
-              &copy; {new Date().getFullYear()} {COMPANY.name}. All rights reserved. | License {COMPANY.license}
-            </p>
-            <a
-              href={COMPANY.whatsappLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-cta text-white px-6 py-2.5 rounded-full text-sm font-bold hover:brightness-110 transition-all shadow-lg shadow-cta/30"
-            >
-              <i className="fab fa-whatsapp" />
-              Quick Apply
-            </a>
-          </div>
+        {/* Bottom */}
+        <div className="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t text-center" style={{ borderColor: '#006D7760' }}>
+          <p className="text-xs sm:text-sm" style={{ color: '#83C5BE' }}>
+            &copy; {new Date().getFullYear()} Fowzan Traders — License No. 2309/SKT. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
-  )
+  );
 }
