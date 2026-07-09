@@ -102,10 +102,10 @@ export default function App() {
   };
 
   const galleryImages = [
-    '/src/assets/images/team.jpg',
-    '/src/assets/images/meeting.jpg',
-    '/src/assets/images/office.jpg',
-    '/src/assets/images/workspace.jpg',
+    './images/team.jpg',
+    './images/meeting.jpg',
+    './images/office.jpg',
+    './images/workspace.jpg',
   ];
 
   const sectionPill = (icon, label) => (
